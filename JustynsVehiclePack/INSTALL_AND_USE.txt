@@ -35,9 +35,9 @@ Local multiplayer server Mods entry: EmreAdventureVehiclePack_B42
 This local ZIP has no Steam Workshop ID; do not enter its mod ID as a
 WorkshopItems number. The rear motorcycle carrier supports multiplayer;
 the server validates loading/unloading and each client follows the car's
-received transform. All clients and the server must use pack v1.0.4 or newer.
-Network logic tests passed; an actual hosted/dedicated driving session still
-needs an in-game check.
+received transform. All clients and the server must use pack v1.0.5.
+Dedicated-server loading passed with real vehicle APIs. Actual multiplayer
+driving and streaming still need an in-game check.
 
 Build 41 is not included. This is a local package, not a Workshop upload.
 
@@ -77,3 +77,16 @@ Unloading restores the original Base.EMRE_RE9 profile and normal collision.
 All clients and the server need this version; existing mounted pairs switch
 automatically on first follow update. Collision behavior still needs a native
 in-game reverse-driving check; Lua state/network regression tests passed.
+
+VERSION 1.0.5 FIXES
+Remove the Java-short ownership API call rejected by B42's dedicated-server
+Lua bridge. Hosted clients always send loading commands to the server.
+Failed load preparation restores normal motorcycle physics and its position.
+Admin-spawned internal carrier variants select normal motorcycle physics;
+existing unpaired carrier bikes also recover normal collision and ground height
+while retaining real installed parts/cargo. Clients wait for pairing replication.
+Accept the full signed-short vehicle ID range except the unassigned -1 ID.
+Unexpected command failures show the version and server error instead of a
+generic carrier failure. Native dedicated-server load/admin-spawn tests and
+Lua single-player/multiplayer regression tests passed. Real multiplayer driving
+and streaming remain to be checked in-game.

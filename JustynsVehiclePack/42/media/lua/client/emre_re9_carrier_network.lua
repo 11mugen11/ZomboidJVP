@@ -8,11 +8,7 @@ function C.Request(player,command,car,bike)
     local request=tostring(player:getPlayerNum())..":"..tostring(serial)
     local record=C.Record(car)
     local args={car=car:getId(),bike=bike:getId(),token=record and record.token,request=request}
-    -- Some hosted sessions share their Lua VM with server handlers. Dedicated
-    -- clients have no ServerCommand function and use the normal network hop.
-    if isCoopHost and isCoopHost() and C.ServerCommand then
-        return C.ServerCommand(player,command,args)
-    end
+    -- Hosted clients use the same authoritative network hop as other clients.
     pending[request]={player=player,untilMs=getTimestampMs()+10000}
     sendClientCommand(player,C.NET,command,args)
     return true

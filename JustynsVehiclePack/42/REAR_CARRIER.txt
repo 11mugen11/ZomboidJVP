@@ -27,5 +27,14 @@ physics metres, x across the car, y above its chassis origin, z along its length
 Single-player and server/client logic tests passed using the installed game's
 Lua runtime with mocked vehicle/network APIs, including observer clients,
 late joins, ownership changes, saved pairing and stale unload requests.
-An actual hosted/dedicated driving session remains to be checked in-game.
+Version 1.0.5 removes a Java-short ownership call that fails on the dedicated
+server Lua bridge. Hosted clients always send commands to the server. A failed
+load preparation restores the original motorcycle profile and position.
+The internal Base.EMRE_RE9Carrier profile is for mounted bikes only; spawning
+it directly selects the normal motorcycle profile. Existing unpaired carrier
+bikes also recover their normal collision and ground height without cloning
+the bike or replacing its cargo. Clients allow time for pairing replication.
+Native dedicated-server loading and admin-spawn normalization passed with
+actual vehicle APIs; the actors/network traffic in regression tests are mocks.
+An actual multiplayer reverse-driving/streaming session remains to be checked.
 

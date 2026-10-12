@@ -2,7 +2,7 @@
 -- B42 scriptReloaded clears part items, so suppress creation/initialization
 -- for this exact bike while retaining and restoring its real item/container refs.
 EmreRE9 = EmreRE9 or {}
-local P={NORMAL="Base.EMRE_RE9",MOUNTED="Base.EMRE_RE9Carrier"}
+local P={NORMAL="Base.EMRE_RE9",MOUNTED="Base.EMRE_RE9Carrier",busy=setmetatable({}, {__mode="k"})}
 EmreRE9.CarrierPhysics=P
 local applied=setmetatable({}, {__mode="k"})
 
@@ -76,6 +76,7 @@ function P.Apply(bike,mounted)
         protectCallback(part:getLuaFunction("create"),bike,changes,parents)
         protectCallback(state.init,bike,changes,parents)
     end
+    P.busy[bike]=true
     local ok,err=pcall(function()
         bike:setScript(target)
         bike:scriptReloaded()
@@ -87,6 +88,7 @@ function P.Apply(bike,mounted)
     end
     local restored,restoreErr=pcall(restoreParts,bike,saved)
     restoreCallbacks(changes,parents)
+    P.busy[bike]=nil
     if not restored then error(restoreErr) end
     if not ok then error(err) end
     if EmreRE9.Tires and EmreRE9.Tires.Invalidate then EmreRE9.Tires.Invalidate(bike) end

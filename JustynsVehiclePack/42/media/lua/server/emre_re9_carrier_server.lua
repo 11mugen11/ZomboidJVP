@@ -2,7 +2,7 @@ require "emre_re9_carrier"
 local C = EmreRE9.Carrier
 local throttle = setmetatable({}, {__mode="k"})
 local function id(value)
-    return type(value)=="number" and value>=0 and value<=32767 and value==math.floor(value)
+    return type(value)=="number" and value>=-32768 and value<=32767 and value~=-1 and value==math.floor(value)
 end
 local function reply(player,request,ok,reason)
     if isServer() then
@@ -31,7 +31,7 @@ function C.ServerCommand(player,command,args)
     C._serverDispatch=previous
     if not executed then
         print("[EmreRE9] carrier command failed: "..tostring(ok))
-        return false,"Unable to update the carrier"
+        return false,"Carrier load/unload failed (JVP 1.0.5); see the server log: "..tostring(ok):sub(1,120)
     end
     if ok and command=="unload" and isServer() then
         pose.car,pose.bike=car:getId(),bike:getId()

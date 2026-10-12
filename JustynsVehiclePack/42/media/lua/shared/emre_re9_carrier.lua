@@ -12,6 +12,7 @@ C.Offset = {x=0, y=0.35, z=-2.30}
 local vehicles, pairsByToken, lastScan = {}, {}, -1000
 local releasedTokens, followed = {}, setmetatable({}, {__mode="k"})
 local packetAt = setmetatable({}, {__mode="k"})
+local orphans = setmetatable({}, {__mode="k"})
 local atan2 = math.atan2
 local function name(v)
     return v and v:getScript() and v:getScript():getFullName()
@@ -114,7 +115,9 @@ function C.RevokeBikeAuthority(bike)
         local owner = getPlayerByOnlineID(id)
         if owner then bike:authorizationServerOnSeat(owner,false) end
     end
-    bike:authorizationServerCollide(-1,false)
+    -- OnSeat(false) also revokes collision leases belonging to that player.
+    -- authorizationServerCollide takes a Java short, for which B42's Lua
+    -- bridge has no number converter. A literal -1 throws on dedicated servers.
 end
 -- Read a car-local point in physics coordinates. Transform's origin already
 -- includes the physics world's streaming offset; never infer it from map tiles.
@@ -221,10 +224,28 @@ function C.Load(player,car,bike)
     if not C.IsAuthority() then return false,"Loading is controlled by the server" end
     local ok,reason = C.CanLoad(player,car,bike)
     if not ok then return false,reason end
-    EmreRE9.CarrierPhysics.Apply(bike,true)
-    -- Move successfully before committing persistent pairing or mass changes.
-    C.RevokeBikeAuthority(bike)
-    C.Place(car,bike,C.Offset)
+    local original=bike:getWorldTransform(BaseVehicle.allocTransform())
+    local x,y,z=bike:getX(),bike:getY(),bike:getZ()
+    local mounted=name(bike)==EmreRE9.CarrierPhysics.MOUNTED
+    -- A rejected preparation must not strand an unpaired collision-free bike.
+    local prepared,err=pcall(function()
+        EmreRE9.CarrierPhysics.Apply(bike,true)
+        C.RevokeBikeAuthority(bike)
+        C.Place(car,bike,C.Offset)
+    end)
+    if not prepared then
+        pcall(function()
+            EmreRE9.CarrierPhysics.Apply(bike,mounted)
+            bike:setWorldTransform(original)
+            bike:setX(x); bike:setY(y); bike:setZ(z)
+            bike:setLastX(x); bike:setLastY(y)
+            bike:setCurrentSquareFromPosition(x,y,z)
+            bike:setPhysicsActive(true)
+        end)
+        BaseVehicle.releaseTransform(original)
+        error(err)
+    end
+    BaseVehicle.releaseTransform(original)
     local token = tostring(getTimestampMs())..":"..tostring(ZombRand(1000000000))..":"..tostring(car:getId())
     write(car,{token=token,role="car",baseMass=car:getInitialMass(),bikeMass=bike:getMass()})
     write(bike,{token=token,role="bike"})
@@ -287,6 +308,25 @@ function C.Tick()
     end
     for _,v in ipairs(vehicles) do
         if C.IsMounted(v) then v:setPhysicsActive(false) end
+        local P=EmreRE9.CarrierPhysics
+        if name(v)==P.MOUNTED and not C.Record(v) and not P.busy[v] then
+            local state=orphans[v]
+            if not state then
+                state={at=getTimestampMs(),floor=math.max(0,math.floor(v:getZ()))}
+                orphans[v]=state
+                v:setPhysicsActive(true); v:setPhysicsActive(false)
+            end
+            -- Let replicated pairing arrive before repairing an observer's bike.
+            if getTimestampMs()-state.at >= (isClient() and 10000 or 1000) then
+                P.Apply(v,false)
+                local x,y,z=v:getX(),v:getY(),state.floor+0.08
+                local t=v:getWorldTransform(BaseVehicle.allocTransform())
+                local o=t:getOrigin(); o:set(o:x(),z*C.HEIGHT_M,o:z())
+                v:setWorldTransform(t); BaseVehicle.releaseTransform(t)
+                v:setZ(z); v:setCurrentSquareFromPosition(x,y,z)
+                v:setPhysicsActive(true); orphans[v]=nil
+            end
+        else orphans[v]=nil end
     end
     for _,pair in pairs(pairsByToken) do
         if pair.car and pair.bike and not updated[pair.bike] then C.UpdatePair(pair.car,pair.bike) end
@@ -308,7 +348,16 @@ function C.Reset()
     vehicles, pairsByToken, lastScan = {}, {}, -1000
     releasedTokens,followed = {},setmetatable({}, {__mode="k"})
     packetAt = setmetatable({}, {__mode="k"})
+    orphans = setmetatable({}, {__mode="k"})
 end
+-- The admin spawn list exposes every vehicle script, including our internal
+-- mounted profile. Select ordinary physics before a fresh body's construction.
+if Events.OnSpawnVehicleStart then Events.OnSpawnVehicleStart.Add(function(v)
+    local P=EmreRE9.CarrierPhysics
+    if not isClient() and name(v)==P.MOUNTED and not C.Record(v) and not P.busy[v] then
+        v:setScript(P.NORMAL)
+    end
+end) end
 -- Trusted server release: place on the ground immediately, before stale
 -- interpolation or a queued pre-unload part packet can remount this token.
 function C.ApplyRelease(car,bike,pose)

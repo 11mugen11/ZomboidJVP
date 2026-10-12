@@ -1,6 +1,6 @@
 {
   "mod_id": "EmreAdventureVehiclePack_B42",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "sources": [
     "EmreRE9Motorcycle",
     "lrdisco1",
@@ -12,7 +12,7 @@
       "sources": [
         "EmreRE9Motorcycle\\42\\REAR_CARRIER.txt"
       ],
-      "sha256": "1449adc5054873ec5c1d1c89731a59b3101afb0fe378b5aff28fc11be6d545d1"
+      "sha256": "bcf2ed178c104d2fc2f451d2a720c9ba02baf59b9646bf1eba02229c2ceda583"
     },
     {
       "file": "42/media/AnimSets/c172_keep.txt",
@@ -649,7 +649,7 @@
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\client\\emre_re9_carrier_network.lua"
       ],
-      "sha256": "e5c18286dd6654fd0c81a63aceb54990e0547d57e394613de65030282fd404f7"
+      "sha256": "86105cbfddf307f5756d03b5bf083f856d5dcb825f1d28c7d07136d41738d911"
     },
     {
       "file": "42/media/lua/client/emre_re9_drive.lua",
@@ -761,7 +761,7 @@
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\server\\emre_re9_carrier_server.lua"
       ],
-      "sha256": "3f541c9dd49c5e370740b20fc8c0349f8e1251ffd6358e3616b0d09a5a45309d"
+      "sha256": "6d3bba7070052a65a4df3767846d85ba8db47f36413fa90d05eaa784ecbfc1dd"
     },
     {
       "file": "42/media/lua/server/vehicles/lrdisco1.lua",
@@ -880,14 +880,14 @@
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\shared\\emre_re9_carrier.lua"
       ],
-      "sha256": "9343527929a6b26bd5e517967d9d2dfeef3e32b5c31bb28e45a3a800888560d7"
+      "sha256": "936d9e995e5fea7466a1c908db8d7c1f272ac19ac9d096d9274245501991b3fa"
     },
     {
       "file": "42/media/lua/shared/emre_re9_carrier_physics.lua",
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\shared\\emre_re9_carrier_physics.lua"
       ],
-      "sha256": "f64e42b6eee9d0ad6d149da83e2ad123a54a3aca58af8f9a2b12d69ef0909df6"
+      "sha256": "dd70cc177607bc0db817be720c51d7d28132effee8f8b1f198f9077ba17b4dda"
     },
     {
       "file": "42/media/lua/shared/emre_re9_handling.lua",

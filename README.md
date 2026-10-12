@@ -3,7 +3,7 @@
 A combined Project Zomboid Build 42 mod containing the Emre RE9 motorcycle,
 Land Rover Discovery variants, and flyable Cessna 172.
 
-[Download the v1.0.4 mod ZIP](JustynsVehiclePack-v1.0.4.zip?raw=1)
+[Download the v1.0.5 mod ZIP](JustynsVehiclePack-v1.0.5.zip?raw=1)
 
 ## Install
 
@@ -52,9 +52,9 @@ Every player and the host/server must install the same pack version.
 - The internal mod ID is retained from the former Emre Adventure Vehicle Pack
   so existing saves and server settings continue to recognize it.
 
-Lua compilation and carrier/client/server regression tests passed against the
-installed Build 42 runtime with mocked vehicle/network APIs. Native reverse
-driving and multiplayer streaming still require in-game verification.
+Native dedicated-server loading and admin-spawn recovery passed with actual
+vehicle APIs. Lua compilation and carrier/client/server regression tests also
+passed. Multiplayer driving and streaming still need in-game verification.
 
 ## Files and credits
 
