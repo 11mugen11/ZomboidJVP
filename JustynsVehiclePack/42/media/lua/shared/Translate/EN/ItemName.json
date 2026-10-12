@@ -1,0 +1,23 @@
+{
+  "ItemName_EmreRE9.Tire": "RE9 Motorcycle Tire",
+  "ItemName_EmreRE9.SupportTire": "RE9 Physics Support",
+  "ItemName_EmreRE9.GasTank": "RE9 Fuel Tank",
+  "ItemName_EmreRE9.Seat": "RE9 Saddle",
+  "ItemName_EmreRE9.Muffler": "RE9 Exhaust",
+  "Base.C172Propeller": "Aircraft Propeller",
+  "Base.C172OilSystem": "Aircraft Oil System",
+  "Base.C172Starter": "Aircraft Starter Motor",
+  "Base.C172Alternator": "Aircraft Alternator",
+  "Base.C172FuelSystem": "Aircraft Fuel System",
+  "Base.C172Fuselage": "Cessna Fuselage Panel",
+  "Base.C172Wing": "Cessna Wing Assembly",
+  "Base.C172HorizStab": "Horizontal Stabilizer",
+  "Base.C172TailAssembly": "Vertical Stabilizer",
+  "Base.C172Aileron": "Aircraft Aileron",
+  "Base.C172Elevator": "Aircraft Elevator",
+  "Base.C172Rudder": "Aircraft Rudder",
+  "Base.C172Avionics": "Aircraft Avionics Bus",
+  "Base.AviationManual1": "Aviation I: Levels 1-2",
+  "Base.AviationManual2": "Aviation II: Levels 3-4",
+  "Base.AviationManual3": "Aviation III: Levels 5-6"
+}

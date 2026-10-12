@@ -1,0 +1,40 @@
+Cessna 172 - Flyable Light Aircraft
+==================================
+
+3D MODEL
+--------
+"Plane" by osmosikum
+  https://sketchfab.com/3d-models/plane-cedc8a07370747f7b0d14400cdf2faf9
+  Author page: https://sketchfab.com/osmosikum
+
+Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)
+  http://creativecommons.org/licenses/by/4.0/
+
+The licence and author are recorded in the source .glb's own asset.extras block and
+are reproduced here to satisfy CC BY 4.0's attribution requirement. CC BY 4.0 permits
+commercial use and modification; the only obligation is attribution, which this file
+and the mod's Workshop description both carry.
+
+WHAT WAS CHANGED FROM THE SOURCE MODEL
+  * the full node chain was resolved to world space and baked into the geometry
+  * re-oriented onto Project Zomboid's vehicle axes (+Z nose, +Y up, +X lateral)
+  * re-origined onto the aircraft's centre of gravity and rescaled
+  * the propeller was separated into its own mesh so it can be rotated at runtime
+  * the six source materials were packed into a single texture atlas
+  * (1.9.2) the vehicle mask marks the windows as glass, so camera mods draw them see-through
+  See tools/convert_plane_model.py for the exact, reproducible conversion.
+
+AUDIO
+-----
+Engine start / idle / power / shutdown are SYNTHESISED for this mod by
+tools/make_audio.py (no sampled source material) - a physically-modelled four-cylinder
+horizontally-opposed piston stack plus two-blade propeller blade-pass tone and airflow
+noise. Original work, no third-party licence attached.
+
+CODE
+----
+Since 1.9.0 the whole mod is Lua - no Java and no ZombieBuddy. The flight model runs on the
+game's own physics through BaseVehicle's public impulse queue, the method this author's
+MH-92 Nightfang proved. (Up to 1.8.1 it used a Java Bullet bridge and ZombieBuddy patches.)
+No code is shared at runtime with any other mod: every Lua global, Lua module path, network
+module name and asset name in this mod is uniquely its own.

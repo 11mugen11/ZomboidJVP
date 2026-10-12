@@ -1,0 +1,19 @@
+Justyns vehicle Pack
+===========================
+Combined from the supplied EmreRE9Motorcycle (0.2.22), Land Rover Discovery
+(lrdisco1), and Cessna172 (1.10.4) mod folders. Original vehicle/model/item
+identities and component code are retained. Source mod metadata is in credits/.
+
+Cessna mod author: RentCollectorClips. Aircraft model: "Plane" by osmosikum,
+CC BY 4.0. See credits/Cessna172-CREDITS.txt for full attribution and links.
+The supplied motorcycle audio code attributes its samples to a user-supplied
+Backcountry ATV archive. The supplied motorcycle and Land Rover metadata do
+not identify their original authors; their metadata and existing code credits
+are preserved without replacing them with a new authorship claim.
+
+Bundle changes: RE9 speed/audio and case capacities; black Camel body paint,
+removed side Camel logos and hood badge, dark steel rims and 450 trunk capacity; Cessna
+yellow body with black main-wing tips and 800 baggage capacity; multiplayer
+rear RE9 carrier with a mounted collision profile and static/render/chunk
+following; permanently opaque black-tinted Rover windows.
+Packaging merges translations and sandbox settings under one B42 mod ID.

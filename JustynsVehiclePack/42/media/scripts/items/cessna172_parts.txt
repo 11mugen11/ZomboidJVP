@@ -1,0 +1,255 @@
+/*
+    Cessna 172 - AIRCRAFT PART ITEMS.
+
+    These exist so the aircraft's own components are REAL, functional vehicle parts rather
+    than renamed car parts or decorative rows. A VehiclePart only becomes installable,
+    uninstallable and repairable if it declares an `itemType`, and that item is what
+    actually carries the part's condition through a save, a server restart and a
+    multiplayer session - VehiclePart.getCondition() reads it back off the inventory item.
+    So "make the aircraft parts actually function" is, mechanically, "give them items".
+
+    SCOPE. Every id here is C172-prefixed and lives only in this mod. Nothing overrides or
+    extends a vanilla item, no vanilla item's DisplayName is touched (which would rename it
+    on every vehicle in the game), and no vanilla vehicle can install any of these - a part
+    can only accept the itemType its own script names.
+
+    DISTRIBUTION IS DELIBERATELY NOT DECLARED. None of these appear in loot. That is the
+    correct answer for aircraft spares in Knox County: a Cessna's ailerons are not in a
+    hardware store. They come off ANOTHER Cessna - uninstall from a wreck, install on
+    yours - which is real salvage gameplay and needs no distribution table. The airframe
+    items are also repairable in place (see cessna172_fixing.txt), so a damaged aircraft is
+    always recoverable without one.
+
+    ICONS are vanilla icon names that vanilla items already use, so every one of them
+    resolves out of the shipped texture packs. No icon ships with this mod and none can be
+    missing.
+
+    ConditionMax = 100 across the board, matching vanilla vehicle parts: the mechanics
+    panel, the tooltips and the HUD all speak in whole percent, and a part with a smaller
+    ConditionMax would quantise its bar into visible jumps.
+*/
+module Base
+{
+	/* ------------------------------- POWERPLANT ------------------------------- */
+
+	item C172Propeller
+	{
+		DisplayName = Aircraft Propeller,
+		DisplayCategory = VehicleMaintenance,
+		Type = Normal,
+		Weight = 14.0,
+		Icon = Aluminum,
+		ItemType = base:normal,
+		VehicleType = 1,
+		MechanicsItem = TRUE,
+		ConditionMax = 100,
+		ConditionLowerStandard = 0.02,
+		ConditionLowerOffroad = 0.4,
+	}
+
+	item C172OilSystem
+	{
+		DisplayName = Aircraft Oil System,
+		DisplayCategory = VehicleMaintenance,
+		Type = Normal,
+		Weight = 5.0,
+		Icon = MetalTube,
+		ItemType = base:normal,
+		VehicleType = 1,
+		MechanicsItem = TRUE,
+		ConditionMax = 100,
+		ConditionLowerStandard = 0.03,
+		ConditionLowerOffroad = 0.3,
+	}
+
+	item C172Starter
+	{
+		DisplayName = Aircraft Starter Motor,
+		DisplayCategory = VehicleMaintenance,
+		Type = Normal,
+		Weight = 6.0,
+		Icon = EngineParts,
+		ItemType = base:normal,
+		VehicleType = 1,
+		MechanicsItem = TRUE,
+		ConditionMax = 100,
+		ConditionLowerStandard = 0.02,
+		ConditionLowerOffroad = 0.2,
+	}
+
+	item C172Alternator
+	{
+		DisplayName = Aircraft Alternator,
+		DisplayCategory = VehicleMaintenance,
+		Type = Normal,
+		Weight = 5.0,
+		Icon = CarBatteryCharger,
+		ItemType = base:normal,
+		VehicleType = 1,
+		MechanicsItem = TRUE,
+		ConditionMax = 100,
+		ConditionLowerStandard = 0.02,
+		ConditionLowerOffroad = 0.2,
+	}
+
+	/* ------------------------------- FUEL SYSTEM ------------------------------ */
+
+	item C172FuelSystem
+	{
+		DisplayName = Aircraft Fuel System,
+		DisplayCategory = VehicleMaintenance,
+		Type = Normal,
+		Weight = 4.0,
+		Icon = Pipe,
+		ItemType = base:normal,
+		VehicleType = 1,
+		MechanicsItem = TRUE,
+		ConditionMax = 100,
+		ConditionLowerStandard = 0.02,
+		ConditionLowerOffroad = 0.25,
+	}
+
+	/* -------------------------------- AIRFRAME -------------------------------- */
+	/* Weights are the practical limit of what a survivor can carry to an aeroplane, not
+	   scale models of real aluminium. A real 172 wing is ~55 kg and would be unusable as
+	   an inventory item; 20 is heavy enough to be a decision and light enough to be a
+	   possible one. */
+
+	item C172Wing
+	{
+		DisplayName = Cessna Wing Assembly,
+		DisplayCategory = VehicleMaintenance,
+		Type = Normal,
+		Weight = 20.0,
+		Icon = MetalSheetSmall,
+		ItemType = base:normal,
+		VehicleType = 1,
+		MechanicsItem = TRUE,
+		ConditionMax = 100,
+		ConditionLowerStandard = 0.01,
+		ConditionLowerOffroad = 0.2,
+	}
+
+	item C172HorizStab
+	{
+		DisplayName = Horizontal Stabilizer,
+		DisplayCategory = VehicleMaintenance,
+		Type = Normal,
+		Weight = 10.0,
+		Icon = MetalSheetSmall,
+		ItemType = base:normal,
+		VehicleType = 1,
+		MechanicsItem = TRUE,
+		ConditionMax = 100,
+		ConditionLowerStandard = 0.01,
+		ConditionLowerOffroad = 0.2,
+	}
+
+	item C172TailAssembly
+	{
+		DisplayName = Vertical Stabilizer,
+		DisplayCategory = VehicleMaintenance,
+		Type = Normal,
+		Weight = 12.0,
+		Icon = MetalSheetSmall,
+		ItemType = base:normal,
+		VehicleType = 1,
+		MechanicsItem = TRUE,
+		ConditionMax = 100,
+		ConditionLowerStandard = 0.01,
+		ConditionLowerOffroad = 0.2,
+	}
+
+	/* The fuselage is the one structural part with NO install/uninstall table, which is
+	   what makes it repairable but not removable - you cannot take the fuselage off an
+	   aeroplane. That combination is a real, supported vanilla shape rather than a trick:
+	   ISVehicleMechanics:doPartContextMenu offers Repair on the strength of an installed
+	   item plus a FixingManager entry, and offers Uninstall only if the part declares a
+	   `table uninstall`. So the item exists purely to carry the fuselage's condition
+	   through saves and multiplayer, and to give the repair recipe something to fix. */
+	item C172Fuselage
+	{
+		DisplayName = Cessna Fuselage Panel,
+		DisplayCategory = VehicleMaintenance,
+		Type = Normal,
+		Weight = 18.0,
+		Icon = MetalSheetSmall,
+		ItemType = base:normal,
+		VehicleType = 1,
+		MechanicsItem = TRUE,
+		ConditionMax = 100,
+		ConditionLowerStandard = 0.01,
+		ConditionLowerOffroad = 0.25,
+	}
+
+	/* ----------------------------- FLIGHT CONTROLS ---------------------------- */
+
+	item C172Aileron
+	{
+		DisplayName = Aircraft Aileron,
+		DisplayCategory = VehicleMaintenance,
+		Type = Normal,
+		Weight = 6.0,
+		Icon = MetalSheetSmall,
+		ItemType = base:normal,
+		VehicleType = 1,
+		MechanicsItem = TRUE,
+		ConditionMax = 100,
+		ConditionLowerStandard = 0.02,
+		ConditionLowerOffroad = 0.25,
+	}
+
+	item C172Elevator
+	{
+		DisplayName = Aircraft Elevator,
+		DisplayCategory = VehicleMaintenance,
+		Type = Normal,
+		Weight = 7.0,
+		Icon = MetalSheetSmall,
+		ItemType = base:normal,
+		VehicleType = 1,
+		MechanicsItem = TRUE,
+		ConditionMax = 100,
+		ConditionLowerStandard = 0.02,
+		ConditionLowerOffroad = 0.25,
+	}
+
+	item C172Rudder
+	{
+		DisplayName = Aircraft Rudder,
+		DisplayCategory = VehicleMaintenance,
+		Type = Normal,
+		Weight = 7.0,
+		Icon = MetalSheetSmall,
+		ItemType = base:normal,
+		VehicleType = 1,
+		MechanicsItem = TRUE,
+		ConditionMax = 100,
+		ConditionLowerStandard = 0.02,
+		ConditionLowerOffroad = 0.25,
+	}
+
+	/* --------------------------- ELECTRICAL & LIGHTS -------------------------- */
+	/* Only the avionics bus. The aircraft's four LIGHTS are the vanilla headlight parts
+	   repurposed (landing, taxi and two navigation lights) and they use Base.LightBulb -
+	   real, switchable lights in the right places, with no new item needed. Dedicated
+	   nav/strobe light items were written and then removed: nothing referenced them, and
+	   an item that no part can accept and no loot table contains is dead weight. */
+
+
+
+	item C172Avionics
+	{
+		DisplayName = Aircraft Avionics Bus,
+		DisplayCategory = VehicleMaintenance,
+		Type = Normal,
+		Weight = 7.0,
+		Icon = ElectronicsScrap,
+		ItemType = base:normal,
+		VehicleType = 1,
+		MechanicsItem = TRUE,
+		ConditionMax = 100,
+		ConditionLowerStandard = 0.015,
+		ConditionLowerOffroad = 0.2,
+	}
+}

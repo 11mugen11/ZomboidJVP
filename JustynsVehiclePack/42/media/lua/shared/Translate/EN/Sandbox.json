@@ -1,0 +1,19 @@
+{
+  "Sandbox_EmreRE9": "Emre RE9 Motorcycle",
+  "Sandbox_EmreRE9_EnableSpawns": "Spawn RE9 motorcycles",
+  "Sandbox_EmreRE9_EnableSpawns_tooltip": "Allow RE9 in suitable vehicle zones in newly explored areas. Existing vehicles are kept. The game vehicle-spawn setting must also be enabled.",
+  "Sandbox_EmreRE9_SpawnFrequency": "Motorcycle rarity",
+  "Sandbox_EmreRE9_SpawnFrequency_tooltip": "Relative RE9 selection weight: Rare 0.35x, Normal 1x, Common 3x. These are not fixed percentages; other vehicles and game vehicle settings still apply. Restart the save after changing.",
+  "Sandbox_EmreRE9_EnablePartLoot": "Spawn RE9 spare parts",
+  "Sandbox_EmreRE9_EnablePartLoot_tooltip": "Add RE9 tires, saddles, tanks and exhausts to mechanics, garages and mechanical storage. Also supplies compatible standard parts where missing. Does not remove the base game loot.",
+  "Sandbox_EmreRE9_PartsFrequency": "RE9 spare-part rarity",
+  "Sandbox_EmreRE9_PartsFrequency_tooltip": "Relative RE9-specific part weights: Rare 0.35x, Normal 1x, Common 3x. Standard batteries/brakes retain their base-game weights. Applies to newly generated loot; restart after changing.",
+  "Sandbox_EmreRE9_Frequency_option1": "Rare",
+  "Sandbox_EmreRE9_Frequency_option2": "Normal",
+  "Sandbox_EmreRE9_Frequency_option3": "Common",
+  "Sandbox_Cessna172": "Cessna 172",
+  "Sandbox_Cessna172_TakeoffSpeed": "Takeoff speed (km/h)",
+  "Sandbox_Cessna172_TakeoffSpeed_tooltip": "Ground speed the Cessna needs before it lifts off. Lower takes off sooner and flies slower before it stalls. Default 45.",
+  "Sandbox_Cessna172_EngineAutoOff": "Engine off with no pilot (seconds)",
+  "Sandbox_Cessna172_EngineAutoOff_tooltip": "How long the engine keeps running with nobody in the pilot's seat before it switches itself off. 0 switches it off straight away. -1 never switches it off. Default 60."
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animNode>
+    <m_Name>C172_PilotFront</m_Name>
+    <m_AnimName>C172_PilotFront</m_AnimName>
+    <m_BlendTime>0.01</m_BlendTime>
+    <m_SpeedScale>1.0</m_SpeedScale>
+    <m_Looped>true</m_Looped>
+    <m_maxTorsoTwist>0.0</m_maxTorsoTwist>
+    <m_Conditions x_name="afdf4c63-0037-5e47-98a1-6e8304098de1">
+        <m_Name>C172Pose</m_Name>
+        <m_Type>STRING</m_Type>
+        <m_Value>Front</m_Value>
+    </m_Conditions>
+</animNode>

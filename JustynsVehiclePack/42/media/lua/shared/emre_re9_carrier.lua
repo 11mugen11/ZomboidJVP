@@ -1,0 +1,338 @@
+-- Rear-mounted RE9 carrier for the Camel Discovery, B42 single/multiplayer.
+-- The actual bike stays in the world: no inventory snapshots or cloned vehicles.
+EmreRE9 = EmreRE9 or {}
+require "emre_re9_carrier_physics"
+if EmreRE9.Carrier then return EmreRE9.Carrier end
+local C = {}; EmreRE9.Carrier = C
+C.CAR, C.BIKE = "Base.lrdisco1camel", "Base.EMRE_RE9"
+C.KEY = "emreRE9Carrier"
+C.NET = "emreRE9Carrier"
+C.HEIGHT_M = 2.44949
+C.Offset = {x=0, y=0.35, z=-2.30}
+local vehicles, pairsByToken, lastScan = {}, {}, -1000
+local releasedTokens, followed = {}, setmetatable({}, {__mode="k"})
+local packetAt = setmetatable({}, {__mode="k"})
+local atan2 = math.atan2
+local function name(v)
+    return v and v:getScript() and v:getScript():getFullName()
+end
+function C.IsCar(v) return name(v) == C.CAR end
+function C.IsBike(v) return name(v) == C.BIKE or name(v) == EmreRE9.CarrierPhysics.MOUNTED end
+local function part(v)
+    return v and v:getPartById(C.IsCar(v) and "TruckBed" or "Engine")
+end
+function C.Record(v)
+    if not C.IsCar(v) and not C.IsBike(v) then return nil end
+    local p = part(v)
+    local r = p and p:getModData()[C.KEY]
+    return r and not releasedTokens[r.token] and r or nil
+end
+function C.IsMounted(v)
+    local r = C.Record(v)
+    return C.IsBike(v) and r and r.role == "bike" or false
+end
+local function write(v, value)
+    local p = part(v)
+    p:getModData()[C.KEY] = value
+    v:transmitPartModData(p)
+end
+function C.Scan(force)
+    local now = getTimestampMs()
+    if not force and now-lastScan < 250 then return end
+    lastScan = now
+    vehicles, pairsByToken = {}, {}
+    local cell = getCell()
+    local list = cell and cell:getVehicles()
+    if not list then return end
+    local iterator = list:iterator()
+    while iterator:hasNext() do
+        local v = iterator:next()
+        if C.IsCar(v) or C.IsBike(v) then
+            vehicles[#vehicles+1] = v
+            local r = C.Record(v)
+            if r and r.token and (r.role == "car" or r.role == "bike") then
+                pairsByToken[r.token] = pairsByToken[r.token] or {}
+                pairsByToken[r.token][r.role] = v
+            end
+        end
+    end
+end
+function C.Pair(v)
+    C.Scan(true)
+    local r = C.Record(v)
+    return r and pairsByToken[r.token]
+end
+local function distance(a,b)
+    local x,y = a:getX()-b:getX(), a:getY()-b:getY()
+    return x*x+y*y
+end
+function C.Near(v)
+    C.Scan(true)
+    local best, d = nil, 36
+    for _,other in ipairs(vehicles) do
+        if other ~= v and not C.Record(other)
+            and ((C.IsCar(v) and C.IsBike(other)) or (C.IsBike(v) and C.IsCar(other))) then
+            local ds = distance(v,other)
+            if ds < d then best,d = other,ds end
+        end
+    end
+    return best
+end
+local function unoccupied(v)
+    for seat=0,v:getScript():getPassengerCount()-1 do
+        if v:getCharacter(seat) then return false end
+    end
+    return true
+end
+function C.CanLoad(player,car,bike)
+    if not C.IsCar(car) or not C.IsBike(bike) then return false,"Wrong vehicle pair" end
+    if not player or player:isDead() or player:getVehicle() or distance(player,car)>25
+        or distance(player,bike)>36 or distance(car,bike)>36
+        or math.abs(player:getZ()-car:getZ())>0.8 or math.abs(car:getZ()-bike:getZ())>0.8 then
+        return false,"Stand near the parked vehicles"
+    end
+    if C.Record(car) or C.Record(bike) then return false,"Carrier already in use" end
+    if car:getVehicleTowing() or car:getVehicleTowedBy() or bike:getVehicleTowing() or bike:getVehicleTowedBy() then
+        return false,"Detach existing tow ropes first"
+    end
+    if math.abs(car:getCurrentSpeedKmHour())>0.5 or math.abs(bike:getCurrentSpeedKmHour())>0.5 then
+        return false,"Park both vehicles first"
+    end
+    if not unoccupied(bike) then return false,"Dismount the motorcycle first" end
+    if bike:isEngineRunning() or bike:isEngineStarted() then return false,"Turn off the motorcycle engine first" end
+    return true
+end
+function C.IsAuthority()
+    return not isClient() or C._serverDispatch == true
+end
+-- Server-owned parked bikes must not retain a nearby player's collision
+-- physics lease. Driving ownership of the Land Rover remains entirely native.
+function C.RevokeBikeAuthority(bike)
+    if not isServer() then return end
+    local id = bike:getNetPlayerId()
+    if id >= 0 then
+        local owner = getPlayerByOnlineID(id)
+        if owner then bike:authorizationServerOnSeat(owner,false) end
+    end
+    bike:authorizationServerCollide(-1,false)
+end
+-- Read a car-local point in physics coordinates. Transform's origin already
+-- includes the physics world's streaming offset; never infer it from map tiles.
+local function point(car,x,y,z)
+    local t = car:getWorldTransform(BaseVehicle.allocTransform())
+    local origin = t:getOrigin()
+    local ox,oy,oz = origin:x(),origin:y(),origin:z()
+    local p = Vector3f.new(x,y,z)
+    t:transform(p)
+    BaseVehicle.releaseTransform(t)
+    return p, car:getX()+p:x()-ox, car:getY()+p:z()-oz, p:y()/C.HEIGHT_M
+end
+-- R_bike = R_car * R_y(90 degrees), so the bike is crosswise and follows
+-- the car's pitch/roll as well as its heading. Decompose into native XYZ Euler.
+function C.Angles(right,up,forward)
+    local ry = math.asin(math.max(-1,math.min(1,right:x())))
+    local rx,rz
+    -- The matrix's rows are physics x/up/z, not world x/y/floor.
+    if math.abs(math.cos(ry)) > 0.0001 then
+        rx = atan2(-right:y(),right:z())
+        rz = atan2(-up:x(),-forward:x())
+    else
+        rx = atan2(up:z(),up:y()); rz = 0
+    end
+    return math.deg(rx),math.deg(ry),math.deg(rz)
+end
+function C.Place(car,bike,offset,ground)
+    local target,x,y,z = point(car,offset.x,offset.y,offset.z)
+    local t = car:getWorldTransform(BaseVehicle.allocTransform())
+    local origin = t:getOrigin()
+    local right,up,forward = Vector3f.new(1,0,0),Vector3f.new(0,1,0),Vector3f.new(0,0,1)
+    t:transform(right); right:sub(origin)
+    t:transform(up); up:sub(origin)
+    t:transform(forward); forward:sub(origin)
+    BaseVehicle.releaseTransform(t)
+    local rx,ry,rz = C.Angles(right,up,forward)
+    if ground then
+        rx,rz = 0,0
+        ry = math.deg(atan2(right:x(),right:z()))
+        z = ground + 0.08
+        target:set(target:x(),z*C.HEIGHT_M,target:z())
+    end
+    -- Force the first enabled->disabled transition. Native setPhysicsActive
+    -- returns early for an already-disabled controller, before setting static.
+    if not ground and not followed[bike] then bike:setPhysicsActive(true) end
+    bike:setPhysicsActive(false)
+    -- Native setAngles skips equal integer angles before marking the footprint
+    -- dirty. An equivalent full yaw turn forces that refresh even on a straight
+    -- road, so the parked bike's polygon/shadow does not stay at the load point.
+    bike:setAngles(rx,ry+360,rz)
+    local bt = bike:getWorldTransform(BaseVehicle.allocTransform())
+    bt:getOrigin():set(target)
+    bike:setWorldTransform(bt)
+    BaseVehicle.releaseTransform(bt)
+    bike:setX(x); bike:setY(y); bike:setZ(z)
+    bike:setLastX(x); bike:setLastY(y)
+    bike:setCurrentSquareFromPosition(x,y,z)
+    if not ground then
+        -- Public native update refreshes the render matrices AND moves the real
+        -- vehicle between chunk vehicle lists. Merely setting its square left
+        -- that registration at the previous position until the next game tick.
+        local cell=getCell()
+        local registered=cell and cell:getVehicles()
+        -- Native update queues removal if the cell Set does not contain this
+        -- object yet. Never invoke that path during a streaming registration gap.
+        if registered and registered:contains(bike) then bike:update() end
+        -- The native update can wake parked vehicles or quantise map Z to a
+        -- floor. Reassert the carrier's static body and continuous render height.
+        bike:setPhysicsActive(false)
+        bike:setX(x); bike:setY(y); bike:setZ(z)
+        bike:setLastX(x); bike:setLastY(y)
+        bike:setCurrentSquareFromPosition(x,y,z)
+    end
+    return {x=x,y=y,z=z,rx=rx,ry=ry,rz=rz}
+end
+function C.UpdatePair(car,bike)
+    if car:isRemovedFromWorld() or bike:isRemovedFromWorld() then return end
+    local r = C.Record(car)
+    if not r then return end
+    EmreRE9.CarrierPhysics.Apply(bike,true)
+    if C.IsAuthority() then C.RevokeBikeAuthority(bike) end
+    C.Place(car,bike,C.Offset)
+    followed[bike] = {car=car,baseMass=r.baseMass,token=r.token}
+    if r and r.baseMass then
+        local bikeMass = C.IsAuthority() and bike:getMass() or (r.bikeMass or bike:getMass())
+        if C.IsAuthority() and r.bikeMass ~= bikeMass then
+            r.bikeMass = bikeMass
+            if isServer() then car:transmitPartModData(part(car)) end
+        end
+        local mass = r.baseMass+bikeMass
+        if math.abs(car:getInitialMass()-mass)>0.1 then
+            car:setInitialMass(mass); car:updateTotalMass()
+        end
+    end
+    -- VehicleUpdate always carries its current world position in the header.
+    -- Refresh the native part packet at 4 Hz for relevance/streaming; clients
+    -- render relative to the car each frame, not these delayed bike positions.
+    if isServer() and getTimestampMs() >= (packetAt[bike] or 0) then
+        packetAt[bike] = getTimestampMs()+250
+        bike:transmitPartModData(part(bike))
+    end
+end
+function C.Load(player,car,bike)
+    if not C.IsAuthority() then return false,"Loading is controlled by the server" end
+    local ok,reason = C.CanLoad(player,car,bike)
+    if not ok then return false,reason end
+    EmreRE9.CarrierPhysics.Apply(bike,true)
+    -- Move successfully before committing persistent pairing or mass changes.
+    C.RevokeBikeAuthority(bike)
+    C.Place(car,bike,C.Offset)
+    local token = tostring(getTimestampMs())..":"..tostring(ZombRand(1000000000))..":"..tostring(car:getId())
+    write(car,{token=token,role="car",baseMass=car:getInitialMass(),bikeMass=bike:getMass()})
+    write(bike,{token=token,role="bike"})
+    C.UpdatePair(car,bike)
+    C.Scan(true)
+    return true
+end
+function C.Unload(player,car,bike)
+    if not C.IsAuthority() then return false,"Unloading is controlled by the server" end
+    local cr,br = C.Record(car),C.Record(bike)
+    if not C.IsCar(car) or not C.IsBike(bike) or not cr or not br
+        or cr.role ~= "car" or br.role ~= "bike" or cr.token ~= br.token then return false,"Partner vehicle is not loaded" end
+    if not player or player:isDead() or player:getVehicle() or distance(player,car)>25
+        or math.abs(player:getZ()-car:getZ())>0.8 then return false,"Stand near the car" end
+    if math.abs(car:getCurrentSpeedKmHour())>0.5 then return false,"Park the car first" end
+    local drop = {x=0,y=0,z=-4.2}
+    local _,x,y = point(car,drop.x,drop.y,drop.z)
+    local floor = math.floor(car:getZ())
+    local cell = getCell()
+    -- Leave room for the crosswise motorcycle, not just its centre point.
+    for dx=-1,1 do for dy=-1,1 do
+        local sq = cell:getGridSquare(math.floor(x)+dx,math.floor(y)+dy,floor)
+        if not sq or not sq:TreatAsSolidFloor() or not sq:isFree(false) then
+            return false,"Leave a clear 3-by-3 area behind the car"
+        end
+    end end
+    if not unoccupied(bike) then return false,"Dismount the motorcycle first" end
+    EmreRE9.CarrierPhysics.Apply(bike,false)
+    local pose = C.Place(car,bike,drop,floor)
+    write(bike,nil); write(car,nil)
+    car:setInitialMass(cr.baseMass); car:updateTotalMass()
+    bike:setPhysicsActive(true)
+    followed[bike] = nil
+    C.Scan(true)
+    pose.token,pose.baseMass = cr.token,cr.baseMass
+    return true,nil,pose
+end
+function C.Tick()
+    C.Scan()
+    local updated={}
+    -- Never clear a saved pair just because its partner's chunk is absent.
+    -- Once replicated mod data explicitly clears a mount, restore local mass
+    -- and bike physics even if this client missed the immediate release event.
+    for bike,state in pairs(followed) do
+        if not bike:isRemovedFromWorld() and not C.Record(bike) then
+            if not state.car:isRemovedFromWorld() and not C.Record(state.car) then
+                state.car:setInitialMass(state.baseMass); state.car:updateTotalMass()
+            end
+            EmreRE9.CarrierPhysics.Apply(bike,false)
+            bike:setPhysicsActive(true); followed[bike] = nil
+        elseif not bike:isRemovedFromWorld() and not state.car:isRemovedFromWorld() then
+            local br,cr=C.Record(bike),C.Record(state.car)
+            if br and cr and br.token==state.token and cr.token==state.token then
+                -- A temporary gap in the cell Set must not stop a live pair
+                -- following, even while the next streamed scan is incomplete.
+                C.UpdatePair(state.car,bike)
+                updated[bike]=true
+            end
+        end
+    end
+    for _,v in ipairs(vehicles) do
+        if C.IsMounted(v) then v:setPhysicsActive(false) end
+    end
+    for _,pair in pairs(pairsByToken) do
+        if pair.car and pair.bike and not updated[pair.bike] then C.UpdatePair(pair.car,pair.bike) end
+    end
+end
+function C.Render()
+    -- Render frames can outnumber game ticks. Use the car's latest transform
+    -- immediately before drawing so the bike cannot interpolate independently.
+    for bike,state in pairs(followed) do
+        if not bike:isRemovedFromWorld() and not state.car:isRemovedFromWorld() then
+            local br,cr=C.Record(bike),C.Record(state.car)
+            if br and cr and br.token==state.token and cr.token==state.token then
+                C.Place(state.car,bike,C.Offset)
+            end
+        end
+    end
+end
+function C.Reset()
+    vehicles, pairsByToken, lastScan = {}, {}, -1000
+    releasedTokens,followed = {},setmetatable({}, {__mode="k"})
+    packetAt = setmetatable({}, {__mode="k"})
+end
+-- Trusted server release: place on the ground immediately, before stale
+-- interpolation or a queued pre-unload part packet can remount this token.
+function C.ApplyRelease(car,bike,pose)
+    if (car and not C.IsCar(car)) or not C.IsBike(bike) then return false end
+    local record = C.Record(bike)
+    if record and record.token ~= pose.token then return false end
+    local carRecord = car and C.Record(car)
+    if carRecord and carRecord.token ~= pose.token then return false end
+    EmreRE9.CarrierPhysics.Apply(bike,false)
+    releasedTokens[pose.token] = true
+    local t = bike:getWorldTransform(BaseVehicle.allocTransform())
+    local o = t:getOrigin()
+    local px,py = pose.x-(bike:getX()-o:x()),pose.y-(bike:getY()-o:z())
+    BaseVehicle.releaseTransform(t)
+    bike:setPhysicsActive(false)
+    bike:setAngles(pose.rx,pose.ry+360,pose.rz)
+    t = bike:getWorldTransform(BaseVehicle.allocTransform())
+    t:getOrigin():set(px,pose.z*C.HEIGHT_M,py)
+    bike:setWorldTransform(t); BaseVehicle.releaseTransform(t)
+    bike:setX(pose.x); bike:setY(pose.y); bike:setZ(pose.z)
+    bike:setLastX(pose.x); bike:setLastY(pose.y)
+    bike:setCurrentSquareFromPosition(pose.x,pose.y,pose.z)
+    if car then car:setInitialMass(pose.baseMass); car:updateTotalMass() end
+    followed[bike]=nil; bike:setPhysicsActive(true)
+    return true
+end
+return C

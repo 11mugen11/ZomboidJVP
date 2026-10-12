@@ -1,0 +1,14 @@
+{
+  "Sandbox_EmreRE9": "Emre RE9 Motosiklet",
+  "Sandbox_EmreRE9_EnableSpawns": "Haritada RE9 motosiklet oluştur",
+  "Sandbox_EmreRE9_EnableSpawns_tooltip": "Yeni keşfedilen uygun araç bölgelerinde RE9 bulunabilir. Mevcut araçları silmez. Oyunun genel araç oluşturma ayarı da açık olmalı.",
+  "Sandbox_EmreRE9_SpawnFrequency": "Motosiklet bulunma sıklığı",
+  "Sandbox_EmreRE9_SpawnFrequency_tooltip": "RE9 seçim ağırlığı: Nadir 0,35x, Normal 1x, Yaygın 3x. Sabit yüzde değildir; diğer araçlar ve genel araç ayarları sonucu etkiler. Değişiklikten sonra kaydı yeniden başlat.",
+  "Sandbox_EmreRE9_EnablePartLoot": "RE9 yedek parçaları oluştur",
+  "Sandbox_EmreRE9_EnablePartLoot_tooltip": "Lastik, sele, yakıt deposu ve egzozu tamirci, garaj ve mekanik depo ganimetine ekler. Eksik yerlerde uyumlu standart parçaları da ekler. Vanilla ganimeti kaldırmaz.",
+  "Sandbox_EmreRE9_PartsFrequency": "RE9 yedek parça bulunma sıklığı",
+  "Sandbox_EmreRE9_PartsFrequency_tooltip": "RE9 özel parça ağırlıkları: Nadir 0,35x, Normal 1x, Yaygın 3x. Standart akü/frenlerin mevcut oranları korunur. Yeni oluşturulan ganimeti etkiler; değiştirince kaydı yeniden başlat.",
+  "Sandbox_EmreRE9_Frequency_option1": "Nadir",
+  "Sandbox_EmreRE9_Frequency_option2": "Normal",
+  "Sandbox_EmreRE9_Frequency_option3": "Yaygın"
+}

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<animNode>
+    <m_Name>emre_re9_1_enter_right</m_Name>
+    <m_AnimName>EMRE_RE9_P_EnterR</m_AnimName>
+    <m_Looped>false</m_Looped>
+    <m_UpperOnly>false</m_UpperOnly>
+    <m_EarlyBlendOut>false</m_EarlyBlendOut>
+    <m_SpeedScale>3.00</m_SpeedScale>
+    <m_BlendTime>0.00</m_BlendTime>
+    <m_Scalar />
+    <m_Scalar2 />
+    <m_Events>
+        <m_EventName>SetVariable</m_EventName>
+        <m_Time>End</m_Time>
+        <m_ParameterValue>EnterAnimationFinished=true</m_ParameterValue>
+    </m_Events>
+    <m_Conditions>
+        <m_Name>EMRE_RE9Type</m_Name>
+        <m_Type>STRING</m_Type>
+        <m_StringValue>RE91</m_StringValue>
+    </m_Conditions>
+    <m_Conditions>
+        <m_Name>EMRE_RE9Side</m_Name>
+        <m_Type>STRING</m_Type>
+        <m_StringValue>right</m_StringValue>
+    </m_Conditions>
+</animNode>

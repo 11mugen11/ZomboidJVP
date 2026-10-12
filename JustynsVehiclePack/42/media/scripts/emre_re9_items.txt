@@ -1,0 +1,80 @@
+module EmreRE9
+{
+    item Tire
+    {
+        ItemType = base:normal,
+        DisplayCategory = VehicleMaintenance,
+        MechanicsItem = TRUE,
+        DisplayName = RE9 Motorcycle Tire,
+        Weight = 6,
+        Icon = EMRE_RE9Tire,
+        MaxCapacity = 35,
+        ConditionMax = 100,
+        ChanceToSpawnDamaged = 20,
+        ConditionLowerStandard = 0.03,
+        ConditionLowerOffroad = 0.18,
+        WheelFriction = 1.6,
+        WorldStaticModel = Base.EMRE_RE9SpareTire,
+    }
+    item SupportTire
+    {
+        ItemType = base:normal,
+        DisplayCategory = VehicleMaintenance,
+        MechanicsItem = TRUE,
+        DisplayName = RE9 Physics Support,
+        Weight = 0,
+        Icon = EMRE_RE9Tire,
+        MaxCapacity = 35,
+        ConditionMax = 100,
+        ChanceToSpawnDamaged = 0,
+        ConditionLowerStandard = 0,
+        ConditionLowerOffroad = 0,
+        WheelFriction = 1.6,
+    }
+    item GasTank
+    {
+        ItemType = base:normal,
+        DisplayCategory = VehicleMaintenance,
+        MechanicsItem = TRUE,
+        DisplayName = RE9 Fuel Tank,
+        Weight = 6,
+        Icon = EMRE_RE9GasTank,
+        MaxCapacity = 18,
+        ConditionAffectsCapacity = true,
+        ConditionMax = 100,
+    }
+    item Seat
+    {
+        ItemType = base:normal,
+        DisplayCategory = VehicleMaintenance,
+        MechanicsItem = TRUE,
+        DisplayName = RE9 Saddle,
+        Weight = 3,
+        Icon = EMRE_RE9Seat,
+        ConditionMax = 100,
+    }
+    item Muffler
+    {
+        ItemType = base:normal,
+        DisplayCategory = VehicleMaintenance,
+        MechanicsItem = TRUE,
+        DisplayName = RE9 Exhaust,
+        Weight = 4,
+        Icon = EMRE_RE9Muffler,
+        ConditionMax = 100,
+        EngineLoudness = 60,
+        ConditionLowerStandard = 0.008,
+        ConditionLowerOffroad = 0.015,
+    }
+}
+module Base
+{
+    model EMRE_RE9SpareTire
+    {
+        mesh = vehicles/emre_re9/EMRE_RE9RearWheelHub|EMRE_RE9RearWheel,
+        texture = Vehicles/EMRE_RE9,
+        shader = basicEffect,
+        invertX = FALSE,
+        scale = 0.7,
+    }
+}

@@ -1,0 +1,5 @@
+name=Land Rover Discovery
+versionMin=42.0.0
+id=lrdisco1
+description=Adds a Land Rover Discovery 1 from the early 90s
+poster=lrdisco1.png

@@ -1,0 +1,36 @@
+module Base
+{
+    fixing RE9GasTankWelding
+    {
+        Require = EmreRE9.GasTank,
+        GlobalItem = Base.BlowTorch=5,
+        ConditionModifier = 1.2,
+        Fixer = Base.SheetMetal; MetalWelding=3;Mechanics=4,
+        Fixer = Base.SmallSheetMetal=2; MetalWelding=3;Mechanics=4,
+    }
+
+    fixing RE9MufflerWelding
+    {
+        Require = EmreRE9.Muffler,
+        GlobalItem = Base.BlowTorch=5,
+        ConditionModifier = 1.2,
+        Fixer = Base.SheetMetal; MetalWelding=3;Mechanics=4,
+        Fixer = Base.SmallSheetMetal=2; MetalWelding=3;Mechanics=4,
+    }
+
+    fixing RE9SeatRepair
+    {
+        Require = EmreRE9.Seat,
+        ConditionModifier = 0.8,
+        Fixer = Base.DuctTape=2;Mechanics=1,
+        Fixer = Base.Glue=2;Mechanics=2,
+    }
+
+    fixing RE9TirePatch
+    {
+        Require = EmreRE9.Tire,
+        ConditionModifier = 0.5,
+        Fixer = Base.DuctTape=2;Mechanics=2,
+        Fixer = Base.Glue=2;Mechanics=2,
+    }
+}

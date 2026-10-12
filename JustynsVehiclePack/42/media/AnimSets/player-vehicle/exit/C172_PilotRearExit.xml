@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animNode>
+    <m_Name>C172_PilotRearExit</m_Name>
+    <m_AnimName>C172_PilotRearExit</m_AnimName>
+    <m_Looped>false</m_Looped>
+    <m_BlendTime>0.01</m_BlendTime>
+    <m_SpeedScale>1.0</m_SpeedScale>
+    <m_Conditions x_name="4d2e8bbf-84d1-5db7-b115-3ab2540fc535">
+        <m_Name>C172Pose</m_Name>
+        <m_Type>STRING</m_Type>
+        <m_Value>Rear</m_Value>
+    </m_Conditions>
+    <m_Events x_name="ceeaf7ae-818e-59e6-a51c-596d357dd5e2">
+        <m_EventName>SetVariable</m_EventName>
+        <m_Time>End</m_Time>
+        <m_ParameterValue>ExitAnimationFinished=true</m_ParameterValue>
+    </m_Events>
+</animNode>

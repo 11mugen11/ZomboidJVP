@@ -1,0 +1,54 @@
+VERSION = 1,
+
+/* EmreRE9Motorcycle */
+option EmreRE9.EnableSpawns
+{
+    type = boolean,
+    default = true,
+    page = EmreRE9,
+    translation = EmreRE9_EnableSpawns,
+}
+option EmreRE9.SpawnFrequency
+{
+    type = enum,
+    numValues = 3,
+    default = 2,
+    page = EmreRE9,
+    translation = EmreRE9_SpawnFrequency,
+    valueTranslation = EmreRE9_Frequency,
+}
+option EmreRE9.EnablePartLoot
+{
+    type = boolean,
+    default = true,
+    page = EmreRE9,
+    translation = EmreRE9_EnablePartLoot,
+}
+option EmreRE9.PartsFrequency
+{
+    type = enum,
+    numValues = 3,
+    default = 2,
+    page = EmreRE9,
+    translation = EmreRE9_PartsFrequency,
+    valueTranslation = EmreRE9_Frequency,
+}
+
+/* Cessna172 */
+/* Cessna 172. Read by the flight controller every time it checks for rotation, so a change applies at
+   once. This file is read by the script parser, which strips C-style block comments like this one. */
+
+option Cessna172.TakeoffSpeed
+{
+	type = integer, default = 45, min = 30, max = 80,
+	page = Cessna172, translation = Cessna172_TakeoffSpeed,
+}
+
+/* 1.10.4: seconds an engine may run with nobody in the pilot's seat before the server switches it
+   off (C172Fuel.shutOffUnattended). 60 = what it has done since 1.10.1, 0 = straight away,
+   -1 = never (it runs on like any vehicle). */
+option Cessna172.EngineAutoOff
+{
+	type = integer, default = 60, min = -1, max = 3600,
+	page = Cessna172, translation = Cessna172_EngineAutoOff,
+}

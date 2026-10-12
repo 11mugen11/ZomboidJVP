@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<animNode>
+    <m_Name>emre_re9_1_idle</m_Name>
+    <m_AnimName>EMRE_RE9_P_Idle</m_AnimName>
+    <m_Looped>true</m_Looped>
+    <m_BlendTime>0.15</m_BlendTime>
+    <m_Conditions>
+        <m_Name>EMRE_RE9Type</m_Name>
+        <m_Type>STRING</m_Type>
+        <m_StringValue>RE91</m_StringValue>
+    </m_Conditions>
+</animNode>

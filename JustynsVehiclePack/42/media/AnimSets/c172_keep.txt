@@ -1,0 +1,1 @@
+Placeholder. A dedicated server scans media/AnimSets and media/actiongroups of every mod and logs an ERROR with a stack trace when a mod has neither folder; this mod has no animations, so the folder holds only this note.

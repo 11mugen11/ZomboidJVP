@@ -1,0 +1,9 @@
+name=Cessna 172 - Flyable Light Aircraft
+id=Cessna172
+author=RentCollectorClips
+description=A flyable Cessna 172 for Build 42. Taxi, rotate, climb and land a real light aircraft - prop acceleration, banking turns, a spinning propeller, an aircraft mechanics screen and its own cockpit HUD. Flying it needs Aviation 2 - find and read an aviation manual first. No ZombieBuddy or Java needed - just subscribe.
+poster=poster.png
+icon=icon.png
+modversion=1.10.4
+tags=Build 42
+versionMin=42.0.0

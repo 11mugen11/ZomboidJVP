@@ -1,0 +1,133 @@
+module Base
+{
+	/*  Cessna 172 engine audio.
+
+	    Built by tools/build_engine_audio.py from Jay's ~30 s Cessna recording. That take is
+	    NOT looped whole - it was analysed by tracking the engine's firing fundamental and
+	    cut into the states the flight model actually drives:
+
+	        f0 ~70 Hz  ->  Low   (idle / taxi)
+	        f0 ~82 Hz  ->  Mid   (cruise)
+	        f0 ~94 Hz  ->  High  (full power)
+
+	    Because all three are the SAME ENGINE at genuinely different RPM, crossfading between
+	    them sounds like the engine building revs. A single clip pitch-shifted keeps its
+	    harmonic balance and reads as a synthesiser sweep instead.
+
+	    C172Flight.lua drives all three loops simultaneously and sets their relative volumes
+	    every tick (see updateEngineAudio) - equal-power crossfaded across one RPM parameter,
+	    so there is no point at which a layer starts, stops or jumps.
+
+	    All clips are MONO: FMOD will not spatialise a stereo file, and every sound here is
+	    is3D. All are normalised to a common RMS so a crossfade cannot step the volume.
+
+	    master = VehicleEngine so these ride the same slider as every other vehicle engine,
+	    including the VX-9's and the MiG's.  */
+
+	sound C172EngineStart
+	{
+		category = Vehicle,
+		master = VehicleEngine,
+		loop = false,
+		is3D = true,
+		maxInstancesPerEmitter = 1,
+		clip { file = media/sound/C172EngineStart.wav, distanceMin = 5, distanceMax = 90, volume = 1.0, }
+	}
+
+	sound C172EngineLow
+	{
+		category = Vehicle,
+		master = VehicleEngine,
+		loop = true,
+		is3D = true,
+		maxInstancesPerEmitter = 1,
+		clip { file = media/sound/C172EngineLow.wav, distanceMin = 5, distanceMax = 110, volume = 0.9, }
+	}
+
+	sound C172EngineMid
+	{
+		category = Vehicle,
+		master = VehicleEngine,
+		loop = true,
+		is3D = true,
+		maxInstancesPerEmitter = 1,
+		clip { file = media/sound/C172EngineMid.wav, distanceMin = 5, distanceMax = 130, volume = 0.9, }
+	}
+
+	sound C172EngineHigh
+	{
+		category = Vehicle,
+		master = VehicleEngine,
+		loop = true,
+		is3D = true,
+		maxInstancesPerEmitter = 1,
+		clip { file = media/sound/C172EngineHigh.wav, distanceMin = 6, distanceMax = 150, volume = 0.9, }
+	}
+
+	sound C172EngineShutdown
+	{
+		category = Vehicle,
+		master = VehicleEngine,
+		loop = false,
+		is3D = true,
+		maxInstancesPerEmitter = 1,
+		clip { file = media/sound/C172EngineShutdown.wav, distanceMin = 5, distanceMax = 90, volume = 0.95, }
+	}
+
+	/*  ==================== VANILLA-CAR-AUDIO SUPPRESSION ====================
+	    These four are named by vehicle_cessna172.txt's `sound { }` block. They exist
+	    because VehicleSounds' getters FALL BACK to vanilla car events when the script
+	    leaves a slot empty - decompiled, each one ends with a literal:
+
+	        getEngineSound()             -> "VehicleEngineDefault"
+	        getEngineStartSound()        -> "VehicleStarted"
+	        getEngineTurnOffSound()      -> "VehicleTurnedOff"
+	        getHandBrakeSound()          -> "VehicleHandBrake"
+	        getIgnitionFailSound()       -> "VehicleFailingToStart"
+	        getIgnitionFailNoPowerSound() -> VEHICLE_IGNITION_FAIL_DEFAULT
+
+	    That fallback is the vanilla automobile audio that was still audible underneath
+	    the Cessna's own engine loops. Naming a Cessna sound in every slot closes it for
+	    THIS VEHICLE ONLY - no vanilla car, Workshop car, the VX-9 or the MiG reads this
+	    file at all.
+
+	    C172Silent is a real, silent 0.25 s asset rather than an absent name: an
+	    unresolvable sound name makes FMOD log a miss every time it is requested, and an
+	    EMPTY slot is precisely what falls back to the car event.  */
+
+	sound C172Silent
+	{
+		category = Vehicle,
+		master = VehicleEngine,
+		loop = false,
+		is3D = true,
+		maxInstancesPerEmitter = 1,
+		clip { file = media/sound/C172Silent.wav, distanceMin = 1, distanceMax = 2, volume = 0.0, }
+	}
+
+	/*  Cranked, did not catch. Cut from the FIRST 1.42 s of Jay's own start recording -
+	    the section before the engine catches - given a coast-down release instead. Same
+	    starter motor as the successful start, because it literally is that starter motor.
+	    Played by vanilla at the correct moment (BaseVehicle's ignition path), which is
+	    why this one is left to vanilla rather than moved into Lua.  */
+	sound C172StarterFail
+	{
+		category = Vehicle,
+		master = VehicleEngine,
+		loop = false,
+		is3D = true,
+		maxInstancesPerEmitter = 1,
+		clip { file = media/sound/C172StarterFail.wav, distanceMin = 4, distanceMax = 70, volume = 0.85, }
+	}
+
+	/*  Master on, nothing turns: the solenoid clicking in and out on a flat battery.  */
+	sound C172NoPower
+	{
+		category = Vehicle,
+		master = VehicleEngine,
+		loop = false,
+		is3D = true,
+		maxInstancesPerEmitter = 1,
+		clip { file = media/sound/C172NoPower.wav, distanceMin = 3, distanceMax = 40, volume = 0.8, }
+	}
+}

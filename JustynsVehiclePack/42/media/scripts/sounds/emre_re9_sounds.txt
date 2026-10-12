@@ -1,0 +1,148 @@
+module Base
+{
+    /* RE9-specific file clips; no vanilla engine event is replaced globally. */
+    sound EMRE_RE9EngineBed
+    {
+        category = Vehicle,
+        master = VehicleEngine,
+        loop = true,
+        is3D = true,
+        maxInstancesPerEmitter = 1,
+        clip
+        {
+            file = media/sound/emre_re9/EMRE_RE9EngineBed.wav,
+            distanceMin = 3,
+            distanceMax = 4,
+            volume = 0.00,
+        }
+    }
+
+    sound EMRE_RE9EngineL1
+    {
+        category = Vehicle,
+        master = VehicleEngine,
+        loop = true,
+        is3D = true,
+        maxInstancesPerEmitter = 1,
+        clip
+        {
+            file = media/sound/emre_re9/EMRE_RE9EngineL1.wav,
+            distanceMin = 3,
+            distanceMax = 60,
+            volume = 1.00,
+        }
+    }
+
+    sound EMRE_RE9EngineL2
+    {
+        category = Vehicle,
+        master = VehicleEngine,
+        loop = true,
+        is3D = true,
+        maxInstancesPerEmitter = 1,
+        clip
+        {
+            file = media/sound/emre_re9/EMRE_RE9EngineL2.wav,
+            distanceMin = 3,
+            distanceMax = 60,
+            volume = 1.00,
+        }
+    }
+
+    sound EMRE_RE9EngineL3
+    {
+        category = Vehicle,
+        master = VehicleEngine,
+        loop = true,
+        is3D = true,
+        maxInstancesPerEmitter = 1,
+        clip
+        {
+            file = media/sound/emre_re9/EMRE_RE9EngineL3.wav,
+            distanceMin = 3,
+            distanceMax = 60,
+            volume = 1.00,
+        }
+    }
+
+    sound EMRE_RE9EngineStart
+    {
+        category = Vehicle,
+        master = VehicleEngine,
+        loop = false,
+        is3D = true,
+        maxInstancesPerEmitter = 1,
+        clip
+        {
+            file = media/sound/emre_re9/EMRE_RE9EngineStart.wav,
+            distanceMin = 3,
+            distanceMax = 60,
+            volume = 0.85,
+        }
+    }
+
+    sound EMRE_RE9EngineShutdown
+    {
+        category = Vehicle,
+        master = VehicleEngine,
+        loop = false,
+        is3D = true,
+        maxInstancesPerEmitter = 1,
+        clip
+        {
+            file = media/sound/emre_re9/EMRE_RE9EngineShutdown.wav,
+            distanceMin = 3,
+            distanceMax = 60,
+            volume = 0.80,
+        }
+    }
+
+    sound EMRE_RE9IgnitionFail
+    {
+        category = Vehicle,
+        master = VehicleEngine,
+        loop = false,
+        is3D = true,
+        maxInstancesPerEmitter = 1,
+        clip
+        {
+            file = media/sound/emre_re9/EMRE_RE9IgnitionFail.wav,
+            distanceMin = 3,
+            distanceMax = 60,
+            volume = 0.80,
+        }
+    }
+
+    sound EMRE_RE9NoPower
+    {
+        category = Vehicle,
+        master = VehicleEngine,
+        loop = false,
+        is3D = true,
+        maxInstancesPerEmitter = 1,
+        clip
+        {
+            file = media/sound/emre_re9/EMRE_RE9NoPower.wav,
+            distanceMin = 3,
+            distanceMax = 18,
+            volume = 0.70,
+        }
+    }
+
+    sound EMRE_RE9HandBrake
+    {
+        category = Vehicle,
+        master = VehicleEngine,
+        loop = false,
+        is3D = true,
+        maxInstancesPerEmitter = 1,
+        clip
+        {
+            file = media/sound/emre_re9/EMRE_RE9HandBrake.wav,
+            distanceMin = 3,
+            distanceMax = 14,
+            volume = 0.45,
+        }
+    }
+
+}

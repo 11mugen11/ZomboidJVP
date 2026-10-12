@@ -1,0 +1,71 @@
+/* ==========================================================================================
+   AVIATION TRAINING MANUALS - part of the shared Aviation framework, NOT of any one aircraft.
+
+   These are ordinary Project Zomboid skill books. `SkillTrained = Aviation` is looked up in
+   the Lua `SkillBook` table at reading time, which AviationFramework.lua populates - so the
+   engine's own reading flow, XP multipliers, page tracking, "you already know this" checks
+   and multiplayer replication all apply with nothing re-implemented.
+
+   NOTHING HERE IS CESSNA-SPECIFIC, deliberately. They are general pilot training and any
+   future aircraft using the framework benefits from the same three volumes. An aircraft that
+   genuinely needs its own type training should ship its own item in its own script file and
+   declare it with Aviation.registerBook{...}; it must not edit this file.
+
+   VOLUMES AND LEVELS. Vanilla's pattern is five volumes each covering two levels: 1-2, 3-4,
+   5-6, 7-8, 9-10. Three are shipped here, covering levels 1 to 6, because that is the range
+   the framework's aircraft actually require - the Cessna needs 2. Volumes 4 and 5 are left
+   for a future mod that introduces an aircraft demanding level 7 or above; adding them is a
+   new item with LvlSkillTrained = 7 and = 9 and no change to anything else.
+
+   ITEM IDS ARE PART OF THE PUBLIC CONTRACT. Base.AviationManual1..3 are what other mods will
+   put in their own loot tables. They do not get renamed.
+   ========================================================================================== */
+
+module Base
+{
+    /* Volume 1 - levels 1 and 2. The one a player realistically finds first, and the one that
+       gets them to the Cessna's required level 2. */
+    item AviationManual1
+    {
+        DisplayCategory = SkillBook,
+        ItemType = base:literature,
+        Weight = 1.0,
+        Icon = Book8,
+        LvlSkillTrained = 1,
+        NumLevelsTrained = 2,
+        NumberOfPages = 220,
+        SkillTrained = Aviation,
+        StaticModel = BookBrown,
+        WorldStaticModel = BookBrown_Ground,
+    }
+
+    /* Volume 2 - levels 3 and 4. */
+    item AviationManual2
+    {
+        DisplayCategory = SkillBook,
+        ItemType = base:literature,
+        Weight = 1.0,
+        Icon = Book8,
+        LvlSkillTrained = 3,
+        NumLevelsTrained = 2,
+        NumberOfPages = 260,
+        SkillTrained = Aviation,
+        StaticModel = BookBrown,
+        WorldStaticModel = BookBrown_Ground,
+    }
+
+    /* Volume 3 - levels 5 and 6. */
+    item AviationManual3
+    {
+        DisplayCategory = SkillBook,
+        ItemType = base:literature,
+        Weight = 1.0,
+        Icon = Book8,
+        LvlSkillTrained = 5,
+        NumLevelsTrained = 2,
+        NumberOfPages = 300,
+        SkillTrained = Aviation,
+        StaticModel = BookBrown,
+        WorldStaticModel = BookBrown_Ground,
+    }
+}

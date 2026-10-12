@@ -1,0 +1,79 @@
+JUSTYNS VEHICLE PACK - BUILD 42
+
+INSTALL
+Extract this ZIP. Copy its JustynsVehiclePack folder into:
+  %USERPROFILE%\Zomboid\mods
+The installed layout must be:
+  Zomboid\mods\JustynsVehiclePack\42\mod.info
+  Zomboid\mods\JustynsVehiclePack\common\media\...
+
+Restart Project Zomboid and enable "Justyns vehicle Pack".
+Disable the separate Emre RE9 Motorcycle, Land Rover Discovery and Cessna172
+mods for this save/server, since they define the same vehicles and scripts.
+For an existing save, enable the pack in that save's mod selection too.
+Vehicle, item and sandbox names are retained so existing content can still
+resolve. Back up your save before switching its enabled mods.
+When upgrading from Emre Adventure Vehicle Pack, replace/rename the old
+EmreAdventureVehiclePack folder. Keep only one installed copy: the internal
+mod ID remains EmreAdventureVehiclePack_B42 for existing saves and servers.
+
+INCLUDED CHANGES
+RE9: 80 mph native speed ceiling with low-speed tuning preserved; smoother
+upper-RPM audio; front cases 50 each, rear side cases 100 each, top case 250.
+Camel Discovery: black body, no side Camel logos or hood badge, dark rims,
+trunk 450.
+All three supplied Discovery variants are included.
+All Rover windows are opaque with black privacy tint, including when occupied.
+Cessna: yellow body with black main-wing tips only, baggage compartment 800. The full
+flight model, Aviation books/skill, cockpit HUD and original spawn settings
+are included. Aviation level 2 is still required for flight.
+Single-player/multiplayer rear motorcycle carrier: see 42/REAR_CARRIER.txt.
+
+SHARING AND MULTIPLAYER
+Share this one ZIP. Each friend installs and enables the same pack/version.
+Local multiplayer server Mods entry: EmreAdventureVehiclePack_B42
+This local ZIP has no Steam Workshop ID; do not enter its mod ID as a
+WorkshopItems number. The rear motorcycle carrier supports multiplayer;
+the server validates loading/unloading and each client follows the car's
+received transform. All clients and the server must use pack v1.0.4 or newer.
+Network logic tests passed; an actual hosted/dedicated driving session still
+needs an in-game check.
+
+Build 41 is not included. This is a local package, not a Workshop upload.
+
+VERSION 1.0.2 FIXES
+Use the native vehicle Set iterator for carrier scans. A carrier query error
+now falls back to the normal vehicle radial menu. Correct Discovery part
+creation callback capitalization. The RE9 engine mixer owns and ticks its
+own audio emitter, with direct discovery of the ridden bike. Remove the
+Camel Discovery's oval hood badge.
+
+VERSION 1.0.3 CHANGES
+Cessna painted body is yellow, with black only on the main-wing ends. Preserve
+original cabin, glass and mechanical textures; correct shared tail/wing UVs.
+Empty Land Rover cabins use opaque glazing in Viewpoint; occupied vehicles
+retain the normal glass skin. All three Rover variants use this switching.
+RE9 carrier sits 0.35 metres closer, immediately behind the rear spare. Force
+native static activation on initial mounting; refresh render transforms before
+drawing and update chunk registration as the bike follows. Keep live pairs
+following through temporary discovery gaps; never call native update on a
+vehicle absent from the cell Set (that native path queues vehicle removal).
+Regression tests passed. Actual in-game driving, first/third-person rendering
+and multiplayer streaming still need a gameplay check after restart.
+
+VERSION 1.0.4 CHANGES
+Rename the display name/folder to Justyns vehicle Pack / JustynsVehiclePack,
+retaining EmreAdventureVehiclePack_B42 so saves/server settings stay compatible.
+Both Rover skins now use the opaque window mask at all times. Glass is black
+privacy-tinted; body paint, badges, trim and all other texture pixels remain exact.
+The RE9 uses Base.EMRE_RE9Carrier while mounted. Its normal chassis collision
+is disabled so reversing into the carried bike no longer hits a static body.
+B42 requires an explicit collision shape to avoid falling back to full vehicle
+extents: the mounted profile uses a tiny placeholder above the bike, clear of
+the Rover chassis. Original geometry, wheels, parts, storage and engine tuning
+are identical. Native physics rebuilds preserve real installed item/container
+references, fuel, conditions, capacities, engine features and chassis mass.
+Unloading restores the original Base.EMRE_RE9 profile and normal collision.
+All clients and the server need this version; existing mounted pairs switch
+automatically on first follow update. Collision behavior still needs a native
+in-game reverse-driving check; Lua state/network regression tests passed.

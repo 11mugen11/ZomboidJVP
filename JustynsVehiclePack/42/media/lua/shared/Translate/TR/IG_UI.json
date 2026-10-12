@@ -1,0 +1,11 @@
+{
+  "IGUI_VehicleNameEMRE_RE9": "Emre RE9 Arazi Motosikleti",
+  "IGUI_VehiclePartRE9CaseFrontLeft": "Sol ön çanta",
+  "IGUI_VehiclePartRE9CaseFrontRight": "Sağ ön çanta",
+  "IGUI_VehiclePartRE9CaseRearLeft": "Sol arka çanta",
+  "IGUI_VehiclePartRE9CaseRearRight": "Sağ arka çanta",
+  "IGUI_RE9_ExitLeft": "Soldan in",
+  "IGUI_RE9_ExitRight": "Sağdan in",
+  "IGUI_RE9_ExitBlocked": "Bu taraftaki iniş yolu kapalı.",
+  "IGUI_VehiclePartRE9CaseTop": "Üst arka çanta"
+}

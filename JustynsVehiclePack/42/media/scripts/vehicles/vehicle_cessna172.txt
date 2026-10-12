@@ -1,0 +1,2481 @@
+/*
+    Cessna 172 - flyable single-engine light aircraft.
+
+    ================================ MODEL PROVENANCE ================================
+    3D model: "Plane" by osmosikum
+    https://sketchfab.com/3d-models/plane-cedc8a07370747f7b0d14400cdf2faf9
+    Licensed CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+    The licence is embedded in the source .glb's asset.extras block. See CREDITS.txt at
+    the mod root for the full attribution.
+
+    ================================ IMPORT NOTES ====================================
+    Converted by tools/convert_plane_model.py, which is reproducible and prints every
+    number in this file. Nothing below was eyeballed.
+
+    NODE CHAIN BAKED. The source's transforms live entirely on its node chain, and that
+    chain is a real ~15 degree yaw plus a tilt - not an axis permutation. It is resolved
+    to world space and baked into the vertices before export, so every
+    FrameTransformMatrix in Vehicles_Cessna172.x is identity and nothing relies on PZ's
+    importer to orient anything. (AircraftMod's Hind import produced a squashed
+    4.67-unit-tall helicopter precisely by leaving that to the importer.)
+
+    AXES MEASURED, NOT GUESSED. The lateral axis is the thin principal axis of the
+    VERTICAL stabiliser; the up axis is the thin principal axis of the HORIZONTAL
+    stabiliser; forward is their cross product, sign-checked against the propeller's
+    centroid. The frame is re-orthonormalised so det == +1 - a proper rotation, so
+    winding order and normals stay valid and no faces needed flipping. PZ convention:
+    +Z nose, +Y up, +X lateral (BaseVehicle.getForwardVector() is local Z).
+
+    SCALE. The source is 115.49 units per metre (its 1270.4-unit wingspan against a real
+    172's 11.0 m span). Scaled so the aircraft renders at 0.5804 script units per real
+    metre - which is the MiG-29 mod's OWN rendered density (that mod draws a 17.3 m
+    airframe at 10.04 units). Deliberate: the two aircraft then sit correctly next to
+    each other in one world. It also lands the numbers where they should be - this
+    Cessna's 6.38-unit wingspan against the MiG's 6.46 mirrors the real 11.0 m vs
+    11.36 m, and its 4.59-unit length against the MiG's 10.04 mirrors 8.28 m vs 17.3 m.
+    Resulting airframe: length Z 4.588, wingspan X 6.384, height Y 1.748.
+    To make the aircraft larger or smaller, change `scale` in BOTH model blocks below
+    AND multiply every spatial figure in this file by the same factor - see the MiG's
+    own scale note for which fields are spatial and which are physics response curves.
+
+    ORIGIN IS AT THE CENTRE OF GRAVITY, NOT THE BOUNDING-BOX CENTRE. A Cessna has a long
+    tail, so the geometric middle sits well behind the CG - and with the origin there,
+    BOTH the nose gear and the main gear end up forward of it, which makes a tricycle
+    layout tip back onto its tail the moment physics starts. The converter places the
+    origin 25% of the wheelbase ahead of the main wheels instead, where a real 172's CG
+    is. Main gear then sits BEHIND the centre of mass and the nose gear ahead of it,
+    which is what keeps the aircraft sitting on its nosewheel.
+
+    WHEELS are on the model's ACTUAL measured contact patches (the converter finds the
+    three ground-contact clusters and reports them), not guessed:
+        nose gear   X  0.000  Z +0.707  contact Y -0.874
+        main gear   X +-0.703 Z -0.234  contact Y -0.803
+    A 172 has THREE wheels; PZ needs four, so the two "front" wheels sit close together
+    on the nose-gear centreline - the same thing the MiG-29 does for its single nose
+    wheel. offset Y = contact + radius, so each tyre rests exactly on the ground the
+    gear is drawn touching. The nose contact is 0.071 lower than the mains because the
+    model is posed with the nose strut extended; carrying that difference through into
+    the offsets is what makes the aircraft's physics attitude match its drawn attitude
+    instead of fighting it.
+
+    FIXED GEAR - no retraction, and no gearUp/gearDown model pair. A 172's gear does not
+    retract, so unlike the MiG there is nothing for Lua to toggle and no hide/show cycle
+    that could produce an in-between frame.
+
+    VANILLA TIRE MODELS ARE SUPPRESSED (C172Flight.lua hides them permanently for this
+    vehicle only). The airframe mesh draws its own spatted wheels and gear legs, so
+    leaving vanilla's car tyres on would put a second set of black car wheels through
+    the aircraft's own. The Tire PARTS still exist and still work normally - they are
+    only made invisible.
+
+    GROUND HANDLING is left to vanilla, deliberately, exactly as the MiG does it: the
+    aircraft genuinely wants wheel-driven physics for taxi and the takeoff roll, and
+    that is how "rolls like an aeroplane on its gear" is achieved without writing a
+    ground controller. engineForce, maxSpeed and steeringClamp below are what make it
+    feel like a light aircraft rather than a car - see each field's own note.
+*/
+module Base
+{
+	/* 1.10.0 SHADER Cessna172_vehicle (42/media/shaders, built by tools/build_shaders.py): the game's own
+	   vehicle_noreflect plus two things, so the people inside can be seen - Jay: "i can see myself in
+	   mig now can you do the same for cessna". The window texels (alpha 128, tools/build_glass.py) draw
+	   as see-through glass, and the whole aircraft can be moved in depth to agree with its occupants
+	   (client/Cessna172/C172PilotView.lua). BOTH model blocks use it - the propeller must move with the
+	   nose it is mounted on. With no occupant it draws exactly like vehicle_noreflect. */
+	model Vehicles_Cessna172
+	{
+		mesh = vehicles/Vehicles_Cessna172|Cessna172_Body,
+		shader = Cessna172_vehicle,
+		invertX = false,
+		scale = 1.75,
+	}
+
+	/* The propeller is its own mesh so C172PropSpin.lua can rotate it (1.9.0; it was
+	   Patch_PropSpin.java). There is exactly ONE of these - no pre-rotated pose set -
+	   because animating blades by swapping models needs a hide and a show per step and the
+	   renderer can catch the frame between them, which is what produces a
+	   ghost/duplicate propeller. */
+	model Cessna172_Prop
+	{
+		mesh = vehicles/Vehicles_Cessna172|Cessna172_Prop,
+		shader = Cessna172_vehicle,
+		invertX = false,
+		scale = 1.75,
+	}
+
+	/* MODEL SCALE 2.0 -> 1.75 (2026-08-31, at Jay's request: "a little smaller").
+	   This is a ONE-VALUE change by design. VehicleScript.Loaded() multiplies every spatial
+	   field in this file by the model block's scale on load - extents, physicsChassisShape,
+	   centerOfMassOffset, every wheel offset and radius, suspensionRestLength,
+	   maxSuspensionTravelCm, all interaction areas and all model offsets - so the collider,
+	   the wheels, the suspension and the hotspots all shrink with the mesh automatically and
+	   stay consistent with each other.
+	   PASSENGER position offsets are scaled too: Loaded() multiplies every passenger position's
+	   offset by the model scale (42.21 bytecode, VehicleScript.Loaded 497-523), so a seat offset
+	   below is in the same units as everything else here and lands x1.75 at runtime. (An older note
+	   here said they had to be multiplied by 0.875 by hand; the bytecode says otherwise.)
+	   ONE THING DOES NOT FOLLOW AUTOMATICALLY and was handled by hand:
+	     * Anything in Lua/Java compared against a WORLD quantity. The only one was the
+	       wheels-on-ground rest length, which now reads the real scaled value back from the
+	       script (c172GetRestLength) instead of carrying its own copy.
+	   The propeller hub pivot in C172PropSpin.lua (raw mesh units, times the 1.75 mesh
+	   scale) needs no change for this either. */
+	vehicle Cessna172
+	{
+		mechanicType = 1,
+		engineRepairLevel = 3,
+
+		/* Same real, vanilla-supported per-vehicle multiplier on occupant crash injury
+		   the MiG uses (BaseVehicle.addRandomDamageFromCrash multiplies realDamage by
+		   it). Stacks with Patch_LandingDurability.java's softening of the crash
+		   severity number itself as a second, pilot-specific layer. 0.45, not
+		   near-zero: a genuinely bad arrival must still hurt. */
+		playerDamageProtection = 0.45,
+
+		model
+		{
+			file = Vehicles_Cessna172,
+			scale = 1.7500,
+			offset = 0.0000 0.0000 0.0000,
+		}
+
+		skin
+		{
+			texture = Vehicles/Vehicles_Cessna172_Shell,
+			/* GROUND SHADOW. PZ draws a vehicle's shadow from a texture -
+			   BaseVehicle.renderShadow() calls getShadowTexture(), which resolves through
+			   VehicleScript.getTextures() to this field. With nothing declared the aircraft
+			   fell back to a plain vehicle-sized box, which is what a 6.38-unit wingspan
+			   aeroplane casting a rectangle looked like.
+
+			   The texture is PROJECTED FROM THE MODEL by tools/build_shadow_texture.py -
+			   the airframe mesh flattened to its plan view - so it cannot drift out of step
+			   with the aircraft, and re-running that script after any model change
+			   regenerates it. The engine rotates the texture with the vehicle, so the
+			   shadow turns with the aeroplane without anything tracking heading at runtime.
+
+			   Altitude behaviour is unchanged and still lives in Patch_AirborneShadow,
+			   which fades the alpha and shrinks the extents with height. */
+			textureShadow = Vehicles/Vehicles_Cessna172_Shadow,
+		}
+
+		/* ================= ALL VANILLA CAR AUDIO IS CLOSED OFF HERE =================
+
+		   THE PROBLEM THIS SOLVES. B42 auto-generates a default AUTOMOBILE VehicleSounds
+		   object for every BaseVehicle regardless of what a script declares, and every one
+		   of its sound-name getters FALLS BACK to a vanilla car event when the script leaves
+		   that slot empty. Read straight out of VehicleSounds' bytecode - each getter tests
+		   `getScript().getSounds().<field> != null` and otherwise returns a literal:
+
+		       getEngineSound()              -> "VehicleEngineDefault"
+		       getEngineStartSound()         -> "VehicleStarted"
+		       getEngineTurnOffSound()       -> "VehicleTurnedOff"
+		       getHandBrakeSound()           -> "VehicleHandBrake"
+		       getIgnitionFailSound()        -> "VehicleFailingToStart"
+		       getIgnitionFailNoPowerSound() -> SoundKey.VEHICLE_IGNITION_FAIL_DEFAULT
+
+		   Declaring NO sound block therefore did not mean "no sound" - it meant "all six
+		   vanilla car sounds", which is exactly the automobile engine audio that was still
+		   audible underneath the Cessna's own loops. Naming a Cessna sound in every slot is
+		   what actually closes it, and it closes it for THIS VEHICLE ONLY: no other vehicle,
+		   vanilla or modded, reads this file.
+
+		   WHY THE SCRIPT AND NOT ONLY THE JAVA PATCH. Patch_NoAirborneVehicleSound's
+		   isEngineSounding override (now Cessna-wide rather than airborne-only) silences the
+		   LOOP on the local client. It cannot reach two other things:
+		     * the ONE-SHOTS - start, turn-off, handbrake, ignition-fail - which are played
+		       directly by BaseVehicle and never consult isEngineSounding at all;
+		     * zombie.vehicleNetworkSound.client.VehicleState, the MP relay that plays a
+		       distant vehicle's engine when it is outside this client's simulation range.
+		       That class has its OWN isEngineSounding and its own VehicleSounds, but it
+		       resolves sound NAMES through the same VehicleScript - so a named slot here is
+		       the only thing that covers it.
+		   Both layers are deliberate: the script closes the fallback everywhere, the patch
+		   additionally stops a voice ever being opened locally.
+
+		   engine / engineStart / engineTurnOff / handBrake -> the silent stub, because
+		   C172Flight.lua's updateEngineAudio already owns the running loops and the start and
+		   shutdown one-shots, and it drives them for every Cessna in range (including other
+		   players'). Letting vanilla play its versions too would double them.
+
+		   ignitionFail / ignitionFailNoPower -> real Cessna clips, LEFT to vanilla on
+		   purpose: BaseVehicle already fires these at exactly the right moment in its
+		   ignition path, that path is not something this mod simulates, and the sounds are
+		   the aircraft's own starter, so nothing car-like is heard.
+
+		   The three-layer running engine bed is NOT expressible here - a piston aeroplane
+		   needs an idle bed and a power layer crossfaded against RPM simultaneously and a
+		   single engine= slot cannot say that. See cessna172_sounds.txt. */
+		sound
+		{
+			engine = C172Silent,
+			engineStart = C172Silent,
+			engineTurnOff = C172Silent,
+			handBrake = C172Silent,
+			ignitionFail = C172StarterFail,
+			ignitionFailNoPower = C172NoPower,
+		}
+
+		textureMask = Vehicles/Vehicles_Cessna172_Mask,
+		textureLights = Vehicles/Vehicles_Cessna172_Lights,
+		textureDamage1Overlay = Vehicles/Vehicles_Cessna172_Overlay1,
+		textureDamage2Overlay = Vehicles/Vehicles_Cessna172_Overlay2,
+		textureDamage1Shell = Vehicles/Vehicles_Cessna172_Damage1,
+		textureDamage2Shell = Vehicles/Vehicles_Cessna172_Damage2,
+		textureRust = Vehicles/Vehicles_Cessna172_Rust,
+
+		/* COLLIDER. `extents` and `physicsChassisShape` are HALF-extents, not full sizes -
+		   verified against vanilla rather than assumed: the van declares 0.9341 0.7253 2.3297
+		   and a PZ van is about 1.9 m wide and 4.7 m long, so each figure is half the real
+		   dimension. (BaseVehicle.getExtents() returns halfWidth, halfHeight, halfLength.)
+		   Getting this wrong doubles the collision box silently.
+
+		   0.85 x 0.70 x 1.50 is a 1.70 x 1.40 x 3.00 box: roughly the fuselage and cabin, on
+		   a 6.38-wide, 1.75-tall, 4.59-long aeroplane. The wings and the tail deliberately
+		   overhang it - a full-span box would snag the aircraft on every fence, tree and
+		   parked car it visually clears while taxiing, and it is also what "no giant
+		   invisible collision boxes" means in practice. The box bottom sits at -0.70 while
+		   the tyres contact at -0.87, which is correct for a raycast vehicle: the wheels hang
+		   below the chassis shape and carry it on their suspension rays. */
+		extents = 0.8500 0.7000 1.5000,
+		physicsChassisShape = 0.8500 0.7000 1.5000,
+
+		/* Real 172 figures: 767 kg empty, 1111 kg max. Heavier than every vanilla car
+		   (800-1030) which is correct, and it is what the flight model's lift controller is
+		   sized against (see LIFT_MASS / LIFT_MAX_FORCE in C172Flight.lua). */
+		mass = 1000,
+
+		/* CENTRE OF MASS - MOVED FORWARD AND DOWN IN 0.1.4 TO STOP THE AIRCRAFT SITTING
+		   DOWN ON ITS TAIL THE MOMENT THROTTLE IS APPLIED.
+
+		   THE BUG THIS FIXES. Pressing W buried the tail in the ground and wedged the
+		   aircraft. It is not a collision or a terrain problem, it is a pitch-balance
+		   problem, and the arithmetic is not close:
+
+		   PZ does not push an aircraft with its propeller. It drives it through the WHEEL
+		   CONTACT PATCHES, which sit ~0.83 below the centre of mass, so every newton of
+		   drive force also applies a nose-UP pitching torque about the main-gear axle.
+		   The only thing resisting that is the weight acting on the arm between the centre
+		   of mass and that axle. With the CoM at Z 0.0 and the mains at Z -0.2343 that arm
+		   was 0.234 - and the numbers came out:
+
+		       tipping  = 1800 N x 0.827 =  1488 Nm
+		       restoring= 9810 N x 0.234 =  2298 Nm      margin 1.54x
+
+		   1.54x is not a margin, it is a coin toss: any transient - a bump, a gear change,
+		   an RPM spike - exceeds it. The MiG, which has never done this, runs 4.41x, and
+		   the reason is entirely geometric: its CoM sits 1.244 ahead of its mains, over
+		   five times this aircraft's arm.
+
+		   And when it does rotate, it rotates FAR. The tail tip is at Z -3.270 (measured
+		   from the mesh, not estimated), which is 3.50 units behind the main gear - 3.7x
+		   the 0.941 wheelbase. Worse, the nose gear runs out of suspension travel and goes
+		   completely slack at only 7.3 degrees of pitch, at which point there is no
+		   restoring moment left at all and the tail has already dropped 0.44 units. There
+		   is no collider out there to catch it - `extents` reaches nowhere near the tail,
+		   deliberately - so it passes straight through the terrain and jams.
+
+		   THE FIX, and why it is these two numbers.
+		   Z +0.40 moves the CoM ahead of the mains, lengthening the restoring arm from
+		   0.234 to 0.634. Y -0.25 (from -0.10) lowers it, shortening the tipping arm from
+		   0.827 to 0.677. Together:
+
+		       tipping  = 1800 N x 0.677 =  1218 Nm
+		       restoring= 9810 N x 0.634 =  6222 Nm      margin 5.11x
+
+		   which is comfortably past the MiG's proven 4.41x. Static nose-gear load becomes
+		   67% - heavy for a real 172, but the MiG runs 63% and is stable, and rotation for
+		   takeoff is done by the flight model at 55 km/h, not by the drivetrain, so a
+		   nose-heavy ground stance costs nothing.
+
+		   WHY NOT JUST MOVE THE WHEELS AFT: the wheel offsets are the model's own measured
+		   contact patches, so moving them would put the physics gear somewhere the aircraft
+		   is not drawn touching. centerOfMassOffset is a pure physics parameter - it does
+		   not move the mesh.
+
+		   SPAWN HEIGHT IS UNCHANGED, verified rather than assumed. CarController's
+		   constructor spawns at -min(modelOffset.y + wheel(0).offset.y - wheel(0).radius,
+		   centerOfMassOffset.y - extents.y / 2) = -min(-0.8742, -0.60), and the nose-gear
+		   term still wins exactly as before.
+
+		   Y -0.25 still sits 0.68 above the contact patches, so the inverted-pendulum
+		   failure the old comment warned about is still nowhere near - that needs the CoM
+		   at or below the contacts. Note also that PZ's own Java centres the vehicle's
+		   collision footprint on this offset (xMin = com.x - ext.x/2, zMin = com.z -
+		   ext.z/2, in isPositionOnLeftOrRight and getClosestPointOnEdge), so the Z +0.40
+		   shifts that footprint forward by 0.40 as well. On a box only 1.5 long under a
+		   4.6-long airframe that is a minor change, and it moves the footprint toward
+		   where the mass actually is. */
+		centerOfMassOffset = 0.0000 -0.1000 -0.3000,
+
+		/* LIGHT AIRCRAFT GROUND CHARACTER, calibrated against vanilla rather than guessed.
+		   Vanilla force-to-mass ratios run from 3.88 (loaded pickup) to 8.75 (racecar); the
+		   MiG is 3.38. At 3000/1000 this is 3.0 - deliberately the slowest-accelerating
+		   thing in the game, so the takeoff roll is a long, unhurried build rather than a
+		   shove, which is the single biggest reason this does not feel like a slower jet.
+		   It is still comfortably above the point where rolling resistance would stall it:
+		   an earlier 1250 would have been a third of the weakest vanilla vehicle and might
+		   simply never have reached rotation speed.
+
+		   maxSpeed 120 is the vanilla DRIVETRAIN's ceiling, used on the ground only. Airborne
+		   speed is C172Flight.lua's own MAX_AIRSPEED_KMH (118) and is not read from here. */
+		engineForce = 3000,
+		maxSpeed = 120f,
+		engineLoudness = 55,
+		engineQuality = 70,
+
+		/* Small disc brakes, but strong enough to actually stop a landing roll. */
+		/* Raised with the steering (was 65) so the aircraft can actually be pulled up during
+		   the rollout instead of coasting the length of the runway. */
+		brakingForce = 90,
+
+		/* Four gears with an even ladder. Vanilla only ever uses 4 or 5, so this stays on the
+		   proven path rather than trying 1 or 2 to imitate a fixed-pitch prop's direct drive;
+		   evenly spaced ratios keep each upshift's torque dip small, which is what "smooth
+		   gradual takeoff" needs from the ground half of the roll. The engine AUDIO does not
+		   read the gearbox at all - it is driven from airspeed - so shifts are never audible. */
+		gearRatioCount = 4,
+		gearRatioR = 3.2,
+		gearRatio1 = 2.6,
+		gearRatio2 = 1.9,
+		gearRatio3 = 1.4,
+		gearRatio4 = 1.0,
+
+		extentsOffset = 0.5 0.5,
+
+		/* Coasts freely - an aeroplane on its gear has far less rolling drag than a car
+		   (vanilla van 5.0, sports 2.0). */
+		stoppingMovementForce = 2.5f,
+
+		/* Vanilla cars use 0.7. Almost none here: the aircraft must stay flat on its gear
+		   through a turn rather than leaning onto a wingtip. */
+		rollInfluence = 0.08f,
+
+		/* Nosewheel steering, not car steering: slower to apply and limited in authority,
+		   which is what stops the aircraft darting sideways during the takeoff roll. Vanilla
+		   cars are 0.03/0.30; this is well under half that, but not so low that it cannot be
+		   taxied around a corner. */
+		/* GROUND STEERING, raised 2026-08-31 (was 0.018 / 0.13). Those figures were
+		   inherited from the MiG-29, where a deliberately heavy, un-darty jet was the goal.
+		   They are wrong for this aircraft: a Cessna has a steerable nosewheel and is nimble
+		   on the ground, and at the inherited values the landing rollout and taxi were very
+		   hard to point - which is the "I lose steering authority when I touch down" problem.
+		   These are now nearer a normal vanilla car's responsiveness. */
+		steeringIncrement = 0.045,
+		steeringClamp = 0.34,
+
+		/* Gear spring rate. RAISED TO THE MiG'S PROVEN TRIO IN 0.1.6 (48 / 4.5 / 3.6) as
+		   the third part of the taxi-wobble fix.
+
+		   The old 32 was chosen to be soft so a touchdown would settle rather than bounce.
+		   Soft is the wrong answer here: at 32 the aircraft's own weight used most of the
+		   available travel before it had hit anything, leaving the nose gear 0.0167 from
+		   its bump stop (see the MAIN GEAR note below). 48 compresses about a third less
+		   for the same load, which is what buys the headroom back.
+
+		   Compression and damping scale with sqrt(stiffness) in PZ's own numbers - the
+		   vanilla van is 30 / 3.83 / 2.88 and the MiG 48 / 4.5 / 3.6, both landing on the
+		   same damping ratios - so 4.5 / 3.6 is what 48 is supposed to be paired with, not
+		   a guess. The MiG lands on these without bouncing.
+
+		   maxSuspensionTravelCm stays 12 (the MiG uses 9): the travel is not the problem,
+		   the aircraft using all of it while parked was, and the extra headroom is worth
+		   keeping now that it is genuinely spare.
+
+		   suspensionRestLength MUST match WHEEL_REST_LENGTH in C172Flight.lua. */
+		suspensionStiffness = 48,
+		suspensionCompression = 4.5,
+		suspensionDamping = 3.6,
+		maxSuspensionTravelCm = 12,
+		suspensionRestLength = 0.20f,
+		wheelFriction = 1.5f,
+		frontEndHealth = 100,
+		rearEndHealth = 100,
+		seats = 2,
+
+		/* NOSE GEAR - PHYSICS ONLY, AND THE X SPACING IS DELIBERATELY NOT THE MODEL'S.
+
+		   X WIDENED IN 0.1.8 from +-0.0900 to +-0.7029. THIS IS THE FIX FOR THE AIRCRAFT
+		   ROLLING ONTO ITS BACK WHILE TAXIING, and it is worth the arithmetic because the
+		   old value looked completely reasonable and was catastrophic.
+
+		   A real 172 has three wheels; PZ needs four; so the two "front" wheels were put
+		   close together on the nose-gear centreline to imitate one. That is correct as a
+		   DRAWING and disastrous as a SUPPORT POLYGON. A vehicle tips about the line
+		   joining the front and rear wheel on the side it is leaning toward - and with the
+		   front pair on the centreline, that line runs steeply inboard-diagonal instead of
+		   straight down the side, so the centre of mass sits barely any distance from it.
+
+		   Measured as the perpendicular distance from the CoM to that tip-over line,
+		   divided by the CoM's height above the contact plane (a vanilla car is ~1.0-1.2 g):
+
+		       nose +-0.0900, CoM z 0.40  (the build that flipped)   0.263 g
+		       nose +-0.0900, CoM z 0.30  (0.1.7)                    0.322 g
+		       nose +-0.4500                                         0.585 g
+		       nose +-0.7029  (this)                                 0.761 g
+		       MiG-29, stable in game, for reference                 0.357 g
+
+		   0.263 g is less lateral acceleration than a gentle turn at taxi speed. The
+		   aircraft was not being tipped by anything unusual; it was tipping because four
+		   wheels arranged in a triangle have almost no roll base. Once over, the wings and
+		   tail intersect the terrain - and nothing out there has a collider - so it wedges,
+		   which is the "stuck in the ground" half of the same report.
+
+		   WHY THIS COSTS NOTHING VISUALLY: the vanilla tire models are permanently hidden
+		   for this vehicle (see hideVanillaWheels in C172Flight.lua) and the airframe mesh
+		   draws its own gear, which does not move with these offsets. So this changes the
+		   physics support polygon and NOTHING ELSE - the aircraft still looks like it has
+		   one nose wheel on the centreline. Matching the main gear's +-0.7029 makes the
+		   support a proper rectangle.
+
+		   Y and Z are untouched: Y because wheel(0) is what vanilla's spawn formula
+		   measures the aircraft from and moving it walks the collider toward the ground
+		   (see the 0.1.4 regression note in HANDOFF.md), Z because it sets the wheelbase
+		   and the nose/main load split, which are already solved.
+
+		   offset Y = measured contact (-0.8742) + radius (0.11). */
+		wheel FrontLeft
+		{
+			front = true,
+			offset = 0.7029 -0.7642 0.7065,
+			radius = 0.11f,
+			width = 0.13f,
+		}
+
+		wheel FrontRight
+		{
+			front = true,
+			offset = -0.7029 -0.7642 0.7065,
+			radius = 0.11f,
+			width = 0.13f,
+		}
+
+		/* MAIN GEAR.
+
+		   Z MOVED AFT IN 0.1.10, from -0.2343 to -1.8000. THIS IS THE ROOT-CAUSE FIX FOR
+		   THE AIRCRAFT SITTING DOWN ON ITS TAIL, and it is the same trick as the nose
+		   gear's X above: wheel positions are PHYSICS ONLY here, because the vanilla tire
+		   models are permanently hidden for this vehicle and the airframe mesh draws its
+		   own gear, which does not follow these offsets. Moving them changes the support
+		   polygon and nothing on screen.
+
+		   The problem was never the springs or the centre of mass - it was the lever. The
+		   main gear sat at -0.2343 because that is where the model draws it, giving a
+		   0.941 wheelbase underneath a tail that reaches Z -3.270. That is 3.23 units of
+		   overhang behind the axle against 0.941 between the axles - a 3.2:1 lever, with
+		   the drive force applied at the contact patches nearly a unit below the centre of
+		   mass. Four builds of stiffness and CoM tuning could not make that safe, and a
+		   real flight log caught it going from 9.8 to 89.8 degrees of pitch in one second.
+
+		       mainZ    comZ    wheelbase  tail overhang  overhang/wb  tail-sit margin
+		       -0.2343   0.30      0.941        3.036        3.23x         3.15x
+		       -1.8000  -0.30      2.506        1.470        0.59x         8.86x
+		       MiG-29, stable in game                                      4.41x
+
+		   With the axle under the rear fuselage the overhang is shorter than the wheelbase
+		   instead of triple it, and the aircraft simply has no leverage to rotate. The
+		   centre of mass moves with it, to -0.30, which keeps a sane 60/40 nose/main load
+		   split - leaving it at +0.30 would have put 84% on the nose.
+
+		   ONLY Z MOVED. Y stays at the 0.1.6 value so both axles keep their shared contact
+		   plane, and X stays at +-0.7029 so the support stays the rectangle the nose-gear
+		   note above explains. The TireRearLeft/TireRearRight `area` hotspots are also
+		   deliberately left at -0.2343: those are where the player CLICKS to service a
+		   wheel, so they belong where the wheel is drawn, not where physics carries it.
+
+		   Y LOWERED IN 0.1.6, from -0.6836 to -0.7542, so that BOTH AXLES SHARE ONE
+		   UNLOADED CONTACT PLANE. This is the taxi-wobble fix and it is worth spelling out.
+
+		   The original offsets used the convention `offset Y = measured contact + radius`,
+		   which carried the model's real 0.0706 nose-low pose straight into the physics.
+		   But a Bullet raycast wheel does not rest at `offset - radius` - it rests at
+		   `offset - suspensionLength - radius`, and both axles share one restLength. So
+		   that 0.0706 was not an attitude, it was 0.0706 of PERMANENT PRE-COMPRESSION on
+		   the nose gear, applied before the aircraft carried any weight at all.
+
+		   Stacked on top of a centre of mass that was putting 67% of the weight on that
+		   same nose gear, the parked stance came out (solved, not estimated):
+
+		       0.1.5:  L_nose = 0.0967   with the bump stop at 0.08   -> 0.0167 of travel left
+
+		   Sixteen thousandths, parked, on flat tarmac, doing nothing. Any bump, any pitch,
+		   any load transfer slammed the nose gear into its stop, the suspension went rigid,
+		   and the aircraft jolted - which is what the taxi wobble was.
+
+		   Both axles now share an unloaded contact plane at -1.0742. Combined with the
+		   centre-of-mass and stiffness changes above, the parked stance becomes:
+
+		       0.1.6:  L_nose = 0.1420, L_main = 0.1558   -> 0.062 / 0.076 of travel left
+
+		   i.e. sitting in the middle of the suspension's range with room to move in both
+		   directions, which is what "the wheels stay on the ground" actually requires.
+
+		   WHY LOWER THE MAINS RATHER THAN RAISE THE NOSE: raising the nose would raise
+		   wheel(0), and wheel(0) is what vanilla's spawn formula measures the aircraft
+		   from. That would have lifted the aircraft 0.07 and left the collider's bottom
+		   face only 0.0036 above the ground - which is how 0.1.4 fell through the map.
+		   Lowering the mains leaves wheel(0) untouched, so the spawn height and the
+		   collider clearance stay at the values already proven not to fall through.
+
+		   The physics main gear now sits 0.0706 lower than the model draws it - 1.5% of the
+		   airframe's length, and invisible in an isometric view. */
+		wheel RearLeft
+		{
+			front = false,
+			offset = 0.7029 -0.7542 -1.8000,
+			radius = 0.12f,
+			width = 0.15f,
+		}
+
+		wheel RearRight
+		{
+			front = false,
+			offset = -0.7029 -0.7542 -1.8000,
+			radius = 0.12f,
+			width = 0.15f,
+		}
+
+		template = PassengerSeat4,
+
+		/* 1.10.0: YOU CAN SEE WHO IS ON BOARD. Jay: "i can see myself in mig now can you do the same
+		   for cessna currently cant see myself". The MiG-29's recipe (seen working in Jay's game).
+
+		   THE CABIN IS A TANDEM TWO-SEATER, measured from the shipped mesh: one seat per row on the
+		   centre line and a single central yoke - not a side-by-side 172. So seat 0 (FrontLeft, the
+		   pilot) is drawn on the FRONT seat and seat 1 (FrontRight - the right door, where a second
+		   player usually gets in) on the REAR seat. Seats 2 and 3 keep their old offsets and are not
+		   drawn (with three or four aboard they would sit inside the same two bodies).
+
+		   WHY "inside" IS DOWN AT THE GROUND. B42 draws a seated character from this offset (his draw
+		   root) and depth-sorts him from that root, while the aircraft is sorted from its own body; a
+		   root up on the seat sorts the occupant behind his own cabin and he is never seen. So both
+		   shown seats share ONE root on the centre line at ground level - y = -(1.4676 - 0.0848) / 1.75
+		   = -0.7902 (1.4676 = the resting height measured on the game's real physics, 0.0848 = the
+		   character's depth bias) - and each seat's own clip (C172_PilotFront / C172_PilotRear,
+		   tools/build_pilot_pose.py) carries the body from there onto its cushion: pelvis drawn at
+		   (0, -0.485, +0.130) front and (0, -0.415, -0.700) rear. One shared root means ONE depth push
+		   per aircraft fits both occupants (client/Cessna172/C172PilotView.lua).
+		   "vanillastates" is used while vanilla's own clips play (aim, eat, read...; their standing
+		   pelvis is 1.12 above the root), so the pelvis is again on that seat.
+		   "seatui" is only where vanilla's seat window ("Switch Seat" / "Enter Vehicle") draws the seat:
+		   it draws every seat at its "inside" offset, and with the two shown seats sharing one root
+		   their icons landed on top of each other and the pilot's seat could not be clicked.
+		   C172PilotView swaps these in while that window draws a Cessna - front left and front right,
+		   far enough forward that no icon overlaps the rear pair's.
+		   Outside positions are unchanged: beside the doors, one aircraft-half-width out. */
+		passenger FrontLeft
+		{
+			showPassenger = true,
+			hasRoof = true,
+			/* 1.10.0: was 0.1400 -0.2600 0.0438 (1.9.2's cushion height for the 3D camera mods). */
+			position inside
+			{
+				offset = 0.0000 -0.7902 0.0000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position vanillastates
+			{
+				offset = 0.0000 -0.9171 0.0743,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position seatui
+			{
+				offset = 0.1400 -0.2600 0.1200,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = 0.9625 -0.6125 0.0438,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatFrontLeft,
+			}
+		}
+
+		passenger FrontRight
+		{
+			showPassenger = true,
+			hasRoof = true,
+			/* 1.10.0: drawn on the REAR seat (see above). Was -0.1400 -0.2600 0.0438. */
+			position inside
+			{
+				offset = 0.0000 -0.7902 0.0000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position vanillastates
+			{
+				offset = 0.0000 -0.8771 -0.4000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position seatui
+			{
+				offset = -0.1400 -0.2600 0.1200,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = -0.9625 -0.6125 0.0438,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatFrontRight,
+			}
+		}
+
+		/* REAR BENCH. A 172 is a FOUR seater - two up front and a bench behind - which is
+		   what the real aircraft carries and what players expect. Only the front two were
+		   modelled before.
+
+		   Offsets follow the front pair exactly: X is the side-by-side split, Y is seat
+		   height, Z is fore/aft with +Z toward the nose. The cabin runs roughly Z -0.25 to
+		   +0.55 and the front seats sit at +0.0438, so the bench is placed at -0.1600 -
+		   comfortably inside the cabin and behind the front row without reaching the
+		   baggage bay. The bench is slightly narrower than the front seats (X +-0.1300 vs
+		   +-0.1400), which is true of the real aircraft's rear bench.
+
+		   Outside positions are beside the same doors as the front seats - a 172 has only
+		   two doors, so rear occupants genuinely do board through them. */
+		passenger RearLeft
+		{
+			position inside
+			{
+				offset = 0.1300 0.0875 -0.1600,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = 0.9625 -0.6125 -0.1600,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatRearLeft,
+			}
+		}
+
+		passenger RearRight
+		{
+			position inside
+			{
+				offset = -0.1300 0.0875 -0.1600,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = -0.9625 -0.6125 -0.1600,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatRearRight,
+			}
+		}
+
+		/* Interaction hotspots, each over the physical part it names: Engine forward
+		   under the cowl, TruckBed in the baggage bay behind the cabin, GasTank in the
+		   wing root. */
+		area Engine
+		{
+			xywh = 0.0000 0.9000 1.2000 0.8000,
+		}
+
+		area TruckBed
+		{
+			xywh = 0.0000 -0.9000 1.2000 0.8000,
+		}
+
+		area SeatFrontLeft
+		{
+			xywh = 1.1000 0.0500 0.9000 0.9000,
+		}
+
+		area SeatFrontRight
+		{
+			xywh = -1.1000 0.0500 0.9000 0.9000,
+		}
+
+		area SeatRearLeft
+		{
+			xywh = 1.1000 -0.4000 0.9000 0.9000,
+		}
+
+		area SeatRearRight
+		{
+			xywh = -1.1000 -0.4000 0.9000 0.9000,
+		}
+
+		area GasTank
+		{
+			xywh = 1.1000 -0.5000 0.9000 0.9000,
+		}
+
+		area TireFrontLeft
+		{
+			xywh = 0.6000 0.7065 0.7000 0.7000,
+		}
+
+		area TireFrontRight
+		{
+			xywh = -0.6000 0.7065 0.7000 0.7000,
+		}
+
+		area TireRearLeft
+		{
+			xywh = 1.1000 -0.2343 0.7000 0.7000,
+		}
+
+		area TireRearRight
+		{
+			xywh = -1.1000 -0.2343 0.7000 0.7000,
+		}
+
+		/* ================== INTERACTION AREAS FOR THE AIRFRAME ===================
+		   Where the player physically stands to work on a part. The three added here are
+		   the ones a Cessna has and a car does not; the eight above are unchanged.
+		   Coordinates are vehicle-local, +X to the LEFT and +Y FORWARD, matching every
+		   area already declared. The wings sit outboard of the cabin and slightly
+		   forward (a 172's wing root is above and just behind the doors); the tail is
+		   well aft, clear of the baggage-bay hotspot at Y -0.9. */
+		area LeftWing
+		{
+			xywh = 1.7000 0.3500 1.6000 1.2000,
+		}
+
+		area RightWing
+		{
+			xywh = -1.7000 0.3500 1.6000 1.2000,
+		}
+
+		area Tail
+		{
+			xywh = 0.0000 -1.9000 1.4000 1.0000,
+		}
+
+		/* ======================= THE AIRCRAFT PART MANIFEST =======================
+
+		   WHAT CHANGED AND WHY (2026-08-31). This vehicle used to inherit the full car
+		   part set through vanilla templates, which is what made the mechanics panel read
+		   as "a car with a Cessna model on top of it": four car tires, four car brakes, a
+		   muffler, a heater, a hood, a trunk, a glove box and a car lighting layout. The
+		   framework underneath is still PZ's vehicle system - that part is fine and is not
+		   worth fighting - but the PARTS a player sees and services are now the aeroplane's.
+
+		   THREE RULES WERE FOLLOWED THROUGHOUT, and they are what keeps this functional
+		   rather than cosmetic:
+
+		   1. KEEP THE VANILLA ID WHERE THE ENGINE HARDWIRES IT. Engine, GasTank, Battery,
+		      the four Tire, Suspension and Brake ids, the doors, windows, windshield, seats,
+		      TruckBed and the four Headlight ids are all reached by name from Java or from
+		      vanilla Lua (fuel, ignition, wheel-to-part mapping, seating, containers,
+		      lighting). Renaming those ids would break the mechanic, not the label. They
+		      keep their ids and are RE-CATEGORISED and re-labelled instead - and the
+		      labels live in this mod's own UI code, NOT in a translation override, because
+		      IGUI_VehiclePart<id> is a GLOBAL key and rewriting it would rename the part on
+		      every vehicle in the game.
+
+		   2. NEW PARTS ARE REAL PARTS. Every aircraft-only component below declares an
+		      itemType (see media/scripts/items/cessna172_parts.txt), which is what makes it
+		      installable, uninstallable, repairable, condition-bearing and correctly
+		      persisted and replicated - VehiclePart.getCondition() reads back off the
+		      inventory item, and vanilla already syncs that. Nothing here is a decorative
+		      row that always reads 100%.
+
+		   3. WHAT DOES NOT EXIST ON A 172 IS DELETED, NOT HIDDEN. Muffler, Heater and
+		      GloveBox are gone. So are BrakeFrontLeft/BrakeFrontRight: a Cessna 172 has
+		      brakes on the MAIN wheels only and none on the nose wheel, so the honest
+		      model is two brakes, not four. Braking force is the sum over the brake parts
+		      that exist, so this is also mechanically correct rather than just tidier.
+
+		   ON THE NOSE WHEEL BEING TWO PARTS. PZ requires four wheels; a 172 has three. The
+		   two "front" wheels are a closely-spaced pair standing in for the single nose
+		   wheel (see the wheel FrontLeft note above - they are ALSO spread wide in X purely
+		   for physics stability, which is invisible). Rather than hide one and let its
+		   condition rot unseen, both are shown and named for what they are. */
+
+		/* ------------------------------ POWERPLANT ------------------------------ */
+
+		template = Engine,
+
+		/* The lua block is restated in full because a part override REPLACES it rather
+		   than merging into it, and dropping create or checkEngine here would silently
+		   remove the engine's random spawn condition and vanilla's own "engine at 0% does
+		   not run" test. C172Systems.Update.Engine chains vanilla's temperature model and
+		   then advances the Hobbs meter - see that function for why the hours are real. */
+		part Engine
+		{
+			category = powerplant,
+			lua
+			{
+				create = Vehicles.Create.Engine,
+				update = C172Systems.Update.Engine,
+				checkEngine = Vehicles.CheckEngine.Engine,
+			}
+		}
+
+		/* PROPELLER. Was `category = nodisplay` - a model carrier with no player-facing
+		   existence at all, which is why "propeller damage" could not mean anything. It is
+		   now a full part: its own item, its own repair recipe (welding only - a cracked
+		   blade is not a duct-tape job), and a condition the flight model actually reads.
+		   1.9.0: the blade mesh moved to the C172PropSpin carrier part below (see there). */
+		part Propeller
+		{
+			category = powerplant,
+			mechanicArea = Engine,
+			area = Engine,
+			itemType = Base.C172Propeller,
+			/* specificItem = false is REQUIRED, not decoration. VehicleScript.Loaded()
+			   does this to every part that does NOT set it:
+			       if (part.specificItem)
+			           for (i..) part.itemType.set(i, part.itemType.get(i) + mechanicType);
+			   - it appends the vehicle's mechanicType (1 here) to the item name. That is why
+			   vanilla ships NormalTire1/2/3 and CarBattery1/2/3: one variant per mechanic
+			   type. Without this line PZ looks for Base.C172Propeller1, does not find it, and
+			   createPartInventoryItem dies on a null item while the vehicle is being built.
+			   Vanilla's own single-variant parts (Radio, Headlight) set it the same way. */
+			specificItem = false,
+			mechanicRequireKey = true,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 600,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 600,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		/* PROPELLER BLADES (1.9.0). The blades used to be the Propeller part's own `model prop`,
+		   turned by Patch_ModelTransform in the Java build. Without Java they are turned from
+		   Lua (C172PropSpin.lua) by writing a part model's rotate/offset - and that has to be a
+		   private copy per aircraft, which cannot be done to the Propeller part without losing
+		   its item, recipes and mechanics data. So the mesh moved here, onto a part that is
+		   nothing BUT a mesh carrier: nodisplay (no mechanics row, no item), shown only while a
+		   propeller is fitted. Same file, same place on the nose. A saved aircraft from an older
+		   build gets this part added on load (VehicleParts.setScript creates missing parts). */
+		part C172PropSpin
+		{
+			category = nodisplay,
+
+			model spin
+			{
+				file = Cessna172_Prop,
+				offset = 0.0000 0.0000 0.0000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+		}
+
+		/* Oil, starter and alternator all sit behind the cowling, so all three declare
+		   `door = EngineDoor` on install: the cowling has to be open, exactly as vanilla
+		   requires for a battery or a muffler. */
+		part OilSystem
+		{
+			category = powerplant,
+			mechanicArea = Engine,
+			area = Engine,
+			itemType = Base.C172OilSystem,
+			/* specificItem = false is REQUIRED, not decoration. VehicleScript.Loaded()
+			   does this to every part that does NOT set it:
+			       if (part.specificItem)
+			           for (i..) part.itemType.set(i, part.itemType.get(i) + mechanicType);
+			   - it appends the vehicle's mechanicType (1 here) to the item name. That is why
+			   vanilla ships NormalTire1/2/3 and CarBattery1/2/3: one variant per mechanic
+			   type. Without this line PZ looks for Base.C172Propeller1, does not find it, and
+			   createPartInventoryItem dies on a null item while the vehicle is being built.
+			   Vanilla's own single-variant parts (Radio, Headlight) set it the same way. */
+			specificItem = false,
+			repairMechanic = true,
+			durability = 4,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 350,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				door = EngineDoor,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 350,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part Starter
+		{
+			category = powerplant,
+			mechanicArea = Engine,
+			area = Engine,
+			itemType = Base.C172Starter,
+			/* specificItem = false is REQUIRED, not decoration. VehicleScript.Loaded()
+			   does this to every part that does NOT set it:
+			       if (part.specificItem)
+			           for (i..) part.itemType.set(i, part.itemType.get(i) + mechanicType);
+			   - it appends the vehicle's mechanicType (1 here) to the item name. That is why
+			   vanilla ships NormalTire1/2/3 and CarBattery1/2/3: one variant per mechanic
+			   type. Without this line PZ looks for Base.C172Propeller1, does not find it, and
+			   createPartInventoryItem dies on a null item while the vehicle is being built.
+			   Vanilla's own single-variant parts (Radio, Headlight) set it the same way. */
+			specificItem = false,
+			repairMechanic = true,
+			durability = 4,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				test = Vehicles.InstallTest.Default,
+				door = EngineDoor,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part Alternator
+		{
+			category = powerplant,
+			mechanicArea = Engine,
+			area = Engine,
+			itemType = Base.C172Alternator,
+			/* specificItem = false is REQUIRED, not decoration. VehicleScript.Loaded()
+			   does this to every part that does NOT set it:
+			       if (part.specificItem)
+			           for (i..) part.itemType.set(i, part.itemType.get(i) + mechanicType);
+			   - it appends the vehicle's mechanicType (1 here) to the item name. That is why
+			   vanilla ships NormalTire1/2/3 and CarBattery1/2/3: one variant per mechanic
+			   type. Without this line PZ looks for Base.C172Propeller1, does not find it, and
+			   createPartInventoryItem dies on a null item while the vehicle is being built.
+			   Vanilla's own single-variant parts (Radio, Headlight) set it the same way. */
+			specificItem = false,
+			repairMechanic = true,
+			durability = 4,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				test = Vehicles.InstallTest.Default,
+				door = EngineDoor,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		template = Battery,
+		part Battery
+		{
+			category = powerplant,
+		}
+
+		/* The hood is the ENGINE COWLING. Kept, not deleted, and kept under its vanilla id
+		   on purpose: half the powerplant parts above name it in `door = EngineDoor`, which
+		   is what makes "open the cowling before you touch the engine" work. Only its
+		   category and its label change. */
+		template = EngineDoor,
+		part EngineDoor
+		{
+			category = powerplant,
+			anim Open
+			{
+				sound = LockerMetalOpen,
+			}
+			anim Close
+			{
+				sound = LockerMetalClose,
+			}
+		}
+
+		/* ------------------------------ FUEL SYSTEM ----------------------------- */
+
+		/* FUEL. Overrides ONLY this vehicle's gas-tank update function; create and
+		   checkEngine are deliberately re-stated pointing at the vanilla implementations
+		   so spawn fuel levels and the "has gas?" engine check behave exactly as vanilla
+		   intends. Only the per-minute BURN is ours.
+
+		   Vanilla's Vehicles.Update.GasTank scales consumption by engineSpeed/2500 and by
+		   a gear/transmission-speed term. Neither is meaningful for an aircraft in
+		   flight: Patch_NoCarPhysics skips CarController.update() while airborne, so
+		   engineSpeed FREEZES at whatever it was on the tick of liftoff - always near the
+		   top of the rev range, because full throttle is held through the whole takeoff
+		   roll by design - and the flight model moves the body by teleport plus impulses
+		   rather than through the wheels, so the gear term has no sensible value either.
+		   The result is a tank that drains far too fast at a permanently pinned rate.
+		   C172Fuel.UpdateGasTank replaces it with one flat, deterministic,
+		   real-time-calibrated rate. See media/lua/server/Cessna172/C172Fuel.lua.
+		   No vanilla vehicle and no other mod's vehicle is affected by this override. */
+		template = GasTank,
+		part GasTank
+		{
+			category = fuelsystem,
+			lua
+			{
+				create = Vehicles.Create.GasTank,
+				update = C172Fuel.UpdateGasTank,
+				checkEngine = Vehicles.CheckEngine.GasTank,
+			}
+		}
+
+		/* Lines, gascolator, selector valve and the electric boost pump as one serviceable
+		   assembly. Its condition gates fuel DELIVERY (see C172Systems.lua), which is a
+		   different failure from an empty tank and reads differently in the cockpit. */
+		part FuelSystem
+		{
+			category = fuelsystem,
+			mechanicArea = Engine,
+			area = GasTank,
+			itemType = Base.C172FuelSystem,
+			/* specificItem = false is REQUIRED, not decoration. VehicleScript.Loaded()
+			   does this to every part that does NOT set it:
+			       if (part.specificItem)
+			           for (i..) part.itemType.set(i, part.itemType.get(i) + mechanicType);
+			   - it appends the vehicle's mechanicType (1 here) to the item name. That is why
+			   vanilla ships NormalTire1/2/3 and CarBattery1/2/3: one variant per mechanic
+			   type. Without this line PZ looks for Base.C172Propeller1, does not find it, and
+			   createPartInventoryItem dies on a null item while the vehicle is being built.
+			   Vanilla's own single-variant parts (Radio, Headlight) set it the same way. */
+			specificItem = false,
+			repairMechanic = true,
+			durability = 4,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 350,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 350,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+				checkEngine = C172Systems.CheckEngine.FuelSystem,
+			}
+		}
+
+		/* -------------------------------- AIRFRAME ------------------------------ */
+
+		/* FUSELAGE - REPAIRABLE BUT NOT REMOVABLE, and that is a real supported shape, not
+		   a fudge. doPartContextMenu offers Repair on the strength of an installed item
+		   plus a FixingManager entry, and offers Uninstall only when the part declares a
+		   `table uninstall`. Declaring the item and omitting both tables therefore gives
+		   exactly "you can fix it, you cannot take it off", which is what a fuselage is. */
+		part Fuselage
+		{
+			category = airframe,
+			mechanicArea = Left,
+			area = SeatFrontLeft,
+			itemType = Base.C172Fuselage,
+			/* specificItem = false is REQUIRED, not decoration. VehicleScript.Loaded()
+			   does this to every part that does NOT set it:
+			       if (part.specificItem)
+			           for (i..) part.itemType.set(i, part.itemType.get(i) + mechanicType);
+			   - it appends the vehicle's mechanicType (1 here) to the item name. That is why
+			   vanilla ships NormalTire1/2/3 and CarBattery1/2/3: one variant per mechanic
+			   type. Without this line PZ looks for Base.C172Propeller1, does not find it, and
+			   createPartInventoryItem dies on a null item while the vehicle is being built.
+			   Vanilla's own single-variant parts (Radio, Headlight) set it the same way. */
+			specificItem = false,
+			repairMechanic = true,
+			durability = 10,
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part LeftWing
+		{
+			category = airframe,
+			mechanicArea = Left,
+			area = LeftWing,
+			itemType = Base.C172Wing,
+			/* specificItem = false is REQUIRED, not decoration. VehicleScript.Loaded()
+			   does this to every part that does NOT set it:
+			       if (part.specificItem)
+			           for (i..) part.itemType.set(i, part.itemType.get(i) + mechanicType);
+			   - it appends the vehicle's mechanicType (1 here) to the item name. That is why
+			   vanilla ships NormalTire1/2/3 and CarBattery1/2/3: one variant per mechanic
+			   type. Without this line PZ looks for Base.C172Propeller1, does not find it, and
+			   createPartInventoryItem dies on a null item while the vehicle is being built.
+			   Vanilla's own single-variant parts (Radio, Headlight) set it the same way. */
+			specificItem = false,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 900,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 900,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = LeftAileron,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part RightWing
+		{
+			category = airframe,
+			mechanicArea = Right,
+			area = RightWing,
+			itemType = Base.C172Wing,
+			/* specificItem = false is REQUIRED, not decoration. VehicleScript.Loaded()
+			   does this to every part that does NOT set it:
+			       if (part.specificItem)
+			           for (i..) part.itemType.set(i, part.itemType.get(i) + mechanicType);
+			   - it appends the vehicle's mechanicType (1 here) to the item name. That is why
+			   vanilla ships NormalTire1/2/3 and CarBattery1/2/3: one variant per mechanic
+			   type. Without this line PZ looks for Base.C172Propeller1, does not find it, and
+			   createPartInventoryItem dies on a null item while the vehicle is being built.
+			   Vanilla's own single-variant parts (Radio, Headlight) set it the same way. */
+			specificItem = false,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 900,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 900,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = RightAileron,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		/* The fin. Carries the rudder, so the rudder has to come off first - the same
+		   requireUninstalled relationship vanilla uses for a window inside a door. */
+		part TailAssembly
+		{
+			category = airframe,
+			mechanicArea = Back,
+			area = Tail,
+			itemType = Base.C172TailAssembly,
+			/* specificItem = false is REQUIRED, not decoration. VehicleScript.Loaded()
+			   does this to every part that does NOT set it:
+			       if (part.specificItem)
+			           for (i..) part.itemType.set(i, part.itemType.get(i) + mechanicType);
+			   - it appends the vehicle's mechanicType (1 here) to the item name. That is why
+			   vanilla ships NormalTire1/2/3 and CarBattery1/2/3: one variant per mechanic
+			   type. Without this line PZ looks for Base.C172Propeller1, does not find it, and
+			   createPartInventoryItem dies on a null item while the vehicle is being built.
+			   Vanilla's own single-variant parts (Radio, Headlight) set it the same way. */
+			specificItem = false,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 700,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 700,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = Rudder,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		/* The tailplane. Carries the elevator, same relationship as above. */
+		part HorizontalStabilizer
+		{
+			category = airframe,
+			mechanicArea = Back,
+			area = Tail,
+			itemType = Base.C172HorizStab,
+			/* specificItem = false is REQUIRED, not decoration. VehicleScript.Loaded()
+			   does this to every part that does NOT set it:
+			       if (part.specificItem)
+			           for (i..) part.itemType.set(i, part.itemType.get(i) + mechanicType);
+			   - it appends the vehicle's mechanicType (1 here) to the item name. That is why
+			   vanilla ships NormalTire1/2/3 and CarBattery1/2/3: one variant per mechanic
+			   type. Without this line PZ looks for Base.C172Propeller1, does not find it, and
+			   createPartInventoryItem dies on a null item while the vehicle is being built.
+			   Vanilla's own single-variant parts (Radio, Headlight) set it the same way. */
+			specificItem = false,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 700,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 700,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = Elevator,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		/* ----------------------------- FLIGHT CONTROLS -------------------------- */
+		/* Each hangs off the structure it is hinged to, and cannot be fitted before that
+		   structure is. `requireInstalled` is vanilla's own mechanism (a window requires
+		   its door), so the dependency is enforced by the game rather than by this mod. */
+
+		part LeftAileron
+		{
+			category = flightcontrols,
+			mechanicArea = Left,
+			area = LeftWing,
+			itemType = Base.C172Aileron,
+			/* specificItem = false is REQUIRED, not decoration. VehicleScript.Loaded()
+			   does this to every part that does NOT set it:
+			       if (part.specificItem)
+			           for (i..) part.itemType.set(i, part.itemType.get(i) + mechanicType);
+			   - it appends the vehicle's mechanicType (1 here) to the item name. That is why
+			   vanilla ships NormalTire1/2/3 and CarBattery1/2/3: one variant per mechanic
+			   type. Without this line PZ looks for Base.C172Propeller1, does not find it, and
+			   createPartInventoryItem dies on a null item while the vehicle is being built.
+			   Vanilla's own single-variant parts (Radio, Headlight) set it the same way. */
+			specificItem = false,
+			repairMechanic = true,
+			durability = 6,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireInstalled = LeftWing,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part RightAileron
+		{
+			category = flightcontrols,
+			mechanicArea = Right,
+			area = RightWing,
+			itemType = Base.C172Aileron,
+			/* specificItem = false is REQUIRED, not decoration. VehicleScript.Loaded()
+			   does this to every part that does NOT set it:
+			       if (part.specificItem)
+			           for (i..) part.itemType.set(i, part.itemType.get(i) + mechanicType);
+			   - it appends the vehicle's mechanicType (1 here) to the item name. That is why
+			   vanilla ships NormalTire1/2/3 and CarBattery1/2/3: one variant per mechanic
+			   type. Without this line PZ looks for Base.C172Propeller1, does not find it, and
+			   createPartInventoryItem dies on a null item while the vehicle is being built.
+			   Vanilla's own single-variant parts (Radio, Headlight) set it the same way. */
+			specificItem = false,
+			repairMechanic = true,
+			durability = 6,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireInstalled = RightWing,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part Elevator
+		{
+			category = flightcontrols,
+			mechanicArea = Back,
+			area = Tail,
+			itemType = Base.C172Elevator,
+			/* specificItem = false is REQUIRED, not decoration. VehicleScript.Loaded()
+			   does this to every part that does NOT set it:
+			       if (part.specificItem)
+			           for (i..) part.itemType.set(i, part.itemType.get(i) + mechanicType);
+			   - it appends the vehicle's mechanicType (1 here) to the item name. That is why
+			   vanilla ships NormalTire1/2/3 and CarBattery1/2/3: one variant per mechanic
+			   type. Without this line PZ looks for Base.C172Propeller1, does not find it, and
+			   createPartInventoryItem dies on a null item while the vehicle is being built.
+			   Vanilla's own single-variant parts (Radio, Headlight) set it the same way. */
+			specificItem = false,
+			repairMechanic = true,
+			durability = 6,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireInstalled = HorizontalStabilizer,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part Rudder
+		{
+			category = flightcontrols,
+			mechanicArea = Back,
+			area = Tail,
+			itemType = Base.C172Rudder,
+			/* specificItem = false is REQUIRED, not decoration. VehicleScript.Loaded()
+			   does this to every part that does NOT set it:
+			       if (part.specificItem)
+			           for (i..) part.itemType.set(i, part.itemType.get(i) + mechanicType);
+			   - it appends the vehicle's mechanicType (1 here) to the item name. That is why
+			   vanilla ships NormalTire1/2/3 and CarBattery1/2/3: one variant per mechanic
+			   type. Without this line PZ looks for Base.C172Propeller1, does not find it, and
+			   createPartInventoryItem dies on a null item while the vehicle is being built.
+			   Vanilla's own single-variant parts (Radio, Headlight) set it the same way. */
+			specificItem = false,
+			repairMechanic = true,
+			durability = 6,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireInstalled = TailAssembly,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		/* ------------------------------ LANDING GEAR ---------------------------- */
+
+		/* TIRES ARE WRITTEN OUT IN FULL RATHER THAN TEMPLATED, FOR ONE REASON: the vanilla
+		   Tire template ends with
+
+		       model InflatedTirePlusWheel { file = Vehicles_Wheel, }
+
+		   which is the CAR WHEEL MESH. The airframe draws its own spatted gear, so that
+		   model put a second set of black car wheels straight through the aeroplane's own,
+		   and the mod had been hiding it from Lua with setAllModelsVisible(false).
+
+		   That workaround has its own history and it is not a good one: the hide path calls
+		   ModelManager.Remove + addVehicle - a full teardown and rebuild of the vehicle's
+		   render model - and doing it on a timer hard-crashed the game on vehicle entry
+		   (0.1.6/0.1.7). It was reduced to a one-shot latch, whose known cost is that a
+		   tyre re-shown by any later setInventoryItem STAYS shown, drawn through the gear.
+
+		   Declaring the parts WITHOUT the model block removes the problem at source: there
+		   is no car wheel model on this vehicle to show, hide, re-show or churn. Everything
+		   else about these parts is vanilla's tire behaviour verbatim - air container,
+		   Vehicles.Create/Init/CheckOperate/Update.Tire, jack and lug wrench, the lot.
+
+		   `requireInstalled` on the front pair names only their suspension: the nose wheel
+		   has no brake to require, because a 172 does not have one. */
+		part TireFrontLeft
+		{
+			category = landinggear,
+			mechanicArea = Left,
+			area = TireFrontLeft,
+			wheel = FrontLeft,
+			itemType = Base.OldTire;Base.NormalTire;Base.ModernTire,
+			durability = 2,
+			container
+			{
+				test = Vehicles.ContainerAccess.Tire,
+				contentType = Air,
+			}
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.InstallTest.Default,
+				complete = Vehicles.InstallComplete.Tire,
+				requireInstalled = SuspensionFrontLeft,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.UninstallTest.Default,
+				complete = Vehicles.UninstallComplete.Tire,
+			}
+			lua
+			{
+				create = Vehicles.Create.Tire,
+				init = Vehicles.Init.Tire,
+				checkOperate = Vehicles.CheckOperate.Tire,
+				update = C172Systems.Update.NoseGearMirror,
+			}
+		}
+
+
+		/* THE NOSE GEAR IS ONE WHEEL, SHOWN AS ONE ROW.
+
+		   PZ requires four wheels and a 172 has three, so TireFrontLeft/TireFrontRight are a
+		   pair standing in for the single nose wheel (spread wide in X purely for physics
+		   stability - see the wheel block above). Showing both as separately serviceable
+		   parts was the last thing in the mechanics panel that read as "a car with four
+		   tyres", and asking the player to inflate a wheel the aeroplane does not visibly
+		   have is worse than untidy, it is wrong.
+
+		   So the RIGHT half is `nodisplay` and C172Systems.Update.NoseGearMirror keeps its
+		   condition and tyre pressure equal to the left half's. That is not cosmetic: a
+		   hidden tyre going flat or wearing out on its own would silently change grip with
+		   no way for the player to see or fix it. Both wheels still exist in physics, both
+		   are maintained, and servicing "Nose Wheel" services the nose wheel.
+
+		   The mirror runs on the authoritative side and transmits, so it is correct in
+		   singleplayer, multiplayer and on a dedicated server alike. */
+		part TireFrontRight
+		{
+			category = nodisplay,
+			mechanicArea = Right,
+			area = TireFrontRight,
+			wheel = FrontRight,
+			itemType = Base.OldTire;Base.NormalTire;Base.ModernTire,
+			durability = 2,
+			container
+			{
+				test = Vehicles.ContainerAccess.Tire,
+				contentType = Air,
+			}
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.InstallTest.Default,
+				complete = Vehicles.InstallComplete.Tire,
+				requireInstalled = SuspensionFrontRight,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.UninstallTest.Default,
+				complete = Vehicles.UninstallComplete.Tire,
+			}
+			lua
+			{
+				create = Vehicles.Create.Tire,
+				init = Vehicles.Init.Tire,
+				checkOperate = Vehicles.CheckOperate.Tire,
+				update = Vehicles.Update.Tire,
+			}
+		}
+
+		part TireRearLeft
+		{
+			category = landinggear,
+			mechanicArea = Left,
+			area = TireRearLeft,
+			wheel = RearLeft,
+			itemType = Base.OldTire;Base.NormalTire;Base.ModernTire,
+			durability = 2,
+			container
+			{
+				test = Vehicles.ContainerAccess.Tire,
+				contentType = Air,
+			}
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.InstallTest.Default,
+				complete = Vehicles.InstallComplete.Tire,
+				requireInstalled = BrakeRearLeft;SuspensionRearLeft,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.UninstallTest.Default,
+				complete = Vehicles.UninstallComplete.Tire,
+			}
+			lua
+			{
+				create = Vehicles.Create.Tire,
+				init = Vehicles.Init.Tire,
+				checkOperate = Vehicles.CheckOperate.Tire,
+				update = Vehicles.Update.Tire,
+			}
+		}
+
+		part TireRearRight
+		{
+			category = landinggear,
+			mechanicArea = Right,
+			area = TireRearRight,
+			wheel = RearRight,
+			itemType = Base.OldTire;Base.NormalTire;Base.ModernTire,
+			durability = 2,
+			container
+			{
+				test = Vehicles.ContainerAccess.Tire,
+				contentType = Air,
+			}
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.InstallTest.Default,
+				complete = Vehicles.InstallComplete.Tire,
+				requireInstalled = BrakeRearRight;SuspensionRearRight,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.UninstallTest.Default,
+				complete = Vehicles.UninstallComplete.Tire,
+			}
+			lua
+			{
+				create = Vehicles.Create.Tire,
+				init = Vehicles.Init.Tire,
+				checkOperate = Vehicles.CheckOperate.Tire,
+				update = Vehicles.Update.Tire,
+			}
+		}
+
+		/* Gear legs. All four kept (each wheel genuinely has a strut) and re-categorised;
+		   the nose pair is the single nose oleo, split the same way the wheels are. */
+		template = Suspension,
+		part SuspensionFrontLeft
+		{
+			category = landinggear,
+		}
+		part SuspensionFrontRight
+		{
+			category = nodisplay,
+		}
+		part SuspensionRearLeft
+		{
+			category = landinggear,
+		}
+		part SuspensionRearRight
+		{
+			category = landinggear,
+		}
+
+		/* BRAKES: MAIN WHEELS ONLY. `template = Brake` would create four; the two front
+		   ones are deliberately not declared, because a Cessna 172 has no nose-wheel brake.
+		   Braking force is summed over the brake parts that exist, so removing them is
+		   mechanically correct as well as less cluttered - and it is why the front tires'
+		   install tables above require only their suspension. */
+		part BrakeRearLeft
+		{
+			category = landinggear,
+			mechanicArea = Left,
+			area = TireRearLeft,
+			itemType = Base.OldBrake;Base.NormalBrake;Base.ModernBrake,
+			durability = 3,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireUninstalled = TireRearLeft,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = TireRearLeft,
+			}
+			lua
+			{
+				create = Vehicles.Create.Brake,
+				update = Vehicles.Update.Brakes,
+			}
+		}
+
+		part BrakeRearRight
+		{
+			category = landinggear,
+			mechanicArea = Right,
+			area = TireRearRight,
+			itemType = Base.OldBrake;Base.NormalBrake;Base.ModernBrake,
+			durability = 3,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireUninstalled = TireRearRight,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = TireRearRight,
+			}
+			lua
+			{
+				create = Vehicles.Create.Brake,
+				update = Vehicles.Update.Brakes,
+			}
+		}
+
+		/* ---------------------------- COCKPIT AND BODY -------------------------- */
+
+		template = Windshield/part/Windshield,
+		part Windshield
+		{
+			category = cockpit,
+		}
+
+		template = Door/part/DoorFrontLeft,
+		template = Door/part/DoorFrontRight,
+		part DoorFrontLeft
+		{
+			category = cockpit,
+			anim Open
+			{
+				sound = LockerMetalOpen,
+			}
+			anim Close
+			{
+				sound = LockerMetalClose,
+			}
+			anim Lock
+			{
+				sound = MetalDoorLock,
+			}
+			anim Unlock
+			{
+				sound = MetalDoorLock,
+			}
+			anim IsLocked
+			{
+				sound = MetalDoorLocked,
+			}
+		}
+		part DoorFrontRight
+		{
+			category = cockpit,
+			anim Open
+			{
+				sound = LockerMetalOpen,
+			}
+			anim Close
+			{
+				sound = LockerMetalClose,
+			}
+			anim Lock
+			{
+				sound = MetalDoorLock,
+			}
+			anim Unlock
+			{
+				sound = MetalDoorLock,
+			}
+			anim IsLocked
+			{
+				sound = MetalDoorLocked,
+			}
+		}
+
+		template = Window/part/WindowFrontLeft,
+		template = Window/part/WindowFrontRight,
+		part WindowFrontLeft
+		{
+			category = cockpit,
+		}
+		part WindowFrontRight
+		{
+			category = cockpit,
+		}
+
+		template = Seat/part/SeatFrontLeft,
+		template = Seat/part/SeatFrontRight,
+		template = Seat/part/SeatRearLeft,
+		template = Seat/part/SeatRearRight,
+		part SeatFrontLeft
+		{
+			category = cockpit,
+		}
+		part SeatFrontRight
+		{
+			category = cockpit,
+		}
+		part SeatRearLeft
+		{
+			category = cockpit,
+		}
+		part SeatRearRight
+		{
+			category = cockpit,
+		}
+
+		/* --------------------------- ELECTRICAL AND LIGHTS ---------------------- */
+
+		/* The four vanilla headlight parts are REPURPOSED, not faked. They are real,
+		   working, switchable lights with real bulbs and real positions - the front pair
+		   points forward and the rear pair aft - which is exactly the landing/taxi light
+		   and navigation light layout of a light aircraft. Nothing about their behaviour
+		   changes; only which system they belong to and what they are called.
+
+		   Strobe and instrument lights are DELIBERATELY ABSENT. PZ gives a vehicle four
+		   light parts and there is no honest fifth; adding rows that do not switch
+		   anything on would be exactly the decorative lie this pass exists to remove. */
+		template = Headlight,
+		part HeadlightLeft
+		{
+			category = avionics,
+			/* Landing light - bright, long throw, left wing leading edge.
+			   Overrides the Headlight template's own create/init so the light is built
+			   by C172Lights instead of VehicleUtils.initHeadlight, which would give a
+			   car's white-forward / red-aft pair. update stays vanilla: that is what
+			   drains the battery while the lights are on. */
+			lua
+			{
+				create = C172Lights.Create.LandingLight,
+				init = C172Lights.Init.LandingLight,
+				update = Vehicles.Update.Headlight,
+			}
+		}
+		part HeadlightRight
+		{
+			category = avionics,
+			/* Taxi light - same wing, short and wide.
+			   Overrides the Headlight template's own create/init so the light is built
+			   by C172Lights instead of VehicleUtils.initHeadlight, which would give a
+			   car's white-forward / red-aft pair. update stays vanilla: that is what
+			   drains the battery while the lights are on. */
+			lua
+			{
+				create = C172Lights.Create.TaxiLight,
+				init = C172Lights.Init.TaxiLight,
+				update = Vehicles.Update.Headlight,
+			}
+		}
+		part HeadlightRearLeft
+		{
+			category = avionics,
+			/* PORT position light - RED. Aviation standard, not a style choice.
+			   Overrides the Headlight template's own create/init so the light is built
+			   by C172Lights instead of VehicleUtils.initHeadlight, which would give a
+			   car's white-forward / red-aft pair. update stays vanilla: that is what
+			   drains the battery while the lights are on. */
+			lua
+			{
+				create = C172Lights.Create.NavLightLeft,
+				init = C172Lights.Init.NavLightLeft,
+				update = Vehicles.Update.Headlight,
+			}
+		}
+		part HeadlightRearRight
+		{
+			category = avionics,
+			/* STARBOARD position light - GREEN.
+			   Overrides the Headlight template's own create/init so the light is built
+			   by C172Lights instead of VehicleUtils.initHeadlight, which would give a
+			   car's white-forward / red-aft pair. update stays vanilla: that is what
+			   drains the battery while the lights are on. */
+			lua
+			{
+				create = C172Lights.Create.NavLightRight,
+				init = C172Lights.Init.NavLightRight,
+				update = Vehicles.Update.Headlight,
+			}
+		}
+
+		/* The bus, breakers and the avionics stack behind the panel. Genuinely load-bearing:
+		   C172Systems.lua reads it for the electrical health that gates starting and the
+		   instrument panel, so a destroyed one is a real, diagnosable failure rather than a
+		   number on a list. */
+		part ElectricalSystem
+		{
+			category = avionics,
+			mechanicArea = Interior,
+			area = SeatFrontLeft,
+			itemType = Base.C172Avionics,
+			/* specificItem = false is REQUIRED, not decoration. VehicleScript.Loaded()
+			   does this to every part that does NOT set it:
+			       if (part.specificItem)
+			           for (i..) part.itemType.set(i, part.itemType.get(i) + mechanicType);
+			   - it appends the vehicle's mechanicType (1 here) to the item name. That is why
+			   vanilla ships NormalTire1/2/3 and CarBattery1/2/3: one variant per mechanic
+			   type. Without this line PZ looks for Base.C172Propeller1, does not find it, and
+			   createPartInventoryItem dies on a null item while the vehicle is being built.
+			   Vanilla's own single-variant parts (Radio, Headlight) set it the same way. */
+			specificItem = false,
+			repairMechanic = true,
+			durability = 5,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Electricity:3,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Electricity:3,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+				update = C172Systems.Update.Electrical,
+			}
+		}
+
+		template = Radio,
+		part Radio
+		{
+			category = avionics,
+		}
+
+		/* -------------------------------- STORAGE ------------------------------- */
+
+		template = Trunk/part/TruckBed,
+		template = TrunkDoor,
+		part TruckBed
+		{
+			category = storage,
+			container
+			{
+				capacity = 800,
+				conditionAffectsCapacity = false,
+				test = Vehicles.ContainerAccess.TruckBed,
+				soundMap = ContainerPut VehicleTrunkTransferItem,
+				soundMap = ContainerTake VehicleTrunkTransferItem,
+			}
+			lua
+			{
+				create = C172Storage.Create,
+				init = C172Storage.Init,
+			}
+		}
+		part TrunkDoor
+		{
+			category = storage,
+			anim Open
+			{
+				sound = LockerMetalOpen,
+			}
+			anim Close
+			{
+				sound = LockerMetalClose,
+			}
+			anim Lock
+			{
+				sound = MetalDoorLock,
+			}
+			anim Unlock
+			{
+				sound = MetalDoorLock,
+			}
+			anim IsLocked
+			{
+				sound = MetalDoorLocked,
+			}
+		}
+
+		/* -------------------------------- INTERNAL ------------------------------ */
+
+		part PassengerCompartment
+		{
+			category = nodisplay,
+
+			lua
+			{
+				update = Vehicles.Update.PassengerCompartment,
+			}
+		}
+	}
+}

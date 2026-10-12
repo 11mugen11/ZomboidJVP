@@ -1,0 +1,121 @@
+/*
+    Cessna 172 - REPAIR RECIPES for the aircraft part items.
+
+    HOW THIS REACHES THE PLAYER. ISVehicleMechanics:doPartContextMenu offers a Repair
+    submenu for any part whose SCRIPT declares repairMechanic AND whose installed inventory
+    item has at least one FixingManager entry:
+
+        local fixingList = FixingManager.getFixes(part:getInventoryItem());
+        if part:getScriptPart():isRepairMechanic() and not fixingList:isEmpty() then ...
+
+    So the two halves are `repairMechanic = true` in vehicle_cessna172.txt and a `fixing`
+    block here. Both are required; either alone gives a part that cannot be repaired.
+
+    MATERIALS AND SKILLS. Aluminium structure is riveted or welded, so sheet metal is the
+    universal material and the aviation-relevant skills are Mechanics and MetalWelding -
+    exactly the pair vanilla already uses for car body panels, which keeps this legible to
+    a player who already knows PZ's mechanics. The airframe recipes ask for MORE skill than
+    the equivalent car ones (Mechanics 4/MetalWelding 3 against the car door's 3/2) because
+    a control surface is a flight-critical part, and the ConditionModifier is correspondingly
+    generous so a successful repair is worth the trip.
+
+    ConditionModifier > 1 restores more per attempt; < 1 less. Vanilla's welded body repairs
+    sit at 1.2 and its screwed ones at 0.5, and these are pitched against that scale rather
+    than invented: 1.3 for a proper welded structural repair, 0.6 for a field patch with
+    screws and duct tape that will get you home but not much more.
+
+    NOTHING VANILLA IS TOUCHED. Every `Require` names only C172* items, so no car part
+    gains or loses a repair option.
+*/
+module Base
+{
+	/* ---- STRUCTURE: wings, stabilisers, tail ---------------------------------- */
+
+	fixing Fix Aircraft Structure Welding
+	{
+		Require = Base.C172Wing;Base.C172HorizStab;Base.C172TailAssembly;Base.C172Fuselage,
+		GlobalItem = Base.BlowTorch=3,
+		ConditionModifier = 1.3,
+		Fixer = Base.SheetMetal=2; MetalWelding=3;Mechanics=4,
+		Fixer = Base.SmallSheetMetal=4; MetalWelding=3;Mechanics=4,
+	}
+
+	fixing Fix Aircraft Structure
+	{
+		Require = Base.C172Wing;Base.C172HorizStab;Base.C172TailAssembly;Base.C172Fuselage,
+		GlobalItem = Base.Screws=12,
+		ConditionModifier = 0.6,
+		Fixer = Base.SheetMetal; Mechanics=3,
+		Fixer = Base.DuctTape=2; Mechanics=1,
+	}
+
+	/* ---- FLIGHT CONTROL SURFACES ---------------------------------------------- */
+	/* Lighter and thinner than the structure they hang off, so a smaller amount of
+	   material goes further - but the skill floor is the highest in this file, because a
+	   badly rigged control surface is the one failure a pilot cannot walk away from. */
+
+	fixing Fix Aircraft Control Surface Welding
+	{
+		Require = Base.C172Aileron;Base.C172Elevator;Base.C172Rudder,
+		GlobalItem = Base.BlowTorch=2,
+		ConditionModifier = 1.4,
+		Fixer = Base.SmallSheetMetal=2; MetalWelding=3;Mechanics=4,
+		Fixer = Base.SheetMetal; MetalWelding=3;Mechanics=4,
+	}
+
+	fixing Fix Aircraft Control Surface
+	{
+		Require = Base.C172Aileron;Base.C172Elevator;Base.C172Rudder,
+		GlobalItem = Base.Screws=8,
+		ConditionModifier = 0.6,
+		Fixer = Base.SmallSheetMetal=2; Mechanics=3,
+		Fixer = Base.DuctTape=2; Mechanics=1,
+	}
+
+	/* ---- PROPELLER ------------------------------------------------------------ */
+	/* Welding only, and no tape option. A cracked propeller blade dressed with duct tape
+	   is not a repair, and at 2400 rpm it is a way to lose the aeroplane and the pilot -
+	   so the recipe simply does not exist. */
+
+	fixing Fix Aircraft Propeller
+	{
+		Require = Base.C172Propeller,
+		GlobalItem = Base.BlowTorch=3,
+		ConditionModifier = 1.1,
+		Fixer = Base.SheetMetal=2; MetalWelding=4;Mechanics=5,
+	}
+
+	/* ---- POWERPLANT ACCESSORIES ----------------------------------------------- */
+
+	fixing Fix Aircraft Accessory
+	{
+		Require = Base.C172Starter;Base.C172Alternator;Base.C172OilSystem,
+		GlobalItem = Base.Screws=6,
+		ConditionModifier = 0.9,
+		Fixer = Base.ElectronicsScrap=2; Electricity=3;Mechanics=3,
+		Fixer = Base.EngineParts; Mechanics=4,
+	}
+
+	/* ---- FUEL SYSTEM ---------------------------------------------------------- */
+
+	fixing Fix Aircraft Fuel System
+	{
+		Require = Base.C172FuelSystem,
+		GlobalItem = Base.Screws=6,
+		ConditionModifier = 1.0,
+		Fixer = Base.RubberHose; Mechanics=3,
+		Fixer = Base.SmallSheetMetal=2; MetalWelding=2;Mechanics=3,
+	}
+
+	/* ---- ELECTRICAL ----------------------------------------------------------- */
+
+	fixing Fix Aircraft Avionics
+	{
+		Require = Base.C172Avionics,
+		GlobalItem = Base.Screwdriver=1,
+		ConditionModifier = 1.0,
+		Fixer = Base.ElectronicsScrap=3; Electricity=4,
+		Fixer = Base.ElectricWire=2; Electricity=3,
+	}
+
+}

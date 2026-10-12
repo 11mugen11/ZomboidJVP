@@ -1,0 +1,11 @@
+# Local work, logs, credentials, and editor files are not part of the mod.
+.validation/
+console.txt
+Logs/
+*.log
+.env
+.env.*
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animNode>
+    <m_Name>C172_PilotRear</m_Name>
+    <m_AnimName>C172_PilotRear</m_AnimName>
+    <m_BlendTime>0.01</m_BlendTime>
+    <m_SpeedScale>1.0</m_SpeedScale>
+    <m_Looped>true</m_Looped>
+    <m_maxTorsoTwist>0.0</m_maxTorsoTwist>
+    <m_Conditions x_name="dfee9f2a-c57c-5db8-8bba-d1cfa250fe06">
+        <m_Name>C172Pose</m_Name>
+        <m_Type>STRING</m_Type>
+        <m_Value>Rear</m_Value>
+    </m_Conditions>
+</animNode>

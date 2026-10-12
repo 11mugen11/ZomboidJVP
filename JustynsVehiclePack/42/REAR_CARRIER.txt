@@ -1,0 +1,31 @@
+RE9 REAR CARRIER - CAMEL LAND ROVER
+
+Build 42, single-player and multiplayer. Enable Justyns vehicle Pack;
+both vehicles are included.
+
+Park the motorcycle near the Camel Discovery. Turn the motorcycle engine off
+and have both riders dismount. Stand outside near either vehicle and open the
+vehicle radial menu (V by default). Choose "Load motorcycle onto rear carrier".
+
+The original motorcycle rides sideways, raised behind the rear bumper, with no
+extra rack model. Its parts, fuel and storage contents stay on the same vehicle.
+Its current weight is added to the Land Rover. Riders cannot enter it while mounted.
+
+To unload, stop the Land Rover, stand outside near it and choose "Unload motorcycle
+from rear carrier". Leave a clear 3-by-3 area behind the car. The bike is put back
+on the ground and the car's original chassis mass is restored. Mounted pairs
+reconnect from their saved part data when the world loads.
+
+Other vehicles keep standard towing. In multiplayer, every client and the
+server must have the same mod version. Loading and unloading are validated
+on the server. Mounted pairing is saved in replicated vehicle-part data.
+Clients follow the car locally for a steady display; the server maintains
+the actual bike position and mass. Unloading replicates the ground position.
+
+Placement defaults live in media/lua/shared/emre_re9_carrier.lua, C.Offset:
+physics metres, x across the car, y above its chassis origin, z along its length.
+Single-player and server/client logic tests passed using the installed game's
+Lua runtime with mocked vehicle/network APIs, including observer clients,
+late joins, ownership changes, saved pairing and stale unload requests.
+An actual hosted/dedicated driving session remains to be checked in-game.
+
