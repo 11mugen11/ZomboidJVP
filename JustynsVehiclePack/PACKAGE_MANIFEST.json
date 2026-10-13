@@ -1,6 +1,6 @@
 {
   "mod_id": "EmreAdventureVehiclePack_B42",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "sources": [
     "EmreRE9Motorcycle",
     "lrdisco1",
@@ -684,7 +684,7 @@
       "sources": [
         "lrdisco1\\42\\media\\lua\\client\\lrdisco1_window_skin.lua"
       ],
-      "sha256": "851823fb4187369963f8c9a624474ff9b7e4db0e99e9730dbb3892c675ac053b"
+      "sha256": "f1af6a88ab1829ed9b837e4413d42c193ddd0eefd1c3e42f9630cdde764c6b8b"
     },
     {
       "file": "42/media/lua/server/Aviation/AviationDistributions.lua",
@@ -761,7 +761,7 @@
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\server\\emre_re9_carrier_server.lua"
       ],
-      "sha256": "a3b64e4fe75ee1bce6f91bca6fe869909934bd8a08c11fe103104dd46a48e6b7"
+      "sha256": "f8bd5a1961f393b6c919b33c3a3c7f4edf9b7f6d06a471849f6a280c5df90532"
     },
     {
       "file": "42/media/lua/server/vehicles/lrdisco1.lua",
@@ -946,6 +946,13 @@
       "sha256": "5210c38960a9fd829fc81091d12eb672fa4a71b352e3cd8cc90ab036404504b5"
     },
     {
+      "file": "42/media/lua/shared/lrdisco1_interior.lua",
+      "sources": [
+        "lrdisco1\\42\\media\\lua\\shared\\lrdisco1_interior.lua"
+      ],
+      "sha256": "87652885c5720397b459cb25ae0f194a74069cb57ac1bb389f5a12c240eb0c15"
+    },
+    {
       "file": "42/media/models_X/vehicles/emre_re9/EMRE_RE9Body.fbx",
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\models_X\\vehicles\\emre_re9\\EMRE_RE9Body.fbx"
@@ -1065,25 +1072,32 @@
       "sha256": "40bba0ecbcdfe8f97688a962924e6d69ba78184f4db743e1094756086c1c6150"
     },
     {
+      "file": "42/media/scripts/vehicles/jvp_lrdisco1_interior_models.txt",
+      "sources": [
+        "lrdisco1\\42\\media\\scripts\\vehicles\\jvp_lrdisco1_interior_models.txt"
+      ],
+      "sha256": "b2a8bb5a0905908d59bba98be20b496caa0b366373bc2d252a929e1140f3058b"
+    },
+    {
       "file": "42/media/scripts/vehicles/lrdisco1.txt",
       "sources": [
         "lrdisco1\\42\\media\\scripts\\vehicles\\lrdisco1.txt"
       ],
-      "sha256": "d3fdd913c0a764dfc649b6eb6e41c94143c884367798d9b00c6f48049088b417"
+      "sha256": "98134c979c0ce3ba2a7da7e2fd289d8b662ada03e50e0c529dfd71807c202498"
     },
     {
       "file": "42/media/scripts/vehicles/lrdisco1bbar.txt",
       "sources": [
         "lrdisco1\\42\\media\\scripts\\vehicles\\lrdisco1bbar.txt"
       ],
-      "sha256": "8f46d22809ee09eb46f55e3b2b61aa54d4a3a44fc899aafb1c1f9fd19253ad70"
+      "sha256": "aaf8df6ff904db3437c1d55e4aedce33337d424545008b88378846802881e4b0"
     },
     {
       "file": "42/media/scripts/vehicles/lrdisco1camel.txt",
       "sources": [
         "lrdisco1\\42\\media\\scripts\\vehicles\\lrdisco1camel.txt"
       ],
-      "sha256": "81369acad270d64de3c5778bd9cc87e7ea80e2ad812d37f22b96aaa7e4ee63a6"
+      "sha256": "71055fc4a5a8ba19dcca26527e058a01d74c231646d371116c8891c9066d4f0a"
     },
     {
       "file": "42/media/scripts/vehicles/vehicle_cessna172.txt",
@@ -1667,6 +1681,41 @@
       "sha256": "6df0934c8e33ccb9310d0b66226de1a6bca15fc536bab9d13666ea16e0ca3c65"
     },
     {
+      "file": "common/media/models_X/vehicles/JVP_LRInteriorCabin.fbx",
+      "sources": [
+        "lrdisco1\\common\\media\\models_X\\vehicles\\JVP_LRInteriorCabin.fbx"
+      ],
+      "sha256": "ca312ca6c85e91c8bf4feb1ba501f67c501b77803954867972425001f0cedd70"
+    },
+    {
+      "file": "common/media/models_X/vehicles/JVP_LRSeatFrontLeft.fbx",
+      "sources": [
+        "lrdisco1\\common\\media\\models_X\\vehicles\\JVP_LRSeatFrontLeft.fbx"
+      ],
+      "sha256": "369e575b43def7a859f4a4be45be2abcb4c2414f9e4b2e07730f54e57d0970cc"
+    },
+    {
+      "file": "common/media/models_X/vehicles/JVP_LRSeatFrontRight.fbx",
+      "sources": [
+        "lrdisco1\\common\\media\\models_X\\vehicles\\JVP_LRSeatFrontRight.fbx"
+      ],
+      "sha256": "376187afa424bc746f400452e4555dbfbaa7a6dd2e12146ed09491188c94f90b"
+    },
+    {
+      "file": "common/media/models_X/vehicles/JVP_LRSeatRearLeft.fbx",
+      "sources": [
+        "lrdisco1\\common\\media\\models_X\\vehicles\\JVP_LRSeatRearLeft.fbx"
+      ],
+      "sha256": "3f151e13fe28dfaf2735e85fa678d1f3b2ff35b508e6cf5f56e7ba74aeccec37"
+    },
+    {
+      "file": "common/media/models_X/vehicles/JVP_LRSeatRearRight.fbx",
+      "sources": [
+        "lrdisco1\\common\\media\\models_X\\vehicles\\JVP_LRSeatRearRight.fbx"
+      ],
+      "sha256": "d7082db988668faf7abe0200fa3e4a5d603d5a86c3a6b24080d812e0bb199253"
+    },
+    {
       "file": "common/media/models_X/vehicles/Vehicles_Cessna172.x",
       "sources": [
         "Cessna172\\common\\media\\models_X\\vehicles\\Vehicles_Cessna172.x"
@@ -1818,14 +1867,14 @@
       "sources": [
         "lrdisco1\\common\\media\\textures\\Vehicles\\Vehicles_lrdisco1_Shell.png"
       ],
-      "sha256": "a58762dfee5b9f95ef9ecd9a2811e3a30da24e7ca518d15741e4125c5631c9ce"
+      "sha256": "166a5cf0ba18f3b872d30389d6dd482c02541217ef6283c650d012a18a2cb93b"
     },
     {
       "file": "common/media/textures/Vehicles/Vehicles_lrdisco1camel_Shell.png",
       "sources": [
         "lrdisco1\\common\\media\\textures\\Vehicles\\Vehicles_lrdisco1camel_Shell.png"
       ],
-      "sha256": "3181106684fd9c62c9da096486407b30c802e834319cdee600a2b741aaa47f79"
+      "sha256": "e9534e14d6afbeed556bca669ea76bb53ab2ddcf99648bd17df303b3bbbca0d0"
     },
     {
       "file": "common/media/textures/Vehicles/vehicles_lrdisco1_wheel.png",

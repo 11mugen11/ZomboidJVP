@@ -1,0 +1,43 @@
+module Base
+{
+    model JVP_LRInteriorCabin
+    {
+        mesh = vehicles/JVP_LRInteriorCabin,
+        texture = Vehicles/vehicle_pickuptruck,
+        shader = vehicle_noreflect,
+        invertX = FALSE,
+        scale = 0.0001,
+    }
+    model JVP_LRSeatFrontLeft
+    {
+        mesh = vehicles/JVP_LRSeatFrontLeft,
+        texture = Vehicles/vehicle_pickuptruck,
+        shader = vehicle_noreflect,
+        invertX = FALSE,
+        scale = 0.0001,
+    }
+    model JVP_LRSeatFrontRight
+    {
+        mesh = vehicles/JVP_LRSeatFrontRight,
+        texture = Vehicles/vehicle_pickuptruck,
+        shader = vehicle_noreflect,
+        invertX = FALSE,
+        scale = 0.0001,
+    }
+    model JVP_LRSeatRearLeft
+    {
+        mesh = vehicles/JVP_LRSeatRearLeft,
+        texture = Vehicles/vehicle_pickuptruck,
+        shader = vehicle_noreflect,
+        invertX = FALSE,
+        scale = 0.0001,
+    }
+    model JVP_LRSeatRearRight
+    {
+        mesh = vehicles/JVP_LRSeatRearRight,
+        texture = Vehicles/vehicle_pickuptruck,
+        shader = vehicle_noreflect,
+        invertX = FALSE,
+        scale = 0.0001,
+    }
+}

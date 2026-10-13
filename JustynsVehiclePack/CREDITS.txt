@@ -15,5 +15,7 @@ Bundle changes: RE9 speed/audio and case capacities; black Camel body paint,
 removed side Camel logos and hood badge, dark steel rims and 450 trunk capacity; Cessna
 yellow body with black main-wing tips and 800 baggage capacity; multiplayer
 rear RE9 carrier with a mounted collision profile and static/render/chunk
-following; permanently opaque black-tinted Rover windows.
+following; fitted pickup-derived Rover cabin and restored transparent windows.
+New Rover interior geometry adapts The Indie Stone's base-game pickup truck
+dashboard, steering wheel and seats. Its texture is referenced from the game.
 Packaging merges translations and sandbox settings under one B42 mod ID.

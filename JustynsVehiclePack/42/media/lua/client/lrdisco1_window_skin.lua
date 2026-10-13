@@ -1,5 +1,4 @@
--- Viewpoint uses mask colours to select its transparent vehicle-glass pass.
--- Both retained skin indices use opaque, black-tinted glazing at all times.
+-- Both retained skins now have original glass and a fitted rendered cabin.
 LRDiscoWindowSkin = LRDiscoWindowSkin or {}
 local W = LRDiscoWindowSkin
 local kinds = { ["Base.lrdisco1"]=true, ["Base.lrdisco1camel"]=true, ["Base.lrdisco1bbar"]=true }

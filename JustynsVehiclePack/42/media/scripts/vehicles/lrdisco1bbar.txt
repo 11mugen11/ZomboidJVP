@@ -45,16 +45,16 @@ module Base
 			offset = 0.0000 -0.0079 0.0000,
 		}
 
-		/* Both retained skin indices use permanently opaque black-tinted glazing. */
+		/* Both skin indices use the original transparent glass and fitted interior. */
 		skin
 		{
 			texture = Vehicles/Vehicles_lrdisco1_Shell,
-			textureMask = Vehicles/Vehicles_lrdisco1_OpaqueWindowMask,
+			textureMask = Vehicles/Vehicles_lrdisco1_Mask,
 		}
 		skin
 		{
 			texture = Vehicles/Vehicles_lrdisco1_Shell,
-			textureMask = Vehicles/Vehicles_lrdisco1_OpaqueWindowMask,
+			textureMask = Vehicles/Vehicles_lrdisco1_Mask,
 		}
 
 		textureRust = Vehicles/Vehicles_lrdisco1_Rust,
@@ -294,6 +294,64 @@ module Base
 		template = Seat/part/SeatFrontRight,
 		template = Seat/part/SeatRearLeft,
 		template = Seat/part/SeatRearRight,
+
+        part JVPInteriorCabin
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            model Default
+            {
+                file = JVP_LRInteriorCabin,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
+            lua
+            {
+                create = JVPDiscoveryInterior.Init,
+                init = JVPDiscoveryInterior.Init,
+            }
+        }
+        part SeatFrontLeft
+        {
+            model Default
+            {
+                file = JVP_LRSeatFrontLeft,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
+        }
+        part SeatFrontRight
+        {
+            model Default
+            {
+                file = JVP_LRSeatFrontRight,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
+        }
+        part SeatRearLeft
+        {
+            model Default
+            {
+                file = JVP_LRSeatRearLeft,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
+        }
+        part SeatRearRight
+        {
+            model Default
+            {
+                file = JVP_LRSeatRearRight,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
+        }
 
 		part Seat*
 		{

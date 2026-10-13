@@ -23,7 +23,9 @@ upper-RPM audio; front cases 50 each, rear side cases 100 each, top case 250.
 Camel Discovery: black body, no side Camel logos or hood badge, dark rims,
 trunk 450.
 All three supplied Discovery variants are included.
-All Rover windows are opaque with black privacy tint, including when occupied.
+All Rover variants have a fitted cabin with pickup-derived dashboard/steering
+wheel, two front seats and a rear bench, floor and inner panels. Glass uses its
+original transparent mask/texture. Seats follow native install/removal behavior.
 Cessna: yellow body with black main-wing tips only, baggage compartment 800. The full
 flight model, Aviation books/skill, cockpit HUD and original spawn settings
 are included. Aviation level 2 is still required for flight.
@@ -35,7 +37,7 @@ Local multiplayer server Mods entry: EmreAdventureVehiclePack_B42
 This local ZIP has no Steam Workshop ID; do not enter its mod ID as a
 WorkshopItems number. The rear motorcycle carrier supports multiplayer;
 the server validates loading/unloading and each client follows the car's
-received transform. All clients and the server must use pack v1.0.6.
+received transform. All clients and the server must use pack v1.0.7.
 Dedicated-server loading passed with real vehicle APIs. Actual multiplayer
 driving and streaming still need an in-game check.
 
@@ -99,3 +101,14 @@ initialization, and refresh both fixed meshes after every physics rebuild and
 when following already-mounted bikes. Existing installed parts and cargo retain
 their original references. The case-visibility regression reproduces the bug
 with v1.0.5 and passes with this fix; carrier/network regressions also pass.
+
+VERSION 1.0.7 CHANGES
+Add a pickup-derived interior to all three Discovery variants: dashboard,
+steering wheel/column, two front seats, rear bench, floor and inner panels.
+New FBX meshes match the original Rover model's coordinate frame and scale;
+seat meshes belong to the existing native seat parts. Restore exact pre-tint
+window textures and the original transparent window masks on both skins.
+Non-glass paint and badge-removal edits remain byte-for-byte identical.
+The interior uses the base-game pickup texture; no extra mod is required.
+Native model importing and Lua compilation passed. Check cabin alignment and
+glass rendering in-game with Viewpoint before relying on the visual fit.
