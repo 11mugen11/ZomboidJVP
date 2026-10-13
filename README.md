@@ -3,7 +3,7 @@
 A combined Project Zomboid Build 42 mod containing the Emre RE9 motorcycle,
 Land Rover Discovery variants, and flyable Cessna 172.
 
-[Download the v1.0.5 mod ZIP](JustynsVehiclePack-v1.0.5.zip?raw=1)
+[Download the v1.0.6 mod ZIP](JustynsVehiclePack-v1.0.6.zip?raw=1)
 
 ## Install
 
@@ -31,6 +31,7 @@ The pack declares Build 42.20.4 or later; Build 41 is not included.
   Camel Discovery, preserving its installed parts and cargo. Its weight is added
   to the Rover. A separate mounted collision profile prevents its chassis from
   blocking the Rover while reversing; unloading restores normal collision.
+  Fixed luggage-case meshes remain visible during loading and unloading.
 
 ## Rear carrier
 

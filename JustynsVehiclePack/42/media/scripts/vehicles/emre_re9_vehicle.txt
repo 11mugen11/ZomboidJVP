@@ -654,6 +654,7 @@ module Base
 
         part RE9CargoRack
         {
+            setAllModelsVisible = false,
             category = nodisplay,
             model Default
             {
@@ -671,6 +672,7 @@ module Base
 
         part RE9TouringCases
         {
+            setAllModelsVisible = false,
             category = nodisplay,
             model Default
             {
@@ -1138,6 +1140,7 @@ module Base
 
         part RE9CargoRack
         {
+            setAllModelsVisible = false,
             category = nodisplay,
             model Default
             {
@@ -1155,6 +1158,7 @@ module Base
 
         part RE9TouringCases
         {
+            setAllModelsVisible = false,
             category = nodisplay,
             model Default
             {

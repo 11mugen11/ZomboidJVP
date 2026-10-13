@@ -31,7 +31,7 @@ function C.ServerCommand(player,command,args)
     C._serverDispatch=previous
     if not executed then
         print("[EmreRE9] carrier command failed: "..tostring(ok))
-        return false,"Carrier load/unload failed (JVP 1.0.5); see the server log: "..tostring(ok):sub(1,120)
+        return false,"Carrier load/unload failed (JVP 1.0.6); see the server log: "..tostring(ok):sub(1,120)
     end
     if ok and command=="unload" and isServer() then
         pose.car,pose.bike=car:getId(),bike:getId()

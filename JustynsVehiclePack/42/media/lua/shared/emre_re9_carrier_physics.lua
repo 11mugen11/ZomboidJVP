@@ -5,6 +5,12 @@ EmreRE9 = EmreRE9 or {}
 local P={NORMAL="Base.EMRE_RE9",MOUNTED="Base.EMRE_RE9Carrier",busy=setmetatable({}, {__mode="k"})}
 EmreRE9.CarrierPhysics=P
 local applied=setmetatable({}, {__mode="k"})
+function P.RefreshCargo(bike)
+    for _,id in ipairs({"RE9CargoRack","RE9TouringCases"}) do
+        local part=bike:getPartById(id)
+        if part then part:setModelVisible("Default",true) end
+    end
+end
 
 local function protectCallback(path,bike,changes,parents)
     if not path or path=="" or changes[path] then return end
@@ -35,7 +41,9 @@ local function restoreParts(bike,saved)
     for _,state in ipairs(saved.parts) do
         local part=bike:getPartById(state.id)
         if not part then error("Carrier rebuild lost part "..state.id) end
-        part:setInventoryItem(state.item)
+        -- Even assigning nil to an already-empty fixed body part can hide its
+        -- models. Avoid repeating item setters after initialization callbacks.
+        if part:getInventoryItem()~=state.item then part:setInventoryItem(state.item) end
         if state.container then part:setItemContainer(state.container) end
         part:setCondition(state.condition)
         part:setContainerCapacity(state.capacity)
@@ -58,7 +66,10 @@ end
 function P.Apply(bike,mounted)
     local target=mounted and P.MOUNTED or P.NORMAL
     local original=bike:getScript():getFullName()
-    if original==target and (not applied[bike] or applied[bike]==target) then applied[bike]=target; return end
+    if original==target and (not applied[bike] or applied[bike]==target) then
+        if not isServer() then P.RefreshCargo(bike) end
+        applied[bike]=target; return
+    end
     if original~=P.NORMAL and original~=P.MOUNTED then error("Wrong carrier physics vehicle") end
     -- Dedicated servers have no local Bullet vehicle body to rebuild. Keep
     -- the authoritative script/serialized identity consistent without calling
@@ -96,6 +107,7 @@ function P.Apply(bike,mounted)
     -- Initialization may refresh stats/visibility. Preserve contents/condition
     -- and engine tuning once more after those callbacks have run.
     restoreParts(bike,saved)
+    P.RefreshCargo(bike)
     if mounted then
         -- A rebuilt controller can start disabled while its Bullet body is
         -- still dynamic. Force the transition that establishes a static mount.

@@ -38,3 +38,7 @@ Native dedicated-server loading and admin-spawn normalization passed with
 actual vehicle APIs; the actors/network traffic in regression tests are mocks.
 An actual multiplayer reverse-driving/streaming session remains to be checked.
 
+Version 1.0.6 keeps the fixed case/rack meshes visible through physics rebuilds
+on both mounting and unloading. Already-mounted bikes refresh their fixed
+meshes too. Installed parts, fuel and storage contents remain on the same bike.
+
