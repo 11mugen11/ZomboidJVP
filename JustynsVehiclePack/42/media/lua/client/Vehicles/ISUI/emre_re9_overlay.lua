@@ -20,3 +20,5 @@ for id,values in pairs(layout) do
         part.vehicles["EMRE_RE9_"]=values
     end
 end
+
+ISCarMechanicsOverlay.CarList["Base.JVP_Tenere"]={imgPrefix="EMRE_RE9_",x=10,y=0}

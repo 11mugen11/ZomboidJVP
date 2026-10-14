@@ -1,3 +1,4 @@
+require "emre_re9_bikes"
 -- RE9 grounded parking assist. A local keyboard driver's actual input wakes
 -- the body BEFORE native throttle is computed, including zero-power/idle bikes.
 -- Never suspend a moving/falling bike or another client's physics body.
@@ -38,7 +39,7 @@ end
 
 local function canControl(vehicle)
     local script = vehicle and vehicle:getScript()
-    if not script or script:getFullName() ~= "Base.EMRE_RE9" then return false end
+    if not script or not EmreRE9.Bikes.IsNormal(script:getFullName()) then return false end
     local engine = vehicle:getPartById("Engine")
     if engine and engine:getModData().emreRE9Carrier then return false end
     if not isClient() then return true end
@@ -110,7 +111,7 @@ end
 
 function S.UpdateVehicle(vehicle, now, exitRequested)
     local script = vehicle and vehicle:getScript()
-    if not script or script:getFullName() ~= "Base.EMRE_RE9" then return false, "other vehicle" end
+    if not script or not EmreRE9.Bikes.IsNormal(script:getFullName()) then return false, "other vehicle" end
     local engine = vehicle:getPartById("Engine")
     if engine and engine:getModData().emreRE9Carrier then
         held[vehicle], states[vehicle] = nil, nil

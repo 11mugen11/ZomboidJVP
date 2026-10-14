@@ -22,6 +22,7 @@ function S.apply()
         local pool = VehicleZoneDistribution[zone]
         if type(pool) == "table" and type(pool.vehicles) == "table" then
             pool.vehicles[id] = enabled and {index=-1, spawnChance=weight*multiplier} or nil
+            pool.vehicles["Base.JVP_Tenere"] = enabled and {index=-1, spawnChance=weight*multiplier} or nil
             count = count+1
         end
     end

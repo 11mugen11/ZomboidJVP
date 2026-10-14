@@ -1,3 +1,4 @@
+require "emre_re9_bikes"
 -- Scoped native physics rebuild for carrier loading/unloading.
 -- B42 scriptReloaded clears part items, so suppress creation/initialization
 -- for this exact bike while retaining and restoring its real item/container refs.
@@ -64,13 +65,14 @@ local function initParts(bike,saved)
     end
 end
 function P.Apply(bike,mounted)
-    local target=mounted and P.MOUNTED or P.NORMAL
     local original=bike:getScript():getFullName()
+    local profile=EmreRE9.Bikes.profiles[original]
+    if not profile then error("Wrong carrier physics vehicle") end
+    local target=mounted and profile.mounted or profile.normal
     if original==target and (not applied[bike] or applied[bike]==target) then
         if not isServer() then P.RefreshCargo(bike) end
         applied[bike]=target; return
     end
-    if original~=P.NORMAL and original~=P.MOUNTED then error("Wrong carrier physics vehicle") end
     -- Dedicated servers have no local Bullet vehicle body to rebuild. Keep
     -- the authoritative script/serialized identity consistent without calling
     -- the client physics reload path on a server thread.

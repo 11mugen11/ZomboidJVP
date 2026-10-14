@@ -19,3 +19,9 @@ following; fitted pickup-derived Rover cabin and restored transparent windows.
 New Rover interior geometry adapts The Indie Stone's base-game pickup truck
 dashboard, steering wheel and seats. Its texture is referenced from the game.
 Packaging merges translations and sandbox settings under one B42 mod ID.
+
+Yamaha Tenere 700 World Rally Edition 2023 model/textures: supplied by the
+user in TENERE as OBJ/FBX/BLEND/STL ZIP archives. The archive does not include
+an author/license statement. Original source archives are retained unchanged
+in the workspace. Conversion, material atlas and game adaptation are included
+in this update; model authorship is not reassigned.

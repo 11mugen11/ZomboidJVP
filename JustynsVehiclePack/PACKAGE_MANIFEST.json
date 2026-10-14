@@ -1,10 +1,11 @@
 {
   "mod_id": "EmreAdventureVehiclePack_B42",
-  "version": "1.0.7",
+  "version": "1.0.17",
   "sources": [
     "EmreRE9Motorcycle",
     "lrdisco1",
-    "Cessna172"
+    "Cessna172",
+    "TENERE"
   ],
   "copied_or_merged_files": [
     {
@@ -12,7 +13,14 @@
       "sources": [
         "EmreRE9Motorcycle\\42\\REAR_CARRIER.txt"
       ],
-      "sha256": "a9b19484de257be67a8d81337ceaf90df5cda4e15741b7db846ce12489db275f"
+      "sha256": "aae5b94c97ca6cb28d1644338e1708191e1dc47dad38d3b67da090ccab353b3c"
+    },
+    {
+      "file": "42/icon.png",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "2424e2182bbd420dd129710d32c0b3423772eca516b1332db740bd9df135fc96"
     },
     {
       "file": "42/media/AnimSets/c172_keep.txt",
@@ -218,6 +226,104 @@
       "sha256": "41aec058b38f023b98b2cc1c20c441a4f4f22a9f7be246705e075d08e958bd20"
     },
     {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_AttachItem_BackRE90.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "3f864e077892b03bbf1e17e6355466008b64cfd56160859e645ed5d4bbcbe297"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_AttachItem_BeltLeftRE90.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "b93e9b224810629f9ab0c8019a55e84e07460ec0d83658097b8f5a5ad22918d8"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_AttachItem_BeltRightRE90.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "003c1a3c0470ec34b47c0727e91df911fbb30996028d4ffd9675b36844f9ac54"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_AttachItem_HolsterLeftRE90.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "fb8e66e956a7ad06c82c76fa782f7fd4adf7d141362583823460d1376fd3b46d"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_AttachItem_HolsterRightRE90.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "abfb495fe2c4c049d5ec1195db76213de79465c0c1f547c34ea5f898ef2ecd9a"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_DetachItem_BackRE90.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "3a810bda428a683ecefa1414dba23b8e720482fabd050e7079985723e47bad08"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_DetachItem_BeltLeftRE90.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "f92dbe7bcb5d22cd33440d44c01a306e5ba30408e0d86b2b776fb8b79d2e1649"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_DetachItem_BeltRightRE90.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "a0cff850493edcb255d90ab100280657e6298b1c7da51d212920dbe3933af154"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_DetachItem_HolsterLeftRE90.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "d5dd3e1e030aeaa8d6673d5544d401ad5b1e459c429b15afde19eff491710275"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_DetachItem_HolsterRightRE90.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "f431b7d88579c06b97f85da9facfe1a20039f65b4621318b67cee01d538252e4"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_Eat1HandRE90.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "dea48b6cafb6cf53ee58499a84b891e66625d78f5cce9f56ce4654c9ed4d65c4"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_Eat2HandsRE90.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "c8a5155fc3750b275fee4e1aea904037ab223cc4c036a41d73a3e10f7a52299d"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_SmokeRE90.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "5b8bcfc594c1e8f6a20eceb8ecd66fc0954cab0fb44612c61f1c26cde4633dc1"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_default-fallbackRE90.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "9f143c7fa812756d0fde1a94418c293d478bcfbc73b755d7499d284a94dd1566"
+    },
+    {
       "file": "42/media/AnimSets/player-vehicle/aim/emre_re9_0_aim.xml",
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\AnimSets\\player-vehicle\\aim\\emre_re9_0_aim.xml"
@@ -274,6 +380,34 @@
       "sha256": "eafb3ddc0d9bf8863b1e427ed15f1a9381b0ccb89fde05aa63f30972e9b8bb8f"
     },
     {
+      "file": "42/media/AnimSets/player-vehicle/aim/jvp_tenere_emre_re9_0_aim.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "3c299e78170043f970f3be4e52f788af84bd4993cec2f62fde8890534e74b492"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/aim/jvp_tenere_emre_re9_0_aim_down.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "ce7777f62eaee555607f6c0604faa935954d7bf02a450fb95ca884304eb0af41"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/aim/jvp_tenere_emre_re9_0_aim_down_weapon.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "3040e53707e7678215ea67c5194fe569a451c7be9ebbfa2ddbb64da63f16523a"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/aim/jvp_tenere_emre_re9_0_aim_weapon.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "17a71df1e5bed44184adc7cd0669c1af0540c054c3dbb5884e7c4ecd36755b82"
+    },
+    {
       "file": "42/media/AnimSets/player-vehicle/enter/emre_re9_0_enter.xml",
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\AnimSets\\player-vehicle\\enter\\emre_re9_0_enter.xml"
@@ -300,6 +434,20 @@
         "EmreRE9Motorcycle\\42\\media\\AnimSets\\player-vehicle\\enter\\emre_re9_1_enter_right.xml"
       ],
       "sha256": "2c6b266604b6cdbefc2a59f985661b22c52dea5860ee8ded9f925652f4279e70"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/enter/jvp_tenere_emre_re9_0_enter.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "68322630ca9a764c42c2a9738ab35c418de20b979757ec56f633e6783f22edd7"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/enter/jvp_tenere_emre_re9_0_enter_right.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "d08924852093b67ecceb992018cfb2bdc965207ff0f352765d67002543904d7d"
     },
     {
       "file": "42/media/AnimSets/player-vehicle/exit/C172_PilotFrontExit.xml",
@@ -344,6 +492,20 @@
       "sha256": "734dcd72b9b2651a48a3f88c7f1cd6f3b4ef512b2adface5c2bf406df3ccaa7b"
     },
     {
+      "file": "42/media/AnimSets/player-vehicle/exit/jvp_tenere_emre_re9_0_exit.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "025b48fd7ec228fd1497aa9aa6c477545d0d2895179c47cdf3248e988b68c295"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/exit/jvp_tenere_emre_re9_0_exit_right.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "0c109e159be866dbc910d50825b8fd307439135d08860c59dcee743be664a5fd"
+    },
+    {
       "file": "42/media/AnimSets/player-vehicle/idle/C172_PilotFront.xml",
       "sources": [
         "Cessna172\\42\\media\\AnimSets\\player-vehicle\\idle\\C172_PilotFront.xml"
@@ -384,6 +546,27 @@
         "EmreRE9Motorcycle\\42\\media\\AnimSets\\player-vehicle\\idle\\emre_re9_1_idle.xml"
       ],
       "sha256": "71e08fc1115e909f754f20068e26385b8fb6578d0987603884d9bd3c807ef181"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/idle/jvp_tenere_emre_re9_0_forward.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "8eae75d612031cf0baf4575d26d5c42752315243b8159689a1a6ecb5bdbebb8f"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/idle/jvp_tenere_emre_re9_0_idle.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "0e28768f054b0232bfe37ea644cb43b34a3bb9c9339898b57977c7762e6c6bde"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/idle/jvp_tenere_emre_re9_0_reverso.xml",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "01c4f3732a9105744c15822f1ec0ec2c7a6c8d7496c1424f68042bf995d0740e"
     },
     {
       "file": "42/media/actiongroups/c172_keep.txt",
@@ -505,6 +688,13 @@
       "sha256": "777208781a57d857c56a4c4906c724540aff0940de33d70c0b673d74c8c4dcb7"
     },
     {
+      "file": "42/media/anims_X/Bob/JVP_Tenere_Idle.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "3573e15c995aca8f2eceadfc83b7e97d1a0a9e025faa5913c8c05c6b59f17c9f"
+    },
+    {
       "file": "42/media/lua/client/Cessna172/C172AirborneLights.lua",
       "sources": [
         "Cessna172\\42\\media\\lua\\client\\Cessna172\\C172AirborneLights.lua"
@@ -516,7 +706,7 @@
       "sources": [
         "Cessna172\\42\\media\\lua\\client\\Cessna172\\C172BuildStamp.lua"
       ],
-      "sha256": "7d6834055e471b745fc764833b6222b87f6878fbd01a13d238e1b9898a3240a2"
+      "sha256": "bec14b0ad92c77064985c7d13e8dd027bf8aab16a00c0bdadf93a1c034ca2dee"
     },
     {
       "file": "42/media/lua/client/Cessna172/C172Contacts.lua",
@@ -628,14 +818,14 @@
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\client\\Vehicles\\ISUI\\emre_re9_overlay.lua"
       ],
-      "sha256": "693823ce453ef7a9e193ce359ab83906b10688367cca9503552aff14f881a6e4"
+      "sha256": "1970db9f75340b6ceeeece1c9d399de6cce7d5422d0e4073b267e02c5b063639"
     },
     {
       "file": "42/media/lua/client/emre_re9_audio.lua",
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\client\\emre_re9_audio.lua"
       ],
-      "sha256": "62a7ad182e80b4348cacdc6d7c0dfa1c34f4d913c7ac73305a242eddde211bcb"
+      "sha256": "0e61a405047a4e7729468b70846676a949c8b8f3f872ab7222f37947d27f0421"
     },
     {
       "file": "42/media/lua/client/emre_re9_carrier_menu.lua",
@@ -656,21 +846,28 @@
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\client\\emre_re9_drive.lua"
       ],
-      "sha256": "fc53c769a8a8b3551bd97adb4d98685000950f226e7511a0d2cbf9ff8e4fc95d"
+      "sha256": "fa88d0050eb5db5176a55b82a099aa08c36447c2b73e4fccdea5939101ccb92b"
     },
     {
       "file": "42/media/lua/client/emre_re9_rider.lua",
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\client\\emre_re9_rider.lua"
       ],
-      "sha256": "d8247a4bd055d438b86eafddf2d41db13a51fe83439e3c82d81c877ac1c56ae6"
+      "sha256": "dcfe95b2fc4a7709b62bb40106aff5c6c41399f43938c5ec3e792424d1727854"
+    },
+    {
+      "file": "42/media/lua/client/emre_re9_seat_ui.lua",
+      "sources": [
+        "Yamaha Tenere native model seat UI / rider adaptation"
+      ],
+      "sha256": "8becc7b4be7d1a8184e2865c1374a6465de839eb9d66e79d9d4c44a7178487f0"
     },
     {
       "file": "42/media/lua/client/emre_re9_settling.lua",
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\client\\emre_re9_settling.lua"
       ],
-      "sha256": "6235097f2dcae27be66a7881c7cce7992bdc6d874dab7c7a16e579f8210b1dcd"
+      "sha256": "4114808bac3b0ca53cf0bf6fceefe7942881f76be7872b8a82737b461a328891"
     },
     {
       "file": "42/media/lua/client/lrdisco1.lua",
@@ -754,7 +951,21 @@
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\server\\Vehicles\\emre_re9_loot.lua"
       ],
-      "sha256": "e266cc5384db7788831d37309f4302fbb93b2b54824a902cea1533508fc6e6eb"
+      "sha256": "2a37a18302f58da4d1a97f310bf20d9d159e9095d49ffe6bbd97f268946feab9"
+    },
+    {
+      "file": "42/media/lua/server/Vehicles/lrdisco1.lua",
+      "sources": [
+        "lrdisco1\\42\\media\\lua\\server\\vehicles\\lrdisco1.lua"
+      ],
+      "sha256": "832e5625b00213a7383c9b9d7dce6970c2ebf35d9fc13d19f4be3c562c87fce4"
+    },
+    {
+      "file": "42/media/lua/server/Vehicles/lrdisco1camel_storage.lua",
+      "sources": [
+        "lrdisco1\\42\\media\\lua\\server\\vehicles\\lrdisco1camel_storage.lua"
+      ],
+      "sha256": "4e0e494d441856586552b85a91bddcb091871fce187f6144e4e507a72b6314c4"
     },
     {
       "file": "42/media/lua/server/emre_re9_carrier_server.lua",
@@ -762,20 +973,6 @@
         "EmreRE9Motorcycle\\42\\media\\lua\\server\\emre_re9_carrier_server.lua"
       ],
       "sha256": "f8bd5a1961f393b6c919b33c3a3c7f4edf9b7f6d06a471849f6a280c5df90532"
-    },
-    {
-      "file": "42/media/lua/server/vehicles/lrdisco1.lua",
-      "sources": [
-        "lrdisco1\\42\\media\\lua\\server\\vehicles\\lrdisco1.lua"
-      ],
-      "sha256": "832e5625b00213a7383c9b9d7dce6970c2ebf35d9fc13d19f4be3c562c87fce4"
-    },
-    {
-      "file": "42/media/lua/server/vehicles/lrdisco1camel_storage.lua",
-      "sources": [
-        "lrdisco1\\42\\media\\lua\\server\\vehicles\\lrdisco1camel_storage.lua"
-      ],
-      "sha256": "4e0e494d441856586552b85a91bddcb091871fce187f6144e4e507a72b6314c4"
     },
     {
       "file": "42/media/lua/shared/Aviation/AviationBookXP.lua",
@@ -834,11 +1031,42 @@
       "sha256": "7995b4473919773e9c5c615e3ab7a8bdf371ccb2f50a7935419bb87b7017937f"
     },
     {
+      "file": "42/media/lua/shared/Translate/EN/IG_UI.json",
+      "sources": [
+        "EmreRE9Motorcycle\\42\\media\\lua\\shared\\Translate\\EN\\IG_UI.json",
+        "EmreRE9Motorcycle\\42\\media\\lua\\shared\\Translate\\EN\\IG_UI_EN.txt",
+        "lrdisco1\\42\\media\\lua\\shared\\Translate\\EN\\IG_UI_EN.txt",
+        "Cessna172\\42\\media\\lua\\shared\\Translate\\EN\\IG_UI.json"
+      ],
+      "merged": true,
+      "sha256": "bab13dae76842af1316fe503523e9268bea90207ca8a72eea54b5d9ffc65715b"
+    },
+    {
+      "file": "42/media/lua/shared/Translate/EN/ItemName.json",
+      "sources": [
+        "EmreRE9Motorcycle\\42\\media\\lua\\shared\\Translate\\EN\\ItemName.json",
+        "EmreRE9Motorcycle\\42\\media\\lua\\shared\\Translate\\EN\\ItemName_EN.txt",
+        "Cessna172\\42\\media\\lua\\shared\\Translate\\EN\\ItemName.json"
+      ],
+      "merged": true,
+      "sha256": "c5ef461a5c48af1b37c09f831da2d3983d8b82f7d7eeaf6f544eb124984eb122"
+    },
+    {
+      "file": "42/media/lua/shared/Translate/EN/Sandbox.json",
+      "sources": [
+        "EmreRE9Motorcycle\\42\\media\\lua\\shared\\Translate\\EN\\Sandbox.json",
+        "EmreRE9Motorcycle\\42\\media\\lua\\shared\\Translate\\EN\\Sandbox_EN.txt",
+        "Cessna172\\42\\media\\lua\\shared\\Translate\\EN\\Sandbox.json"
+      ],
+      "merged": true,
+      "sha256": "5fb5d82ea8ec664d74ab8005759a146434c418ef1f299b808fdd4c07840fc1ad"
+    },
+    {
       "file": "42/media/lua/shared/Translate/TR/IG_UI.json",
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\shared\\Translate\\TR\\IG_UI.json"
       ],
-      "sha256": "6c50a726cb15e1e4583b5d100fa7d06c453ab40e03d2168aef760156d4636830"
+      "sha256": "31d6df14619c531736b52145a64e898dec6f326eab2a9eaf9f16ea28e8046783"
     },
     {
       "file": "42/media/lua/shared/Translate/TR/IG_UI_TR.txt",
@@ -876,25 +1104,32 @@
       "sha256": "b1da05202fa151da9f15df66b03333107a3d4c80d4e1ba206218e0bcd07cfad6"
     },
     {
+      "file": "42/media/lua/shared/emre_re9_bikes.lua",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "9aa5e51cf995b3f247dec129ac8043cb3ed9323b60523541797e5b40fc100e10"
+    },
+    {
       "file": "42/media/lua/shared/emre_re9_carrier.lua",
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\shared\\emre_re9_carrier.lua"
       ],
-      "sha256": "936d9e995e5fea7466a1c908db8d7c1f272ac19ac9d096d9274245501991b3fa"
+      "sha256": "81bb97316f43d2df61bb1f3205c81a2738e2af7edcda35fe040a93e173cd8bfc"
     },
     {
       "file": "42/media/lua/shared/emre_re9_carrier_physics.lua",
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\shared\\emre_re9_carrier_physics.lua"
       ],
-      "sha256": "2b47a15cfd31c4e8002f5dfdf16759572172a99188a30c139b3ac15e6052fd66"
+      "sha256": "6b81828c0d784e6900b9bee66564ab22bf5dc97b8d6b1a63a4f7774cbb775e5a"
     },
     {
       "file": "42/media/lua/shared/emre_re9_handling.lua",
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\shared\\emre_re9_handling.lua"
       ],
-      "sha256": "34c710503be82dc68644d20f1e48c08e9646d44ac0537fae8717b4ecb099fb40"
+      "sha256": "e113223babbee745de78b23478869467be45f95e8f9a39aadb5eea4984bd3643"
     },
     {
       "file": "42/media/lua/shared/emre_re9_itemcheck.lua",
@@ -915,7 +1150,7 @@
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\shared\\emre_re9_loadcheck.lua"
       ],
-      "sha256": "f0d81ed0e7e1522a3ef00d21fd19071293a632f4be157a179f84389f33f1ec58"
+      "sha256": "13115d7c1de48c33eeb767e574c1ef40a655b6abbbdd6c6b17dc5d449e155382"
     },
     {
       "file": "42/media/lua/shared/emre_re9_parts.lua",
@@ -929,7 +1164,7 @@
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\shared\\emre_re9_spawn.lua"
       ],
-      "sha256": "6d544c647b60069f594ad0ad049628fb5226d9a5dfbc2891a3d2221b6995360f"
+      "sha256": "e584cc116d89e6f7114acf381001f0fa2d39eb5abe8f708146f84d76bac302d3"
     },
     {
       "file": "42/media/lua/shared/emre_re9_tires.lua",
@@ -1016,6 +1251,251 @@
       "sha256": "b760542ef24afc9d0627e730db9326995bf02202e4c8e4b2f7adee5f9a49eefc"
     },
     {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBody.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "8776dbc906aedf1fafb1dc02b006c8c93d31e5b230d27ac7df06558d6d066ea3"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail01.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "ebfdc0ffe69c05725827200379c37d1a134ceb8d4363b8aabc7c5aeb81ff8496"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail02.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "886d8693402d96b60991bfaf8a164b2e556e241ea8e4e8d3abf92971de9359f3"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail03.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "6b7169f174b3590417f0e983f6e506914eb7adca3f5157ec89028ba0b863e6f7"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail04.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "fe9fc4ce331ee6d70aa4c2af6222ac6b0de755dfdfb6e0da503fb3eac793bdb5"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail05.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "ad7935c0c1ce7d3f072207a22493621732c0e9dd0c0f94a1bf0dfda5f2aad5b2"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail06.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "6e03203cc41d94aa52c9b4282f625bf1ba390866d03f779cf3c1c0995e710e14"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail07.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "61bb124e4a564699ab99714a1e53c71d5bfddd5138506c2cab225eac1cd45f9c"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail08.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "eb88907ca7d894448bd760b3d6c9ec4baef597ea6a46c803d1365469b8787e9c"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail09.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "f6b4558a1220aa1ea9a78ae6c5563fc5e3aeca7bd632463b89ac220324bfb322"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail10.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "ef3d6e6a746919eb41aaa187238e62a28ec69e3bfd9a7372fd16c5067991567e"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail11.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "8589387a0f2ca5e001525c60aac3537de99d5f52ae69048f3ffcbd130180cc4e"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail12.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "b2fe27f6c1e1d8d40e99420d1a810ec965d818b138971f35ffdd4a1f291e36c1"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail13.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "02e505686cf6d73257185ccae273a76d793d1c11268ee391ae57efdab02e6d5e"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail14.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "184169c6fc4eafbf307c2b1fe3d0c25c2645bed795b938d5d9788269ca50120c"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail15.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "e08ab6bd21667e1ebafd84c986e0d8aab5ac96933ad9c0abe9044f0181a0c1e7"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail16.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "eb83f6ab239411c0d2c1842ad72f097a1a8419ae940fc27b6397c1141931f3fa"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail17.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "f6c013559300161095cea8822e72bc71f5eec3db79a25ab4180c53acd4f5ea79"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail18.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "0b107f927a458edee8e8ebb301dc8242fa6e36a6c8243803ac0437e6638cec38"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail19.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "f6ad64e4e0945d0d3e22bd4c1b4cafab80ce4ba0ef249b35c05184b89567b05c"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail20.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "6280590adb19b598fdf8089d445604b8091716e4396705d3ca5740a35d340589"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail21.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "efe15d3a7578ecb70d67c167231706e3883f3717e6979d0280385127bdb4d531"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail22.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "a5be27f00a37407a481446643577f6ad27de6938e6606ca4a55d3838f8227a01"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereCargoDuffel.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "353ac641aa024c0ed4e211b903d68394f9ff63aa9384bfa7e40a352132d3fdfe"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereFrontSuspension.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "644e714a8750acf3f50c1e40d500fcaf7189d52c0d989fc44f0bbedabb4edbfc"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereFrontSuspensionDetail01.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "ab98b13b4d7812b8a96ed5cfa1c972b41b8eef502ea2c44ae41a9bdd1fed2424"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereFrontWheel.x",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "1508897a5f728e69db8b2cc47977394deaea2b81ac94d8f08d98c2b1025d39ba"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenerePassengerSeat.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "3f8ded14dd258fa7879251748677081b3f179eaa412404f0d87b4e1efc5d1dbe"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereRearSuspension.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "8a80d030294a839f25e4ca4896f7e7017deb459492aca24854a97d050db7ce67"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereRearSuspensionDetail01.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "5edaefaa3ce154bee61481f0a03ce2fe76944a3523788ec3f7fc215b21f061a1"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereRearSuspensionDetail02.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "733cc1fd4c730e1f696bbdff45be6258a76cdee7b5b2513b5d1763f693c34480"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereRearWheel.x",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "9fe4ce816e8297c065d687a48b9dbfb19ba3d67c02ff4c604859adea70927320"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereSeat.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "1f58fac77e0f58f69959221de8e344117f0df89d9ff37cec7bc04a1d5caf91d5"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereSideCases.fbx",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "e87b9400061cf12931309e90323c698023849361d890740fb827955a03030a4e"
+    },
+    {
+      "file": "42/media/sandbox-options.txt",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "c9ce2e71834fbbcca6ff0ecf435bd72695d80069305813e05050a12bb6043ad6"
+    },
+    {
       "file": "42/media/scripts/aviation_books.txt",
       "sources": [
         "Cessna172\\42\\media\\scripts\\aviation_books.txt"
@@ -1079,6 +1559,13 @@
       "sha256": "b2a8bb5a0905908d59bba98be20b496caa0b366373bc2d252a929e1140f3058b"
     },
     {
+      "file": "42/media/scripts/vehicles/jvp_tenere_vehicle.txt",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "f56dba0a2f89943f3edf6f3687a6725cfd0e667d37b4007b9ed3c58df8b2d139"
+    },
+    {
       "file": "42/media/scripts/vehicles/lrdisco1.txt",
       "sources": [
         "lrdisco1\\42\\media\\scripts\\vehicles\\lrdisco1.txt"
@@ -1126,6 +1613,27 @@
         "Cessna172\\42\\media\\shaders\\Cessna172_vehicle_static.vert"
       ],
       "sha256": "1690e42d2f1c5763ea0564569ce5a6a765013b650016d712dabf2cc407543b46"
+    },
+    {
+      "file": "42/media/shaders/JVP_TenereGlass.frag",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "c279f45c17aa5188d9ba888205cdf5e49bab388eca9fdbc7dd0975dedab674d5"
+    },
+    {
+      "file": "42/media/shaders/JVP_TenereGlass.vert",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "74109397bd8e5cbc5f04c508cc724dbd7ae4950b636e2722235a5226424452d6"
+    },
+    {
+      "file": "42/media/shaders/JVP_TenereGlass_static.vert",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "2ae42a20bfe584f3036bd852fb4ed2e57509a80cc8ed2155ec81649e72b850fc"
     },
     {
       "file": "42/media/sound/C172EngineHigh.wav",
@@ -1315,6 +1823,34 @@
         "EmreRE9Motorcycle\\42\\media\\textures\\Vehicles\\EMRE_RE9_TouringCases.png"
       ],
       "sha256": "52e2a18dfb86354b20c55eb09d461f5fb4f175e578812f0bd2ea951b2ede54fa"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Tenere.png",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "f837e480b496d173cff00aea96a43b38c0ed017720b0b89c51a53f4ffb1fc9b6"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Tenere_Clear.png",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "9511a22f75360eab0bda10888422b7ff8c6ac825fa270c63f885e8f56afea0b5"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Tenere_Lights.png",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "b346f14724b7fad2d9e341a9282b2e66059057d4994159f8527f92418ab163ef"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Tenere_Mask.png",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "7b50e7a7ca9865714e493942f89d8674a6b2088f2574560ab131bf16fe0ccca7"
     },
     {
       "file": "42/media/ui/vehicles/c172_land.png",
@@ -1667,6 +2203,41 @@
       "sha256": "4459c7934eb40198d193ba8026ba51eb3abb2a9768f427927620b134642d8f02"
     },
     {
+      "file": "42/media/ui/vehicles/seatui/JVP_Tenere_base_small.png",
+      "sources": [
+        "Yamaha Tenere native model seat UI / rider adaptation"
+      ],
+      "sha256": "d1b4046509c92f689dfcf8060f08e37cc63bdbc03b793ecfac9d76d479533821"
+    },
+    {
+      "file": "42/mod.info",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "5958f6602fe288f09c36230b92badcaa756a7cc26e194ac49bc3ea7d51db60d7"
+    },
+    {
+      "file": "42/poster.png",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "5cca86b6bf5dc71ca4e9440b352e4c6956cac3c362c26a06020cbaf56365648b"
+    },
+    {
+      "file": "CREDITS.txt",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "8f34bb9d8c4b79766568b03e4e5a19f63581603b523634d669aac72d9c0d9d0a"
+    },
+    {
+      "file": "INSTALL_AND_USE.txt",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "51cb3320f23cdc9a51a98cc527ebb4f84944e5357d7d9466a01ecea7a34e03ff"
+    },
+    {
       "file": "common/media/AnimSets/c172_keep.txt",
       "sources": [
         "Cessna172\\common\\media\\AnimSets\\c172_keep.txt"
@@ -1685,35 +2256,35 @@
       "sources": [
         "lrdisco1\\common\\media\\models_X\\vehicles\\JVP_LRInteriorCabin.fbx"
       ],
-      "sha256": "ca312ca6c85e91c8bf4feb1ba501f67c501b77803954867972425001f0cedd70"
+      "sha256": "be47d09da49c78864bd719ddda767654df40f77386e741b8355a584bf42af46c"
     },
     {
       "file": "common/media/models_X/vehicles/JVP_LRSeatFrontLeft.fbx",
       "sources": [
         "lrdisco1\\common\\media\\models_X\\vehicles\\JVP_LRSeatFrontLeft.fbx"
       ],
-      "sha256": "369e575b43def7a859f4a4be45be2abcb4c2414f9e4b2e07730f54e57d0970cc"
+      "sha256": "d4fe42a34f03c59abe30785bbe39be3d1f77e918c2783ab5da25d256e4ce9213"
     },
     {
       "file": "common/media/models_X/vehicles/JVP_LRSeatFrontRight.fbx",
       "sources": [
         "lrdisco1\\common\\media\\models_X\\vehicles\\JVP_LRSeatFrontRight.fbx"
       ],
-      "sha256": "376187afa424bc746f400452e4555dbfbaa7a6dd2e12146ed09491188c94f90b"
+      "sha256": "25be020311697acb10eb69da2c1f9695c0e9eca6e85c5ccc9675ad85d607aa63"
     },
     {
       "file": "common/media/models_X/vehicles/JVP_LRSeatRearLeft.fbx",
       "sources": [
         "lrdisco1\\common\\media\\models_X\\vehicles\\JVP_LRSeatRearLeft.fbx"
       ],
-      "sha256": "3f151e13fe28dfaf2735e85fa678d1f3b2ff35b508e6cf5f56e7ba74aeccec37"
+      "sha256": "bb72a6df86bf7685df526fd33e742737ba3a4620b6bc1ac4d6726eac80b523b4"
     },
     {
       "file": "common/media/models_X/vehicles/JVP_LRSeatRearRight.fbx",
       "sources": [
         "lrdisco1\\common\\media\\models_X\\vehicles\\JVP_LRSeatRearRight.fbx"
       ],
-      "sha256": "d7082db988668faf7abe0200fa3e4a5d603d5a86c3a6b24080d812e0bb199253"
+      "sha256": "734f9f3e575b84e42c2891a0ad3a09657a83a1f5a3aa21db52ddd536df12f5a8"
     },
     {
       "file": "common/media/models_X/vehicles/Vehicles_Cessna172.x",
@@ -1898,32 +2469,456 @@
       "sha256": "a155680beff40157f8e50711a36cee5019963c62acb8664d9686b5e3be6c72cb"
     },
     {
-      "file": "42/media/lua/shared/Translate/EN/IG_UI.json",
+      "file": "credits/Cessna172-CREDITS.txt",
       "sources": [
-        "EmreRE9Motorcycle\\42\\media\\lua\\shared\\Translate\\EN\\IG_UI.json",
-        "EmreRE9Motorcycle\\42\\media\\lua\\shared\\Translate\\EN\\IG_UI_EN.txt",
-        "lrdisco1\\42\\media\\lua\\shared\\Translate\\EN\\IG_UI_EN.txt",
-        "Cessna172\\42\\media\\lua\\shared\\Translate\\EN\\IG_UI.json"
+        "TENERE / JustynsVehiclePack adaptation"
       ],
-      "merged": true
+      "sha256": "2c4f67876295e9f0fb35fe628c5c08d09da74b396dc667fb8aae3cb2b228b721"
     },
     {
-      "file": "42/media/lua/shared/Translate/EN/ItemName.json",
+      "file": "credits/Cessna172-original-mod.info",
       "sources": [
-        "EmreRE9Motorcycle\\42\\media\\lua\\shared\\Translate\\EN\\ItemName.json",
-        "EmreRE9Motorcycle\\42\\media\\lua\\shared\\Translate\\EN\\ItemName_EN.txt",
-        "Cessna172\\42\\media\\lua\\shared\\Translate\\EN\\ItemName.json"
+        "TENERE / JustynsVehiclePack adaptation"
       ],
-      "merged": true
+      "sha256": "47d97fecdee502467c72025ad89969da51da739145f9861799b132de7147dfcb"
     },
     {
-      "file": "42/media/lua/shared/Translate/EN/Sandbox.json",
+      "file": "credits/EmreRE9Motorcycle-original-mod.info",
       "sources": [
-        "EmreRE9Motorcycle\\42\\media\\lua\\shared\\Translate\\EN\\Sandbox.json",
-        "EmreRE9Motorcycle\\42\\media\\lua\\shared\\Translate\\EN\\Sandbox_EN.txt",
-        "Cessna172\\42\\media\\lua\\shared\\Translate\\EN\\Sandbox.json"
+        "TENERE / JustynsVehiclePack adaptation"
       ],
-      "merged": true
+      "sha256": "77f25a6afd16cc09e6e8a372a4fcc1b3114afce626eba2aaa211e85de7a45f68"
+    },
+    {
+      "file": "credits/lrdisco1-original-mod.info",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "6bef95ab7f61d48e11356bdf96f6560c875afb2c2285f035af8c27ffa4bda7d1"
+    },
+    {
+      "file": "icon.png",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "2424e2182bbd420dd129710d32c0b3423772eca516b1332db740bd9df135fc96"
+    },
+    {
+      "file": "mod.info",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "5958f6602fe288f09c36230b92badcaa756a7cc26e194ac49bc3ea7d51db60d7"
+    },
+    {
+      "file": "poster.png",
+      "sources": [
+        "TENERE / JustynsVehiclePack adaptation"
+      ],
+      "sha256": "5cca86b6bf5dc71ca4e9440b352e4c6956cac3c362c26a06020cbaf56365648b"
     }
-  ]
+  ],
+  "tenere_validation": {
+    "native_meshes": 32,
+    "lua_compile": "passed",
+    "carrier_both_bikes": "passed",
+    "network_both_bikes": "passed",
+    "audio_both_bikes": "passed",
+    "dedicated_server": "passed",
+    "in_game_playtest": "pending",
+    "native_fbx_transform_comparison": "passed: all five Yamaha matrices match RE9",
+    "wheel_geometry": "full original source surfaces; native UVs inspected",
+    "full_source_triangles": 212979,
+    "surface_uvs": "original; no interpolation",
+    "thin_surfaces": "explicit back faces with opposing normals",
+    "front_fender": {
+      "source_fender_top": 0.731353,
+      "source_tire_top": 0.696511,
+      "source_gap": 0.03484200000000004,
+      "tire_radius_ratio": 0.8951527336477331,
+      "native_tire_top": 0.74954375,
+      "matched_native_gap": 0.03118891154575435,
+      "matched_rendered_gap": 0.024951129236603482,
+      "lift": 0.04937966154575424
+    },
+    "glass_shader": "stock shader with dedicated 0.28 output alpha; GPU playtest pending",
+    "glass_duffel": {
+      "glass_mask_zone": [
+        0,
+        128,
+        128
+      ],
+      "black_diffuse": [
+        14,
+        14,
+        14
+      ],
+      "side_case_source_triangles": 26506,
+      "top_case_removed_triangles": 15494,
+      "rear_rack_removed_triangles": 674,
+      "duffel_vanilla_triangles": 652,
+      "duffel_bounds": [
+        [
+          -0.425,
+          -1.28,
+          1.01
+        ],
+        [
+          0.425,
+          -0.8800000000000001,
+          1.34
+        ]
+      ],
+      "duffel_capacity": 250,
+      "rear_side_capacities": [
+        100,
+        100
+      ]
+    },
+    "rider_pose": [
+      {
+        "clip": "Dummy01|EMRE_RE9_IdleFoot_to_Idle",
+        "wrists_before_cm": [],
+        "wrists_after_cm": [],
+        "frames": 2
+      },
+      {
+        "clip": "Bip01|EMRE_RE9_Exit",
+        "wrists_before_cm": [
+          [
+            15.333236834752965,
+            48.02384704614387,
+            29.58441309643127
+          ],
+          [
+            -15.594607359967966,
+            48.031216037841936,
+            29.504361366516395
+          ]
+        ],
+        "wrists_after_cm": [
+          [
+            17.333229549706644,
+            53.52384411114652,
+            27.084438725467717
+          ],
+          [
+            -17.594611772163702,
+            53.53121860001057,
+            27.004359573259936
+          ]
+        ],
+        "frames": 160
+      },
+      {
+        "clip": "Bip01|EMRE_RE9_FootIdle",
+        "wrists_before_cm": [
+          [
+            15.333211938880858,
+            47.97243611323932,
+            29.541887950612175
+          ],
+          [
+            -15.594631943207162,
+            48.02764713476974,
+            29.498792970399982
+          ]
+        ],
+        "wrists_after_cm": [
+          [
+            17.333205760025407,
+            53.472433782336694,
+            27.041917129459385
+          ],
+          [
+            -17.59463600461808,
+            53.52764950839508,
+            26.998790591676347
+          ]
+        ],
+        "frames": 2
+      },
+      {
+        "clip": "Bip01|EMRE_RE9_Idle",
+        "wrists_before_cm": [
+          [
+            15.333211938880858,
+            47.97243611323932,
+            29.541887950612175
+          ],
+          [
+            -15.594631943207162,
+            48.02764713476974,
+            29.498792970399982
+          ]
+        ],
+        "wrists_after_cm": [
+          [
+            17.333205760025407,
+            53.472433782336694,
+            27.041917129459385
+          ],
+          [
+            -17.59463600461808,
+            53.52764950839508,
+            26.998790591676347
+          ]
+        ],
+        "frames": 2
+      },
+      {
+        "clip": "Bip01|EMRE_RE9_Idle_to_IdleFoot",
+        "wrists_before_cm": [
+          [
+            15.333211938880858,
+            47.97243611323932,
+            29.541887950612175
+          ],
+          [
+            -15.594631943207162,
+            48.02764713476974,
+            29.498792970399982
+          ]
+        ],
+        "wrists_after_cm": [
+          [
+            17.333205760025407,
+            53.472433782336694,
+            27.041917129459385
+          ],
+          [
+            -17.59463600461808,
+            53.52764950839508,
+            26.998790591676347
+          ]
+        ],
+        "frames": 20
+      },
+      {
+        "clip": "Bip01|EMRE_RE9_Idle_to_Reverso",
+        "wrists_before_cm": [
+          [
+            15.333175741329981,
+            47.694881062710394,
+            29.323845545134226
+          ],
+          [
+            -15.594607492229926,
+            48.02763583096711,
+            29.498853387849334
+          ]
+        ],
+        "wrists_after_cm": [
+          [
+            17.333170247598588,
+            53.19487872845753,
+            26.82387543796993
+          ],
+          [
+            -17.594610934336362,
+            53.527637885409796,
+            26.998849315334432
+          ]
+        ],
+        "frames": 20
+      },
+      {
+        "clip": "Bip01|EMRE_RE9_IdleFoot_to_Idle",
+        "wrists_before_cm": [
+          [
+            15.333220807972143,
+            47.91256735916587,
+            29.495351383670005
+          ],
+          [
+            -15.594610052951241,
+            48.02761094876089,
+            29.49879328405931
+          ]
+        ],
+        "wrists_after_cm": [
+          [
+            17.33321458126581,
+            53.412564842882844,
+            26.995377068394156
+          ],
+          [
+            -17.594613811911785,
+            53.527613180770956,
+            26.99878939300472
+          ]
+        ],
+        "frames": 20
+      },
+      {
+        "clip": "Bip01|EMRE_RE9_Reverso",
+        "wrists_before_cm": [
+          [
+            15.328956303500673,
+            48.00942326531298,
+            29.69150148693393
+          ],
+          [
+            -15.598932717265075,
+            48.01693195312294,
+            29.611415164171763
+          ]
+        ],
+        "wrists_after_cm": [
+          [
+            17.32894976594199,
+            53.50941935884264,
+            27.19152180563993
+          ],
+          [
+            -17.598939249582592,
+            53.516935302321315,
+            27.111409770860135
+          ]
+        ],
+        "frames": 40
+      },
+      {
+        "clip": "Bip01|EMRE_RE9_Reverso_to_Idle",
+        "wrists_before_cm": [
+          [
+            15.289670096006121,
+            47.97749831384543,
+            29.387420237194426
+          ],
+          [
+            -15.638083719005055,
+            47.94170070582515,
+            29.267202999004326
+          ]
+        ],
+        "wrists_after_cm": [
+          [
+            17.289664049313718,
+            53.47749504116765,
+            26.8874396094806
+          ],
+          [
+            -17.638090103349867,
+            53.441703662714595,
+            26.767200165553852
+          ]
+        ],
+        "frames": 20
+      }
+    ],
+    "viewpoint_glass": "Native teal window zone 6; Viewpoint VehicleCapture checks TextureRust uniform rather than shader name; glass mask routed to transparent pass. Isometric alpha .28 retained.",
+    "duffel_position_update": {
+      "glass_mask_zone": [
+        0,
+        128,
+        128
+      ],
+      "black_diffuse": [
+        14,
+        14,
+        14
+      ],
+      "side_case_source_triangles": 26506,
+      "top_case_removed_triangles": 15494,
+      "rear_rack_removed_triangles": 674,
+      "duffel_vanilla_triangles": 652,
+      "duffel_bounds": [
+        [
+          -0.425,
+          -1.21,
+          1.01
+        ],
+        [
+          0.425,
+          -0.81,
+          1.34
+        ]
+      ],
+      "duffel_capacity": 250,
+      "rear_side_capacities": [
+        100,
+        100
+      ]
+    },
+    "seat_ui": "Yamaha-only model-rendered transparent top view; original RE9 and mechanics overlay restored after normal/error seat renders."
+  },
+  "discovery_cabin_frame_validation": {
+    "hood_raw_axis": "+Y",
+    "rear_raw_axis": "-Y",
+    "native_passenger_hips_raw_fbx": {
+      "FrontLeft": [
+        -30.159999999999997,
+        2.3800000000000003,
+        39.68
+      ],
+      "FrontRight": [
+        30.159999999999997,
+        2.3800000000000003,
+        39.68
+      ],
+      "RearLeft": [
+        -35.709999999999994,
+        -64.29,
+        40.48
+      ],
+      "RearRight": [
+        35.709999999999994,
+        -64.29,
+        40.48
+      ]
+    },
+    "wheel_bounds": [
+      [
+        -48.02301300048833,
+        43.85494842529296,
+        48.665343093872075
+      ],
+      [
+        -12.391812210083016,
+        68.84610595703128,
+        69.20318241119381
+      ]
+    ],
+    "in_game_visual_check": "pending",
+    "native_mesh_imports": 5,
+    "exterior_overlay": "checked"
+  },
+  "discovery_interior_fit_validation": {
+    "seat_rearward_shift_raw": 2.5,
+    "seat_rearward_shift_game_cm": 3.075,
+    "dashboard_and_steering": "exactly unchanged",
+    "side_panel_top_raw_max": 55,
+    "rear_boundary_raw": -145,
+    "lowest_original_side_window_raw": 56.8,
+    "native_passenger_hip_fit": "passed",
+    "triangle_normals": "passed",
+    "in_game_check": "pending",
+    "native_mesh_imports": 5,
+    "preview": "checked"
+  },
+  "discovery_upper_lining_validation": {
+    "windshield_clearance_raw": 1,
+    "dash_inside_windshield_fit": "passed",
+    "roof_faces": 448,
+    "pillar_frame_faces": 804,
+    "glass_openings": "preserved",
+    "existing_seats_wheel_lower_panels": "exactly unchanged",
+    "native_import": "passed",
+    "in_game_viewpoint_check": "pending",
+    "native_mesh_imports": 1,
+    "preview": "checked",
+    "lining_back_surface_thickness_raw": 0.15
+  },
+  "discovery_cabin_finish_validation": {
+    "seat_upholstery": "exactly unchanged",
+    "pedestal_top_raw": 36,
+    "cushion_minimum_raw": 37.112518787384005,
+    "pedestals": "inset below cushions and connected to floor",
+    "wheel_extension_cm": 6.15,
+    "spare_mount": "missing cabin face capped",
+    "rear_lining": "trimmed to rear glass plane",
+    "native_mesh_imports": 5,
+    "preview": "checked"
+  }
 }

@@ -1,9 +1,9 @@
 # Justyns vehicle Pack
 
-A combined Project Zomboid Build 42 mod containing the Emre RE9 motorcycle,
+A combined Project Zomboid Build 42 mod containing the Yamaha Tenere 700 World Rally and Emre RE9 motorcycles,
 Land Rover Discovery variants, and flyable Cessna 172.
 
-[Download the v1.0.7 mod ZIP](JustynsVehiclePack-v1.0.7.zip?raw=1)
+[Download the v1.0.17 mod ZIP](JustynsVehiclePack-v1.0.17.zip?raw=1)
 
 ## Install
 
@@ -19,6 +19,24 @@ The pack declares Build 42.20.4 or later; Build 41 is not included.
 
 ## Included changes
 
+- **v1.0.17 Discovery interior:** solid supports below the seat cushions, closed
+  spare-wheel mount, steering wheel extended toward the driver, and rear roof
+  lining trimmed to the window. Includes the fitted roof, pillars and cargo floor.
+
+- **v1.0.17 Yamaha**: Viewpoint windshield glass mask, black side cases and
+  vanilla duffel replacing the top case/rack with the same storage capacity;
+  Yamaha driver grips moved up, back and outward.
+
+- **v1.0.11 fender:** front fender clearance matches the source model's
+  clearance-to-tire-radius proportion.
+
+- **v1.0.10 Yamaha fixes:** FBX orientation matches the working RE9; original
+  wheel surfaces replace the reduced wheel geometry.
+
+- **Yamaha Tenere 700 World Rally:** supplied Yamaha model and textures, sharing
+  the RE9's driving, sounds, two riders, repair parts, cargo and rear carrier.
+  Admin spawn ID: `Base.JVP_Tenere`.
+
 - **RE9 motorcycle:** 80 mph tuning with low-speed acceleration preserved,
   custom engine audio, front cases 50 each, rear side cases 100 each, rear top
   case 250.
@@ -29,7 +47,7 @@ The pack declares Build 42.20.4 or later; Build 41 is not included.
   Seat models follow the existing seat parts' install/removal state.
 - **Cessna 172:** yellow painted body with black main-wing tips, baggage
   capacity 800, original aviation skill and flight systems retained.
-- **Rear motorcycle carrier:** the original bike mounts sideways behind the
+- **Rear motorcycle carrier:** either adventure motorcycle mounts sideways behind the
   Camel Discovery, preserving its installed parts and cargo. Its weight is added
   to the Rover. A separate mounted collision profile prevents its chassis from
   blocking the Rover while reversing; unloading restores normal collision.
@@ -55,7 +73,7 @@ Every player and the host/server must install the same pack version.
 - The internal mod ID is retained from the former Emre Adventure Vehicle Pack
   so existing saves and server settings continue to recognize it.
 
-Native dedicated-server loading and admin-spawn recovery passed with actual
+Native dedicated-server Tenere registration, loading and admin-spawn recovery passed with actual
 vehicle APIs. Lua compilation and carrier/client/server regression tests also
 passed. Multiplayer driving and streaming still need in-game verification.
 
@@ -65,3 +83,7 @@ passed. Multiplayer driving and streaming still need in-game verification.
 are included in the pack. Original vehicle identities and attribution files
 are retained; see [credits](JustynsVehiclePack/CREDITS.txt) and its `credits/`
 directory.
+
+- **Additional v1.0.17 Yamaha update**: duffel moved forward 7 cm; player
+  hands raised another 2 cm; Yamaha top view in the V-menu seat selector.
+  Existing v1.0.17 Rover updates preserved byte-for-byte.

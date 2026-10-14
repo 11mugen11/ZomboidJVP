@@ -1,3 +1,4 @@
+require "emre_re9_bikes"
 require "Vehicles/TimedActions/ISEnterVehicle"
 require "Vehicles/TimedActions/ISExitVehicle"
 require "Vehicles/TimedActions/ISStopVehicle"
@@ -11,13 +12,14 @@ local R = {}; EmreRE9.Rider = R
 local mounted, anchored, lastSide = setmetatable({}, {__mode="k"}), setmetatable({}, {__mode="k"}), setmetatable({}, {__mode="k"})
 function R.IsBike(v)
     local s = v and v:getScript()
-    return s and s:getFullName() == "Base.EMRE_RE9"
+    return s and EmreRE9.Bikes.IsNormal(s:getFullName())
 end
 function R.Prime(c, v, seat)
     seat = seat or v:getSeat(c)
     if seat < 0 then return end
     if mounted[c] == nil then mounted[c] = c:isHideWeaponModel() end
-    c:setVariable("EMRE_RE9Type", seat == 0 and "RE90" or "RE91")
+    local driverPose = v:getScript():getFullName() == "Base.JVP_Tenere" and "TENERE0" or "RE90"
+    c:setVariable("EMRE_RE9Type", seat == 0 and driverPose or "RE91")
     c:setVariable("EMRE_RE9Passenger", v:getCharacter(seat == 0 and 1 or 0) and "stop" or "none")
     local speed = v:getCurrentSpeedKmHour()
     c:setVariable("EMRE_RE9Motion", speed > 1 and "forward" or speed < -1 and "backward" or "stop")

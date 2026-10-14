@@ -18,7 +18,7 @@ local function name(v)
     return v and v:getScript() and v:getScript():getFullName()
 end
 function C.IsCar(v) return name(v) == C.CAR end
-function C.IsBike(v) return name(v) == C.BIKE or name(v) == EmreRE9.CarrierPhysics.MOUNTED end
+function C.IsBike(v) return EmreRE9.Bikes.profiles[name(v)] ~= nil end
 local function part(v)
     return v and v:getPartById(C.IsCar(v) and "TruckBed" or "Engine")
 end
@@ -226,7 +226,7 @@ function C.Load(player,car,bike)
     if not ok then return false,reason end
     local original=bike:getWorldTransform(BaseVehicle.allocTransform())
     local x,y,z=bike:getX(),bike:getY(),bike:getZ()
-    local mounted=name(bike)==EmreRE9.CarrierPhysics.MOUNTED
+    local mounted=EmreRE9.Bikes.IsMounted(name(bike))
     -- A rejected preparation must not strand an unpaired collision-free bike.
     local prepared,err=pcall(function()
         EmreRE9.CarrierPhysics.Apply(bike,true)
@@ -309,7 +309,7 @@ function C.Tick()
     for _,v in ipairs(vehicles) do
         if C.IsMounted(v) then v:setPhysicsActive(false) end
         local P=EmreRE9.CarrierPhysics
-        if name(v)==P.MOUNTED and not C.Record(v) and not P.busy[v] then
+        if EmreRE9.Bikes.IsMounted(name(v)) and not C.Record(v) and not P.busy[v] then
             local state=orphans[v]
             if not state then
                 state={at=getTimestampMs(),floor=math.max(0,math.floor(v:getZ()))}
@@ -354,8 +354,8 @@ end
 -- mounted profile. Select ordinary physics before a fresh body's construction.
 if Events.OnSpawnVehicleStart then Events.OnSpawnVehicleStart.Add(function(v)
     local P=EmreRE9.CarrierPhysics
-    if not isClient() and name(v)==P.MOUNTED and not C.Record(v) and not P.busy[v] then
-        v:setScript(P.NORMAL)
+    if not isClient() and EmreRE9.Bikes.IsMounted(name(v)) and not C.Record(v) and not P.busy[v] then
+        v:setScript(EmreRE9.Bikes.profiles[name(v)].normal)
     end
 end) end
 -- Trusted server release: place on the ground immediately, before stale

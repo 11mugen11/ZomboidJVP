@@ -1,4 +1,4 @@
-RE9 REAR CARRIER - CAMEL LAND ROVER
+RE9 / YAMAHA TENERE REAR CARRIER - CAMEL LAND ROVER
 
 Build 42, single-player and multiplayer. Enable Justyns vehicle Pack;
 both vehicles are included.
@@ -42,3 +42,6 @@ Version 1.0.6 keeps the fixed case/rack meshes visible through physics rebuilds
 on both mounting and unloading. Already-mounted bikes refresh their fixed
 meshes too. Installed parts, fuel and storage contents remain on the same bike.
 
+
+Version 1.0.8: both the Emre RE9 and Yamaha Tenere 700 World Rally use these
+same controls. Mount/unload keeps each bike's own identity and luggage.

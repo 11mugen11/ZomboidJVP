@@ -1,3 +1,4 @@
+require "emre_re9_bikes"
 -- Native ignition integration, speed tuning and diagnostics for the RE9 only.
 -- No forced hotwire success, fuel/charge refill, engine-state mutation or
 -- replacement driving input. The game's start action owns the attempt.
@@ -10,7 +11,7 @@ if EmreRE9.Drive then return EmreRE9.Drive end
 local D = {}; EmreRE9.Drive = D
 local states = setmetatable({}, {__mode="k"})
 local function bike(v)
-    return v and v:getScript() and v:getScript():getFullName() == "Base.EMRE_RE9"
+    return v and v:getScript() and EmreRE9.Bikes.IsNormal(v:getScript():getFullName())
 end
 local function read(object, method, ...)
     if not object then return "absent" end

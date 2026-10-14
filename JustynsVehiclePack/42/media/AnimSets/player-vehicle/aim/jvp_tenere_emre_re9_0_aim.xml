@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animNode>
+    <m_Name>jvp_tenere_emre_re9_0_aim</m_Name>
+    <m_AnimName>JVP_Tenere_Idle</m_AnimName>
+    <m_Priority>4</m_Priority>
+    <m_deferredBoneAxis>Y</m_deferredBoneAxis>
+    <m_SyncTrackingEnabled>false</m_SyncTrackingEnabled>
+    <m_SpeedScale>IdleSpeed</m_SpeedScale>
+    <m_BlendTime>0.30</m_BlendTime>
+    <m_maxTorsoTwist>0.0</m_maxTorsoTwist>
+    <m_Conditions>
+        <m_Name>EMRE_RE9Type</m_Name>
+        <m_Type>STRING</m_Type>
+        <m_StringValue>TENERE0</m_StringValue>
+        <m_Value>TENERE0</m_Value>
+    </m_Conditions>
+</animNode>

@@ -16,5 +16,7 @@
   "IGUI_perks_Aviation": "Aviation",
   "IGUI_perks_AviationGroup": "Flight",
   "IGUI_perks_Aviation_Description": "Your competence at the controls of a light aircraft. Read an aviation manual to learn; the Cessna 172 needs Aviation 2 before you may rotate. <LINE><LINE>Lvl 1 - Ground handling. Taxi, run up and shut down without breaking anything. <LINE>Lvl 2 - Certified for the Cessna 172. You may take off and land. <LINE>Lvl 3-4 - Smoother hands. Attitude settles faster and turns hold their speed better. <LINE>Lvl 5-6 - Confident circuits. Rougher air is less unsettling and approaches are steadier. <LINE>Lvl 7-8 - Seasoned. Heavier and faster aircraft become manageable. <LINE>Lvl 9-10 - Command. Nothing in the air surprises you.",
-  "IGUI_perks_Flight_Description": "Aviation skills. Everything to do with getting an aircraft off the ground and back onto it in one piece."
+  "IGUI_perks_Flight_Description": "Aviation skills. Everything to do with getting an aircraft off the ground and back onto it in one piece.",
+  "IGUI_VehicleNameJVP_Tenere": "Yamaha Tenere 700 World Rally",
+  "IGUI_VehicleNameJVP_TenereCarrier": "Yamaha Tenere 700 World Rally (Carrier)"
 }

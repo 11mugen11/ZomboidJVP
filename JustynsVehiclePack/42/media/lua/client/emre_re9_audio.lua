@@ -1,3 +1,4 @@
+require "emre_re9_bikes"
 -- RE9-only motorcycle audio. Reads engine state; never changes vehicle physics.
 -- Samples adapted from the user-supplied Backcountry ATV archive; see CREDITS.
 -- Native one-shots remain in the vehicle sound block. Loops are mixed locally
@@ -125,7 +126,7 @@ local function discover(cell, players, now)
     local function visit(vehicle)
         if not vehicle then return end
         local script = vehicle:getScript()
-        if not script or script:getFullName() ~= "Base.EMRE_RE9" or not near(vehicle,players) then return end
+        if not script or not EmreRE9.Bikes.IsNormal(script:getFullName()) or not near(vehicle,players) then return end
         seen[vehicle] = true
         if not states[vehicle] and vehicle:isEngineRunning()
             and (not retryAt[vehicle] or now>=retryAt[vehicle]) then

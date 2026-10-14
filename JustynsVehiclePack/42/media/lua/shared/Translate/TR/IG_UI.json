@@ -7,5 +7,7 @@
   "IGUI_RE9_ExitLeft": "Soldan in",
   "IGUI_RE9_ExitRight": "Sağdan in",
   "IGUI_RE9_ExitBlocked": "Bu taraftaki iniş yolu kapalı.",
-  "IGUI_VehiclePartRE9CaseTop": "Üst arka çanta"
+  "IGUI_VehiclePartRE9CaseTop": "Üst arka çanta",
+  "IGUI_VehicleNameJVP_Tenere": "Yamaha Tenere 700 World Rally",
+  "IGUI_VehicleNameJVP_TenereCarrier": "Yamaha Tenere 700 World Rally (Carrier)"
 }

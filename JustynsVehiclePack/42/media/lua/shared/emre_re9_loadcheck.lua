@@ -19,6 +19,10 @@ function EmreRE9.CheckRegistration()
     end
     print(tag .. "vehicle Base.EMRE_RE9=" .. tostring(vehicle)
         .. "; body model=" .. tostring(model))
+    local manager = ScriptManager.instance
+    print("[JVP 1.0.8] Yamaha Tenere vehicle=" .. tostring(manager:getVehicle("Base.JVP_Tenere") ~= nil)
+        .. "; carrier=" .. tostring(manager:getVehicle("Base.JVP_TenereCarrier") ~= nil)
+        .. "; model=" .. tostring(manager:getModelScript("Base.JVP_TenereBody") ~= nil))
 end
 
 if Events and Events.OnGameStart then
