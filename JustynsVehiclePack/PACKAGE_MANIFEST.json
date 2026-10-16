@@ -1,6 +1,6 @@
 {
   "mod_id": "EmreAdventureVehiclePack_B42",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "sources": [
     "EmreRE9Motorcycle",
     "lrdisco1",
@@ -853,7 +853,7 @@
       "sources": [
         "EmreRE9Motorcycle\\42\\media\\lua\\client\\emre_re9_rider.lua"
       ],
-      "sha256": "dcfe95b2fc4a7709b62bb40106aff5c6c41399f43938c5ec3e792424d1727854"
+      "sha256": "73cb5bfc810759086a7701719feb1f650db593e06a6ea469adfb9189d6a11dcd"
     },
     {
       "file": "42/media/lua/client/emre_re9_seat_ui.lua",
@@ -2214,7 +2214,7 @@
       "sources": [
         "TENERE / JustynsVehiclePack adaptation"
       ],
-      "sha256": "5958f6602fe288f09c36230b92badcaa756a7cc26e194ac49bc3ea7d51db60d7"
+      "sha256": "84b590dce71d879d70a0fdb4498f8c5fe517831f2af4cf8d8a4e2defbe856d08"
     },
     {
       "file": "42/poster.png",
@@ -2235,7 +2235,7 @@
       "sources": [
         "TENERE / JustynsVehiclePack adaptation"
       ],
-      "sha256": "51cb3320f23cdc9a51a98cc527ebb4f84944e5357d7d9466a01ecea7a34e03ff"
+      "sha256": "0d3c0afbcc3095bba140e6805544fe2717246a318a3719475d30d30333d69a1f"
     },
     {
       "file": "common/media/AnimSets/c172_keep.txt",
@@ -2508,7 +2508,7 @@
       "sources": [
         "TENERE / JustynsVehiclePack adaptation"
       ],
-      "sha256": "5958f6602fe288f09c36230b92badcaa756a7cc26e194ac49bc3ea7d51db60d7"
+      "sha256": "84b590dce71d879d70a0fdb4498f8c5fe517831f2af4cf8d8a4e2defbe856d08"
     },
     {
       "file": "poster.png",
@@ -2920,5 +2920,11 @@
     "rear_lining": "trimmed to rear glass plane",
     "native_mesh_imports": 5,
     "preview": "checked"
+  },
+  "multiplayer_rider_validation": {
+    "runtime": "Project Zomboid Kahlua",
+    "regression_scenarios": "passed",
+    "remote_transmission": "none",
+    "live_two_client_visual_check": "pending"
   }
 }

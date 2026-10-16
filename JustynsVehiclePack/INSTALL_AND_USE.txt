@@ -282,3 +282,16 @@ steering wheel and column toward the driver by 6.15 cm. Trim rear roof lining
 to the rear glass plane to remove the flap visible through the rear window.
 Geometry checks, software preview and all five native mesh imports passed.
 Final player-hand and Viewpoint appearance require an in-game visual check.
+
+
+VERSION 1.0.18 - MULTIPLAYER MOTORCYCLE RIDER PRESENTATION
+Rebuild custom driver/passenger pose variables on observing clients from the
+replicated vehicle and seat. Keep remote riders anchored to the inside seat
+position while seated; preserve native entry/exit transitions. Observers do not
+transmit seat positions or run rider physics. Covers Tenere and original RE9,
+including riders already seated when another player joins.
+Install this same version on the server and every client, then restart them.
+Validation: full rider Lua loaded in the game's Kahlua runtime with regression
+scenarios for both seats, join seated, network offset reset, motion, transitions,
+seat swaps, dismount cleanup, owner authority and single player. A live two-client
+visual check is still required.

@@ -31,8 +31,34 @@ function R.Clear(c)
     for _, k in ipairs({"EMRE_RE9Type", "EMRE_RE9Passenger", "EMRE_RE9Motion", "EMRE_RE9Side"}) do c:clearVariable(k) end
     c:setHideWeaponModel(mounted[c]); mounted[c] = nil
 end
+-- Custom animation variables are client-local. Rebuild them for observed riders
+-- from the replicated vehicle/seat, including players already seated on join.
+function R.UpdateRemote(c)
+    local v = c:getVehicle()
+    if not R.IsBike(v) then R.Clear(c); return end
+    local seat = v:getSeat(c)
+    if seat < 0 then R.Clear(c); return end
+    R.Prime(c, v, seat)
+    if c:getVariableString("bEnteringVehicle") == "true" or c:getVariableString("bExitingVehicle") == "true" then return end
+    -- Network updates may replace the observer's passenger offset. Restore the
+    -- script's seat locally; only the owning player transmits seat positions.
+    v:setCharacterPosition(c, seat, "inside")
+end
+function R.UpdateRemotePlayers()
+    if not isClient() then return end
+    local players = getOnlinePlayers()
+    if not players then return end
+    for i = 0, players:size() - 1 do
+        local c = players:get(i)
+        if c and not c:isLocalPlayer() then R.UpdateRemote(c) end
+    end
+    for c in pairs(mounted) do
+        if not c:isLocalPlayer() and not R.IsBike(c:getVehicle()) then R.Clear(c) end
+    end
+end
 function R.Update(c)
     if not c then return end
+    if not c:isLocalPlayer() then R.UpdateRemote(c); return end
     local v = c:getVehicle()
     if not R.IsBike(v) then R.Clear(c); return end
     EmreRE9.Settling.DriverUpdate(v, c)
@@ -286,6 +312,7 @@ function ISVehicleMenu.showRadialMenu(c)
     return result
 end
 Events.OnPlayerUpdate.Add(R.Update)
+Events.OnTick.Add(R.UpdateRemotePlayers)
 Events.OnCreatePlayer.Add(function(index, c) R.Update(c) end)
 Events.OnEnterVehicle.Add(R.Update)
 Events.OnExitVehicle.Add(function(c) if c then R.Clear(c) end end)

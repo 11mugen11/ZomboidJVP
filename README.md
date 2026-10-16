@@ -3,7 +3,7 @@
 A combined Project Zomboid Build 42 mod containing the Yamaha Tenere 700 World Rally and Emre RE9 motorcycles,
 Land Rover Discovery variants, and flyable Cessna 172.
 
-[Download the v1.0.17 mod ZIP](JustynsVehiclePack-v1.0.17.zip?raw=1)
+[Download the v1.0.18 mod ZIP](JustynsVehiclePack-v1.0.18.zip?raw=1)
 
 ## Install
 
@@ -18,6 +18,11 @@ Expected layout: `Zomboid/mods/JustynsVehiclePack/42/mod.info`.
 The pack declares Build 42.20.4 or later; Build 41 is not included.
 
 ## Included changes
+
+- **v1.0.18 multiplayer riders:** observing clients apply motorcycle driver and
+  passenger poses and seat positions, including riders already seated on join.
+  Install the same version on the server and every client, then restart them.
+  Kahlua regression checks passed; live multiplayer visual confirmation pending.
 
 - **v1.0.17 Discovery interior:** solid supports below the seat cushions, closed
   spare-wheel mount, steering wheel extended toward the driver, and rear roof
