@@ -345,9 +345,11 @@ function C.Tick()
                     if car and car:getMechanicalID()~=pose.carKey then car=nil end
                     -- An observer joining after somebody has driven away must
                     -- never restore the old drop pose to that normal bike.
+                    local body=v:getWorldPos(0,0,0,Vector3f.new())
+                    local dx,dy=car and body:x()-car:getX() or 0,car and body:y()-car:getY() or 0
                     local needsRelease=EmreRE9.Bikes.IsMounted(name(v)) or followed[v]
-                        or (car and distance(v,car)<9)
-                    if needsRelease and unoccupied(v) and math.abs(v:getCurrentSpeedKmHour())<1 then
+                        or (car and dx*dx+dy*dy<9)
+                    if needsRelease and unoccupied(v) then
                         C.ApplyRelease(car,v,pose)
                     else releaseApplied[pose.token]=true end
                 end
@@ -433,32 +435,59 @@ if Events.OnSpawnVehicleStart then Events.OnSpawnVehicleStart.Add(function(v)
         v:setScript(EmreRE9.Bikes.profiles[name(v)].normal)
     end
 end) end
--- Trusted server release: place on the ground immediately, before stale
--- interpolation or a queued pre-unload part packet can remount this token.
-function C.ApplyRelease(car,bike,pose)
+-- Map coordinates from a packet and jniTransform can describe different
+-- interpolation frames. Derive streaming offsets from two native conversions
+-- of the SAME physics origin, never from getX/getY minus the body position.
+local function worldOffset(bike)
+    local t=bike:getWorldTransform(BaseVehicle.allocTransform())
+    local o=t:getOrigin()
+    local world=bike:getWorldPos(0,0,0,Vector3f.new())
+    local ox,oy=world:x()-o:x(),world:y()-o:z()
+    BaseVehicle.releaseTransform(t)
+    return ox,oy
+end
+local function placeReleased(bike,pose,ox,oy)
+    if ox==nil then ox,oy=worldOffset(bike) end
+    bike:setAngles(pose.rx,pose.ry+360,pose.rz)
+    local t=bike:getWorldTransform(BaseVehicle.allocTransform())
+    t:getOrigin():set(pose.x-ox,pose.z*C.HEIGHT_M,pose.y-oy)
+    bike:setWorldTransform(t);BaseVehicle.releaseTransform(t)
+    bike:setX(pose.x);bike:setY(pose.y);bike:setZ(pose.z)
+    bike:setLastX(pose.x);bike:setLastY(pose.y)
+    bike:setCurrentSquareFromPosition(pose.x,pose.y,pose.z)
+end
+function C.IsReleasing(bike) return releaseGuard[bike]~=nil end
+-- Trusted server release: move the hidden body first, THEN rebuild the normal
+-- motorcycle at that rear pose. Keep it static through old mount interpolation.
+function C.ApplyRelease(car,bike,pose,correcting)
     if (car and not C.IsCar(car)) or not C.IsBike(bike) then return false end
     local record = C.Record(bike)
     if record and record.token ~= pose.token then return false end
     local carRecord = car and C.Record(car)
     if carRecord and carRecord.token ~= pose.token then return false end
+    if releaseApplied[pose.token] and not correcting then return true end
     -- Invalidate following before native script rebuild callbacks can run.
     releasedTokens[pose.token] = true
     followed[bike]=nil
+    local ox,oy=worldOffset(bike)
+    bike:setCollidable(false)
+    bike:setPhysicsActive(true);bike:setPhysicsActive(false)
+    placeReleased(bike,pose,ox,oy)
     EmreRE9.CarrierPhysics.Apply(bike,false)
-    local t = bike:getWorldTransform(BaseVehicle.allocTransform())
-    local o = t:getOrigin()
-    local px,py = pose.x-(bike:getX()-o:x()),pose.y-(bike:getY()-o:z())
-    BaseVehicle.releaseTransform(t)
-    bike:setPhysicsActive(false)
-    bike:setAngles(pose.rx,pose.ry+360,pose.rz)
-    t = bike:getWorldTransform(BaseVehicle.allocTransform())
-    t:getOrigin():set(px,pose.z*C.HEIGHT_M,py)
-    bike:setWorldTransform(t); BaseVehicle.releaseTransform(t)
-    bike:setX(pose.x); bike:setY(pose.y); bike:setZ(pose.z)
-    bike:setLastX(pose.x); bike:setLastY(pose.y)
-    bike:setCurrentSquareFromPosition(pose.x,pose.y,pose.z)
-    if car and not C.IsPlane(car) then car:setInitialMass(pose.baseMass); car:updateTotalMass() end
-    followed[bike]=nil; bike:setPhysicsActive(true)
+    bike:setCollidable(false)
+    bike:setPhysicsActive(true);bike:setPhysicsActive(false)
+    placeReleased(bike,pose,ox,oy)
+    -- Refresh native render/chunk registration while the body is safe at rear.
+    if not isServer() then
+        local cell=getCell();local list=cell and cell:getVehicles()
+        if list and list:contains(bike) then bike:update() end
+        placeReleased(bike,pose,ox,oy)
+    end
+    if car and not C.IsPlane(car) then car:setInitialMass(pose.baseMass);car:updateTotalMass() end
+    if isClient() then
+        bike:setCollidable(false)
+        bike:setPhysicsActive(true);bike:setPhysicsActive(false)
+    else bike:setCollidable(true);bike:setPhysicsActive(true) end
     releaseApplied[pose.token]=true
     if isClient() and not releaseGuard[bike] then
         releaseGuard[bike]={pose=pose,untilMs=getTimestampMs()+2000}
@@ -471,14 +500,25 @@ function C.ReconcileReleases()
     for bike,state in pairs(releaseGuard) do
         local pose=state.pose
         local r=C.Record(bike)
-        if getTimestampMs()>=state.untilMs or bike:isRemovedFromWorld()
-           or not unoccupied(bike) or (r and r.token~=pose.token)
-           or math.abs(bike:getCurrentSpeedKmHour())>1 then
+        if bike:isRemovedFromWorld() or (r and r.token~=pose.token) then
+            -- A new load keeps its mounted collision/physics policy.
+            releaseGuard[bike]=nil
+        elseif not unoccupied(bike) or getTimestampMs()>=state.untilMs then
+            -- Never turn physics/collision on until the native body is at rear.
+            if EmreRE9.Bikes.IsMounted(name(bike)) then
+                C.ApplyRelease(nil,bike,pose,true)
+            else placeReleased(bike,pose) end
+            bike:setCollidable(true);bike:setPhysicsActive(true)
             releaseGuard[bike]=nil
         else
-            local dx,dy=bike:getX()-pose.x,bike:getY()-pose.y
-            if dx*dx+dy*dy>1 or EmreRE9.Bikes.IsMounted(name(bike)) then
-                C.ApplyRelease(nil,bike,pose)
+            bike:setCollidable(false)
+            bike:setPhysicsActive(true);bike:setPhysicsActive(false)
+            local world=bike:getWorldPos(0,0,0,Vector3f.new())
+            local dx,dy=world:x()-pose.x,world:y()-pose.y
+            local mx,my=bike:getX()-pose.x,bike:getY()-pose.y
+            if dx*dx+dy*dy>.0025 or mx*mx+my*my>.0025
+               or EmreRE9.Bikes.IsMounted(name(bike)) then
+                C.ApplyRelease(nil,bike,pose,true)
             end
         end
     end

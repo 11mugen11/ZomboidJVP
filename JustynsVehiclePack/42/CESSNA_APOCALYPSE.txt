@@ -1,3 +1,6 @@
+1.0.26: corrected multiplayer rear release native/map coordinate conversion and collision-safe hand-off.
+Client-side repair compatible with the 1.0.25 server; restart your game. See 42/CESSNA_REAR_RELEASE_FIX.txt.
+
 1.0.25: multiplayer aircraft visibility, compatible Tenere model packets, and replicated rear unload placement.
 Install on server AND every client, then restart both. See 42/CESSNA_MULTIPLAYER_FIX.txt.
 
@@ -15,7 +18,7 @@ See 42/CESSNA_GEAR_FIX.txt (or CESSNA_GEAR_FIX.txt in this folder).
 
 1.0.20: underside Tenere carrier and propeller livery added. See CESSNA_CARRIER.txt.
 
-Apocalypse Cessna integration â€” 1.0.19
+Apocalypse Cessna integration — 1.0.19
 
 Replaces the existing Base.Cessna172; retains the vehicle identity, aviation
 skill, flight controls, repairable parts, propeller animation and storage.

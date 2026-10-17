@@ -1,3 +1,6 @@
+1.0.26: corrected multiplayer rear release native/map coordinate conversion and collision-safe hand-off.
+Client-side repair compatible with the 1.0.25 server; restart your game. See 42/CESSNA_REAR_RELEASE_FIX.txt.
+
 1.0.25: multiplayer aircraft visibility, compatible Tenere model packets, and replicated rear unload placement.
 Install on server AND every client, then restart both. See 42/CESSNA_MULTIPLAYER_FIX.txt.
 

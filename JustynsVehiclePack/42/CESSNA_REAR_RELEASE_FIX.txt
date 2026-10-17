@@ -1,0 +1,30 @@
+CESSNA MULTIPLAYER REAR RELEASE - PACK 1.0.26
+
+This repair changes client-side placement and works with the existing 1.0.25
+server release command and replicated unload pose. The live server was not
+modified for this update. Fully restart game clients after updating locally.
+Other clients should also update to get the corrected local placement logic.
+
+Multiplayer map X/Y and the native/interpolated physics transform can be from
+different packets. The previous release path inferred world streaming offsets
+from their difference. If map X/Y had already moved behind the aircraft while
+the body remained at the mount point, this translated the real body back into
+the aircraft. The new conversion obtains the physics origin's map coordinates
+from native getWorldPos and compares them with the SAME native transform.
+
+The hidden motorcycle is moved to the authoritative rear drop pose before
+normal visible geometry/collision is rebuilt. Its render/chunk registration
+is refreshed there. For a two-second client hand-off it stays static and
+collision-free, with both native and map positions checked against the rear
+pose. Physics/collision resume only after one final placement at the rear.
+Entering the bike ends this hand-off. A new mount keeps its mount policy.
+Duplicate old release commands cannot teleport a bike after it was driven away.
+The aircraft rear offset remains 5.4 metres and actual inventory is retained.
+
+Validation: a regression deliberately reproduced the former failure (reported
+rear Y=94.6, actual body Y=100). Actual B42 Kahlua handlers now pass both packet
+orders, different streaming origins, stale native-only frames, dropped release
+commands, duplicate messages, normal collision restoration and v1.0.25 server
+compatibility. An isolated native game server confirmed getWorldPos conversion
+with independently stale map coordinates. The native test server was stopped.
+A graphical live two-client playtest is still needed.
