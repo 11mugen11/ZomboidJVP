@@ -116,8 +116,8 @@ C172Parts.LIST = {
     -- TireFrontLeft/Right are a pair standing in for the single nose wheel; the right half
     -- is `nodisplay` in the script and C172Systems.Update.NoseGearMirror keeps it identical
     -- to the left. Listing both was the last thing here that read as a car with four tyres.
-    { id = "TireFrontLeft",         system = "landinggear",    order = 1, name = "Nose Wheel" },
-    { id = "SuspensionFrontLeft",   system = "landinggear",    order = 2, name = "Nose Gear Strut" },
+    { id = "TireFrontLeft",         system = "landinggear",    order = 1, name = "Tailwheel" },
+    { id = "SuspensionFrontLeft",   system = "landinggear",    order = 2, name = "Tailwheel Spring" },
     { id = "TireRearLeft",          system = "landinggear",    order = 3, name = "Left Main Tire" },
     { id = "TireRearRight",         system = "landinggear",    order = 4, name = "Right Main Tire" },
     { id = "SuspensionRearLeft",    system = "landinggear",    order = 5, name = "Left Main Gear Leg" },

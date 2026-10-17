@@ -1,3 +1,4 @@
+require "Cessna172/C172GroundHandling"
 --[[
     C172Flight - Cessna 172 flight controller.
 
@@ -417,8 +418,8 @@ local TUNE = {
     -- Parked body height above the surface, measured across logged landings (1.47-1.74) and
     -- matching RIGHT AIRCRAFT's 1.53 spawn height. The gear datum measured at takeoff is
     -- clamped into this band so one bad reading cannot aim a landing into the ground.
-    GEAR_DATUM_MIN = 1.40,
-    GEAR_DATUM_MAX = 1.80,
+    GEAR_DATUM_MIN = 0.75,
+    GEAR_DATUM_MAX = 1.55,
 
     -- ---- vertical --------------------------------------------------------------
     -- Altitude units per second. MiG: 0.7 / 0.8. A 172 climbs at about 700 fpm against
@@ -612,7 +613,7 @@ local TUNE = {
     -- the MiG's rule (0.3 altitude units, ~0.5 m), which Jay reports lands cleanly - and the
     -- final approach aims this far BELOW the datum so the body actually reaches that band
     -- instead of creeping toward it.
-    TOUCHDOWN_DATUM_M = 0.35,
+    TOUCHDOWN_DATUM_M = 0.08,
     -- 0.25 -> 0.05 (09-25 second log): aiming a quarter-metre under the gear made the final
     -- metres a 1.5-2 m/s drop. The touchdown seat now removes any leftover sink anyway.
     LANDING_FINAL_SINK_M = 0.05,
@@ -630,7 +631,7 @@ local TUNE = {
     -- than TOUCHDOWN_BAD_SEC, is put back on its wheels exactly as RIGHT AIRCRAFT does (level,
     -- vanilla resting height, heading kept). At most twice per landing.
     TOUCHDOWN_SETTLE_SEC = 5.0,
-    TOUCHDOWN_MAX_TILT_DEG = 9.0,
+    TOUCHDOWN_MAX_TILT_DEG = 18.0,
     TOUCHDOWN_SUNK_M = 0.35,
     TOUCHDOWN_BAD_SEC = 0.4,
     -- How long after touchdown the "the pilot shut it down in flight" latch keeps asserting
@@ -1448,6 +1449,7 @@ end
 local function enterGroundMode(vehicle, st, reason)
     local from = st.mode or "?"
     local wasAirborne = st.isAirborne == true
+    if wasAirborne then C172GroundHandling.beginRollout(vehicle, st) end
     st.mode          = "GROUND"
     st.isAirborne    = false
     st.contactsClear = false
@@ -1469,15 +1471,8 @@ local function enterGroundMode(vehicle, st, reason)
     tcall(C172Contacts, "release", vehicle)
     tcall(C172Presentation, "release", vehicle)
 
-    -- Level the airframe on touchdown. Without this the visual pitch/bank would ease out
-    -- over the next second while the aircraft is already sitting on its wheels, so it
-    -- would land nose-high and slowly sag level - and a vehicle abandoned mid-turn would
-    -- stay parked at a lean forever, since nothing publishes attitude once GROUND mode
-    -- stops running the flight update.
-    -- NOTE: pitch/bank are NOT snapped to zero here. They are eased down by the grounded
-    -- tick instead (see updateAttitude's GROUND branch), so touchdown and the start of the
-    -- takeoff roll are both continuous rather than the airframe jumping flat in one frame.
-    -- Snapping here was the "weird takeoff attitude animation".
+    -- The final flare approaches the taildragger stance. Healthy touchdown
+    -- hands the existing native transform and momentum straight to the wheels.
 
     -- Remember what we landed ON. If it is an elevated surface, the grounded tick keeps a
     -- gentle hold on it (see the SURFACE HOLD block in onTick) - because PZ gives a parked
@@ -1498,50 +1493,19 @@ local function enterGroundMode(vehicle, st, reason)
                             or "RESTORE FAILED - the aircraft may slide; use [ to recover"))
     end
 
-    -- SEAT IT ON ITS WHEELS (09-25). Jay's 09-25 20:14 landing: touchdown at 1.81 m (gear datum
-    -- 1.47) but still sinking at ~1.5-2 m/s, which the short gear (0.21 m of travel) cannot
-    -- absorb - 0.7 s later it was 20 deg tipped at 1.01 m, below the height where the wheel
-    -- rays still start above the ground, i.e. on its belly and undrivable. So a landing no
-    -- longer hands the wheels a falling airframe: coming down from the air within
-    -- TOUCHDOWN_SEAT_MAX_M of its gear, it is placed exactly the way RIGHT AIRCRAFT places it -
-    -- level, heading kept, at vanilla's own resting height for the storey, velocity zero -
-    -- the state a freshly spawned Cessna is in. The touchdown speed is a few km/h by then, so
-    -- the only visible effect is that it settles on its gear instead of slamming.
+    -- Leave a healthy landing's transform and native momentum untouched.
+    -- Only a genuinely sunk/tipped body needs the safety reseat; that path
+    -- restores horizontal momentum through a physical impulse.
     if wasAirborne and bridgeAvailable() then
         local h = javaBodyHeight(vehicle)
         local surf = st.groundSurfaceH or 0
-        if type(h) == "number"
-           and (h - surf) <= (st.gearDatum or 1.5) + TUNE.TOUCHDOWN_SEAT_MAX_M then
-            local lvl = math.floor(surf / 2.44949 + 0.001)
-            local okS = javaLevelGround(vehicle, -1, lvl) ~= nil
-            if okS then
-                st.touchdownSeated = true
-                log(("touchdown: seated on its wheels (was %.2f m up, datum %.2f)")
-                    :format(h - surf, st.gearDatum or 0))
-            end
+        local tilt = javaBodyTilt(vehicle)
+        if type(h) == "number" and
+           (h - surf < (st.gearDatum or 1) - TUNE.TOUCHDOWN_SUNK_M
+            or (type(tilt) == "number" and tilt > TUNE.TOUCHDOWN_MAX_TILT_DEG)) then
+            tcall(C172Phys, "reseatRolling", vehicle)
         end
     end
-
-    -- Hand the vanilla drivetrain a sane rollout speed rather than the simulated
-    -- airspeed, so touchdown becomes a landing roll instead of a snap to a halt.
-    -- TOUCHDOWN SPEED HANDOVER. This used to clamp to 30 km/h, which is the single biggest
-    -- reason landing felt wrong: an approach at 40-45 km/h hit the ground and instantly
-    -- lost a third of its speed, so the rollout the player expected to steer and brake
-    -- through simply was not there. The simulated airspeed is now carried across intact up
-    -- to a sane cap, and vanilla's own drivetrain, brakes and (now much more responsive)
-    -- nosewheel steering take it from there - one continuous deceleration instead of a
-    -- step, and the aircraft is still rolling fast enough for steering to mean something.
-    --
-    -- LANDING GEAR DAMAGE. The cap is scaled by gear condition: an aeroplane arriving on a
-    -- flat main tyre or a collapsed strut does not roll out cleanly, it slews and scrubs
-    -- speed off hard. This is the ONE place gear damage is applied by this mod, and
-    -- deliberately so - vanilla ALREADY models the rest of it properly through the very
-    -- same parts (a flat tyre changes handling and grip, damaged brakes reduce total
-    -- braking force, a worn suspension part changes the ride), and re-implementing any of
-    -- that on top would be a second system fighting the first.
-    local gearFx = st.fxGround or 1
-    call1(vehicle, "setSpeedKmHour",
-          math.min(st.airSpeed or 0, TUNE.TOUCHDOWN_SPEED_CAP * gearFx))
 
     -- Touchdown annunciator: the HUD reads this and flashes so the player can SEE the
     -- moment the aircraft transitions onto the ground rather than having to infer it.
@@ -1613,7 +1577,7 @@ local function enterAirMode(vehicle, st, speed, cfg)
         local bh = javaBodyHeight(vehicle)
         local surf = st.groundSurfaceH or 0
         local raw = (type(bh) == "number" and bh == bh) and (bh - surf) or nil
-        st.gearDatum = math.max(TUNE.GEAR_DATUM_MIN, math.min(TUNE.GEAR_DATUM_MAX, raw or 1.53))
+        st.gearDatum = math.max(TUNE.GEAR_DATUM_MIN, math.min(TUNE.GEAR_DATUM_MAX, raw or 1.05))
         log(("gear datum %.2f m (measured %s)"):format(st.gearDatum,
             raw and ("%.2f"):format(raw) or "n/a"))
     end
@@ -2081,13 +2045,11 @@ local function applyFlightForces(vehicle, st, dt)
         end
     end
 
-    -- The pitch the hold aims for. On the final metres of a landing it is capped at
-    -- LANDING_LEVEL_DEG so the wheels come back onto a near-level airframe (the flare itself
-    -- happens higher up, as before).
+    -- Flare smoothly into the taildragger tire plane in the final few metres.
     local pitchAim = st.pitch or 0
-    if st.mode == "LANDING" and (st.altitude or 0) <= 0.01 then
-        pitchAim = math.max(-math.rad(TUNE.LANDING_LEVEL_DEG),
-                            math.min(math.rad(TUNE.LANDING_LEVEL_DEG), pitchAim))
+    if st.mode == "LANDING" and (st.altitude or 0) < .35 then
+        local blend = math.max(0, math.min(1, 1 - (st.altitude or 0) / .35))
+        pitchAim = pitchAim + (math.rad(C172Phys.PARK_PITCH_DEG) - pitchAim) * blend
     end
     local okA = tcall(C172Phys, "holdAttitude", vehicle, st.heading, pitchAim, st.bank or 0,
                       st.yawRateCmd or 0, 1.0, physDt, mass)
@@ -2618,6 +2580,9 @@ local function onTick()
     -- so ordinary driving is never written over. It is deliberately NOT applied while
     -- airborne; up there the attitude hold owns the airframe and this would fight it.
     if bridgeAvailable() then
+        if not C172GroundHandling.isParked(vehicle) then
+            tcall(C172Phys, "holdGroundGear", vehicle, dt)
+        end
         do
             local corrected = javaLevelGround(vehicle, TUNE.GROUND_MAX_TILT_DEG, player:getZ())
             local okL = corrected ~= nil
@@ -2651,7 +2616,7 @@ local function onTick()
             if nowSec() - st.settleBadSince >= TUNE.TOUCHDOWN_BAD_SEC then
                 st.settleFixes = (st.settleFixes or 0) + 1
                 st.settleBadSince = nil
-                javaLevelGround(vehicle, -1, player:getZ())
+                tcall(C172Phys, "reseatRolling", vehicle)
                 log(("touchdown settle: airframe was %s%s - put back on its wheels (%d)")
                     :format(tipped and ("%.1f deg tipped"):format(tilt) or "",
                             sunk and ((tipped and ", " or "") .. ("%.2f m up, datum %.2f"):format(above, datum)) or "",
@@ -2661,6 +2626,13 @@ local function onTick()
             st.settleBadSince = nil
         end
     end
+
+    -- Coast after touchdown until the pilot uses throttle/brakes, or the
+    -- aircraft reaches a walking pace. Steering remains vanilla throughout.
+    local pedal = false
+    pcall(function() pedal = vehicle:isBrakePedalPressed() end)
+    C172GroundHandling.rollout(vehicle, st, dt, thrustHeld,
+        pedal or keyDown(S_KEY) or keyDown(Keyboard.KEY_SPACE))
 
     -- SURFACE HOLD. Only ever runs when the aircraft is genuinely standing on something
     -- ABOVE ground level. On ordinary ground this whole block is skipped and vanilla wheel

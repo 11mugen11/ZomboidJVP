@@ -1,0 +1,69 @@
+1.0.23: approved 120% aircraft, normal-size centered Tenere, fitted cockpit and parking/taxi calibration.
+See 42/CESSNA_RESIZE_UPDATE.txt (or CESSNA_RESIZE_UPDATE.txt in this folder).
+
+1.0.22: engine-controlled nav lights, parking hold, mounted-bike cabin clearance and smooth landing rollout.
+See CESSNA_HANDLING_FIX.txt in the 42 folder.
+
+1.0.21: corrected taildragger wheel support and spinning propeller pivot.
+See 42/CESSNA_GEAR_FIX.txt (or CESSNA_GEAR_FIX.txt in this folder).
+
+CESSNA UNDERSIDE TENERE CARRIER - PACK 1.0.20
+
+Park a normal Tenere behind the aircraft (within two tiles of a point 4.5 tiles
+behind its center), stop both vehicles, dismount and turn off the motorcycle.
+Open the normal V vehicle menu anywhere within its usual aircraft interaction
+range. Select Mount Tenere under aircraft. Use Unload Tenere behind aircraft
+to release it into a clear 3-by-3 area at the same rear staging point.
+
+The aircraft must be landed and stationary. Loading/unloading is checked by
+the server. A moving, occupied, already paired or rope-towed motorcycle cannot
+be loaded. The aircraft carrier accepts the Tenere; the Discovery rear carrier
+still supports both existing adventure motorcycles with its existing behavior.
+
+Approved display: rectangular hull-fitted belly rack, transverse bars, sideways
+Tenere with its fork/front wheel/fender turned 32 degrees, revised lateral fit,
+rear frame tie and double front-fork rope wrap. Motorcycle luggage is hidden
+while mounted and returns on release. Its actual items, inventory containers,
+condition, fuel and engine tuning are retained, not replaced with a new bike.
+
+The displayed motorcycle is a conditional aircraft model. Its real vehicle
+follows invisibly without a native towing joint, with all tire raycasts removed
+and object contacts disabled. Its required valid tiny physics placeholder is
+positioned 2.20m laterally outside the aircraft fuselage collision box; this is
+not an empty-body or globally collision-free engine patch. Mounting adds no bike
+or luggage mass to the aircraft and does not change flight tuning. Native tire
+maintenance callbacks cannot re-enable mounted wheel contacts.
+
+Both host and clients need this release and a full game restart to load the new
+models/texture atlas. Pair records, native vehicle IDs and mechanical-ID checks
+are retained. Observers, streamed-in planes and saved pairs independently show
+the mounted display; delayed release packets cannot display a stale old pair.
+
+Propeller blades are black with a narrow yellow band and white/red outer tips.
+The separate spinning mesh and original pivot are preserved. Existing bright,
+wide landing/taxi/rack beams and red port/green starboard lights are retained.
+Render model scale is normalized so the vehicle scale is applied once, keeping
+the visible airframe, wheel diameters and mounted display aligned with physics.
+
+VALIDATED
+- Installed B42 Lua compiler and native Jassimp import; every mesh index-safe.
+- All atlas textures, UVs, native lamp masks, spin axis and gear clearances.
+- Carrier logic for rear staging, front/side access, hover rejection, exact
+  inventory/container references, unchanged aircraft mass, collision restoration,
+  blocked unloading, rear release, arbitrary attitude following and orphan repair.
+- Actual server/client message-handler fixtures: server authority, observers,
+  late join, stale/out-of-order releases and reused vehicle IDs.
+- Conditional display hiding/showing, stream reinitialization and saved pairs.
+- Native PZBullet aircraft-body trajectory comparisons in three attitudes with
+  force and yaw torque: mounted and unmounted final states were identical.
+- Actual isolated dedicated-server script registration, load, hidden profile,
+  pair records, unchanged aircraft mass, normal restoration and headlights.
+- Existing Discovery/RE9/Tenere carrier and audio regression suites.
+
+NOT RUN: a graphical in-game taxi/takeoff/landing session or an actual two-client
+multiplayer visual session. Native and fixture checks do not certify those.
+
+Backups and machine-readable validation are stored in the workspace under
+.validation/cessna-carrier-integration. The matching standalone Cessna source
+receives the airframe/rack/material updates as 1.11.1; functional Tenere carrier
+support is provided by this combined vehicle pack.

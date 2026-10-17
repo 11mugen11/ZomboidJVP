@@ -87,7 +87,7 @@ P.ATT = {
     -- takes the collision box's bounding box (physicsChassisShape 0.85 x 0.70 x 1.50 x the
     -- 1.75 model scale = 1.4875 x 1.225 x 2.625 m): I = m/12 (a^2 + b^2). MEASURED with this
     -- script on the real library (tools/tests/native_engine_facts.lua).
-    INERTIA       = { 0.682, 0.740, 0.302 },
+    INERTIA       = { 0.280218816, 0.500718816, 0.31053744 },
 }
 
 -- ---------------------------------------------------------------- per-vehicle samples
@@ -228,7 +228,7 @@ function P.c172GetRestLength(v)
     local ok, r = pcall(function() return v:getScript():getSuspensionRestLength() end)
     r = ok and num(r) or nil
     if r and r > 0 then return r end
-    return 0.20
+    return 0.08
 end
 
 -- Vanilla's own parked height for this aircraft on a storey, from the script (CarController's
@@ -236,28 +236,23 @@ end
 -- The airframe's real footprint (width, height, length in metres, the script's numbers times
 -- the model scale). Read from the script while it is not shrunk for flight (C172Contacts),
 -- else these - so a session that ended mid-flight can never feed back a negative one.
-P.FULL_EXTENTS = { 1.4875, 1.225, 2.625 }
-P.WHEEL_RADIUS = 0.11           -- wheel 0 in vehicle_cessna172.txt, before the model scale
+P.FULL_EXTENTS = { 1.785, 1.155, 3.15 }
+P.WHEEL_RADIUS = 0.16831600           -- wheel 0 in vehicle_cessna172.txt, before the model scale
 function P.fullExtents()
     if P.Contacts and P.Contacts.full then return P.Contacts.full end
     return P.FULL_EXTENTS
 end
 
+-- The visible tire profile defines the recovery pose, rather than a single
+-- suspension connection point. The suspension rays are calibrated separately.
+P.PARK_PITCH_DEG = 12.94
 function P.restingHeight(v, level)
-    local ok, h = pcall(function()
-        local s = v:getScript()
-        local chassis = num(s:getCenterOfMassOffset():y(), 0) - P.fullExtents()[2] / 2
-        local wheel = chassis
-        if s:getWheelCount() > 0 then
-            -- a wheel's radius is a bare field Lua cannot read: the script's 0.11 x the scale
-            local w = s:getWheel(0)
-            wheel = num(s:getModelOffset():y(), 0) + num(w:getOffset():y(), 0)
-                  - P.WHEEL_RADIUS * num(s:getModelScale(), 1.75)
-        end
-        return floor(level or 0) * Z_M - min(wheel, chassis)
-    end)
-    h = ok and num(h) or nil
-    return h
+    local scale = num(v:getScript():getModelScale(), 2.1)
+    local a = math.rad(P.PARK_PITCH_DEG)
+    local density = 3.1922 / 11
+    local main = (1.35 * cos(a) - .12 * sin(a) + .58 * .995) * density * scale
+    local tail = (.55 * cos(a) + 5.05 * sin(a) + .20 * .995) * density * scale
+    return floor(level or 0) * Z_M + max(main, tail) + .015
 end
 
 -- ---------------------------------------------------------------- the push channel
@@ -414,6 +409,18 @@ function P.holdAttitude(v, heading, pitchUp, bankRight, yawRate, authority, dt, 
     return b
 end
 
+-- Taildragger ground support: damp pitch/roll without resisting taxi steering
+-- or resetting linear velocity. Flight continues to use its own attitude hold.
+function P.holdGroundGear(v, dt)
+    local b = P.observe(v, dt)
+    if not b.qw then return end
+    local fx, fz = P.forward(v)
+    local heading = atan2(fx, fz)
+    local tx, _, tz = P.attitudeTorque(b, heading, math.rad(P.PARK_PITCH_DEG), 0,
+                                     b.wy or 0, 3, v:getMass())
+    P.applyTorque(v, tx, 0, tz, dt)
+end
+
 -- ---------------------------------------------------------------- level / reseat
 -- Put the airframe level with its heading KEPT, where it is. BaseVehicle.setAngles builds the
 -- rotation as rotationXYZ(x, y, z) degrees, and rotationY(t) takes the nose to (sin t, 0,
@@ -457,7 +464,13 @@ function P.c172LevelGroundAttitude(v, maxTiltDeg, level)
     local tilt = P.c172BodyTiltDeg(v)
     if not tilt then return 0 end
     if (maxTiltDeg or 0) >= 0 and tilt <= maxTiltDeg then return 0 end
-    P.levelKeepHeading(v)
+    local heading = P.levelKeepHeading(v)
+    -- rotationXYZ must retain the horizontal bearing at every yaw.
+    local pitch = math.rad(P.PARK_PITCH_DEG)
+    v:setAngles(deg(atan2(-sin(pitch), cos(pitch) * cos(heading))),
+                deg(math.asin(clamp(cos(pitch) * sin(heading), -1, 1))),
+                deg(atan2(sin(pitch) * sin(heading), cos(heading))))
+    P.forget(v)
     local h = P.c172GetBodyHeight(v)
     local storey = h and floor(h / Z_M + 1e-4) or 0
     local rest = P.restingHeight(v, 0)
@@ -475,6 +488,19 @@ end
 function P.c172RecoverToGround(v)
     P.c172LevelGroundAttitude(v, -1)
     return P.c172GetBodyHeight(v) or -1
+end
+
+-- A necessary landing safety reseat must retain horizontal momentum. The
+-- engine's transform setters clear velocity; its speed setter is display-only.
+-- Queue the lost momentum through the same one-substep impulse channel as flight.
+function P.reseatRolling(v)
+    local vx, _, vz = P.velocity(v)
+    P.c172LevelGroundAttitude(v, -1)
+    local speed = sqrt(vx * vx + vz * vz)
+    if speed > .01 then
+        v:setPhysicsActive(true)
+        central(v, vx / speed, vz / speed, 0, v:getMass() * speed / (GAIN * STEP))
+    end
 end
 
 -- ---------------------------------------------------------------- tyres
@@ -723,6 +749,25 @@ end
 
 Events.OnPlayerUpdate.Add(function(player)
     if player and player:isLocalPlayer() then pcall(P.guardVertical, player) end
+end)
+
+-- Migrate a stationary aircraft from the former level gear pose once per
+-- streamed vehicle instance, on the owning driver's client. Never reseat a
+-- moving aircraft or one being flown by another client.
+local gearSeated = setmetatable({}, { __mode = "k" })
+Events.OnEnterVehicle.Add(function(player)
+    if not player or not player:isLocalPlayer() then return end
+    local v = player:getVehicle()
+    if not v or v:getScriptName() ~= P.SCRIPT or not v:isDriver(player)
+       or gearSeated[v] or P.isFlying(v) then return end
+    local h = P.c172GetBodyHeight(v)
+    local ground = P.c172SurfaceHeightBelow(v)
+    local _, vy = P.velocity(v)
+    if not h or h - ground > 1.6 or h - ground < -0.1
+       or abs(v:getCurrentSpeedKmHour()) > .5 or abs(vy) > .5 then return end
+    P.c172LevelGroundAttitude(v, -1)
+    P.c172SetTiresRemoved(v, false)
+    gearSeated[v] = true
 end)
 
 -- ---------------------------------------------------------------- reset

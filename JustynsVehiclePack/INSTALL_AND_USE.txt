@@ -1,3 +1,21 @@
+1.0.24: modeled engine-on navigation lamps, Viewpoint-aligned brighter roof/forward lights, and ground-only rolling wheels.
+See 42/CESSNA_LIGHTS_WHEELS.txt.
+
+1.0.23: approved 120% aircraft, normal-size centered Tenere, fitted cockpit and parking/taxi calibration.
+See 42/CESSNA_RESIZE_UPDATE.txt (or CESSNA_RESIZE_UPDATE.txt in this folder).
+
+1.0.22: engine-controlled nav lights, parking hold, mounted-bike cabin clearance and smooth landing rollout.
+See CESSNA_HANDLING_FIX.txt in the 42 folder.
+
+1.0.21: corrected taildragger wheel support and spinning propeller pivot.
+See 42/CESSNA_GEAR_FIX.txt (or CESSNA_GEAR_FIX.txt in this folder).
+
+CESSNA TENERE CARRIER 1.0.20
+See 42/CESSNA_CARRIER.txt for V-menu loading, rear staging and validation details.
+
+APOCALYPSE CESSNA 1.0.19
+See 42/CESSNA_APOCALYPSE.txt for changes and validation limits.
+
 JUSTYNS VEHICLE PACK - BUILD 42
 
 INSTALL

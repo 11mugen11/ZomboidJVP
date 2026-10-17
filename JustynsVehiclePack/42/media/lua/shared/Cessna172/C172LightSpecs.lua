@@ -11,13 +11,13 @@
 ]]
 C172LightSpecs = C172LightSpecs or {}
 
-C172LightSpecs.HeadlightLeft = { x =  1.20, y =  3.20, dist = 38, intensity = 0.62, dot = 0.72,
+C172LightSpecs.HeadlightLeft = { x =  0.34, y =  0.10, dist = 110, intensity = 2.80, dot = 0.25,
                                  r = 1.00, g = 0.97, b = 0.90 }   -- landing light
-C172LightSpecs.HeadlightRight = { x =  1.45, y =  2.70, dist = 16, intensity = 0.38, dot = 0.42,
+C172LightSpecs.HeadlightRight = { x = -0.34, y =  0.10, dist = 90, intensity = 2.40, dot = 0.20,
                                   r = 1.00, g = 0.96, b = 0.85 }  -- taxi light
-C172LightSpecs.HeadlightRearLeft = { x =  3.00, y =  0.10, dist = 2, intensity = 0.06, dot = 0.90,
-                                     r = 1.00, g = 0.13, b = 0.13 }   -- red nav light, port
-C172LightSpecs.HeadlightRearRight = { x = -3.00, y =  0.10, dist = 2, intensity = 0.06, dot = 0.90,
-                                      r = 0.13, g = 1.00, b = 0.25 }  -- green nav light, starboard
+C172LightSpecs.HeadlightRearLeft = { x =  0.00, y =  0.00, dist = 0.1, intensity = 0.00, dot = 0.90,
+                                     r = 0.00, g = 0.00, b = 0.00 }   -- red nav light, port
+C172LightSpecs.HeadlightRearRight = { x =  0.00, y =  0.00, dist = 0.1, intensity = 0.00, dot = 0.90,
+                                      r = 0.00, g = 0.00, b = 0.00 }  -- green nav light, starboard
 
 return C172LightSpecs

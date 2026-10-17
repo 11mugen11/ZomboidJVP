@@ -2005,4 +2005,1106 @@ module Base
             }
         }
 }
+    model JVP_TenereInvisible
+    {
+        mesh = vehicles/tenere/JVP_TenereInvisible|JVP_TenereInvisible,
+        texture = Vehicles/JVP_Tenere,
+        shader = vehicle_noreflect,
+        invertX = false,
+        scale = 1,
+    }
+    template vehicle JVP_TenereAircraftBase
+    {
+
+        
+
+
+        mechanicType = 3,
+        engineRepairLevel = 4,
+        playerDamageProtection = 0.7,
+
+        textureRust = Vehicles/JVP_Tenere_Clear,
+        textureMask = Vehicles/JVP_Tenere_Mask,
+        
+        
+        textureLights = Vehicles/JVP_Tenere_Lights,
+        textureDamage1Shell = Vehicles/JVP_Tenere_Clear,
+        textureDamage2Shell = Vehicles/JVP_Tenere_Clear,
+        textureDamage1Overlay = Vehicles/JVP_Tenere_Clear,
+        textureDamage2Overlay = Vehicles/JVP_Tenere_Clear,
+        textureShadow = EMRE_RE9_Shadow,
+
+        sound
+        {
+            engine = EMRE_RE9EngineBed,
+            engineStart = EMRE_RE9EngineStart,
+            engineTurnOff = EMRE_RE9EngineShutdown,
+            ignitionFail = EMRE_RE9IgnitionFail,
+            ignitionFailNoPower = EMRE_RE9NoPower,
+            handBrake = EMRE_RE9HandBrake,
+            horn = VehicleHorn,
+        }
+        
+        wheel FrontRight
+        {
+            front = false,
+            offset = -0.26 0.333379 0.007343,
+            radius = 0.313,
+            width = 0.18,
+        }
+
+        wheel FrontLeft
+        {
+            front = true,
+            offset = 0.0 0.349235 0.766817,
+            radius = 0.313,
+            width = 0.18,
+        }
+
+        wheel RearLeft
+        {
+            front = false,
+            offset = 0.26 0.333379 0.007343,
+            radius = 0.313,
+            width = 0.18,
+        }
+
+        wheel RearRight
+        {
+            front = false,
+            offset = 0.0 0.317522 -0.752131,
+            radius = 0.313,
+            width = 0.18,
+        }
+
+        area Engine
+        {
+            xywh = -0.8000 0.3375 0.8500 0.8500,
+        }
+
+        area SeatFrontLeft
+        {
+            xywh = 0.62 -0.3875 .50 .48,
+        }
+
+        area SeatFrontRight
+        {
+            xywh = -0.62 -0.3875 .50 .48,
+        }
+
+        area SeatRearLeft
+        {
+            xywh = 0.62 -.93125 .50 .48,
+        }
+        area SeatRearRight
+        {
+            xywh = -0.62 -.93125 .50 .48,
+        }
+
+        area GasTank
+        {
+            xywh = 0.8000 0.1750 0.8500 0.8500,
+        }
+
+        area TireFrontLeft
+        {
+            xywh = -.68 0.77 .85 .85,
+        }
+
+        area TireRearRight
+        {
+            xywh = -.68 -0.75 .85 .85,
+        }
+
+        template = Seat/part/SeatFrontLeft,
+        template = Seat/part/SeatRearLeft,
+        
+        template = GasTank,
+
+        part GasTank
+        {
+
+            category = bodywork,
+            specificItem = false,
+            itemType = EmreRE9.GasTank,
+
+
+        
+            repairMechanic = true,
+
+        }
+
+        template = Engine,
+
+        part Engine
+        {
+
+            category = bodywork,
+        
+            lua
+            {
+                create = Vehicles.Create.Engine,
+                init = EmreRE9.Handling.InitEngine,
+                update = Vehicles.Update.Engine,
+                checkEngine = Vehicles.CheckEngine.Engine,
+            }
+
+        }
+
+        template = Battery,
+
+        part Battery
+        {
+
+            category = bodywork,
+            area = GasTank,
+        
+            specificItem = false,
+            itemType = Base.CarBattery3,
+
+        }
+
+        template = Muffler,
+        part Muffler
+        {
+
+            category = bodywork,
+            specificItem = false,
+            area = TireRearRight,
+            itemType = EmreRE9.Muffler,
+
+
+
+            lua
+            {
+                create = EmreRE9.Parts.CreateBodyPart,
+                init = EmreRE9.Parts.InitBodyPart,
+                update = Vehicles.Update.Muffler,
+            }
+        
+            repairMechanic = true,
+
+        }
+
+        template = Brake/part/BrakeFrontLeft,
+        template = Brake/part/BrakeRearRight,
+
+        part BrakeFrontLeft
+        {
+            area = TireFrontLeft,
+
+            table install
+            {
+                requireUninstalled = TireFrontLeft,
+            }
+            table uninstall
+            {
+                requireUninstalled = TireFrontLeft,
+            }
+        }
+
+        part BrakeRearRight
+        {
+            area = TireRearRight,
+
+            table install
+            {
+                requireInstalled = SuspensionRearRight,
+                requireUninstalled = TireRearRight,
+            }
+            table uninstall
+            {
+                requireInstalled = SuspensionRearRight,
+                requireUninstalled = TireRearRight,
+            }
+        }
+
+        template = Suspension,
+        part SuspensionFrontLeft
+        {
+            setAllModelsVisible = true,
+            area = TireFrontLeft,
+            
+            table install
+            {
+                requireUninstalled = TireFrontLeft,
+            }
+            table uninstall
+            {
+                requireUninstalled = TireFrontLeft,
+            }
+                    
+}
+
+        part SuspensionFrontRight
+        {
+            category = nodisplay,
+            table uninstall 
+            {
+                requireUninstalled = SuspensionFrontRight,
+            }
+        }
+        
+        part SuspensionRearRight
+        {
+            setAllModelsVisible = true,
+            area = TireRearRight,
+            
+            table install
+            {
+                requireUninstalled = TireRearRight,
+            }
+            table uninstall
+            {
+                requireUninstalled = TireRearRight,
+            }
+                    
+            
+}
+        
+        part SuspensionRearLeft
+        {
+            category = nodisplay,
+            table uninstall 
+            {
+                requireUninstalled = SuspensionRearLeft,
+            }
+        }
+
+        template = Headlight/part/HeadlightLeft,
+        part HeadlightLeft
+        {
+            area = TireFrontLeft,
+            lua
+            {
+                create = EmreRE9.Lights.Create,
+                init = EmreRE9.Lights.Init,
+                update = Vehicles.Update.Headlight,
+            }
+            table install
+            {
+                complete = EmreRE9.Lights.Init,
+            }
+        }
+        
+        template = Headlight/part/HeadlightRearLeft,
+        part HeadlightRearLeft
+        {
+            area = TireRearRight,
+            lua
+            {
+                create = EmreRE9.Lights.Create,
+                init = EmreRE9.Lights.Init,
+                update = Vehicles.Update.Headlight,
+            }
+            table install
+            {
+                complete = EmreRE9.Lights.Init,
+            }
+        }
+        
+        template = Door/part/DoorFrontLeft,
+        template = Door/part/DoorFrontRight,
+        template = Door/part/DoorRearLeft,
+        template = Door/part/DoorRearRight,
+        part DoorFrontLeft
+        {
+            area = SeatFrontLeft,
+        }
+        part DoorFrontRight
+        {
+            area = SeatFrontRight,
+        }
+        part DoorRearLeft
+        {
+            area = SeatRearLeft,
+        }
+        part DoorRearRight
+        {
+            area = SeatRearRight,
+        }
+
+
+        part Door*
+        {
+            category = nodisplay,
+
+            anim Open
+            {
+                sound =,
+            }
+
+            anim Close
+            {
+                sound =,
+            }
+
+            anim Lock
+            {
+                sound =,
+            }
+
+            anim Unlock
+            {
+                sound =,
+            }
+
+            anim IsLocked
+            {
+                sound =,
+            }
+
+            lua
+            {
+                create = EmreRE9.Parts.Door,
+                init = EmreRE9.Parts.Door,
+                use = Vehicles.Use.Door,
+            }
+        }
+
+
+
+
+
+        
+        template = Tire,
+
+
+
+        
+
+
+
+
+    
+            part JVP_TenereBodyDetail01
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail02
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail03
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail04
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail05
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail06
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail07
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail08
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail09
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail10
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail11
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail12
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail13
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail14
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail15
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail16
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail17
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail18
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail19
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail20
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail21
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part JVP_TenereBodyDetail22
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+}
+    vehicle JVP_TenereAircraft
+    {
+        template! = JVP_TenereAircraftBase,
+
+        model
+        {
+            file = JVP_TenereInvisible,
+            scale = 0.8000,
+            offset = 0.0000 -0.2500 0.0000,
+        }
+
+        skin
+        {
+            texture = Vehicles/JVP_Tenere,
+        }
+
+        
+
+        
+
+        passenger FrontLeft
+        {
+            door = DoorFrontLeft,
+            door2 = DoorFrontRight,
+            area = SeatFrontLeft,
+            showPassenger = true,
+            hasRoof = false,
+            position inside
+            {
+                offset = 0 .25 -.3875,
+                rotate = 0 0 0,
+            }
+            position outside
+            {
+                offset = .62 -.025 -.3875,
+                rotate = 0 0 0,
+                area = SeatFrontLeft,
+            }
+            position outside2
+            {
+                offset = -.62 -.025 -.3875,
+                rotate = 0 0 0,
+                area = SeatFrontRight,
+            }
+            anim idle
+            {
+                anim = EMRE_RE9_Idle,
+                angle = 0 0 0,
+                rate = 1,
+                loop = true,
+                animate = true,
+            }
+            anim enter
+            {
+                anim = EMRE_RE9_D_EnterL,
+                angle = 0 0 0,
+                rate = 1,
+                loop = false,
+                animate = true,
+            }
+            anim exit
+            {
+                anim = EMRE_RE9_D_ExitL,
+                angle = 0 0 0,
+                rate = 1,
+                loop = false,
+                animate = true,
+            }
+
+        }
+
+
+
+        passenger RearLeft
+        {
+            door = DoorRearLeft,
+            door2 = DoorRearRight,
+            area = SeatRearLeft,
+            showPassenger = true,
+            hasRoof = false,
+            position inside
+            {
+                offset = 0 .25 -.93125,
+                rotate = 0 0 0,
+            }
+            position outside
+            {
+                offset = .62 -.025 -.93125,
+                rotate = 0 0 0,
+                area = SeatRearLeft,
+            }
+            position outside2
+            {
+                offset = -.62 -.025 -.93125,
+                rotate = 0 0 0,
+                area = SeatRearRight,
+            }
+            anim idle
+            {
+                anim = EMRE_RE9_P_Idle,
+                angle = 0 0 0,
+                rate = 1,
+                loop = true,
+                animate = true,
+            }
+            anim enter
+            {
+                anim = EMRE_RE9_P_EnterL,
+                angle = 0 0 0,
+                rate = 1,
+                loop = false,
+                animate = true,
+            }
+            anim exit
+            {
+                anim = EMRE_RE9_P_ExitL,
+                angle = 0 0 0,
+                rate = 1,
+                loop = false,
+                animate = true,
+            }
+        }
+
+        part SeatFrontLeft
+        {
+
+            category = bodywork,
+            specificItem = false,
+            itemType = EmreRE9.Seat,
+
+            
+        
+            repairMechanic = true,
+
+        }
+
+        part SeatRearLeft
+        {
+            setAllModelsVisible = true,
+            
+            category = bodywork,
+            area = SeatRearLeft,
+            specificItem = false,
+            itemType = EmreRE9.Seat,
+            repairMechanic = true,
+            lua
+            {
+                create = EmreRE9.Parts.CreatePassengerSeat,
+                init = EmreRE9.Parts.InitPassengerSeat,
+            }
+        }
+        part Seat*
+        {
+            container
+            {
+                test = EmreRE9.ContainerAccess.Never,
+            }
+        }
+
+        engineForce = 1100,
+        /* Native drive force tapers to zero at maxSpeed + 20 km/h.
+           80 mph = 128.74752 km/h; low-speed gearing is retained in Drive. */
+        maxSpeed = 108.74752,
+        maxSpeedReverse = 4,
+        mass = 360,
+        extents = 0.000001 0.000001 0.000001,
+        physicsChassisShape = 0.72 0.20 1.95,
+        /* Aircraft cargo: retain real parts/inventory, but use a point-sized
+           interaction footprint so the invisible bike cannot block cabin entry. */
+        useChassisPhysicsCollision = false,
+        /* B42 falls back to extents if there are no explicit physics shapes.
+           A valid tiny placeholder 2.20m to the side of the aircraft avoids
+           the native chassis fallback and stays outside its 0.744m half-width. */
+        physics box
+        {
+            offset = 2.75 0.25 0,
+            extents = 0.01 0.01 0.01,
+        }
+        centerOfMassOffset = 0.0 0.12 -0.05,
+        shadowExtents = 0.000001 0.000001,
+        shadowOffset = 0.0000 0.0000,
+        engineLoudness = 80,
+        engineQuality = 75,
+        brakingForce = 12,
+        stoppingMovementForce = .5,
+        rollInfluence = 0.0f,
+        steeringIncrement = .04,
+        steeringClamp = .25,
+        suspensionStiffness = 30,
+        suspensionCompression = 4.8,
+        suspensionDamping = 4.4,
+        maxSuspensionTravelCm = 12,
+        suspensionRestLength = .12,
+        wheelFriction = 2.4,
+        frontEndHealth = 150,
+        rearEndHealth = 150,
+        seats = 2,
+        offRoadEfficiency = 1.4,
+        playerDamageProtection = 0.7,
+
+        part RE9CargoRack
+        {
+            setAllModelsVisible = false,
+            category = nodisplay,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+
+        part RE9TouringCases
+        {
+            setAllModelsVisible = false,
+            category = nodisplay,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        area RE9CaseTop
+        {
+            xywh = 0 -1.55 .85 .65,
+        }
+        part RE9CaseTop
+        {
+            category = bodywork,
+            area = RE9CaseTop,
+            container
+            {
+                capacity = 250,
+                test = EmreRE9.ContainerAccess.Case,
+            }
+            lua
+            {
+                create = EmreRE9.Parts.CreateCase,
+                init = EmreRE9.Parts.InitCase,
+            }
+        }
+
+        area RE9CaseFrontLeft
+        {
+            xywh = -0.72 0.48 0.70 0.85,
+        }
+        part RE9CaseFrontLeft
+        {
+            category = bodywork,
+            area = RE9CaseFrontLeft,
+            container
+            {
+                capacity = 50,
+                test = EmreRE9.ContainerAccess.Case,
+            }
+            lua
+            {
+                create = EmreRE9.Parts.CreateCase,
+                init = EmreRE9.Parts.InitCase,
+            }
+        }
+
+        area RE9CaseFrontRight
+        {
+            xywh = 0.72 0.48 0.70 0.85,
+        }
+        part RE9CaseFrontRight
+        {
+            category = bodywork,
+            area = RE9CaseFrontRight,
+            container
+            {
+                capacity = 50,
+                test = EmreRE9.ContainerAccess.Case,
+            }
+            lua
+            {
+                create = EmreRE9.Parts.CreateCase,
+                init = EmreRE9.Parts.InitCase,
+            }
+        }
+
+        area RE9CaseRearLeft
+        {
+            xywh = -0.72 -0.83 0.70 0.85,
+        }
+        part RE9CaseRearLeft
+        {
+            category = bodywork,
+            area = RE9CaseRearLeft,
+            container
+            {
+                capacity = 100,
+                test = EmreRE9.ContainerAccess.Case,
+            }
+            lua
+            {
+                create = EmreRE9.Parts.CreateCase,
+                init = EmreRE9.Parts.InitCase,
+            }
+        }
+
+        area RE9CaseRearRight
+        {
+            xywh = 0.72 -0.83 0.70 0.85,
+        }
+        part RE9CaseRearRight
+        {
+            category = bodywork,
+            area = RE9CaseRearRight,
+            container
+            {
+                capacity = 100,
+                test = EmreRE9.ContainerAccess.Case,
+            }
+            lua
+            {
+                create = EmreRE9.Parts.CreateCase,
+                init = EmreRE9.Parts.InitCase,
+            }
+        }
+
+    
+        part TireFrontLeft
+        {
+            category = tire,
+            area = TireFrontLeft,
+            wheel = FrontLeft,
+            specificItem = false,
+            itemType = EmreRE9.Tire,
+            repairMechanic = true,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Tires.Create,
+                init = EmreRE9.Tires.Init,
+                update = EmreRE9.Tires.Update,
+            }
+            table install
+            {
+                complete = EmreRE9.Tires.Init,
+                skills = Mechanics:0,
+            }
+            table uninstall
+            {
+                complete = EmreRE9.Tires.Init,
+                skills = Mechanics:0,
+            }
+        }
+
+        part TireRearRight
+        {
+            category = tire,
+            area = TireRearRight,
+            wheel = RearRight,
+            specificItem = false,
+            itemType = EmreRE9.Tire,
+            repairMechanic = true,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Tires.Create,
+                init = EmreRE9.Tires.Init,
+                update = EmreRE9.Tires.Update,
+            }
+            table install
+            {
+                complete = EmreRE9.Tires.Init,
+                skills = Mechanics:0,
+            }
+            table uninstall
+            {
+                complete = EmreRE9.Tires.Init,
+                skills = Mechanics:0,
+            }
+        }
+
+        part TireFrontRight
+        {
+            category = nodisplay,
+            area = TireFrontLeft,
+            wheel = FrontRight,
+            specificItem = false,
+            itemType = EmreRE9.SupportTire,
+            repairMechanic = false,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Tires.Support,
+                init = EmreRE9.Tires.Support,
+                update = EmreRE9.Tires.Support,
+            }
+            table install
+            {
+                test = EmreRE9.Tires.BlockMaintenance,
+                skills = Mechanics:0,
+            }
+            table uninstall
+            {
+                test = EmreRE9.Tires.BlockMaintenance,
+                skills = Mechanics:0,
+            }
+        }
+
+        part TireRearLeft
+        {
+            category = nodisplay,
+            area = TireRearRight,
+            wheel = RearLeft,
+            specificItem = false,
+            itemType = EmreRE9.SupportTire,
+            repairMechanic = false,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Tires.Support,
+                init = EmreRE9.Tires.Support,
+                update = EmreRE9.Tires.Support,
+            }
+            table install
+            {
+                test = EmreRE9.Tires.BlockMaintenance,
+                skills = Mechanics:0,
+            }
+            table uninstall
+            {
+                test = EmreRE9.Tires.BlockMaintenance,
+                skills = Mechanics:0,
+            }
+        }
+        part JVP_TenereBodyDetail22
+        {
+            category = nodisplay,
+            setAllModelsVisible = false,
+            
+            lua
+            {
+                create = EmreRE9.Parts.InitCargo,
+                init = EmreRE9.Parts.InitCargo,
+            }
+        }
+        part TireFrontLeft
+        {
+            model InflatedTirePlusWheel
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
+        }
+        part TireFrontRight
+        {
+            model InflatedTirePlusWheel
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
+        }
+        part TireRearLeft
+        {
+            model InflatedTirePlusWheel
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
+        }
+        part TireRearRight
+        {
+            model InflatedTirePlusWheel
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
+        }
+}
 }

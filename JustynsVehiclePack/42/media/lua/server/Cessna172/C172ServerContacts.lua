@@ -32,7 +32,7 @@ local S = C172ServerContacts
 
 S.CLEAR_EXTENTS = -3.0      -- m, as C172Contacts.CLEAR_EXTENTS: anything <= -2.6 zeroes the scan radius
 S.FRESH_MS = 1500           -- three missed 0.5 s flight updates
-S.FULL_EXTENTS = { 1.4875, 1.225, 2.625 }   -- only if the script is found already shrunk (= C172Phys.FULL_EXTENTS)
+S.FULL_EXTENTS = { 1.785, 1.155, 3.15 }   -- only if the script is found already shrunk (= C172Phys.FULL_EXTENTS)
 S.small = false
 S.extents = nil             -- the server script's live extents vector
 S.full = nil                -- its real values, captured before any change

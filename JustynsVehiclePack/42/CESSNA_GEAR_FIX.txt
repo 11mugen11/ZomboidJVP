@@ -1,0 +1,24 @@
+CESSNA GEAR / PROPELLER FIX - PACK 1.0.21
+
+The taildragger parks nose-up at approximately 13 degrees. Suspension support
+stations are calibrated to that visible tire plane; the paired hidden tail rays
+are spread for taxi stability. Belly collision clearance prevents the fuselage
+from supporting the aircraft before its tailwheel. Ground pitch/roll damping
+uses torque and leaves yaw steering and linear velocity free.
+
+Recovery and touchdown seating now use the angled tire plane, keeping heading.
+On the local driver's first entry, a stationary grounded aircraft is reseated
+once to repair the previous gear pose. Moving or airborne aircraft are skipped.
+After restarting, exit and re-enter your parked plane. RIGHT AIRCRAFT remains
+available if a previously saved aircraft is too far out of position to migrate.
+
+Propeller pivot compensation now uses the part's local scale, with vehicle scale
+applied once by the parent transform. Its hub stays centered while the blades spin.
+
+Validated using actual B42 Lua, 73 recovery headings, 72 propeller rotation poses,
+and a native flat-terrain parked/taxi fixture. Tire offsets in that fixture were
+within 2cm of the visible ground plane; taxi covered 6.7m. The native fixture
+supplies floor chunks and stubs only the Java lazy-world callback, without changing
+the installed game. Graphical taxi/flight and live multiplayer remain untested.
+
+The Tenere loading/unloading implementation is retained.

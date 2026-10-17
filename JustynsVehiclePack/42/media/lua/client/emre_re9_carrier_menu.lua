@@ -20,7 +20,7 @@ local function carrierMenu(player,vehicle,menu)
     if record then
         local pair = C.Pair(vehicle)
         if pair and pair.car and pair.bike then
-            menu:addSlice("Unload motorcycle from rear carrier",getTexture("media/ui/ZoomOut.png"),unload,player,pair.car,pair.bike)
+            menu:addSlice((C.IsPlane(pair.car) and "Unload Tenere behind aircraft" or "Unload motorcycle from rear carrier"),getTexture("media/ui/ZoomOut.png"),unload,player,pair.car,pair.bike)
         else
             menu:addSlice("Carrier partner is not loaded",getTexture("media/ui/ZoomOut.png"),nil)
         end
@@ -31,7 +31,7 @@ local function carrierMenu(player,vehicle,menu)
         if other then
             local car,bike = vehicle,other
             if C.IsBike(vehicle) then car,bike = other,vehicle end
-            menu:addSlice("Load motorcycle onto rear carrier",getTexture("media/ui/ZoomIn.png"),load,player,car,bike)
+            menu:addSlice((C.IsPlane(car) and "Mount Tenere under aircraft" or "Load motorcycle onto rear carrier"),getTexture("media/ui/ZoomIn.png"),load,player,car,bike)
             -- This exact pair uses the carrier instead of the native tow rope.
             return true
         end

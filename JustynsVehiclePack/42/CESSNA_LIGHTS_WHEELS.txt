@@ -1,0 +1,43 @@
+CESSNA LAMPS / ROLLING WHEELS - PACK 1.0.24
+
+Red port and green starboard glow comes from the actual modeled wingtip
+lenses whenever the aircraft engine runs. It is independent of reverse
+gear and the headlight switch. The old colored automotive reversing-light
+sources are black/disabled, preventing detached colored glows.
+
+Viewpoint replaces custom vehicle shaders with its own materials. The
+Cessna therefore drives standard emission switches from engine state for
+its navigation lenses. This changes only the aircraft's visual stop-lamp
+flag, not brake input, braking force, engine state, or other vehicles.
+
+Both roof lamps now live in the primary aircraft mesh, with real lens UV
+areas and only their forward glass faces marked as lamps. Project Viewpoint
+can detect their actual origins and parked directions rather than inventing
+fallback car-headlight positions. The detector from the installed Viewpoint
+JAR was run directly against the exported mesh/textures and found both lamps.
+A fixed lower-cowling lamp lens shares the landing-light switch and the roof
+pair's forward illumination. Old source-atlas light patches are disabled.
+
+Landing/taxi source intensity rises to 2.8 / 2.4, and reach to 110 / 90 game
+units. The local installation also widens Viewpoint's beam-width preference
+from 20 to 40 degrees per side; this Viewpoint preference affects all vehicle
+headlights. Existing Viewpoint aim, brightness and reach multipliers are kept.
+For a manual installation, set Debug > Headlights > Beam width to 40 in
+Viewpoint as well. First- and third-person use that same lighting pipeline.
+
+The three visible wheels, including hubs, bolts and rust details, are separate
+render assemblies. They roll at ground speed divided by actual tire radius,
+reverse with backward travel, keep their hubs on the fixed axles, and freeze
+when parked or airborne. Each aircraft has private visual transforms, so
+nearby aircraft cannot animate each other's wheels. Native wheels, suspension,
+collision, aircraft mass, flight controls and the mounted Tenere are retained.
+
+Fully restart Project Zomboid after installing. Host/server and clients need
+the same mod release. The local Viewpoint beam-width preference is separate
+from the mod files and is client-side.
+
+VALIDATED: 35 native mesh imports, atlas UV/index limits, actual Viewpoint
+lamp detection/aim, 360 hub-pivot poses, ground/reverse/parked/local+remote
+airborne animation cases, engine-only lamp-switch cases, B42 Lua compilation,
+and native tire-contact/taxi/propeller/recovery regression fixtures. Night-time
+graphical gameplay and a live two-client session have not been performed.

@@ -38,3 +38,11 @@ game's own physics through BaseVehicle's public impulse queue, the method this a
 MH-92 Nightfang proved. (Up to 1.8.1 it used a Java Bullet bridge and ZombieBuddy patches.)
 No code is shared at runtime with any other mod: every Lua global, Lua module path, network
 module name and asset name in this mod is uniquely its own.
+
+APOCALYPSE BUSH CONVERSION
+Custom rack, gear, armor, ropes, storage, cabinet, lighting and weathered livery.
+Gas can, duffel, axe, chainsaw and shovel derived from local Project Zomboid assets.
+Original aircraft attribution and CC BY 4.0 license above are retained.
+
+UNDERSIDE CARRIER UPDATE 1.0.20
+Custom hull-fitted rack and fork/frame lashings. Conditional mounted display uses the existing workspace Yamaha Tenere model and texture; original motorcycle source attribution remains applicable. Original aircraft CC BY 4.0 credits above are retained.

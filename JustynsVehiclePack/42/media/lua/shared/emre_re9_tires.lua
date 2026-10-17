@@ -21,7 +21,12 @@ function T.Refresh(vehicle, part)
         shown[part] = present
     end
     local index = part:getWheelIndex()
-    if index >= 0 then vehicle:setTireRemoved(index, not present) end
+    if index >= 0 then
+        -- Mounted aircraft cargo must not regain wheel raycasts when native
+        -- maintenance callbacks refresh an otherwise healthy installed tire.
+        local aircraft=vehicle:getScript():getFullName()=="Base.JVP_TenereAircraft"
+        vehicle:setTireRemoved(index, not present or aircraft)
+    end
 end
 
 -- Two hidden contact points stabilize the native four-wheel physics chassis.

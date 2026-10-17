@@ -1,0 +1,36 @@
+CESSNA RESIZE / COCKPIT UPDATE - PACK 1.0.23
+
+The approved aircraft and attached equipment are 20% larger in every axis.
+The mounted Tenere remains its normal in-game size, centered between the
+main wheels with a slight mounting angle and refitted ropes. Mounted luggage
+is hidden. The actual motorcycle remains physics-disabled and non-colliding;
+its mass is not added to the aircraft. Rear loading/unloading moves to 5.4 m
+behind the aircraft, and the aircraft candidate search covers that position.
+
+The seats move rearward and lower inside the cabin. Pilot and passenger idle
+and exit clips use forward-bent legs and matching clothing helper bones.
+The steering column extends toward the pilot and the palms meet its grips.
+Only the game characters are rendered: browser review mannequins, cutaway
+geometry and roof guides are excluded from exported aircraft assets.
+
+Suspension positions/radii and recovery height follow the uniform aircraft
+scale. Inertia follows squared dimensions; calibrated ground attitude control
+keeps the taildragger near 13 degrees. Engine-off parking latches until engine
+start, towing, flight or authority change and reasserts native static state
+each render tick to resist controller wakes and solver jitter.
+The centered spinning propeller, black/striped blade paint, engine-controlled
+red/green wingtip lights and bright roof/stock headlights are retained.
+The invisible motorcycle placeholder now has a proper named DirectX frame.
+
+Fully restart Project Zomboid. Exit and re-enter an existing parked Cessna
+after restart so the stationary-only ground-pose migration runs. RIGHT
+AIRCRAFT remains available for an old aircraft saved badly sunk or tilted.
+All multiplayer players and the host/server need the same release.
+
+VALIDATED: B42 Lua compilation/behavior; native mesh and clip import; atlas
+UV/index limits; body/clothing/hair fit samples; fixed propeller hub; native
+flat-terrain tire contact and powered taxi; engine/nav/headlight visibility;
+carrier inventory/mass/collision isolation and server/client message fixtures.
+An isolated native server additionally checks script registration, resized
+cockpit roots, actual load/restore, cabin-side entry clearance and headlights.
+Graphical gameplay and a live two-client multiplayer session were not run.

@@ -1,0 +1,50 @@
+1.0.24: modeled engine-on navigation lamps, Viewpoint-aligned brighter roof/forward lights, and ground-only rolling wheels.
+See 42/CESSNA_LIGHTS_WHEELS.txt.
+
+1.0.23: approved 120% aircraft, normal-size centered Tenere, fitted cockpit and parking/taxi calibration.
+See 42/CESSNA_RESIZE_UPDATE.txt (or CESSNA_RESIZE_UPDATE.txt in this folder).
+
+1.0.22: engine-controlled nav lights, parking hold, mounted-bike cabin clearance and smooth landing rollout.
+See CESSNA_HANDLING_FIX.txt in the 42 folder.
+
+1.0.21: corrected taildragger wheel support and spinning propeller pivot.
+See 42/CESSNA_GEAR_FIX.txt (or CESSNA_GEAR_FIX.txt in this folder).
+
+1.0.20: underside Tenere carrier and propeller livery added. See CESSNA_CARRIER.txt.
+
+Apocalypse Cessna integration — 1.0.19
+
+Replaces the existing Base.Cessna172; retains the vehicle identity, aviation
+skill, flight controls, repairable parts, propeller animation and storage.
+The original standalone Cessna source has the matching 1.11.0 conversion.
+
+The airframe is exported level. Measured large main tires and the offset
+tailwheel generate the nose-up ground stance through the vehicle physics.
+Main steering/drive contacts and main brakes remain paired; the hidden
+duplicated contact represents the single tailwheel and retains tire mirroring.
+Spawn uses the main gear first; ground datum and touchdown limits are updated.
+
+Both rack lamps use the normal headlight switch and native landing/taxi
+channels, with wider, brighter 50/40-tile beams. Red port and green starboard
+wingtip lenses use the existing navigation-light parts and native enable masks.
+No new custom lighting packets are needed. Install the same version on host
+and clients and restart the game; old render/texture caches must be unloaded.
+
+Texture pipeline: one padded 4096 color atlas, aligned 2048 mask/effect maps,
+glass alpha preserved, seven native meshes each below 65535 vertices.
+Reverse faces are exported explicitly to match the double-sided concept.
+The propeller remains separate at its original spin axis. Static mesh carriers
+are initialized for each observing client, including streamed-in aircraft.
+
+Checks passed: installed B42 Kahlua compilation; native Jassimp import;
+texture/UV/light-mask checks; tire ground-plane calculations; propeller bounds;
+isolated dedicated-server script, model, wheel, passenger and part registration;
+actual BaseVehicle physics creation; colored native lamp creation and switch.
+
+NOT RUN: graphical in-game taxi/takeoff/touchdown/recovery and two-client
+multiplayer visual/handling sessions. Server checks do not certify those.
+Test a fresh aircraft in a disposable world before using a valuable save.
+
+Concept/source provenance and the original aircraft CC BY 4.0 attribution remain
+included. Cargo props derive from local Project Zomboid game assets; custom
+equipment, geometry and weathered paint are described in the concept folder.

@@ -1,0 +1,35 @@
+CESSNA HANDLING UPDATE - PACK 1.0.22
+
+Red port and green starboard wingtip lenses glow whenever the engine runs,
+independently of the landing/taxi/headlight switch. Every client follows the
+standard replicated engine state; fixed lens overlays use the existing depth
+shader with lamp emission enabled and do not create large colored ground pools.
+
+A stationary engine-off aircraft receives a parking hold. The physics owner
+releases it when the engine starts. Moving dead-stick landings are allowed to
+roll; the hold is limited to walking pace, grounded height and low vertical speed.
+Native towing releases the hold. Ground attitude torque is skipped while parked.
+
+The mounted Tenere now has a point-sized interaction footprint. Its old negative
+extents still formed a large polygon over the aircraft doors. Native loading,
+inventory retention and the existing tiny lateral collision placeholder remain.
+
+Healthy landings keep their native momentum and transform. The final approach
+blends toward the taildragger stance and the handoff waits until close to the
+tire plane. Exceptional sunk/tipped recovery restores horizontal momentum through
+the existing physical impulse channel instead of a display-only speed setter.
+
+The landing rollout coasts toward a stop at about 2.3 km/h per second. Steering
+remains available. Throttle, S/brake or handbrake ends coast assistance immediately
+and restores normal wheel control; brakes can stop it faster. A collision/blocked
+roll cancels assistance so it does not keep pushing against an obstacle.
+
+Restart the game after installing. Host and clients need the same release.
+
+VALIDATION: actual B42 Lua compilation and behavior fixtures, native import of
+both lamp meshes, dedicated-server carrier load/unload and cabin-side polygon
+clearance, engine/headlight-independent lens visibility, parking ownership/restart,
+healthy touchdown momentum, safety recovery impulses, coasting and pedal takeover.
+The prior fixed propeller hub and angled recovery checks remain passing. Existing
+Tenere/Discovery carrier regressions are retained. A graphical landing/entry session
+and actual two-client multiplayer session have not been run by this update.

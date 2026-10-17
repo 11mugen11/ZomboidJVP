@@ -33,7 +33,7 @@ C172PropSpin = S
 local PART = "C172PropSpin"
 local OWN = "spinOwn"                   -- the private copy's model id (the shared one is "spin")
 local HUB_X, HUB_Y = -0.0023, -0.1278   -- raw mesh units: the blades' 2-fold symmetry centre
-local MESH_SCALE = 1.75                 -- model Cessna172_Prop: scale = 1.75
+local MESH_SCALE = 1.0                  -- part offset is scaled by the parent vehicle transform
 local TWO_PI = math.pi * 2
 local sin, cos, floor, deg = math.sin, math.cos, math.floor, math.deg
 

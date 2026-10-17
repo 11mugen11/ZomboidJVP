@@ -1,81 +1,41 @@
-/*
-    Cessna 172 - flyable single-engine light aircraft.
-
-    ================================ MODEL PROVENANCE ================================
-    3D model: "Plane" by osmosikum
-    https://sketchfab.com/3d-models/plane-cedc8a07370747f7b0d14400cdf2faf9
-    Licensed CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
-    The licence is embedded in the source .glb's asset.extras block. See CREDITS.txt at
-    the mod root for the full attribution.
-
-    ================================ IMPORT NOTES ====================================
-    Converted by tools/convert_plane_model.py, which is reproducible and prints every
-    number in this file. Nothing below was eyeballed.
-
-    NODE CHAIN BAKED. The source's transforms live entirely on its node chain, and that
-    chain is a real ~15 degree yaw plus a tilt - not an axis permutation. It is resolved
-    to world space and baked into the vertices before export, so every
-    FrameTransformMatrix in Vehicles_Cessna172.x is identity and nothing relies on PZ's
-    importer to orient anything. (AircraftMod's Hind import produced a squashed
-    4.67-unit-tall helicopter precisely by leaving that to the importer.)
-
-    AXES MEASURED, NOT GUESSED. The lateral axis is the thin principal axis of the
-    VERTICAL stabiliser; the up axis is the thin principal axis of the HORIZONTAL
-    stabiliser; forward is their cross product, sign-checked against the propeller's
-    centroid. The frame is re-orthonormalised so det == +1 - a proper rotation, so
-    winding order and normals stay valid and no faces needed flipping. PZ convention:
-    +Z nose, +Y up, +X lateral (BaseVehicle.getForwardVector() is local Z).
-
-    SCALE. The source is 115.49 units per metre (its 1270.4-unit wingspan against a real
-    172's 11.0 m span). Scaled so the aircraft renders at 0.5804 script units per real
-    metre - which is the MiG-29 mod's OWN rendered density (that mod draws a 17.3 m
-    airframe at 10.04 units). Deliberate: the two aircraft then sit correctly next to
-    each other in one world. It also lands the numbers where they should be - this
-    Cessna's 6.38-unit wingspan against the MiG's 6.46 mirrors the real 11.0 m vs
-    11.36 m, and its 4.59-unit length against the MiG's 10.04 mirrors 8.28 m vs 17.3 m.
-    Resulting airframe: length Z 4.588, wingspan X 6.384, height Y 1.748.
-    To make the aircraft larger or smaller, change `scale` in BOTH model blocks below
-    AND multiply every spatial figure in this file by the same factor - see the MiG's
-    own scale note for which fields are spatial and which are physics response curves.
-
-    ORIGIN IS AT THE CENTRE OF GRAVITY, NOT THE BOUNDING-BOX CENTRE. A Cessna has a long
-    tail, so the geometric middle sits well behind the CG - and with the origin there,
-    BOTH the nose gear and the main gear end up forward of it, which makes a tricycle
-    layout tip back onto its tail the moment physics starts. The converter places the
-    origin 25% of the wheelbase ahead of the main wheels instead, where a real 172's CG
-    is. Main gear then sits BEHIND the centre of mass and the nose gear ahead of it,
-    which is what keeps the aircraft sitting on its nosewheel.
-
-    WHEELS are on the model's ACTUAL measured contact patches (the converter finds the
-    three ground-contact clusters and reports them), not guessed:
-        nose gear   X  0.000  Z +0.707  contact Y -0.874
-        main gear   X +-0.703 Z -0.234  contact Y -0.803
-    A 172 has THREE wheels; PZ needs four, so the two "front" wheels sit close together
-    on the nose-gear centreline - the same thing the MiG-29 does for its single nose
-    wheel. offset Y = contact + radius, so each tyre rests exactly on the ground the
-    gear is drawn touching. The nose contact is 0.071 lower than the mains because the
-    model is posed with the nose strut extended; carrying that difference through into
-    the offsets is what makes the aircraft's physics attitude match its drawn attitude
-    instead of fighting it.
-
-    FIXED GEAR - no retraction, and no gearUp/gearDown model pair. A 172's gear does not
-    retract, so unlike the MiG there is nothing for Lua to toggle and no hide/show cycle
-    that could produce an in-between frame.
-
-    VANILLA TIRE MODELS ARE SUPPRESSED (C172Flight.lua hides them permanently for this
-    vehicle only). The airframe mesh draws its own spatted wheels and gear legs, so
-    leaving vanilla's car tyres on would put a second set of black car wheels through
-    the aircraft's own. The Tire PARTS still exist and still work normally - they are
-    only made invisible.
-
-    GROUND HANDLING is left to vanilla, deliberately, exactly as the MiG does it: the
-    aircraft genuinely wants wheel-driven physics for taxi and the takeoff roll, and
-    that is how "rolls like an aeroplane on its gear" is achieved without writing a
-    ground controller. engineForce, maxSpeed and steeringClamp below are what make it
-    feel like a light aircraft rather than a car - see each field's own note.
-*/
+/* Apocalypse bush conversion: level airframe mesh, main gear at the measured
+large-tire hubs and a paired raycast for the single offset tailwheel. Bullet provides
+the nose-up parked stance; flight and propeller axes remain level. Original aircraft
+"Plane" by osmosikum, CC BY 4.0; see credits/Cessna172-CREDITS.txt. */
 module Base
 {
+    model C172BushDetail1 { mesh = vehicles/cessna_bush/C172BushDetail1|C172BushDetail1, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172BushDetail2 { mesh = vehicles/cessna_bush/C172BushDetail2|C172BushDetail2, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172BushDetail3 { mesh = vehicles/cessna_bush/C172BushDetail3|C172BushDetail3, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172BushDetail4 { mesh = vehicles/cessna_bush/C172BushDetail4|C172BushDetail4, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172BushDetail5 { mesh = vehicles/cessna_bush/C172BushDetail5|C172BushDetail5, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172WheelPort { mesh = vehicles/cessna_bush/C172WheelPort|C172WheelPort, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172WheelStarboard { mesh = vehicles/cessna_bush/C172WheelStarboard|C172WheelStarboard, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172WheelTail { mesh = vehicles/cessna_bush/C172WheelTail|C172WheelTail, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172NavPort { mesh = vehicles/cessna_bush/C172NavPort|C172NavPort, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_nav, invertX = false, scale = 1.0, }
+    model C172NavStarboard { mesh = vehicles/cessna_bush/C172NavStarboard|C172NavStarboard, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_nav, invertX = false, scale = 1.0, }
+    model C172MountedBike1 { mesh = vehicles/cessna_bush/C172MountedBike1|C172MountedBike1, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike2 { mesh = vehicles/cessna_bush/C172MountedBike2|C172MountedBike2, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike3 { mesh = vehicles/cessna_bush/C172MountedBike3|C172MountedBike3, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike4 { mesh = vehicles/cessna_bush/C172MountedBike4|C172MountedBike4, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike5 { mesh = vehicles/cessna_bush/C172MountedBike5|C172MountedBike5, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike6 { mesh = vehicles/cessna_bush/C172MountedBike6|C172MountedBike6, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike7 { mesh = vehicles/cessna_bush/C172MountedBike7|C172MountedBike7, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike8 { mesh = vehicles/cessna_bush/C172MountedBike8|C172MountedBike8, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike9 { mesh = vehicles/cessna_bush/C172MountedBike9|C172MountedBike9, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike10 { mesh = vehicles/cessna_bush/C172MountedBike10|C172MountedBike10, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike11 { mesh = vehicles/cessna_bush/C172MountedBike11|C172MountedBike11, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike12 { mesh = vehicles/cessna_bush/C172MountedBike12|C172MountedBike12, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike13 { mesh = vehicles/cessna_bush/C172MountedBike13|C172MountedBike13, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike14 { mesh = vehicles/cessna_bush/C172MountedBike14|C172MountedBike14, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike15 { mesh = vehicles/cessna_bush/C172MountedBike15|C172MountedBike15, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike16 { mesh = vehicles/cessna_bush/C172MountedBike16|C172MountedBike16, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike17 { mesh = vehicles/cessna_bush/C172MountedBike17|C172MountedBike17, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike18 { mesh = vehicles/cessna_bush/C172MountedBike18|C172MountedBike18, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike19 { mesh = vehicles/cessna_bush/C172MountedBike19|C172MountedBike19, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike20 { mesh = vehicles/cessna_bush/C172MountedBike20|C172MountedBike20, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike21 { mesh = vehicles/cessna_bush/C172MountedBike21|C172MountedBike21, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+    model C172MountedBike22 { mesh = vehicles/cessna_bush/C172MountedBike22|C172MountedBike22, texture = Vehicles/Vehicles_Cessna172_Shell, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
 	/* 1.10.0 SHADER Cessna172_vehicle (42/media/shaders, built by tools/build_shaders.py): the game's own
 	   vehicle_noreflect plus two things, so the people inside can be seen - Jay: "i can see myself in
 	   mig now can you do the same for cessna". The window texels (alpha 128, tools/build_glass.py) draw
@@ -84,10 +44,11 @@ module Base
 	   nose it is mounted on. With no occupant it draws exactly like vehicle_noreflect. */
 	model Vehicles_Cessna172
 	{
-		mesh = vehicles/Vehicles_Cessna172|Cessna172_Body,
+		mesh = vehicles/cessna_bush/Cessna172_Body|Cessna172_Body,
+        texture = Vehicles/Vehicles_Cessna172_Shell,
 		shader = Cessna172_vehicle,
 		invertX = false,
-		scale = 1.75,
+		scale = 1.0,
 	}
 
 	/* The propeller is its own mesh so C172PropSpin.lua can rotate it (1.9.0; it was
@@ -97,10 +58,11 @@ module Base
 	   ghost/duplicate propeller. */
 	model Cessna172_Prop
 	{
-		mesh = vehicles/Vehicles_Cessna172|Cessna172_Prop,
+		mesh = vehicles/cessna_bush/Cessna172_Prop|Cessna172_Prop,
+        texture = Vehicles/Vehicles_Cessna172_Shell,
 		shader = Cessna172_vehicle,
 		invertX = false,
-		scale = 1.75,
+		scale = 1.0,
 	}
 
 	/* MODEL SCALE 2.0 -> 1.75 (2026-08-31, at Jay's request: "a little smaller").
@@ -135,7 +97,7 @@ module Base
 		model
 		{
 			file = Vehicles_Cessna172,
-			scale = 1.7500,
+			scale = 2.1000,
 			offset = 0.0000 0.0000 0.0000,
 		}
 
@@ -237,8 +199,8 @@ module Base
 		   invisible collision boxes" means in practice. The box bottom sits at -0.70 while
 		   the tyres contact at -0.87, which is correct for a raycast vehicle: the wheels hang
 		   below the chassis shape and carry it on their suspension rays. */
-		extents = 0.8500 0.7000 1.5000,
-		physicsChassisShape = 0.8500 0.7000 1.5000,
+		extents = 0.8500 0.5500 1.5000,
+		physicsChassisShape = 0.8500 0.3500 0.8000,
 
 		/* Real 172 figures: 767 kg empty, 1111 kg max. Heavier than every vanilla car
 		   (800-1030) which is correct, and it is what the flight model's lift controller is
@@ -306,7 +268,7 @@ module Base
 		   shifts that footprint forward by 0.40 as well. On a box only 1.5 long under a
 		   4.6-long airframe that is a minor change, and it moves the footprint toward
 		   where the mass actually is. */
-		centerOfMassOffset = 0.0000 -0.1000 -0.3000,
+		centerOfMassOffset = 0.0000 0.0000 0.0000,
 
 		/* LIGHT AIRCRAFT GROUND CHARACTER, calibrated against vanilla rather than guessed.
 		   Vanilla force-to-mass ratios run from 3.88 (loaded pickup) to 8.75 (racecar); the
@@ -387,7 +349,7 @@ module Base
 		suspensionCompression = 4.5,
 		suspensionDamping = 3.6,
 		maxSuspensionTravelCm = 12,
-		suspensionRestLength = 0.20f,
+		suspensionRestLength = 0.08f,
 		wheelFriction = 1.5f,
 		frontEndHealth = 100,
 		rearEndHealth = 100,
@@ -434,107 +396,42 @@ module Base
 		   and the nose/main load split, which are already solved.
 
 		   offset Y = measured contact (-0.8742) + radius (0.11). */
-		wheel FrontLeft
-		{
-			front = true,
-			offset = 0.7029 -0.7642 0.7065,
-			radius = 0.11f,
-			width = 0.13f,
-		}
-
-		wheel FrontRight
-		{
-			front = true,
-			offset = -0.7029 -0.7642 0.7065,
-			radius = 0.11f,
-			width = 0.13f,
-		}
-
-		/* MAIN GEAR.
-
-		   Z MOVED AFT IN 0.1.10, from -0.2343 to -1.8000. THIS IS THE ROOT-CAUSE FIX FOR
-		   THE AIRCRAFT SITTING DOWN ON ITS TAIL, and it is the same trick as the nose
-		   gear's X above: wheel positions are PHYSICS ONLY here, because the vanilla tire
-		   models are permanently hidden for this vehicle and the airframe mesh draws its
-		   own gear, which does not follow these offsets. Moving them changes the support
-		   polygon and nothing on screen.
-
-		   The problem was never the springs or the centre of mass - it was the lever. The
-		   main gear sat at -0.2343 because that is where the model draws it, giving a
-		   0.941 wheelbase underneath a tail that reaches Z -3.270. That is 3.23 units of
-		   overhang behind the axle against 0.941 between the axles - a 3.2:1 lever, with
-		   the drive force applied at the contact patches nearly a unit below the centre of
-		   mass. Four builds of stiffness and CoM tuning could not make that safe, and a
-		   real flight log caught it going from 9.8 to 89.8 degrees of pitch in one second.
-
-		       mainZ    comZ    wheelbase  tail overhang  overhang/wb  tail-sit margin
-		       -0.2343   0.30      0.941        3.036        3.23x         3.15x
-		       -1.8000  -0.30      2.506        1.470        0.59x         8.86x
-		       MiG-29, stable in game                                      4.41x
-
-		   With the axle under the rear fuselage the overhang is shorter than the wheelbase
-		   instead of triple it, and the aircraft simply has no leverage to rotate. The
-		   centre of mass moves with it, to -0.30, which keeps a sane 60/40 nose/main load
-		   split - leaving it at +0.30 would have put 84% on the nose.
-
-		   ONLY Z MOVED. Y stays at the 0.1.6 value so both axles keep their shared contact
-		   plane, and X stays at +-0.7029 so the support stays the rectangle the nose-gear
-		   note above explains. The TireRearLeft/TireRearRight `area` hotspots are also
-		   deliberately left at -0.2343: those are where the player CLICKS to service a
-		   wheel, so they belong where the wheel is drawn, not where physics carries it.
-
-		   Y LOWERED IN 0.1.6, from -0.6836 to -0.7542, so that BOTH AXLES SHARE ONE
-		   UNLOADED CONTACT PLANE. This is the taxi-wobble fix and it is worth spelling out.
-
-		   The original offsets used the convention `offset Y = measured contact + radius`,
-		   which carried the model's real 0.0706 nose-low pose straight into the physics.
-		   But a Bullet raycast wheel does not rest at `offset - radius` - it rests at
-		   `offset - suspensionLength - radius`, and both axles share one restLength. So
-		   that 0.0706 was not an attitude, it was 0.0706 of PERMANENT PRE-COMPRESSION on
-		   the nose gear, applied before the aircraft carried any weight at all.
-
-		   Stacked on top of a centre of mass that was putting 67% of the weight on that
-		   same nose gear, the parked stance came out (solved, not estimated):
-
-		       0.1.5:  L_nose = 0.0967   with the bump stop at 0.08   -> 0.0167 of travel left
-
-		   Sixteen thousandths, parked, on flat tarmac, doing nothing. Any bump, any pitch,
-		   any load transfer slammed the nose gear into its stop, the suspension went rigid,
-		   and the aircraft jolted - which is what the taxi wobble was.
-
-		   Both axles now share an unloaded contact plane at -1.0742. Combined with the
-		   centre-of-mass and stiffness changes above, the parked stance becomes:
-
-		       0.1.6:  L_nose = 0.1420, L_main = 0.1558   -> 0.062 / 0.076 of travel left
-
-		   i.e. sitting in the middle of the suspension's range with room to move in both
-		   directions, which is what "the wheels stay on the ground" actually requires.
-
-		   WHY LOWER THE MAINS RATHER THAN RAISE THE NOSE: raising the nose would raise
-		   wheel(0), and wheel(0) is what vanilla's spawn formula measures the aircraft
-		   from. That would have lifted the aircraft 0.07 and left the collider's bottom
-		   face only 0.0036 above the ground - which is how 0.1.4 fell through the map.
-		   Lowering the mains leaves wheel(0) untouched, so the spawn height and the
-		   collider clearance stay at the values already proven not to fall through.
-
-		   The physics main gear now sits 0.0706 lower than the model draws it - 1.5% of the
-		   airframe's length, and invisible in an isometric view. */
-		wheel RearLeft
-		{
-			front = false,
-			offset = 0.7029 -0.7542 -1.8000,
-			radius = 0.12f,
-			width = 0.15f,
-		}
-
-		wheel RearRight
-		{
-			front = false,
-			offset = -0.7029 -0.7542 -1.8000,
-			radius = 0.12f,
-			width = 0.15f,
-		}
-
+        wheel RearLeft { front = true, offset = 0.3511420 -0.5154286 0.3428571, radius = 0.1683160f, width = 0.1276880f, }
+        wheel RearRight { front = true, offset = -0.3511420 -0.5154286 0.3428571, radius = 0.1683160f, width = 0.1276880f, }
+        wheel FrontLeft { front = false, offset = 0.2000000 -0.1651429 -1.4655100, radius = 0.0580400f, width = 0.0232160f, }
+        wheel FrontRight { front = false, offset = -0.2000000 -0.1651429 -1.4655100, radius = 0.0580400f, width = 0.0232160f, }
+        part C172BushDetail1 { category = nodisplay, model fixed { file = C172BushDetail1, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172BushDetail2 { category = nodisplay, model fixed { file = C172BushDetail2, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172BushDetail3 { category = nodisplay, model fixed { file = C172BushDetail3, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172BushDetail4 { category = nodisplay, model fixed { file = C172BushDetail4, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172BushDetail5 { category = nodisplay, model fixed { file = C172BushDetail5, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172WheelPort { category = nodisplay, model rolling { file = C172WheelPort, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172WheelStarboard { category = nodisplay, model rolling { file = C172WheelStarboard, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172WheelTail { category = nodisplay, model rolling { file = C172WheelTail, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172NavPort { category = nodisplay, model fixed { file = C172NavPort, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172NavStarboard { category = nodisplay, model fixed { file = C172NavStarboard, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike1 { category = nodisplay, model fixed { file = C172MountedBike1, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike2 { category = nodisplay, model fixed { file = C172MountedBike2, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike3 { category = nodisplay, model fixed { file = C172MountedBike3, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike4 { category = nodisplay, model fixed { file = C172MountedBike4, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike5 { category = nodisplay, model fixed { file = C172MountedBike5, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike6 { category = nodisplay, model fixed { file = C172MountedBike6, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike7 { category = nodisplay, model fixed { file = C172MountedBike7, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike8 { category = nodisplay, model fixed { file = C172MountedBike8, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike9 { category = nodisplay, model fixed { file = C172MountedBike9, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike10 { category = nodisplay, model fixed { file = C172MountedBike10, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike11 { category = nodisplay, model fixed { file = C172MountedBike11, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike12 { category = nodisplay, model fixed { file = C172MountedBike12, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike13 { category = nodisplay, model fixed { file = C172MountedBike13, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike14 { category = nodisplay, model fixed { file = C172MountedBike14, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike15 { category = nodisplay, model fixed { file = C172MountedBike15, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike16 { category = nodisplay, model fixed { file = C172MountedBike16, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike17 { category = nodisplay, model fixed { file = C172MountedBike17, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike18 { category = nodisplay, model fixed { file = C172MountedBike18, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike19 { category = nodisplay, model fixed { file = C172MountedBike19, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike20 { category = nodisplay, model fixed { file = C172MountedBike20, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike21 { category = nodisplay, model fixed { file = C172MountedBike21, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike22 { category = nodisplay, model fixed { file = C172MountedBike22, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
 		template = PassengerSeat4,
 
 		/* 1.10.0: YOU CAN SEE WHO IS ON BOARD. Jay: "i can see myself in mig now can you do the same
@@ -570,13 +467,13 @@ module Base
 			/* 1.10.0: was 0.1400 -0.2600 0.0438 (1.9.2's cushion height for the 3D camera mods). */
 			position inside
 			{
-				offset = 0.0000 -0.7902 0.0000,
+				offset = 0.0000 -0.6333333 -0.0476190,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
 			position vanillastates
 			{
-				offset = 0.0000 -0.9171 0.0743,
+				offset = 0.0000 -0.7390 0.0143,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
@@ -601,13 +498,13 @@ module Base
 			/* 1.10.0: drawn on the REAR seat (see above). Was -0.1400 -0.2600 0.0438. */
 			position inside
 			{
-				offset = 0.0000 -0.7902 0.0000,
+				offset = 0.0000 -0.6333333 -0.0476190,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 
 			position vanillastates
 			{
-				offset = 0.0000 -0.8771 -0.4000,
+				offset = 0.0000 -0.7073 -0.3533,
 				rotate = 0.0000 0.0000 0.0000,
 			}
 

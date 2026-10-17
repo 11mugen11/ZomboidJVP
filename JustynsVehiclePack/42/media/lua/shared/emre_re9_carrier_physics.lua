@@ -9,7 +9,7 @@ local applied=setmetatable({}, {__mode="k"})
 function P.RefreshCargo(bike)
     for _,id in ipairs({"RE9CargoRack","RE9TouringCases"}) do
         local part=bike:getPartById(id)
-        if part then part:setModelVisible("Default",true) end
+        if part then part:setModelVisible("Default",bike:getScript():getFullName()~="Base.JVP_TenereAircraft") end
     end
 end
 
@@ -64,19 +64,30 @@ local function initParts(bike,saved)
         end
     end
 end
-function P.Apply(bike,mounted)
+function P.AircraftContacts(bike,disabled)
+    bike:setCollidable(not disabled)
+    if not isServer() then
+        for i=0,bike:getScript():getWheelCount()-1 do bike:setTireRemoved(i,disabled) end
+    end
+    if disabled then bike:setPhysicsActive(false) end
+end
+function P.Apply(bike,mounted,aircraft)
     local original=bike:getScript():getFullName()
     local profile=EmreRE9.Bikes.profiles[original]
     if not profile then error("Wrong carrier physics vehicle") end
-    local target=mounted and profile.mounted or profile.normal
+    local target=mounted and (aircraft and profile.aircraft or profile.mounted) or profile.normal
+    if not target then error("Unsupported aircraft cargo") end
+    local wasAircraft=original==profile.aircraft
     if original==target and (not applied[bike] or applied[bike]==target) then
         if not isServer() then P.RefreshCargo(bike) end
+        if aircraft or wasAircraft then P.AircraftContacts(bike,mounted and aircraft==true) end
         applied[bike]=target; return
     end
     -- Dedicated servers have no local Bullet vehicle body to rebuild. Keep
     -- the authoritative script/serialized identity consistent without calling
     -- the client physics reload path on a server thread.
-    if isServer() then bike:setScript(target); applied[bike]=target; return end
+    if isServer() then bike:setScript(target); if aircraft or wasAircraft then P.AircraftContacts(bike,mounted and aircraft==true) end
+        applied[bike]=target; return end
     local saved={parts={},mass=bike:getInitialMass(),quality=bike:getEngineQuality(),
         loudness=bike:getEngineLoudness(),power=bike:getEnginePower()}
     local changes,parents={},{}
@@ -115,6 +126,7 @@ function P.Apply(bike,mounted)
         -- still dynamic. Force the transition that establishes a static mount.
         bike:setPhysicsActive(true); bike:setPhysicsActive(false)
     end
+    if aircraft or wasAircraft then P.AircraftContacts(bike,mounted and aircraft==true) end
     applied[bike]=target
 end
 return P

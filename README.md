@@ -3,7 +3,7 @@
 A combined Project Zomboid Build 42 mod containing the Yamaha Tenere 700 World Rally and Emre RE9 motorcycles,
 Land Rover Discovery variants, and flyable Cessna 172.
 
-[Download the v1.0.18 mod ZIP](JustynsVehiclePack-v1.0.18.zip?raw=1)
+[Download the v1.0.24 mod ZIP](JustynsVehiclePack-v1.0.24.zip?raw=1)
 
 ## Install
 
@@ -18,6 +18,18 @@ Expected layout: `Zomboid/mods/JustynsVehiclePack/42/mod.info`.
 The pack declares Build 42.20.4 or later; Build 41 is not included.
 
 ## Included changes
+
+- **v1.0.24 Cessna lamps/wheels:** engine-on wingtip emission compatible with Viewpoint, modeled lamp origins with stronger forward lighting, and separate ground-only rolling wheels.
+
+- **v1.0.23 Cessna fit:** approved 20% aircraft enlargement, original-size centered Tenere, fitted seats/controls/character poses, rear staging clearance and calibrated parking/taxi handling.
+
+- **v1.0.22 Cessna handling:** engine-controlled wingtip lamps, engine-off parking hold, cabin entry with a mounted Tenere, and momentum-preserving landing roll with brake/throttle takeover.
+
+- **v1.0.21 Cessna gear/propeller fix:** calibrated taildragger suspension and belly clearance, nose-up recovery and ground support, and a centered spinning propeller.
+
+- **v1.0.20 Cessna Tenere carrier:** fitted underside rack and approved mounted display, rear staging/unload, original motorcycle inventory retained, hidden mounted luggage and unchanged aircraft mass. Native Bullet isolation, dedicated-server and handler regression checks pass; graphical flight and a live two-client session remain untested.
+
+- **v1.0.19 apocalypse Cessna:** weathered bush conversion, large main tires and tailwheel, roof cargo and working rack/wingtip lights. Native import, Lua compilation and isolated dedicated-server checks pass; graphical flight and two-client multiplayer validation remain pending.
 
 - **v1.0.18 multiplayer riders:** observing clients apply motorcycle driver and
   passenger poses and seat positions, including riders already seated on join.

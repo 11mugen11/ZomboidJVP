@@ -1,4 +1,4 @@
-﻿#version 110
+#version 110
 
 varying vec3 vertColour; 
 varying vec3 vertNormal;
@@ -191,6 +191,8 @@ void main()
 	col = mix(col, vec3(0.2), t4en);
 
 	col *= lighting * TintColourNew;
+	// Lamps stay visibly luminous at night, using vanilla replicated light enables.
+	col = mix(col, texColorLights.rgb, texColorLights.a * t1en * 0.9);
 
 	gl_FragColor = vec4(col ,TexturePainColor.a);
 }
