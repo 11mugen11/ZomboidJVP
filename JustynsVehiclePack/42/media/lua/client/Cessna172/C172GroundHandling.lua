@@ -37,7 +37,7 @@ end
 local function owns(v)
     if not isClient() then return true end
     local player = getSpecificPlayer(0)
-    return player ~= nil and v:isNetPlayerId(player:getOnlineID())
+    return player ~= nil and v:getNetPlayerId() == player:getOnlineID()
 end
 local function freeze(v)
     -- A native/controller wake can leave its cached enable flag stale. Toggle

@@ -1,0 +1,33 @@
+CESSNA MULTIPLAYER REPAIR - PACK 1.0.25
+
+Install this same complete pack on the server and every client, then fully
+restart the server and game clients. Existing aircraft and loaded motorcycles
+are supported; do not delete them or their inventories.
+
+Missing airframe surfaces were caused by a client Lua exception before the
+conditional detail models could be enabled. The ownership check now compares
+the native network-owner getter with the player's online ID, avoiding B42's
+unsupported Lua-number-to-Java-short argument conversion. Aircraft detail,
+wheel, navigation and mounted-bike visibility is reconciled after native
+server model updates, including streamed-in and saved aircraft.
+
+The normal and aircraft-cargo Tenere profiles now keep the exact same ordered
+part/model lists. All cargo geometry still uses invisible placeholders. This
+prevents VehiclePartModels.parse null model-list errors while a native packet
+is decoded during load/unload profile changes. The collision-free mounted
+profile and unchanged aircraft mass are retained.
+
+Unloading still uses the authoritative server pose 5.4 metres behind the
+plane. A recent release pose is also replicated on the motorcycle's engine
+part, allowing clients to recover if the immediate release command is missed.
+The released token is invalidated before rebuilding normal physics, and a
+bounded two-second correction rejects stale mount-position interpolation.
+Corrections stop for a new mount, rider, normal movement or timeout. Later
+observers do not teleport a motorcycle that has already been driven away.
+
+Validated with actual B42 Kahlua Lua handlers (server, observers, delayed
+streaming, lost commands, stale positions and reused IDs), recurring visibility
+tests, existing wheel/light tests, and an isolated native dedicated server.
+The native server confirmed 51 matching parts / 35 matching model slots,
+rear unload placement and the corrected native ownership getter call.
+A graphical live two-client playtest has not been completed.

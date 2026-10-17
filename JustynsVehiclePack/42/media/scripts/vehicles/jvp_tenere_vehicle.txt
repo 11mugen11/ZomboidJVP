@@ -2224,7 +2224,13 @@ module Base
         {
             setAllModelsVisible = true,
             area = TireFrontLeft,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1.0,
+            }
             table install
             {
                 requireUninstalled = TireFrontLeft,
@@ -2233,7 +2239,8 @@ module Base
             {
                 requireUninstalled = TireFrontLeft,
             }
-                    
+                    model Detail01
+            { file = JVP_TenereInvisible, offset = 0 0 0, rotate = 0 0 0, scale = 1, }
 }
 
         part SuspensionFrontRight
@@ -2249,7 +2256,13 @@ module Base
         {
             setAllModelsVisible = true,
             area = TireRearRight,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1.0,
+            }
             table install
             {
                 requireUninstalled = TireRearRight,
@@ -2258,8 +2271,10 @@ module Base
             {
                 requireUninstalled = TireRearRight,
             }
-                    
-            
+                    model Detail01
+            { file = JVP_TenereInvisible, offset = 0 0 0, rotate = 0 0 0, scale = 1, }
+            model Detail02
+            { file = JVP_TenereInvisible, offset = 0 0 0, rotate = 0 0 0, scale = 1, }
 }
         
         part SuspensionRearLeft
@@ -2381,7 +2396,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2392,7 +2413,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2403,7 +2430,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2414,7 +2447,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2425,7 +2464,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2436,7 +2481,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2447,7 +2498,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2458,7 +2515,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2469,7 +2532,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2480,7 +2549,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2491,7 +2566,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2502,7 +2583,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2513,7 +2600,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2524,7 +2617,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2535,7 +2634,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2546,7 +2651,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2557,7 +2668,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2568,7 +2685,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2579,7 +2702,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2590,7 +2719,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2601,7 +2736,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2612,7 +2753,13 @@ module Base
         {
             category = nodisplay,
             setAllModelsVisible = false,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2750,7 +2897,13 @@ module Base
             specificItem = false,
             itemType = EmreRE9.Seat,
 
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0.0000 0.0000 0.0000,
+                rotate = 0.0000 0.0000 0.0000,
+                scale = 1.0,
+            }
         
             repairMechanic = true,
 
@@ -2759,7 +2912,13 @@ module Base
         part SeatRearLeft
         {
             setAllModelsVisible = true,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             category = bodywork,
             area = SeatRearLeft,
             specificItem = false,
@@ -2824,7 +2983,13 @@ module Base
         {
             setAllModelsVisible = false,
             category = nodisplay,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1.0,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2836,7 +3001,13 @@ module Base
         {
             setAllModelsVisible = false,
             category = nodisplay,
-            
+            model Default
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1,
+            }
             lua
             {
                 create = EmreRE9.Parts.InitCargo,
@@ -2953,7 +3124,13 @@ module Base
             itemType = EmreRE9.Tire,
             repairMechanic = true,
             setAllModelsVisible = false,
-            
+            model InflatedTirePlusWheel
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1.0,
+            }
             lua
             {
                 create = EmreRE9.Tires.Create,
@@ -2981,7 +3158,13 @@ module Base
             itemType = EmreRE9.Tire,
             repairMechanic = true,
             setAllModelsVisible = false,
-            
+            model InflatedTirePlusWheel
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1.0,
+            }
             lua
             {
                 create = EmreRE9.Tires.Create,
@@ -3009,7 +3192,13 @@ module Base
             itemType = EmreRE9.SupportTire,
             repairMechanic = false,
             setAllModelsVisible = false,
-            
+            model InflatedTirePlusWheel
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1.0,
+            }
             lua
             {
                 create = EmreRE9.Tires.Support,
@@ -3037,7 +3226,13 @@ module Base
             itemType = EmreRE9.SupportTire,
             repairMechanic = false,
             setAllModelsVisible = false,
-            
+            model InflatedTirePlusWheel
+            {
+                file = JVP_TenereInvisible,
+                offset = 0 0 0,
+                rotate = 0 0 0,
+                scale = 1.0,
+            }
             lua
             {
                 create = EmreRE9.Tires.Support,
@@ -3053,57 +3248,6 @@ module Base
             {
                 test = EmreRE9.Tires.BlockMaintenance,
                 skills = Mechanics:0,
-            }
-        }
-        part JVP_TenereBodyDetail22
-        {
-            category = nodisplay,
-            setAllModelsVisible = false,
-            
-            lua
-            {
-                create = EmreRE9.Parts.InitCargo,
-                init = EmreRE9.Parts.InitCargo,
-            }
-        }
-        part TireFrontLeft
-        {
-            model InflatedTirePlusWheel
-            {
-                file = JVP_TenereInvisible,
-                offset = 0 0 0,
-                rotate = 0 0 0,
-                scale = 1,
-            }
-        }
-        part TireFrontRight
-        {
-            model InflatedTirePlusWheel
-            {
-                file = JVP_TenereInvisible,
-                offset = 0 0 0,
-                rotate = 0 0 0,
-                scale = 1,
-            }
-        }
-        part TireRearLeft
-        {
-            model InflatedTirePlusWheel
-            {
-                file = JVP_TenereInvisible,
-                offset = 0 0 0,
-                rotate = 0 0 0,
-                scale = 1,
-            }
-        }
-        part TireRearRight
-        {
-            model InflatedTirePlusWheel
-            {
-                file = JVP_TenereInvisible,
-                offset = 0 0 0,
-                rotate = 0 0 0,
-                scale = 1,
             }
         }
 }

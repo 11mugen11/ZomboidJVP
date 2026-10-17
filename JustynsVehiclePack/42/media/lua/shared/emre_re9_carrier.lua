@@ -7,11 +7,13 @@ local C = {}; EmreRE9.Carrier = C
 C.CAR, C.BIKE = "Base.lrdisco1camel", "Base.EMRE_RE9"
 C.KEY = "emreRE9Carrier"
 C.NET = "emreRE9Carrier"
+C.RELEASE_KEY = "emreRE9CarrierRelease"
 C.HEIGHT_M = 2.44949
 C.Offset = {x=0, y=0.35, z=-2.30}
 local vehicles, pairsByToken, lastScan = {}, {}, -1000
 local releasedTokens, followed = {}, setmetatable({}, {__mode="k"})
 local packetAt = setmetatable({}, {__mode="k"})
+local releaseApplied, releaseGuard = {}, setmetatable({}, {__mode="k"})
 local orphans = setmetatable({}, {__mode="k"})
 local atan2 = math.atan2
 local function name(v)
@@ -315,6 +317,13 @@ function C.Unload(player,car,bike)
     if not unoccupied(bike) then return false,"Dismount the motorcycle first" end
     EmreRE9.CarrierPhysics.Apply(bike,false)
     local pose = C.Place(car,bike,drop,floor)
+    pose.token,pose.baseMass = cr.token,cr.baseMass
+    pose.car,pose.bike=car:getId(),bike:getId()
+    pose.carKey,pose.bikeKey=car:getMechanicalID(),bike:getMechanicalID()
+    pose.at = getTimestamp()
+    -- A normal vehicle update can precede or replace the immediate command.
+    -- Keep a short-lived authoritative drop pose in the replicated engine part.
+    part(bike):getModData()[C.RELEASE_KEY] = pose
     write(bike,nil); write(car,nil)
     if not C.IsPlane(car) then car:setInitialMass(cr.baseMass); car:updateTotalMass() end
     bike:setPhysicsActive(true)
@@ -325,6 +334,27 @@ function C.Unload(player,car,bike)
 end
 function C.Tick()
     C.Scan()
+    if isClient() then
+        for _,v in ipairs(vehicles) do
+            if C.IsBike(v) then
+                local p=part(v)
+                local pose=p and p:getModData()[C.RELEASE_KEY]
+                if pose and pose.token and pose.at and not releaseApplied[pose.token]
+                   and getTimestamp()-pose.at>=0 and getTimestamp()-pose.at<15 then
+                    local car=pose.car and getVehicleById(pose.car)
+                    if car and car:getMechanicalID()~=pose.carKey then car=nil end
+                    -- An observer joining after somebody has driven away must
+                    -- never restore the old drop pose to that normal bike.
+                    local needsRelease=EmreRE9.Bikes.IsMounted(name(v)) or followed[v]
+                        or (car and distance(v,car)<9)
+                    if needsRelease and unoccupied(v) and math.abs(v:getCurrentSpeedKmHour())<1 then
+                        C.ApplyRelease(car,v,pose)
+                    else releaseApplied[pose.token]=true end
+                end
+            end
+        end
+    end
+    C.ReconcileReleases()
     local updated={}
     -- Never clear a saved pair just because its partner's chunk is absent.
     -- Once replicated mod data explicitly clears a mount, restore local mass
@@ -376,6 +406,7 @@ function C.Tick()
     end
 end
 function C.Render()
+    C.ReconcileReleases()
     -- Render frames can outnumber game ticks. Use the car's latest transform
     -- immediately before drawing so the bike cannot interpolate independently.
     for bike,state in pairs(followed) do
@@ -391,6 +422,7 @@ function C.Reset()
     vehicles, pairsByToken, lastScan = {}, {}, -1000
     releasedTokens,followed = {},setmetatable({}, {__mode="k"})
     packetAt = setmetatable({}, {__mode="k"})
+    releaseApplied,releaseGuard = {},setmetatable({}, {__mode="k"})
     orphans = setmetatable({}, {__mode="k"})
 end
 -- The admin spawn list exposes every vehicle script, including our internal
@@ -409,8 +441,10 @@ function C.ApplyRelease(car,bike,pose)
     if record and record.token ~= pose.token then return false end
     local carRecord = car and C.Record(car)
     if carRecord and carRecord.token ~= pose.token then return false end
-    EmreRE9.CarrierPhysics.Apply(bike,false)
+    -- Invalidate following before native script rebuild callbacks can run.
     releasedTokens[pose.token] = true
+    followed[bike]=nil
+    EmreRE9.CarrierPhysics.Apply(bike,false)
     local t = bike:getWorldTransform(BaseVehicle.allocTransform())
     local o = t:getOrigin()
     local px,py = pose.x-(bike:getX()-o:x()),pose.y-(bike:getY()-o:z())
@@ -425,6 +459,28 @@ function C.ApplyRelease(car,bike,pose)
     bike:setCurrentSquareFromPosition(pose.x,pose.y,pose.z)
     if car and not C.IsPlane(car) then car:setInitialMass(pose.baseMass); car:updateTotalMass() end
     followed[bike]=nil; bike:setPhysicsActive(true)
+    releaseApplied[pose.token]=true
+    if isClient() and not releaseGuard[bike] then
+        releaseGuard[bike]={pose=pose,untilMs=getTimestampMs()+2000}
+    end
     return true
+end
+-- Ignore stale mount interpolation briefly, without pinning a ridden bike or
+-- continuing to control normal motorcycle movement after the hand-off.
+function C.ReconcileReleases()
+    for bike,state in pairs(releaseGuard) do
+        local pose=state.pose
+        local r=C.Record(bike)
+        if getTimestampMs()>=state.untilMs or bike:isRemovedFromWorld()
+           or not unoccupied(bike) or (r and r.token~=pose.token)
+           or math.abs(bike:getCurrentSpeedKmHour())>1 then
+            releaseGuard[bike]=nil
+        else
+            local dx,dy=bike:getX()-pose.x,bike:getY()-pose.y
+            if dx*dx+dy*dy>1 or EmreRE9.Bikes.IsMounted(name(bike)) then
+                C.ApplyRelease(nil,bike,pose)
+            end
+        end
+    end
 end
 return C

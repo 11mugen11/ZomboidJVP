@@ -30,10 +30,15 @@ local function tick()
             local state=seen[id]
             if not state or state.vehicle~=v then
                 state={vehicle=v};keep[id]=state
-                setModels(v,ids,true)
+            end
+            -- Native part-model packets can reset client-only visibility.
+            setModels(v,ids,true)
+            for _,wheel in ipairs({"C172WheelPort","C172WheelStarboard","C172WheelTail"}) do
+                local part=v:getPartById(wheel)
+                if part then part:setModelVisible("rolling",true) end
             end
             local on=v:isEngineRunning()
-            if state.navigation~=on then
+            do
                 setModels(v,{"C172NavPort","C172NavStarboard"},on)
                 state.navigation=on
             end
@@ -43,7 +48,7 @@ local function tick()
             if carrier then record=carrier.Record(v)
             else record=part and part:getModData().emreRE9Carrier end
             local mounted=record and record.role=="car" and record.token~=nil or false
-            if state.mounted~=mounted then
+            do
                 setModels(v,mountedIds,mounted);state.mounted=mounted
             end
         end

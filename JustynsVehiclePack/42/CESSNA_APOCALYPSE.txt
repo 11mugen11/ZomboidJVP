@@ -1,3 +1,6 @@
+1.0.25: multiplayer aircraft visibility, compatible Tenere model packets, and replicated rear unload placement.
+Install on server AND every client, then restart both. See 42/CESSNA_MULTIPLAYER_FIX.txt.
+
 1.0.24: modeled engine-on navigation lamps, Viewpoint-aligned brighter roof/forward lights, and ground-only rolling wheels.
 See 42/CESSNA_LIGHTS_WHEELS.txt.
 
