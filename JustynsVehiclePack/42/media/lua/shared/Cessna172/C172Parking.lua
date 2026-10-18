@@ -175,9 +175,16 @@ function B.tick()
     if now>=nextScan or nextScan-now>250 then
         nextScan=now+250
         local cell=getCell()
-        local list=cell and cell:getVehicles()
-        if list then
-            for i=0,list:size()-1 do local v=list:get(i);if plane(v) then known[v]=true end end
+        local vehicles=cell and cell:getVehicles()
+        if vehicles then
+            -- B42 returns a Set, which has no get(index). Snapshot the Collection
+            -- before indexed access; native world updates can change the live set.
+            local snapshot=ArrayList.new()
+            snapshot:addAll(vehicles)
+            for i=0,snapshot:size()-1 do
+                local v=snapshot:get(i)
+                if plane(v) then known[v]=true end
+            end
         end
     end
     for v in pairs(known) do

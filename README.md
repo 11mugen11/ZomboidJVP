@@ -3,7 +3,7 @@
 A combined Project Zomboid Build 42 mod containing the Yamaha Tenere 700 World Rally and Emre RE9 motorcycles,
 Land Rover Discovery variants, and flyable Cessna 172.
 
-[Download the v1.0.34 mod ZIP](https://github.com/11mugen11/ZomboidJVP/releases/download/v1.0.34/JustynsVehiclePack-v1.0.34.zip)
+[Download the v1.0.35 mod ZIP](https://github.com/11mugen11/ZomboidJVP/releases/download/v1.0.35/JustynsVehiclePack-v1.0.35.zip)
 
 ## Install
 
@@ -18,6 +18,8 @@ Expected layout: `Zomboid/mods/JustynsVehiclePack/42/mod.info`.
 The pack declares Build 42.20.4 or later; Build 41 is not included.
 
 ## Included changes
+
+- **v1.0.35 Cessna parking error repair:** fixes the repeated parking tick exception on B42 by copying the live vehicle Set into an ArrayList snapshot before indexed access. Retains all four colors, the V-menu brake and the 250 ms scan interval. Set-discovery regression and native collection checks cover the corrected path. Update server and clients together and restart; keep Lua checksum verification enabled.
 
 - **v1.0.34 multiplayer Cessna parking:** saved server/client parking anchor prevents idle native-body drift and entry jumps. Adds driver V-menu Set/Release Parking Brake; engine-off parking is automatic. Includes separate Red, Blue, Green and Yellow cheat-spawn entries with identical handling and preserved non-paint pixels. Native dedicated-server and Lua/menu regressions pass; live two-client testing is pending. Install on the server and every client, then restart.
 
@@ -93,9 +95,9 @@ The pack declares Build 42.20.4 or later; Build 41 is not included.
 ## Rear carrier
 
 Park the bike near the Camel Discovery, turn its engine off, and dismount.
-Stand beside either vehicle and use **V → Load motorcycle onto rear carrier**.
+Stand beside either vehicle and use **V â†’ Load motorcycle onto rear carrier**.
 
-To unload, park the Rover and use **V → Unload motorcycle from rear carrier**.
+To unload, park the Rover and use **V â†’ Unload motorcycle from rear carrier**.
 Leave a clear 3-by-3 area behind the car.
 
 See [carrier instructions](JustynsVehiclePack/42/REAR_CARRIER.txt) for details.

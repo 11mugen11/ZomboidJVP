@@ -1,3 +1,6 @@
+1.0.35: fixes the Cessna parking tick error caused by treating the B42 vehicle Set as a List.
+Install matching files on SERVER AND EVERY CLIENT, then fully restart. Keep Lua checksum verification enabled.
+
 1.0.34: persistent multiplayer Cessna parking, V-menu brake, and Blue/Green/Yellow spawn variants.
 Install on the SERVER AND EVERY CLIENT, then restart. See 42/CESSNA_PARKING_BRAKE.txt and 42/CESSNA_COLOR_VARIANTS.txt.
 

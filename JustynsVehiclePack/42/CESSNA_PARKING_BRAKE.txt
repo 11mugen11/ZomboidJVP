@@ -1,4 +1,11 @@
-CESSNA MULTIPLAYER PARKING BRAKE - 1.0.34
+CESSNA MULTIPLAYER PARKING BRAKE - 1.0.35
+
+1.0.35 repairs the loaded-vehicle scan on B42: IsoCell.getVehicles() returns
+a Set rather than an indexed List. The scan now copies that Collection into
+an ArrayList snapshot before indexed access. The 250 ms cadence and parking
+authority logic are unchanged. All four paint variants receive the fix.
+A regression reproduces the prior missing-method exception and passes with
+the repair; native validation exercises B.tick using the real cell Set.
 
 Stopped Cessnas with their engine off acquire a saved parking anchor. The
 server and every client keep the native physics body and map position at that
