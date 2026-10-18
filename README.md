@@ -3,7 +3,7 @@
 A combined Project Zomboid Build 42 mod containing the Yamaha Tenere 700 World Rally and Emre RE9 motorcycles,
 Land Rover Discovery variants, and flyable Cessna 172.
 
-[Download the v1.0.35 mod ZIP](https://github.com/11mugen11/ZomboidJVP/releases/download/v1.0.35/JustynsVehiclePack-v1.0.35.zip)
+[Download the v1.0.36 mod ZIP](https://github.com/11mugen11/ZomboidJVP/releases/download/v1.0.36/JustynsVehiclePack-v1.0.36.zip)
 
 ## Install
 
@@ -18,6 +18,8 @@ Expected layout: `Zomboid/mods/JustynsVehiclePack/42/mod.info`.
 The pack declares Build 42.20.4 or later; Build 41 is not included.
 
 ## Included changes
+
+- **v1.0.36 fixed-height Cessna cruise:** all four colors climb smoothly to a fixed 86m physics height above the standard building floor range. Roofs, hills and water no longer change powered cruise height, and the camera follows actual aircraft height continuously. V-menu landing descends smoothly; aborting returns to cruise. Expands occupant depth encoding and surface probe range for the higher flight envelope. Automated kinematics/camera/parking/reverse checks pass; high-altitude graphics and live multiplayer flight need in-game verification. Update server and every client, then restart fully.
 
 - **v1.0.35 Cessna parking error repair:** fixes the repeated parking tick exception on B42 by copying the live vehicle Set into an ArrayList snapshot before indexed access. Retains all four colors, the V-menu brake and the 250 ms scan interval. Set-discovery regression and native collection checks cover the corrected path. Update server and clients together and restart; keep Lua checksum verification enabled.
 

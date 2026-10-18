@@ -35,7 +35,7 @@ C172Config.registry["Base.Cessna172"] = {
     -- in C172Flight.lua; this registry keeps the same shape as the sibling aircraft mods'
     -- so the shared identification helpers stay interchangeable. Kept in sync by hand so a
     -- reader is not misled - if these two ever disagree, TUNE is the one that flies.
-    maxAltitude = 8.5,
+    maxAltitude = 52.0,
 
     -- A light aircraft climbs slowly. These are the ceiling values the controller eases
     -- toward, not instant rates - see VS_RAMP in C172Flight.lua.

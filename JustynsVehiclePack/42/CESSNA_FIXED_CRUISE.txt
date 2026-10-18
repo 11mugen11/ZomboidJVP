@@ -1,0 +1,21 @@
+Cessna fixed-height cruise - v1.0.36
+
+Red, Blue, Green and Yellow use the same flight controller.
+After takeoff the aircraft climbs gradually to one fixed world body height: 86 game physics metres.
+This sits above the standard map's building floor range (highest logical floor 31).
+Cruise no longer follows roof, hill or lake surface probes. The camera follows physical height
+continuously instead of stepping between terrain levels. The HUD retains its existing display scale;
+its displayed feet are not literal physics metres converted to feet.
+
+Powered healthy flight holds cruise height without juggling throttle. Engine failure, stalls and
+damaged controls still affect flight. Choose Land Aircraft from the V menu for a controlled descent.
+The approach eases into its existing flare and wheel handoff; aborting landing resumes the climb.
+Terrain probes remain available for landing support and outdoor lighting.
+
+Install the same version on the server and every client, then fully restart them (including shaders).
+Existing parked aircraft and all four spawn IDs remain supported.
+
+Validation: production flight kinematics at 20/30/60/120 FPS; changing terrain samples and elevated
+takeoffs; full descent, engine-off glide; camera pin/unpin restoration; occupant depth signal;
+parking/menu, touchdown and reverse support regressions; actual game Lua compilation.
+High-altitude graphics and a live flight with multiple players still require in-game verification.

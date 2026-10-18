@@ -1,4 +1,5 @@
 require "Cessna172/C172GroundHandling"
+require "Cessna172/C172Altitude"
 --[[
     C172Flight - Cessna 172 flight controller.
 
@@ -428,12 +429,8 @@ local TUNE = {
     -- still a long wait: at 0.42 the new 8.0 ceiling would have taken ~19 s. At 0.80 it is
     -- ~10 s, which reads as a real climb without the aircraft leaping. The responsiveness
     -- comes from VS_RAMP as much as from this number - see there.
-    CLIMB_RATE         = 0.80,
-    -- Raised with the ceiling (was 0.50). From 8.0 units a descent at 0.50 took ~16 s,
-    -- which both felt like a wait and left very little margin under LANDING_TIMEOUT_SEC.
-    -- Still gentler than the climb: a light aircraft descends under control, it does not
-    -- dive.
-    DESCEND_RATE       = 0.70,
+    CLIMB_RATE         = 1.50, -- 2.55 real metres/second
+    DESCEND_RATE       = 1.30, -- 2.21 real metres/second, eased into the flare
     -- How fast vertical speed eases toward its target. MiG: 3.0. Halved, so pitch
     -- changes are gradual and the nose does not snap up the instant W is pressed.
     -- How fast vertical speed converges on its target - this, not CLIMB_RATE, is what
@@ -442,45 +439,11 @@ local TUNE = {
     -- stepping instantly to full climb rate (which is what a high value would do) or
     -- taking 2 s to respond (1.5, the previous value).
     VS_RAMP            = 2.2,
--- CEILING. 8.0 * LIFT_HEIGHT_SCALE = 13.6 m of REAL body height = game level 5.55.
-    -- This is the SAME real ceiling AircraftMod's VX-9 runs at today, which is the actual
-    -- proven reference point behind "the helicopter works at 134 ft": that 134 is a
-    -- DISPLAY figure. The VX-9's own config reads
-    --     LIFT_HEIGHT_SCALE = 1.7,  HUD_ALT_MULT = 3.0  -- 13.6 m real reads as ~134 ft
-    -- so its physical ceiling is 13.6 m and its HUD multiplies by 3 to show 134 ft. This
-    -- mod now matches BOTH halves - the same real height and the same display scale - so
-    -- the two aircraft agree with each other in the air and on the instruments.
-    --
-    -- DO NOT SET THIS FROM A FEET FIGURE. PZ stops DRAWING a vehicle some distance above
-    -- the player, and that cutoff is unrelated to the world's height. Commanding a literal
-    -- 134 ft (40.8 m, level 16.7) would put the aircraft far inside the band where it
-    -- simply is not rendered. Known points: level 5.55 in service on the VX-9; level 4.16
-    -- proven over weeks on the VX-9 and the MiG; level 8.33 measured INVISIBLE. The true
-    -- cutoff is between 5.55 and 8.33 and is still unmeasured, so this sits on the highest
-    -- value that is actually in service somewhere, not in the unknown band.
--- CEILING: 8.5 units * 1.7 = 14.45 m = game LEVEL 5.90. Reads ~142 ft on the HUD.
-    --
-    -- This is a MEASURED value, not a guess - which matters, because guessing here is what
-    -- caused the flickering. Jay flew the aircraft up from the proven 5.55 in 0.17-level
-    -- steps using an in-flight trim shipped in v0.8.2, and 5.90 was confirmed stable in
-    -- real flight, including turns at altitude. The trim has been removed now that the
-    -- number is known.
-    --
-    -- Reference points, in game levels: 4.16 proven over weeks (VX-9 and MiG), 5.55 in
-    -- service on the VX-9, 5.90 measured good HERE, 8.33 measured INVISIBLE on the VX-9.
-    --
-    -- DO NOT RAISE THIS WITHOUT FLYING IT. PZ stops drawing a vehicle some distance above
-    -- the player; that threshold is not written down anywhere and the failure mode is not
-    -- an error in the log - the aeroplane simply stops being drawn, which is exactly what
-    -- "flickering" looks like when it is intermittent. If more height is ever wanted, put
-    -- the trim back rather than picking a number.
-    --
-    -- 8.5 -> 7.6 (09-25). That 5.90 was measured when the height was counted from level 0.
-    -- 1.8.0 counts it from the GEAR (the airframe already sits 1.47 m up on its wheels), which
-    -- silently lifted the whole envelope by 1.47 m: Jay's 09-25 flight probe shows the body at
-    -- 16.0 m (level 6.5) for the whole cruise, inside the unmeasured band - and "cessna
-    -- disappears". 7.6 * 1.7 + 1.47 = 14.4 m puts the real ceiling back on the measured 14.45 m.
-    MAX_ALTITUDE       = 7.6,
+    -- Fixed world-height cruise, above the standard 32-storey map envelope.
+    -- The old low ceiling kept the model near a terrain-pinned camera. Presentation
+    -- now tracks the physical height continuously, with matching occupant depth range.
+    CRUISE_BODY_H      = 86.0,
+    MAX_ALTITUDE       = 52.0, -- altitude units; also within the server's 60-unit limit
     CRUISE_ALTITUDE    = 1.3,   -- TAKEOFF -> AIR above this
     TREE_CLEAR_ALTITUDE = 1.2,  -- above this the airframe is treated as over the canopy
     FLARE_ALTITUDE     = 0.9,
@@ -488,21 +451,15 @@ local TUNE = {
 
     -- ---- lift controller (real metres, fed to the Java PD controller) -----------
     LIFT_HEIGHT_SCALE  = 1.7,   -- metres of REAL body height per altitude unit
-    -- Display-only multiplier on the HUD's feet readout. Identical to the VX-9's
-    -- HUD_ALT_MULT so both aircraft read on the same scale: the ceiling shows as ~134 ft.
-    -- PZ's vertical world is heavily compressed - the real 13.6 m ceiling is the
-    -- renderer's limit, not an aviation figure - so a raw 45 ft readout would be
-    -- meaningless to a player. This never touches physics.
+    -- Display-only multiplier; physical cruise height is CRUISE_BODY_H.
     HUD_ALT_MULT       = 3.0,
     -- SURFACE AWARENESS (roof / elevated-structure protection).
     ROOF_CLEARANCE_M   = 2.5,   -- minimum body height above any solid surface, airborne (2.2 -> 2.5 09-25, the MiG's value)
     ROOF_CLEARANCE_CAP_M = 2.0, -- clearance may lift it at most this far above the ceiling (MiG)
     ROOF_LOOKAHEAD_SEC = 2.0,   -- roofs are looked for this much flight time ahead (MiG)
-    HARD_MAX_BODY_H    = 14.6,  -- 20 -> 14.6 (09-25): the measured drawn ceiling (see MAX_ALTITUDE); roof clearance may not push past it. Before 09-25: absolute ceiling on the commanded height, whatever the
-                                -- surface below is doing. Level 8.17 - only reachable by
-                                -- stacking roof clearance on top of a tall building, and
-                                -- still under the 8.33 measured invisible. Over open
-                                -- ground MAX_ALTITUDE is the real limit, well below this.
+    HARD_MAX_BODY_H    = 90.0,
+    TARGET_RISE_M_SEC  = 3.0,
+    TARGET_FALL_M_SEC  = 2.5,
     SURFACE_SAMPLE_SEC = 0.06,  -- how often the surface below is re-probed (~15 Hz)
     -- How fast the SMOOTHED surface height may follow the raw probe. The probe is a step
     -- function at every roof edge; without this the commanded height jumps metres in one
@@ -524,7 +481,7 @@ local TUNE = {
     LIFT_MASS          = 1000,  -- fallback only; real mass is read from the vehicle
     LIFT_MAX_FORCE     = 56000, -- MiG: 64000, scaled for this airframe's lower mass
     LIFT_ERR_UP        = 3.5,
-    LIFT_ERR_DOWN      = 1.6,
+    LIFT_ERR_DOWN      = 2.5,
 
     -- ---- horizontal drive authority --------------------------------------------
     -- NOT reduced from the MiG's values, on purpose. These govern how fast the body
@@ -598,7 +555,7 @@ local TUNE = {
     -- Hard guarantee against ever being stuck airborne. Raised with the ceiling: a
     -- descent from 8.0 units plus the flare is ~14 s, and this must stay comfortably
     -- above a legitimate landing or the safety net would start firing during normal ones.
-    LANDING_TIMEOUT_SEC = 45,
+    LANDING_TIMEOUT_SEC = 100,
     -- How far above the surface the REAL airframe may still be when a landing is allowed to
     -- finish, in metres of body height. Measured, not guessed: across every logged Cessna
     -- landing the body read 1.47-1.71 m above the surface at "landing complete" (a parked or
@@ -872,7 +829,7 @@ local function updateSurfaceHeight(vehicle, st, dt)
         -- above only looks straight down, so a tall building was only seen once the aircraft
         -- was already over it. In flight, also look ROOF_LOOKAHEAD_SEC of travel ahead.
         st.surfaceAhead = 0
-        if st.isAirborne and bridgeAvailable() then
+        if st.mode == "LANDING" and bridgeAvailable() then
             local ahead = bridgeFn("c172RoofHeightAhead")
             if ahead then
                 local hd = st.driveHeading or st.heading or 0
@@ -1455,6 +1412,7 @@ local function enterGroundMode(vehicle, st, reason)
     st.contactsClear = false
     st.altitude      = 0
     st.verticalSpeed = 0
+    st.flightBaseH, st.flightTargetH = nil, nil
     st.turnInput     = 0
     st.landingRequestedAt = nil
     st.landingPhase  = nil
@@ -1578,6 +1536,8 @@ local function enterAirMode(vehicle, st, speed, cfg)
         local surf = st.groundSurfaceH or 0
         local raw = (type(bh) == "number" and bh == bh) and (bh - surf) or nil
         st.gearDatum = math.max(TUNE.GEAR_DATUM_MIN, math.min(TUNE.GEAR_DATUM_MAX, raw or 1.05))
+        st.flightBaseH = type(bh) == "number" and math.max(0, bh - st.gearDatum) or surf
+        st.flightTargetH = bh or (surf + st.gearDatum)
         log(("gear datum %.2f m (measured %s)"):format(st.gearDatum,
             raw and ("%.2f"):format(raw) or "n/a"))
     end
@@ -1608,6 +1568,7 @@ end
 
 local function enterLandingPhase(vehicle, st, reason)
     local from = st.mode or "?"
+    C172Altitude.resync(st, javaBodyHeight(vehicle), TUNE)
     st.mode = "LANDING"
     st.landingRequestedAt = nowSec()
     st.landingPhase = "DESCENT"
@@ -1623,6 +1584,7 @@ end
 -- the approach bled the speed off, so it is W (power) that climbs it away again.
 local function abortLanding(vehicle, st, reason)
     if st.mode ~= "LANDING" or not st.isAirborne then return false end
+    C172Altitude.resync(st, javaBodyHeight(vehicle), TUNE)
     st.mode = "AIR"
     st.landingRequestedAt = nil
     st.landingPhase = nil
@@ -1881,28 +1843,13 @@ local function updateFlightKinematics(vehicle, st, cfg, wantThrust, wantSlow, en
     -- feed-forward and the drive's turn carry both use it (applyFlightForces).
     st.yawRateCmd = (dt and dt > 0) and ((st.heading - prevHeading) / dt) or 0
 
-    -- VERTICAL. Climb is coupled to EXCESS airspeed, which is what makes this feel like
-    -- a light aircraft: open the throttle and it accelerates first and climbs second,
-    -- rather than levering itself upward on demand.
+    -- Powered cruise converges on one absolute height. Ground probes cannot
+    -- change it; engine-off flight still glides and damage/stalls retain authority.
     local vsTarget = 0
     if st.mode == "TAKEOFF" then
         vsTarget = engineOn and TUNE.CLIMB_RATE or 0
     elseif st.mode == "AIR" then
-        -- ENERGY MODEL. Speed above the level band buys climb; speed below it costs
-        -- altitude; inside it the aircraft holds height. One control, three behaviours,
-        -- and a cruise that can actually be held.
-        local hi = TUNE.LEVEL_FLIGHT_KMH + TUNE.LEVEL_BAND_KMH
-        local lo = TUNE.LEVEL_FLIGHT_KMH - TUNE.LEVEL_BAND_KMH
-        if st.airSpeed > hi and engineOn then
-            local r = (st.airSpeed - hi) / math.max(1, TUNE.MAX_AIRSPEED_KMH - hi)
-            vsTarget = TUNE.CLIMB_RATE * math.max(0, math.min(1, r))
-        elseif st.airSpeed < lo then
-            -- Descent is available with the engine OFF too: an engine failure at altitude
-            -- must glide down, not hang there.
-            local floorSpd = takeoffKmh(cfg) * TUNE.STALL_SPEED_RATIO
-            local r = (lo - st.airSpeed) / math.max(1, lo - floorSpd)
-            vsTarget = -TUNE.DESCEND_RATE * math.max(0, math.min(1, r))
-        end
+        vsTarget = C172Altitude.cruiseVS(st, TUNE, engineOn)
     elseif st.mode == "LANDING" then
         local altRatio = math.max(TUNE.FLARE_MIN_RATIO,
                                   math.min(1, st.altitude / TUNE.FLARE_ALTITUDE))
@@ -2088,34 +2035,12 @@ local function applyFlightForces(vehicle, st, dt)
 
     -- COMMANDED HEIGHT, SURFACE-AWARE.
     --
-    -- `altitude * SCALE` alone is a height above LEVEL 0, so over a building it aims the
-    -- aircraft at a point inside the building. Two guards fix that without changing the
-    -- open-country case at all:
-    --
-    --   floor    - the commanded height is never below the solid surface underneath, so
-    --              nothing can drive the body into a roof even mid-descent.
-    --   clearance- while flying (not landing) it is additionally held ROOF_CLEARANCE_M
-    --              above that surface, so overflying a building lifts over it instead of
-    --              clipping through it. Dropped during LANDING, or the aircraft could
-    --              never settle onto anything.
-    --
-    -- Over open ground surfaceH is 0 and both guards are inert: max(0 + 2.2, alt*1.7) is
-    -- just alt*1.7 for any altitude above 1.3 units, and the aircraft only sits below that
-    -- during the first second of a climb-out or the last second of a landing.
+    -- Surface probes supply landing support and outdoor lighting. Cruise height
+    -- is absolute: roofs, hills and water cannot move its lift target.
     local surfaceH = updateSurfaceHeight(vehicle, st, dt)
 
-    -- Tell the level pin which grid level to draw this aircraft on: the ROOF it is flying
-    -- over, not a flat 0. Both keep it on a square that reliably exists (so it can never be
-    -- culled or teleported by vanilla's fall-out-of-the-world recovery), but the roof is an
-    -- OUTDOOR square lit by the real sky, whereas level 0 under a building is the unlit
-    -- interior - which is what drew the aeroplane as a black shadow.
-    -- From the RAW probe (09-25), not the ramped surfaceH the lift uses. The ramp exists to
-    -- smooth the COMMANDED HEIGHT over a roof edge; fed to the pin it walked the drawn level
-    -- through every storey in between (0 -> 1 -> 2 and back) for a second or more after each
-    -- building - levels with no square under the aircraft, where vanilla's "fell out of the
-    -- world" check can fire and the pilot (whom the camera follows) changes level each time.
-    -- The MiG has always pinned from the raw probe, and it is the one Jay reports as clean.
-    -- (C172Presentation borrows that level and an outdoor square for the frame's drawing.)
+    -- The roof level selects an outdoor LIGHTING square only. Presentation
+    -- follows continuous body height for the pilot's render-only camera anchor.
     do
         local fn = bridgeFn("c172SetPinLevel")
         if fn then
@@ -2129,23 +2054,7 @@ local function applyFlightForces(vehicle, st, dt)
     -- report), the whole flight sagged by the same amount, and the altimeter could never read
     -- the true ceiling. Everything is now measured from where the airframe actually rests.
     local datum    = st.gearDatum or 0
-    local wantH    = datum + st.altitude * TUNE.LIFT_HEIGHT_SCALE
-    local targetH
-    if st.mode == "LANDING" and st.altitude <= 0.01 then
-        -- Final approach (09-25): aim a little below the gear so the airframe reaches the
-        -- TOUCHDOWN_DATUM_M band rather than creeping toward it. The touchdown test fires well
-        -- before this target is reached, and the tires then carry it.
-        targetH = surfaceH + datum - TUNE.LANDING_FINAL_SINK_M
-    elseif st.mode == "LANDING" then
-        targetH = math.max(surfaceH + datum, wantH)
-    else
-        targetH = math.max(surfaceH + datum + TUNE.ROOF_CLEARANCE_M, wantH)
-    end
-    -- Final absolute cap. Without it, stacking clearance on top of a tall building could
-    -- push the body past the height where PZ stops drawing it - trading a clipping bug for
-    -- an invisibility bug. See MAX_ALTITUDE's own note for why that band is dangerous.
-    targetH = math.min(targetH, TUNE.HARD_MAX_BODY_H,
-                       datum + maxAltitude() * TUNE.LIFT_HEIGHT_SCALE + TUNE.ROOF_CLEARANCE_CAP_M)
+    local targetH = C172Altitude.target(st, surfaceH, javaBodyHeight(vehicle), physDt, TUNE)
     st.lastTargetH = targetH
     st.lastSurfaceH = surfaceH
     -- LIFT FRAME-RATE SCALING (1.8.0, ported from MiG29Jet 0.3.0). The lift is queued with
@@ -2200,15 +2109,16 @@ local function checkAltitudeSanity(vehicle, st, dt)
             st.altDesyncFor = 0
             local surface = st.surfaceH or 0
             -- minus the gear datum (1.8.0): the target is measured from where the airframe rests.
-            local realAlt = (h - surface - (st.gearDatum or 0)) / TUNE.LIFT_HEIGHT_SCALE
+            local realAlt = (h - (st.flightBaseH or 0) - (st.gearDatum or 0)) / TUNE.LIFT_HEIGHT_SCALE
             warn(("altitude desync: commanded %.1fm, body is at %.1fm - adopting reality")
                 :format(want, h))
-            if realAlt <= 0.2 then
+            if h - surface - (st.gearDatum or 0) <= 0.34 then
                 enterGroundMode(vehicle, st, "recovered from an engine-side reposition")
                 return false
             end
             st.altitude = math.max(0, math.min(maxAltitude(), realAlt))
             st.verticalSpeed = 0
+            st.flightTargetH = h
         end
     else
         st.altDesyncFor = 0

@@ -537,7 +537,7 @@ end
 function P.c172WheelsOnGround() return nil end
 
 -- ---------------------------------------------------------------- the ground under it
-local MAX_PROBE_LEVEL = 12
+local MAX_PROBE_LEVEL = 31
 
 -- IsoGridSquare.TreatAsSolidFloor (public in 42.21) - what the Java build asked. Called
 -- straight: a guarded "try this, then that" would still stop a -debug player's game on the

@@ -135,7 +135,7 @@ local function pinOne(id, v, cell, player)
     local level = V.pinLevels[id] or 0
     local x, y = floor(v:getX()), floor(v:getY())
     local h = P.c172GetBodyHeight(v) or 0
-    local top = floor(h / Z_M)
+    local top = math.min(31, floor(h / Z_M))
     local key = x * 1000003 + y * 64 + level
     local c = V.sky[id]
     if not c then c = {}; V.sky[id] = c end
@@ -147,14 +147,17 @@ local function pinOne(id, v, cell, player)
     local engineZ, engineSq = v:getZ(), v:getCurrentSquare()
     local moveSq = sq ~= nil and sq ~= engineSq
     local moveZ = floor(engineZ) ~= 0       -- drawn on level 0 (see the top)
-    if not (moveSq or moveZ) then return end
+    local seated = player and sameVehicle(player:getVehicle(), v)
+    if not (moveSq or moveZ or seated) then return end
     local pin = { vehicle = v, z = engineZ, sq = engineSq }
     V.pins[id] = pin
     if moveZ then v:setZ(0) end
     if moveSq then v:setCurrent(sq) end
-    if player and sq and sameVehicle(player:getVehicle(), v) then
+    if seated and sq then
         pin.player, pin.pz, pin.psq = player, player:getZ(), player:getCurrentSquare()
-        player:setZ(level)
+        -- Render-only camera anchor follows continuous body height, never the roof.
+        -- Stay in B42's valid logical levels even above its highest building floor.
+        player:setZ(math.max(0, math.min(31, (h - (V.TAG_DATUM_M or 1.53)) / Z_M)))
         player:setCurrent(sq)
     end
 end

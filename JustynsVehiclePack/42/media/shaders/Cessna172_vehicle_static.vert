@@ -34,10 +34,10 @@ void main()
 	float clip = ((o.z+1.0) / 2.0); // -1,+1 -> 0,2 -> 0,1
 	clip += targetDepth - 0.5;
 	// Cessna172: OCCUPANT DEPTH - see tools/build_shaders.py. Paint saturation exactly 0.321 marks the
-	// signal; hue = 0.5 + P / 40 moves every model of the aircraft P physics units toward the camera,
+	// signal; hue = 0.5 + P / 200 moves every model of the aircraft P physics units toward the camera,
 	// to agree with the occupants it shows.
 	float cessna172Signal = step(abs(TexturePainColor.y - 0.321), 0.0005);
-	clip -= cessna172Signal * (TexturePainColor.x - 0.5) * 40.0 * 0.0011786;
+	clip -= cessna172Signal * (TexturePainColor.x - 0.5) * 200.0 * 0.0011786;
 	o.z = (clip*2)-1; // 0-1 -> 0-2 -> -1,+1
 	gl_Position = o;
 }

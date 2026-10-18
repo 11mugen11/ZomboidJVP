@@ -1,3 +1,8 @@
+1.0.36: fixed world-height Cessna cruise with smooth climb and descent, independent of terrain.
+All four colors climb to the same 86m physics height. The camera follows actual aircraft height.
+Select Land Aircraft in the V menu to descend; use the existing abort action to go around.
+Install matching files on SERVER AND EVERY CLIENT and fully restart. See 42/CESSNA_FIXED_CRUISE.txt.
+
 1.0.35: fixes the Cessna parking tick error caused by treating the B42 vehicle Set as a List.
 Install matching files on SERVER AND EVERY CLIENT, then fully restart. Keep Lua checksum verification enabled.
 

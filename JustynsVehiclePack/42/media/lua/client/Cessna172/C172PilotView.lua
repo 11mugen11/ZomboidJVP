@@ -30,7 +30,7 @@ require "Cessna172/C172Variants"
        behind their own cabin. The aircraft's shader moves every model of it (body and propeller)
        in depth to agree with them - by P, worked out here from the same equations the engine uses
        (see PV.depthPush) and sent through the aircraft's paint colour: saturation exactly 0.321
-       marks it, hue = 0.5 + P / 40. The skin's alpha is 1 outside the glass, so paint tints nothing.
+       marks it, hue = 0.5 + P / 200. The skin's alpha is 1 outside the glass, so paint tints nothing.
        Both shown seats share ONE root, so one P fits both occupants; it is worked out for the local
        player's seat when he is aboard. On the ground P is ~0 and the aircraft sorts exactly as
        before; with nobody in a shown seat there is no push at all.
@@ -57,7 +57,7 @@ local Z = 2.44949          -- physics units per level (and per unit of getWorldP
 local K = 1.22474          -- depth of one tile of x or y, in physics height units: (CHUNK_DEPTH / 16) / (LEVEL_DEPTH / Z)
 local BIAS = 0.0848        -- the engine draws characters 0.0001 of depth nearer: 0.0001 / 0.0011786
 local SIGNAL_SAT, SIGNAL_VAL = 0.321, 0.5
-local P_MAX = 19.9         -- hue = 0.5 + P / 40 stays inside 0..1
+local P_MAX = 99.9         -- hue = 0.5 + P / 200 stays inside 0..1
 local POSE_VAR = "C172Pose"
 local POSES = { [0] = "Front", [1] = "Rear" }    -- shown seat -> the clip that seats him
 local SHOWN = { 0, 1 }
@@ -110,7 +110,7 @@ PV._levelShift = levelShift
 --   aircraft:  anchor (x, y, H / Z) - its position and physics height; origin = the body
 --   character: anchor = his OWN (x, y, z), which BaseVehicle.update puts at his root's world x, y and
 --              the floor of the vehicle's level (C172Presentation pins the local player's z to the
---              roof he is over); origin = his root, drawn from the vehicle's x, y and level
+--              continuous physical flight height); origin = his root, drawn from the vehicle's x, y and level
 --   square depth = getChunkDepthData + calculateDepth, and the chunk term's -minLevel cancels
 --              calculateDepth's +minLevel: LINEAR in z, no step every two levels
 -- => P = BIAS - H - d_up + K * ((cx - x - dx) + (cy - y - dy)) + Z * (cz - vz),
@@ -142,7 +142,7 @@ local function signal(v, P)
     -- (a push of exactly 0 - nobody aboard, both climbing in - is always sent exactly: sorts as before)
     if last and abs(last - P) < 0.02 and (P ~= 0 or last == 0) and abs(v:getColorSaturation() - SIGNAL_SAT) < 0.0005 then return end
     sent[id] = P
-    v:setColorHSV(0.5 + P / 40, SIGNAL_SAT, SIGNAL_VAL)
+    v:setColorHSV(0.5 + P / 200, SIGNAL_SAT, SIGNAL_VAL)
 end
 PV._signal = signal
 
@@ -221,7 +221,7 @@ local function unpose(v)
         -- aboard in flight) is put back to 0 - any other paint is left exactly as it is
         sent[id] = 0
         if abs(v:getColorSaturation() - SIGNAL_SAT) >= 0.0005 then return end
-        if abs(v:getColorHue() - 0.5) * 40 < 0.02 then return end
+        if abs(v:getColorHue() - 0.5) * 200 < 0.02 then return end
         sent[id] = nil
     end
     signal(v, 0)
