@@ -1,0 +1,21 @@
+CESSNA NATIVE MULTIPLAYER RELEASE CACHE - PACK 1.0.27
+
+Clears the real B42 vehicle interpolation history before restoring the
+motorcycle at the authoritative rear release pose, and clears it again at
+the end of the collision-free hand-off. Moving native/map coordinates alone
+does not discard previously buffered mounted-position frames.
+
+For an unoccupied, server-owned motorcycle only, two synchronous native
+authorization calls discard cached frames and immediately restore Server/-1.
+No network ownership request is sent; another player's ownership is untouched.
+The motorcycle remains 5.4 metres behind the aircraft, with normal physics
+and inventory restored. New mounts and duplicate release handling remain.
+
+[JVP RELEASE 1.0.27] console lines record target, native and map positions,
+owner and whether the cache was cleared at placement and physics restoration.
+
+Validation: actual B42 native interpolation history was seeded and purged
+using the same public methods; owner returned to -1. Actual native rear
+placement and Kahlua singleplayer/multiplayer handler regressions pass.
+This is not a graphical live two-client playtest. Restart clients to test.
+Uses the existing v1.0.25 server release protocol; live server unchanged.

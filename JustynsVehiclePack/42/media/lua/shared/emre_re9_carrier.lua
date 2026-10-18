@@ -456,6 +456,23 @@ local function placeReleased(bike,pose,ox,oy)
     bike:setLastX(pose.x);bike:setLastY(pose.y)
     bike:setCurrentSquareFromPosition(pose.x,pose.y,pose.z)
 end
+-- B42 has no exposed interpolation getter. This synchronous native cycle
+-- clears its REAL cached frames and returns the same server-owned idle bike
+-- to Server/-1 before another game/physics/network tick can observe a lease.
+-- Never change another player's ownership or an occupied motorcycle.
+local function clearReleaseHistory(bike)
+    if not isClient() or not unoccupied(bike) or bike:getNetPlayerId()>=0 then return false end
+    local player=getSpecificPlayer(0)
+    if not player then return false end
+    bike:authorizationClientCollide(player)
+    bike:authorizationServerOnSeat(player,false)
+    return true
+end
+local function traceRelease(bike,pose,phase,cleared)
+    local w=bike:getWorldPos(0,0,0,Vector3f.new())
+    print(string.format("[JVP RELEASE 1.0.27] %s token=%s bike=%s script=%s map=%.3f,%.3f body=%.3f,%.3f target=%.3f,%.3f owner=%s cacheCleared=%s",
+        phase,tostring(pose.token),tostring(bike:getId()),tostring(name(bike)),bike:getX(),bike:getY(),w:x(),w:y(),pose.x,pose.y,tostring(bike:getNetPlayerId()),tostring(cleared)))
+end
 function C.IsReleasing(bike) return releaseGuard[bike]~=nil end
 -- Trusted server release: move the hidden body first, THEN rebuild the normal
 -- motorcycle at that rear pose. Keep it static through old mount interpolation.
@@ -466,6 +483,7 @@ function C.ApplyRelease(car,bike,pose,correcting)
     local carRecord = car and C.Record(car)
     if carRecord and carRecord.token ~= pose.token then return false end
     if releaseApplied[pose.token] and not correcting then return true end
+    local firstRelease=not releaseApplied[pose.token]
     -- Invalidate following before native script rebuild callbacks can run.
     releasedTokens[pose.token] = true
     followed[bike]=nil
@@ -474,6 +492,7 @@ function C.ApplyRelease(car,bike,pose,correcting)
     bike:setPhysicsActive(true);bike:setPhysicsActive(false)
     placeReleased(bike,pose,ox,oy)
     EmreRE9.CarrierPhysics.Apply(bike,false)
+    local cleared=clearReleaseHistory(bike)
     bike:setCollidable(false)
     bike:setPhysicsActive(true);bike:setPhysicsActive(false)
     placeReleased(bike,pose,ox,oy)
@@ -489,6 +508,7 @@ function C.ApplyRelease(car,bike,pose,correcting)
         bike:setPhysicsActive(true);bike:setPhysicsActive(false)
     else bike:setCollidable(true);bike:setPhysicsActive(true) end
     releaseApplied[pose.token]=true
+    if firstRelease then traceRelease(bike,pose,"placed",cleared) end
     if isClient() and not releaseGuard[bike] then
         releaseGuard[bike]={pose=pose,untilMs=getTimestampMs()+2000}
     end
@@ -505,10 +525,12 @@ function C.ReconcileReleases()
             releaseGuard[bike]=nil
         elseif not unoccupied(bike) or getTimestampMs()>=state.untilMs then
             -- Never turn physics/collision on until the native body is at rear.
+            local cleared=clearReleaseHistory(bike)
             if EmreRE9.Bikes.IsMounted(name(bike)) then
                 C.ApplyRelease(nil,bike,pose,true)
             else placeReleased(bike,pose) end
             bike:setCollidable(true);bike:setPhysicsActive(true)
+            traceRelease(bike,pose,"physics-restored",cleared)
             releaseGuard[bike]=nil
         else
             bike:setCollidable(false)
