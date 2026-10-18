@@ -9,6 +9,15 @@ module Base
         Fixer = Base.SmallSheetMetal=2; MetalWelding=3;Mechanics=4,
     }
 
+    fixing TenereGasTankWelding
+    {
+        Require = EmreRE9.TenereGasTank,
+        GlobalItem = Base.BlowTorch=5,
+        ConditionModifier = 1.2,
+        Fixer = Base.SheetMetal; MetalWelding=3;Mechanics=4,
+        Fixer = Base.SmallSheetMetal=2; MetalWelding=3;Mechanics=4,
+    }
+
     fixing RE9MufflerWelding
     {
         Require = EmreRE9.Muffler,

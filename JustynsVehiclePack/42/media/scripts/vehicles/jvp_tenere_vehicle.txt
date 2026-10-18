@@ -390,7 +390,14 @@ module Base
 
             category = bodywork,
             specificItem = false,
-            itemType = EmreRE9.GasTank,
+            itemType = EmreRE9.TenereGasTank,
+            lua
+            {
+                create = EmreRE9.TenereFuel.CreateTank,
+                init = EmreRE9.TenereFuel.InitTank,
+                update = EmreRE9.TenereFuel.UpdateTank,
+                checkEngine = Vehicles.CheckEngine.GasTank,
+            }
 
 
         
@@ -2126,7 +2133,14 @@ module Base
 
             category = bodywork,
             specificItem = false,
-            itemType = EmreRE9.GasTank,
+            itemType = EmreRE9.TenereGasTank,
+            lua
+            {
+                create = EmreRE9.TenereFuel.CreateTank,
+                init = EmreRE9.TenereFuel.InitTank,
+                update = EmreRE9.TenereFuel.UpdateTank,
+                checkEngine = Vehicles.CheckEngine.GasTank,
+            }
 
 
         

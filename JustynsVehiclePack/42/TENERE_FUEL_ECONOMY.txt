@@ -1,0 +1,23 @@
+TENERE FUEL ECONOMY - PACK 1.0.32
+
+Healthy tank capacity: 23 liters (about 6.1 US gallons).
+Nominal road economy: 50 US MPG, approximately 4.70 L/100km.
+Calculated healthy-tank range: 304 miles / 489 km at normal road speeds.
+Highway use increases gradually above 80 km/h (about 46 MPG at 130 km/h).
+Idling consumes 0.4 liters per real hour. Engine wear, damaged-tank leakage
+and the server's CarGasConsumption setting can reduce the range.
+
+Tenere-only native part callbacks replace the generic car calculation that
+penalizes low chassis mass. Fuel is consumed on the server or in singleplayer;
+clients do not add fuel back. Elapsed game minutes are converted using the
+configured day length so road range is independent of day length. Both mounted
+profiles retain capacity and consume no fuel. Other vehicles are unchanged.
+
+New Tenere tanks are a dedicated repairable 23L item. Saved installed 18L tanks
+are upgraded in place, retaining inventory identity, condition and actual fuel.
+No free fuel is added. Capacity still decreases when the tank is damaged.
+
+Install on clients AND server for multiplayer fuel behavior; restart them.
+This release was installed locally only. The production server was not changed.
+Range is calculated and callback-tested, not a completed live road endurance run.
+See .validation/tenere-fuel-economy in the development workspace for checks.

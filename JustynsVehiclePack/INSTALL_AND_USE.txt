@@ -1,3 +1,6 @@
+1.0.32: Tenere 23L tank and motorcycle fuel economy, approximately 50 MPG.
+Existing fuel is retained. Multiplayer requires the new server version. See 42/TENERE_FUEL_ECONOMY.txt.
+
 1.0.31: adds a black Tenere front fender and corrects preview/mounted wheel centers.
 Client-side repair compatible with the 1.0.25 server; restart your game. See 42/TENERE_FENDER_WHEELS.txt.
 

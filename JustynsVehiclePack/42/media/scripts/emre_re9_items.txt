@@ -43,6 +43,18 @@ module EmreRE9
         ConditionAffectsCapacity = true,
         ConditionMax = 100,
     }
+    item TenereGasTank
+    {
+        ItemType = base:normal,
+        DisplayCategory = VehicleMaintenance,
+        MechanicsItem = TRUE,
+        DisplayName = Tenere 23L Fuel Tank,
+        Weight = 6,
+        Icon = EMRE_RE9GasTank,
+        MaxCapacity = 23,
+        ConditionAffectsCapacity = true,
+        ConditionMax = 100,
+    }
     item Seat
     {
         ItemType = base:normal,
