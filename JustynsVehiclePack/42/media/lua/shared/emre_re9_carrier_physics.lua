@@ -50,6 +50,7 @@ local function restoreParts(bike,saved)
         part:setContainerCapacity(state.capacity)
         part:setContainerContentAmount(state.amount)
     end
+    bike:setMechanicalID(saved.mechanicalID)
     bike:setInitialMass(saved.mass); bike:updateTotalMass()
     -- Native B42 VehicleEngine.setFeatures stores floor(input * 0.37037036).
     -- getEngineLoudness is that stored output, so undo the scaling first.
@@ -88,7 +89,7 @@ function P.Apply(bike,mounted,aircraft)
     -- the client physics reload path on a server thread.
     if isServer() then bike:setScript(target); if aircraft or wasAircraft then P.AircraftContacts(bike,mounted and aircraft==true) end
         applied[bike]=target; return end
-    local saved={parts={},mass=bike:getInitialMass(),quality=bike:getEngineQuality(),
+    local saved={parts={},mechanicalID=bike:getMechanicalID(),mass=bike:getInitialMass(),quality=bike:getEngineQuality(),
         loudness=bike:getEngineLoudness(),power=bike:getEnginePower()}
     local changes,parents={},{}
     for i=0,bike:getPartCount()-1 do

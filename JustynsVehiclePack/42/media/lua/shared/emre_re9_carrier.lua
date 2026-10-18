@@ -15,6 +15,7 @@ local releasedTokens, followed = {}, setmetatable({}, {__mode="k"})
 local packetAt = setmetatable({}, {__mode="k"})
 local releaseApplied, releaseGuard = {}, setmetatable({}, {__mode="k"})
 local orphans = setmetatable({}, {__mode="k"})
+local knownMounts = setmetatable({}, {__mode="k"})
 local atan2 = math.atan2
 local function name(v)
     return v and v:getScript() and v:getScript():getFullName()
@@ -241,6 +242,7 @@ function C.UpdatePair(car,bike)
     EmreRE9.CarrierPhysics.Apply(bike,true,C.IsPlane(car))
     if C.IsAuthority() then C.RevokeBikeAuthority(bike) end
     C.Place(car,bike,offset(car))
+    knownMounts[bike]=r.token
     followed[bike] = {car=car,baseMass=r.baseMass,token=r.token}
     if r and r.baseMass and not C.IsPlane(car) then
         local bikeMass = C.IsAuthority() and bike:getMass() or (r.bikeMass or bike:getMass())
@@ -347,11 +349,14 @@ function C.Tick()
                     -- never restore the old drop pose to that normal bike.
                     local body=v:getWorldPos(0,0,0,Vector3f.new())
                     local dx,dy=car and body:x()-car:getX() or 0,car and body:y()-car:getY() or 0
-                    local needsRelease=EmreRE9.Bikes.IsMounted(name(v)) or followed[v]
+                    local needsRelease=knownMounts[v]==pose.token or EmreRE9.Bikes.IsMounted(name(v)) or followed[v]
                         or (car and dx*dx+dy*dy<9)
                     if needsRelease and unoccupied(v) then
                         C.ApplyRelease(car,v,pose)
-                    else releaseApplied[pose.token]=true end
+                    else
+                        print("[JVP RELEASE 1.0.28] receipt-skipped token="..tostring(pose.token).." script="..tostring(name(v)).." known="..tostring(knownMounts[v]).." car="..tostring(car~=nil))
+                        releaseApplied[pose.token]=true
+                    end
                 end
             end
         end
@@ -426,6 +431,7 @@ function C.Reset()
     packetAt = setmetatable({}, {__mode="k"})
     releaseApplied,releaseGuard = {},setmetatable({}, {__mode="k"})
     orphans = setmetatable({}, {__mode="k"})
+    knownMounts = setmetatable({}, {__mode="k"})
 end
 -- The admin spawn list exposes every vehicle script, including our internal
 -- mounted profile. Select ordinary physics before a fresh body's construction.
@@ -470,8 +476,21 @@ local function clearReleaseHistory(bike)
 end
 local function traceRelease(bike,pose,phase,cleared)
     local w=bike:getWorldPos(0,0,0,Vector3f.new())
-    print(string.format("[JVP RELEASE 1.0.27] %s token=%s bike=%s script=%s map=%.3f,%.3f body=%.3f,%.3f target=%.3f,%.3f owner=%s cacheCleared=%s",
+    print(string.format("[JVP RELEASE 1.0.28] %s token=%s bike=%s script=%s map=%.3f,%.3f body=%.3f,%.3f target=%.3f,%.3f owner=%s cacheCleared=%s",
         phase,tostring(pose.token),tostring(bike:getId()),tostring(name(bike)),bike:getX(),bike:getY(),w:x(),w:y(),pose.x,pose.y,tostring(bike:getNetPlayerId()),tostring(cleared)))
+end
+-- A local scriptReloaded rebuild used to randomize mechanicalId. Match the
+-- server mount token or replicated release receipt before falling back to that
+-- native ID, retaining rejection of reused IDs and a newer mount.
+function C.ReleaseMatches(bike,pose)
+    if not C.IsBike(bike) or bike:getId()~=pose.bike then return false end
+    local p=part(bike)
+    local record=p and p:getModData()[C.KEY]
+    if record then return record.role=="bike" and record.token==pose.token end
+    local receipt=p and p:getModData()[C.RELEASE_KEY]
+    if receipt and receipt.token==pose.token then return true end
+    if knownMounts[bike]==pose.token then return true end
+    return bike:getMechanicalID()==pose.bikeKey
 end
 function C.IsReleasing(bike) return releaseGuard[bike]~=nil end
 -- Trusted server release: move the hidden body first, THEN rebuild the normal

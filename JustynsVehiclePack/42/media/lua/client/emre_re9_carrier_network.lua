@@ -10,28 +10,35 @@ function C.Request(player,command,car,bike)
     local args={car=car:getId(),bike=bike:getId(),token=record and record.token,request=request}
     -- Hosted clients use the same authoritative network hop as other clients.
     pending[request]={player=player,untilMs=getTimestampMs()+10000}
+    print("[JVP RELEASE 1.0.28] request="..request.." command="..command.." car="..tostring(args.car).." bike="..tostring(args.bike).." token="..tostring(args.token))
     sendClientCommand(player,C.NET,command,args)
     return true
 end
 local function apply(pose)
     local car,bike=getVehicleById(pose.car),getVehicleById(pose.bike)
     if not bike then return false end
-    -- Network vehicle IDs can be reused after a vehicle is unloaded; persistent
-    -- mechanical IDs prevent delayed releases from affecting a different bike.
-    if not C.IsBike(bike) or bike:getMechanicalID()~=pose.bikeKey then return true end
-    if car and (not C.IsCar(car) or car:getMechanicalID()~=pose.carKey) then return true end
-    C.ApplyRelease(car,bike,pose)
-    return true
+    -- Rebuilds can change native mechanical IDs on old clients. An exact
+    -- replicated mount/release token still identifies the same real bike.
+    -- Wait for pairing packets instead of silently consuming a rejected pose.
+    if not C.ReleaseMatches(bike,pose) then return false end
+    if car and (not C.IsCar(car) or car:getMechanicalID()~=pose.carKey) then
+        local record=C.Record(car)
+        if not record or record.token~=pose.token then car=nil end
+    end
+    return C.ApplyRelease(car,bike,pose)
 end
 Events.OnServerCommand.Add(function(module,command,args)
     if module~=C.NET or type(args)~="table" then return end
     if command=="result" then
+        print("[JVP RELEASE 1.0.28] result="..tostring(args.request).." ok="..tostring(args.ok).." reason="..tostring(args.reason))
         local p=pending[args.request]
         if p then
             if not args.ok then p.player:Say(args.reason or "Carrier request rejected") end
             pending[args.request]=nil
         end
     elseif command=="release" then
+        local bike=getVehicleById(args.bike)
+        print("[JVP RELEASE 1.0.28] received token="..tostring(args.token).." bike="..tostring(args.bike).." serverKey="..tostring(args.bikeKey).." localKey="..tostring(bike and bike:getMechanicalID()))
         if not apply(args) then releases[#releases+1]={pose=args,untilMs=getTimestampMs()+30000} end
     end
 end)
@@ -46,7 +53,11 @@ Events.OnTick.Add(function()
     end
     for i=#releases,1,-1 do
         local r=releases[i]
-        if apply(r.pose) or now>=r.untilMs then table.remove(releases,i) end
+        if apply(r.pose) then table.remove(releases,i)
+        elseif now>=r.untilMs then
+            print("[JVP RELEASE 1.0.28] expired unresolved token="..tostring(r.pose.token))
+            table.remove(releases,i)
+        end
     end
 end)
 Events.OnGameStart.Add(function() pending,releases={},{} end)

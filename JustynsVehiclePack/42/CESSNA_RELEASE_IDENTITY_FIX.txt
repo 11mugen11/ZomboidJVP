@@ -1,0 +1,25 @@
+CESSNA MULTIPLAYER RELEASE IDENTITY - PACK 1.0.28
+
+The v1.0.27 client log showed the current version loaded but no release
+placement lines. Code inspection identified native mechanicalId assignment in createPhysics.
+Carrier rebuilds did not explicitly preserve this ID, and the old release
+handler silently discarded commands on mismatch. An injected mismatch
+reproduces the rejection. This does not yet prove the live session cause;
+the dedicated-server reload test does not reproduce ID randomization.
+
+Carrier rebuilds now preserve mechanicalId alongside inventory and tuning.
+An existing mounted bike with a divergent ID can accept its exact replicated
+mount/release token. A newer mount or reused vehicle ID remains protected.
+Unresolved/rejected placement is retried rather than consumed as success.
+The replicated receipt fallback remembers the last followed mount across
+normal-profile and record-clearing packets, even with mismatched native IDs.
+
+The prior cache purge and collision-free rear hand-off remain. The release
+position remains 5.4 metres behind the aircraft. Diagnostics log receipt,
+server/local ID, actual placement and restoration, or unresolved expiration.
+
+Validation includes old-handler failure and new-handler success for the same
+identity-mismatch unload, observer streaming, reordered receipts, new mounts,
+reused IDs, inventory preservation and native rebuild identity checks.
+A live graphical two-client test remains pending. Fully restart clients.
+The existing v1.0.25 server protocol is retained; live server unchanged.
