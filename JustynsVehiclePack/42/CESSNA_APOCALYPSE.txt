@@ -1,3 +1,6 @@
+1.0.30: adds Tenere Tech Titanium colors and restores Cessna baggage discovery with a mounted bike.
+Client-side repair compatible with the 1.0.25 server; restart your game. See 42/TENERE_TECH_TITANIUM.txt.
+
 1.0.29: restores unloaded Tenere body panels, normal chassis and installed tire contacts.
 Client-side repair compatible with the 1.0.25 server; restart your game. See 42/CESSNA_RELEASE_RESTORATION_FIX.txt.
 

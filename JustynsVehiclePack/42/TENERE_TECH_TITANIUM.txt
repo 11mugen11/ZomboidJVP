@@ -1,0 +1,26 @@
+TENERE TECH TITANIUM AND CESSNA BAGGAGE DISCOVERY - PACK 1.0.30
+
+Tenere body paint now uses a warm brown-gray finish matching the supplied
+Tech Titanium reference. Original decal placement and silver pixels are kept;
+red livery accents are black. Fork tube texture islands are gold, and both
+seats use an existing opaque black swatch. Tail/brake light colors are kept.
+The rideable bike, aircraft-mounted bike and seat UI use the updated colors.
+
+Pixel/UV validation: original texture alpha is unchanged; silver decals match
+the original exactly. Only selected livery/fork pixels change in the original
+atlas. Only seat UVs change in the bike and mounted meshes; geometry stays.
+Only the motorcycle tile changes in the Cessna shell atlas. Other Cessna
+paint, glass, light, effect and mask textures are unchanged.
+
+The normal inventory search asks each square for one vehicle. The mounted
+bike can occupy the same square as the Cessna and hide its baggage from
+that search. A scoped inventory-refresh callback discovers nearby Cessna
+baggage independently, reuses its real container, avoids duplicate buttons
+and delegates access to native canAccessContainer. Closed-door, distance,
+floor and installed-part checks remain; no inventory is recreated.
+
+Validation includes pixel and alpha comparisons, seat UV counts, original
+mesh topology, actual-model previews and B42 Kahlua baggage-discovery cases
+with an overlapping mounted bike, denied access and duplicate discovery.
+Live graphical multiplayer cargo transfer remains unverified. Restart clients.
+The server was not modified; the existing carrier protocol is unchanged.
