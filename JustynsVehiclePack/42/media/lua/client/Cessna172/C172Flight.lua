@@ -2563,6 +2563,10 @@ local function onTick()
     end
 
     -- ---- GROUND MODE. Vanilla wheel physics IS taxi and the takeoff roll: it keeps
+    if C172GroundHandling.isParked(vehicle) then
+        st.rollout=nil
+        return
+    end
     -- position, heading, speed and steering. The ONE thing written here is attitude.
     --
     -- KEEP IT LEVEL. PZ drives a vehicle through its wheel contact patches, a long way

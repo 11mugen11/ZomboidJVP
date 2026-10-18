@@ -1,0 +1,27 @@
+CESSNA PAINT VARIANTS - 1.0.34
+
+Separate cheat/admin vehicle-spawn entries:
+  Base.Cessna172        Cessna 172 (Red) - original identity and texture retained
+  Base.Cessna172Blue    Cessna 172 (Blue)
+  Base.Cessna172Green   Cessna 172 (Green)
+  Base.Cessna172Yellow  Cessna 172 (Yellow)
+
+The three duplicates use the same meshes, stats, part order, wheel physics,
+fuel system, 800-capacity baggage, pilot poses, spinning propeller, carrier and
+flight systems. All four support the multiplayer parking fix and V-menu brake.
+Existing red planes keep their identity. The extra colors are available to the
+spawn menu; natural vehicle spawn probabilities are unchanged.
+
+Textures were recolored by exact pixel selection of the red airframe paint.
+All non-paint texels and all alpha values are unchanged, preserving weathering,
+glass, lights, roof baggage, motorcycle texture islands and cockpit details.
+The original red shell PNG is unchanged byte-for-byte. The color definitions
+select matching body, detail, wheel, navigation-lens and animated-prop models.
+
+Validation: all four complete native VehicleScripts and model textures load in
+the game. Part counts/order, model scale, shared flight configuration, carrier
+identification, airborne footprints and real native parking transforms pass.
+Software previews use the actual exported meshes and recolored texture atlases.
+Live graphical multiplayer testing remains pending.
+
+Install this version on the server and every client, then restart.

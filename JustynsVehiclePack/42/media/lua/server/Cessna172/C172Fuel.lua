@@ -1,3 +1,4 @@
+require "Cessna172/C172Variants"
 --[[
     C172Fuel - the Cessna's own gas-tank consumption model.
 
@@ -152,7 +153,7 @@ function C172Fuel.UpdateGasTank(vehicle, part, elapsedMinutes)
     if not vehicle or not part then return end
 
     local okName, name = pcall(function() return vehicle:getScriptName() end)
-    if not okName or name ~= C172_SCRIPT then
+    if not okName or not C172Variants.isName(name) then
         if Vehicles and Vehicles.Update and Vehicles.Update.GasTank then
             return Vehicles.Update.GasTank(vehicle, part, elapsedMinutes)
         end

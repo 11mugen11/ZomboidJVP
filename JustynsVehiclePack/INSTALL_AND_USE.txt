@@ -1,3 +1,6 @@
+1.0.34: persistent multiplayer Cessna parking, V-menu brake, and Blue/Green/Yellow spawn variants.
+Install on the SERVER AND EVERY CLIENT, then restart. See 42/CESSNA_PARKING_BRAKE.txt and 42/CESSNA_COLOR_VARIANTS.txt.
+
 1.0.33: bounded Cessna ground support to prevent sinking while reversing.
 Restart the game after updating. See 42/CESSNA_REVERSE_GROUND_FIX.txt.
 

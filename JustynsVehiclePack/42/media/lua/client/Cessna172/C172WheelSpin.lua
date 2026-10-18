@@ -1,3 +1,4 @@
+require "Cessna172/C172Variants"
 -- Separate visual wheel assemblies; native wheel/suspension physics is unchanged.
 require "Cessna172/C172Phys"
 C172WheelSpin = {}
@@ -20,7 +21,7 @@ local function install(v)
     local definition = "vehicle C172WheelRender {"
     for _,spec in ipairs(parts) do
         definition = definition .. " part " .. spec.id .. " { category = nodisplay, model rolling { file = "
-            .. spec.id .. ", offset = 0 0 0, rotate = 0 0 0, } }"
+            .. C172Variants.model(v,spec.id) .. ", offset = 0 0 0, rotate = 0 0 0, } }"
     end
     owned:Load("C172WheelRender", definition .. " }")
     local r = { vehicle = v, script = owned, wheels = {} }

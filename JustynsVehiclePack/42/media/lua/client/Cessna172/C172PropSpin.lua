@@ -1,3 +1,4 @@
+require "Cessna172/C172Variants"
 --[[
     C172PropSpin - the spinning propeller, without Java (1.9.0).
 
@@ -41,11 +42,11 @@ S.props = {}          -- vehicle id -> { vehicle, part, model, angle, rate, show
 
 local function log(msg) print("[Cessna172] " .. msg) end
 
-local function definition()
+local function definition(v)
     return "vehicle C172PropRender {\n"
         .. " part " .. PART .. " {\n"
         .. "  category = nodisplay,\n"
-        .. "  model " .. OWN .. " { file = Cessna172_Prop, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, }\n"
+        .. "  model " .. OWN .. " { file = " .. C172Variants.model(v,"Cessna172_Prop") .. ", offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, }\n"
         .. " }\n"
         .. "}"
 end
@@ -67,7 +68,7 @@ local function install(v, id)
         local owned = VehicleScript.new()
         owned:setModule(v:getScript():getModule())
         owned:InitLoadPP("C172PropRender")
-        owned:Load("C172PropRender", definition())
+        owned:Load("C172PropRender", definition(v))
         local mine = owned:getPartById(PART)
         if not mine then return nil end
         part:setAllModelsVisible(false)

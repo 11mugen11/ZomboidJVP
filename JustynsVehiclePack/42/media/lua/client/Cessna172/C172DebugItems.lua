@@ -1,3 +1,4 @@
+require "Cessna172/C172Variants"
 --[[
     C172DebugItems - a testing shortcut for spawning the aircraft and clearing its skill gate.
 
@@ -1006,7 +1007,7 @@ local function installStartProbe()
             local v = playerObj and playerObj:getVehicle()
             if not v then return end
             local okN, nm = pcall(function() return v:getScriptName() end)
-            if not (okN and nm == AIRCRAFT_ID) then return end   -- Cessna only
+            if not (okN and C172Variants.isName(nm)) then return end   -- Cessna only
 
             local function q(fn)
                 local ok, val = pcall(fn)

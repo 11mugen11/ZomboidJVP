@@ -29,6 +29,7 @@
 require "Cessna172/C172Util"
 require "Cessna172/C172Phys"
 require "Cessna172/C172Flight"
+require "Cessna172/C172Parking"
 
 C172Recovery = C172Recovery or {}
 
@@ -322,6 +323,15 @@ local function addRecoverySlice(playerObj, vehicle)
 
     local repairTex = getTexture("media/ui/vehicles/vehicle_repair.png")
     local landTex   = getTexture("media/ui/vehicles/c172_land.png")
+
+    if vehicle:isDriver(playerObj) and not C172Flight.isAirborne(vehicle) then
+        local parked=C172Parking.isParked(vehicle)
+        local text=parked and "Release Parking Brake" or "Set Parking Brake"
+        if not menuHasSlice(menu,text) then
+            local action=(parked or C172Parking.canPark(vehicle)) and C172Parking.toggle or nil
+            menu:addSlice(text,repairTex,action,playerObj,vehicle)
+        end
+    end
 
     if C172Flight and C172Flight.isAirborne and C172Flight.isAirborne(vehicle) then
         pcall(function()

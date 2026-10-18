@@ -1,3 +1,4 @@
+require "Cessna172/C172Variants"
 --[[
     C172PilotView - the people you can see through the Cessna's windows (1.10.0).
 
@@ -83,7 +84,7 @@ local was = { v = nil, id = nil }                      -- the Cessna this player
 PV._placed, PV._sent, PV._marked = placed, sent, marked
 
 local function isCessna(v)
-    return v ~= nil and v:getScriptName() == C172Phys.SCRIPT
+    return v ~= nil and C172Variants.isVehicle(v)
 end
 
 -- Model.CharacterModelCameraBegin draws a seated character from (x, y, getZ) + comY, where comY

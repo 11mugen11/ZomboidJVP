@@ -1,3 +1,4 @@
+require "Cessna172/C172Variants"
 --[[
     C172Server - relays this mod's simulated flight state between clients.
 
@@ -50,7 +51,7 @@ local function isPlayerFlyingVehicle(player, vehicleId)
     -- Second gate: it must actually be this aircraft, so a client cannot use this
     -- channel to push aircraft state onto a car it happens to be driving.
     local okName, name = pcall(function() return vehicle:getScriptName() end)
-    if not okName or name ~= "Base.Cessna172" then return false end
+    if not okName or not C172Variants.isName(name) then return false end
     local okDrv, isDriver = pcall(function() return vehicle:isDriver(player) end)
     return okDrv and isDriver == true
 end
@@ -99,7 +100,7 @@ local function trackAirborneTime(vehicleId, mode)
     local okV, vehicle = pcall(getVehicleById, vehicleId)
     if not (okV and vehicle) then return end
     local okN, name = pcall(function() return vehicle:getScriptName() end)
-    if not (okN and name == "Base.Cessna172") then return end
+    if not (okN and C172Variants.isName(name)) then return end
     C172Systems.addAirframeMinutes(vehicle, dt * 60.0)
 end
 

@@ -1,3 +1,4 @@
+require "Cessna172/C172Variants"
 -- Rear-mounted RE9 carrier for the Camel Discovery, B42 single/multiplayer.
 -- The actual bike stays in the world: no inventory snapshots or cloned vehicles.
 EmreRE9 = EmreRE9 or {}
@@ -26,7 +27,7 @@ C.PLANE="Base.Cessna172"
 -- inventory-bearing vehicle follows at the aircraft origin, with its tiny
 -- placeholder body safely outside the fuselage; never a towing constraint.
 C.AircraftOffset={x=0,y=0,z=0}
-function C.IsPlane(v) return name(v)==C.PLANE end
+function C.IsPlane(v) return C172Variants.isName(name(v)) end
 function C.IsCar(v) return name(v) == C.CAR or C.IsPlane(v) end
 local function offset(car) return C.IsPlane(car) and C.AircraftOffset or C.Offset end
 

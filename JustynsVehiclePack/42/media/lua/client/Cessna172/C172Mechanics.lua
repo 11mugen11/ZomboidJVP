@@ -1,3 +1,4 @@
+require "Cessna172/C172Variants"
 --[[
     C172Mechanics - the Cessna's Vehicle Mechanics screen.
 
@@ -101,7 +102,7 @@ end
 local function isC172(panel)
     if not panel or not panel.vehicle then return false end
     local ok, name = call0(panel.vehicle, "getScriptName")
-    return ok and name == C172_SCRIPT
+    return ok and C172Variants.isName(name)
 end
 
 -- ============================================================ measurements
@@ -208,6 +209,7 @@ local function registerOverlay()
         entry = { imgPrefix = PREFIX, x = 10, y = 0 }
         ISCarMechanicsOverlay.CarList[C172_SCRIPT] = entry
     end
+    for _,id in ipairs(C172Variants.ids) do ISCarMechanicsOverlay.CarList[id]=entry end
     entry.PartList = entry.PartList or {}
 
     -- PASS 1 - DRAWING. Every component gets an image layer, so the schematic still shows all

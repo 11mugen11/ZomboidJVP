@@ -1,3 +1,4 @@
+require "Cessna172/C172Variants"
 --[[
     C172HUD - the Cessna's instrument panel.
 
@@ -43,7 +44,7 @@ local function err(msg) print("[Cessna172][HUD][ERROR] " .. msg) end
 local function isC172(vehicle)
     if not vehicle then return false end
     local ok, name = pcall(function() return vehicle:getScriptName() end)
-    return ok and name == C172_SCRIPT
+    return ok and C172Variants.isName(name)
 end
 
 local function call0(obj, name)

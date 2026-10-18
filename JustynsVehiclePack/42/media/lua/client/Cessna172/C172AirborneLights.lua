@@ -1,3 +1,4 @@
+require "Cessna172/C172Variants"
 --[[
     C172AirborneLights - a light that actually follows the aircraft while it is flying.
 
@@ -665,7 +666,7 @@ local function onTick()
             local v = player and player:getVehicle()
             if not v then return end
             local okN, nm = pcall(function() return v:getScriptName() end)
-            if not (okN and nm == "Base.Cessna172") then return end
+            if not (okN and C172Variants.isName(nm)) then return end
             updateOne(v)
             handled = true
         end)

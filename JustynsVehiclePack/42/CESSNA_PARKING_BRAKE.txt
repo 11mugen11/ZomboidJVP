@@ -1,0 +1,33 @@
+CESSNA MULTIPLAYER PARKING BRAKE - 1.0.34
+
+Stopped Cessnas with their engine off acquire a saved parking anchor. The
+server and every client keep the native physics body and map position at that
+anchor, including when a new driver takes ownership. This replaces the former
+client-owner-only parking hold, which stopped enforcing when ownership changed.
+
+The saved record lives on the Engine part and uses native part-modData
+replication. A revisioned release record prevents an older parking packet from
+reapplying the brake. The server calculates the anchor; drivers send intent only.
+Native transform resets clear physical velocity, including on dedicated servers
+where disabling physics does not make the body static.
+
+While seated as the driver, press V:
+  Set Parking Brake      available when stationary and on the ground.
+  Release Parking Brake  use before taxiing when you set the brake manually.
+
+An automatic hold releases when the engine starts. A manual brake stays set
+with the engine running until released. A manual release is not immediately
+overridden by automatic parking; auto parking rearms after the engine runs.
+Towing releases the hold. Airborne and moving aircraft cannot acquire it.
+
+INSTALL ON THE SERVER AND EVERY CLIENT, then restart them. Updating a client
+alone cannot fix an unattended server body. Old parked aircraft are handled
+automatically once loaded by the updated server; no respawn is required.
+
+Validation: actual B42 Kahlua tests cover two observer states, 300 idle updates,
+ownership handoff, stale packets, saved/streamed parking records, driver-only
+commands, V-menu set/release actions, engine release, towing and movement guards.
+Existing landing coast and reverse-support regressions pass. An isolated native
+dedicated-server test verified real map/native coordinate correction, preserved
+height and attitude, zero native momentum, and saved Engine part state.
+Live two-client graphical testing remains pending.

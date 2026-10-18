@@ -1,3 +1,4 @@
+require "Cessna172/C172Variants"
 --[[
     C172Contacts - flying OVER things without Java (1.9.0).
 
@@ -105,6 +106,7 @@ local function setSmall(small, around)
     else
         C.extents:set(C.full[1], C.full[2], C.full[3])
     end
+    C172Variants.footprints(small,C.full,C.CLEAR_EXTENTS)
     C.small = small
     log("ground contacts " .. (small and "OFF (flying clear)" or "ON"))
     if around then aimAll(around) end
@@ -174,6 +176,7 @@ function C.restore()
     for id in pairs(C.clearIds) do C.clearIds[id] = nil end
     if C.small and C.extents and C.full then
         C.extents:set(C.full[1], C.full[2], C.full[3])
+        C172Variants.footprints(false,C.full,C.CLEAR_EXTENTS)
         C.small = false
         log("ground contacts ON (reset)")
     end

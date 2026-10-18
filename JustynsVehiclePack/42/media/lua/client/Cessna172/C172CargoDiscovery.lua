@@ -1,3 +1,4 @@
+require "Cessna172/C172Variants"
 -- A mounted cargo vehicle can be the single vehicle returned for a square.
 -- Discover the overlapping Cessna baggage independently; native container
 -- access still decides door state, distance, installed trunk and permissions.
@@ -12,7 +13,7 @@ local function discover(page,phase)
     local iterator=list:iterator()
     while iterator:hasNext() do
         local vehicle=iterator:next()
-        if vehicle:getScript() and vehicle:getScript():getFullName()=="Base.Cessna172"
+        if vehicle:getScript() and C172Variants.isName(vehicle:getScript():getFullName())
            and math.abs(vehicle:getZ()-player:getZ())<1 then
             local dx,dy=vehicle:getX()-player:getX(),vehicle:getY()-player:getY()
             if dx*dx+dy*dy<=64 then

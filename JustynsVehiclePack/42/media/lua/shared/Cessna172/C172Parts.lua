@@ -1,3 +1,4 @@
+require "Cessna172/C172Variants"
 --[[
     C172Parts - THE SINGLE SOURCE OF TRUTH for this aircraft's components.
 
@@ -53,7 +54,7 @@ end
 function C172Parts.isCessna(vehicle)
     if not vehicle then return false end
     local ok, name = call0(vehicle, "getScriptName")
-    return ok and name == C172Parts.SCRIPT
+    return ok and C172Variants.isName(name)
 end
 
 -- ------------------------------------------------------------------- systems

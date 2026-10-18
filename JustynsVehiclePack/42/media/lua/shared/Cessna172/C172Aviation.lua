@@ -1,3 +1,4 @@
+require "Cessna172/C172Variants"
 --[[
     C172Aviation - the Cessna's registration with the shared Aviation framework.
 
@@ -58,6 +59,15 @@ local function register()
                 :format(ctx.current or 0, ctx.required or 0)
         end,
     }
+    for _,id in ipairs(C172Variants.ids) do
+        if id~=C172Aviation.AIRCRAFT_ID then
+            local accepted=Aviation.registerAircraft{
+                id=id, name="Cessna 172 ("..C172Variants.colors[id]..")",
+                minLevel=C172Aviation.MIN_LEVEL, mod="Cessna172", apiVersion=1,
+            }
+            ok=accepted and ok
+        end
+    end
     C172Aviation.registered = ok and true or false
 end
 

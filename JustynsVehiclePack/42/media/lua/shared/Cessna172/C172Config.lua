@@ -1,3 +1,4 @@
+require "Cessna172/C172Variants"
 --[[
     C172Config - the Cessna 172's own stat table.
 
@@ -62,6 +63,8 @@ C172Config.registry["Base.Cessna172"] = {
     crashConditionLoss = 0.30,
     hardLandingConditionLoss = 0.08,
 }
+
+for _,id in ipairs(C172Variants.ids) do C172Config.registry[id]=C172Config.registry["Base.Cessna172"] end
 
 function C172Config.get(scriptName)
     return C172Config.registry[scriptName]

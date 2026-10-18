@@ -1,3 +1,4 @@
+require "Cessna172/C172Variants"
 --[[
     C172ServerContacts - the server's half of flying OVER things (1.10.3, multiplayer).
 
@@ -75,6 +76,7 @@ local function setSmall(small)
     else
         S.extents:set(S.full[1], S.full[2], S.full[3])
     end
+    C172Variants.footprints(small,S.full,S.CLEAR_EXTENTS)
     S.small = small
     log("ground contacts " .. (small and "OFF (a Cessna is flying clear)" or "ON"))
 end

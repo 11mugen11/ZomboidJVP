@@ -1,3 +1,4 @@
+require "Cessna172/C172Variants"
 --[[
     C172Phys - the Cessna's own physics access, in Lua (1.9.0).
 
@@ -702,7 +703,7 @@ function P.c172ScanNearbyAircraft(x, y, radius)
     local it = set:iterator()
     while it:hasNext() do
         local v = it:next()
-        if v and v:getScriptName() == P.SCRIPT and not v:isRemovedFromWorld() then
+        if v and C172Variants.isVehicle(v) and not v:isRemovedFromWorld() then
             local dx, dy = v:getX() - x, v:getY() - y
             if dx * dx + dy * dy <= r2 then found[#found + 1] = v end
         end
@@ -725,7 +726,7 @@ function P.c172VehicleById(id)
     end
     if not getCell() then return nil end
     local ok, v = pcall(function() return getVehicleById(id) end)
-    if ok and v and v:getScriptName() == P.SCRIPT then return v end
+    if ok and v and C172Variants.isVehicle(v) then return v end
     return nil
 end
 
@@ -748,7 +749,7 @@ P.VERTICAL_FLAT = VERTICAL_FLAT
 
 function P.guardVertical(player)
     local v = player and player:getVehicle()
-    if not v or v:getScriptName() ~= P.SCRIPT then return false end
+    if not v or not C172Variants.isVehicle(v) then return false end
     local f = v:getForwardVector(vec())
     local fx, fy, fz = num(f:x(), 0), num(f:y(), 0), num(f:z(), 0)
     local flat = math.sqrt(fx * fx + fz * fz)
@@ -774,7 +775,7 @@ local gearSeated = setmetatable({}, { __mode = "k" })
 Events.OnEnterVehicle.Add(function(player)
     if not player or not player:isLocalPlayer() then return end
     local v = player:getVehicle()
-    if not v or v:getScriptName() ~= P.SCRIPT or not v:isDriver(player)
+    if not v or not C172Variants.isVehicle(v) or not v:isDriver(player)
        or gearSeated[v] or P.isFlying(v) then return end
     local h = P.c172GetBodyHeight(v)
     local ground = P.c172SurfaceHeightBelow(v)

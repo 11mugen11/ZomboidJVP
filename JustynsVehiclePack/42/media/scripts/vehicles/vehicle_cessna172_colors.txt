@@ -1,0 +1,5340 @@
+/* Paint-only variants. Generated from the current Cessna172 native definition. */
+module Base {
+model C172BushDetail1Blue { mesh = vehicles/cessna_bush/C172BushDetail1|C172BushDetail1, texture = Vehicles/Vehicles_Cessna172_ShellBlue, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172BushDetail2Blue { mesh = vehicles/cessna_bush/C172BushDetail2|C172BushDetail2, texture = Vehicles/Vehicles_Cessna172_ShellBlue, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172BushDetail3Blue { mesh = vehicles/cessna_bush/C172BushDetail3|C172BushDetail3, texture = Vehicles/Vehicles_Cessna172_ShellBlue, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172BushDetail4Blue { mesh = vehicles/cessna_bush/C172BushDetail4|C172BushDetail4, texture = Vehicles/Vehicles_Cessna172_ShellBlue, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172BushDetail5Blue { mesh = vehicles/cessna_bush/C172BushDetail5|C172BushDetail5, texture = Vehicles/Vehicles_Cessna172_ShellBlue, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172WheelPortBlue { mesh = vehicles/cessna_bush/C172WheelPort|C172WheelPort, texture = Vehicles/Vehicles_Cessna172_ShellBlue, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172WheelStarboardBlue { mesh = vehicles/cessna_bush/C172WheelStarboard|C172WheelStarboard, texture = Vehicles/Vehicles_Cessna172_ShellBlue, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172WheelTailBlue { mesh = vehicles/cessna_bush/C172WheelTail|C172WheelTail, texture = Vehicles/Vehicles_Cessna172_ShellBlue, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172NavPortBlue { mesh = vehicles/cessna_bush/C172NavPort|C172NavPort, texture = Vehicles/Vehicles_Cessna172_ShellBlue, shader = Cessna172_nav, invertX = false, scale = 1.0, }
+model C172NavStarboardBlue { mesh = vehicles/cessna_bush/C172NavStarboard|C172NavStarboard, texture = Vehicles/Vehicles_Cessna172_ShellBlue, shader = Cessna172_nav, invertX = false, scale = 1.0, }
+model Vehicles_Cessna172Blue {
+		mesh = vehicles/cessna_bush/Cessna172_Body|Cessna172_Body,
+        texture = Vehicles/Vehicles_Cessna172_ShellBlue,
+		shader = Cessna172_vehicle,
+		invertX = false,
+		scale = 1.0,
+	}
+model Cessna172_PropBlue {
+		mesh = vehicles/cessna_bush/Cessna172_Prop|Cessna172_Prop,
+        texture = Vehicles/Vehicles_Cessna172_ShellBlue,
+		shader = Cessna172_vehicle,
+		invertX = false,
+		scale = 1.0,
+	}
+vehicle Cessna172Blue {
+		mechanicType = 1,
+		engineRepairLevel = 3,
+
+
+		playerDamageProtection = 0.45,
+
+		model
+		{
+			file = Vehicles_Cessna172Blue,
+			scale = 2.1000,
+			offset = 0.0000 0.0000 0.0000,
+		}
+
+		skin
+		{
+			texture = Vehicles/Vehicles_Cessna172_ShellBlue,
+
+			textureShadow = Vehicles/Vehicles_Cessna172_Shadow,
+		}
+
+
+		sound
+		{
+			engine = C172Silent,
+			engineStart = C172Silent,
+			engineTurnOff = C172Silent,
+			handBrake = C172Silent,
+			ignitionFail = C172StarterFail,
+			ignitionFailNoPower = C172NoPower,
+		}
+
+		textureMask = Vehicles/Vehicles_Cessna172_Mask,
+		textureLights = Vehicles/Vehicles_Cessna172_Lights,
+		textureDamage1Overlay = Vehicles/Vehicles_Cessna172_Overlay1,
+		textureDamage2Overlay = Vehicles/Vehicles_Cessna172_Overlay2,
+		textureDamage1Shell = Vehicles/Vehicles_Cessna172_Damage1,
+		textureDamage2Shell = Vehicles/Vehicles_Cessna172_Damage2,
+		textureRust = Vehicles/Vehicles_Cessna172_Rust,
+
+
+		extents = 0.8500 0.5500 1.5000,
+		physicsChassisShape = 0.8500 0.3500 0.8000,
+
+
+		mass = 1000,
+
+
+		centerOfMassOffset = 0.0000 0.0000 0.0000,
+
+
+		engineForce = 3000,
+		maxSpeed = 120f,
+		engineLoudness = 55,
+		engineQuality = 70,
+
+
+
+		brakingForce = 90,
+
+
+		gearRatioCount = 4,
+		gearRatioR = 3.2,
+		gearRatio1 = 2.6,
+		gearRatio2 = 1.9,
+		gearRatio3 = 1.4,
+		gearRatio4 = 1.0,
+
+		extentsOffset = 0.5 0.5,
+
+
+		stoppingMovementForce = 2.5f,
+
+
+		rollInfluence = 0.08f,
+
+
+
+		steeringIncrement = 0.045,
+		steeringClamp = 0.34,
+
+
+		suspensionStiffness = 48,
+		suspensionCompression = 4.5,
+		suspensionDamping = 3.6,
+		maxSuspensionTravelCm = 12,
+		suspensionRestLength = 0.08f,
+		wheelFriction = 1.5f,
+		frontEndHealth = 100,
+		rearEndHealth = 100,
+		seats = 2,
+
+
+        wheel RearLeft { front = true, offset = 0.3511420 -0.5154286 0.3428571, radius = 0.1683160f, width = 0.1276880f, }
+        wheel RearRight { front = true, offset = -0.3511420 -0.5154286 0.3428571, radius = 0.1683160f, width = 0.1276880f, }
+        wheel FrontLeft { front = false, offset = 0.2000000 -0.1651429 -1.4655100, radius = 0.0580400f, width = 0.0232160f, }
+        wheel FrontRight { front = false, offset = -0.2000000 -0.1651429 -1.4655100, radius = 0.0580400f, width = 0.0232160f, }
+        part C172BushDetail1 { category = nodisplay, model fixed { file = C172BushDetail1Blue, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172BushDetail2 { category = nodisplay, model fixed { file = C172BushDetail2Blue, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172BushDetail3 { category = nodisplay, model fixed { file = C172BushDetail3Blue, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172BushDetail4 { category = nodisplay, model fixed { file = C172BushDetail4Blue, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172BushDetail5 { category = nodisplay, model fixed { file = C172BushDetail5Blue, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172WheelPort { category = nodisplay, model rolling { file = C172WheelPortBlue, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172WheelStarboard { category = nodisplay, model rolling { file = C172WheelStarboardBlue, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172WheelTail { category = nodisplay, model rolling { file = C172WheelTailBlue, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172NavPort { category = nodisplay, model fixed { file = C172NavPortBlue, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172NavStarboard { category = nodisplay, model fixed { file = C172NavStarboardBlue, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike1 { category = nodisplay, model fixed { file = C172MountedBike1, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike2 { category = nodisplay, model fixed { file = C172MountedBike2, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike3 { category = nodisplay, model fixed { file = C172MountedBike3, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike4 { category = nodisplay, model fixed { file = C172MountedBike4, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike5 { category = nodisplay, model fixed { file = C172MountedBike5, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike6 { category = nodisplay, model fixed { file = C172MountedBike6, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike7 { category = nodisplay, model fixed { file = C172MountedBike7, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike8 { category = nodisplay, model fixed { file = C172MountedBike8, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike9 { category = nodisplay, model fixed { file = C172MountedBike9, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike10 { category = nodisplay, model fixed { file = C172MountedBike10, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike11 { category = nodisplay, model fixed { file = C172MountedBike11, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike12 { category = nodisplay, model fixed { file = C172MountedBike12, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike13 { category = nodisplay, model fixed { file = C172MountedBike13, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike14 { category = nodisplay, model fixed { file = C172MountedBike14, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike15 { category = nodisplay, model fixed { file = C172MountedBike15, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike16 { category = nodisplay, model fixed { file = C172MountedBike16, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike17 { category = nodisplay, model fixed { file = C172MountedBike17, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike18 { category = nodisplay, model fixed { file = C172MountedBike18, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike19 { category = nodisplay, model fixed { file = C172MountedBike19, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike20 { category = nodisplay, model fixed { file = C172MountedBike20, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike21 { category = nodisplay, model fixed { file = C172MountedBike21, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike22 { category = nodisplay, model fixed { file = C172MountedBike22, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+		template = PassengerSeat4,
+
+
+		passenger FrontLeft
+		{
+			showPassenger = true,
+			hasRoof = true,
+
+			position inside
+			{
+				offset = 0.0000 -0.6333333 -0.0476190,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position vanillastates
+			{
+				offset = 0.0000 -0.7390 0.0143,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position seatui
+			{
+				offset = 0.1400 -0.2600 0.1200,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = 0.9625 -0.6125 0.0438,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatFrontLeft,
+			}
+		}
+
+		passenger FrontRight
+		{
+			showPassenger = true,
+			hasRoof = true,
+
+			position inside
+			{
+				offset = 0.0000 -0.6333333 -0.0476190,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position vanillastates
+			{
+				offset = 0.0000 -0.7073 -0.3533,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position seatui
+			{
+				offset = -0.1400 -0.2600 0.1200,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = -0.9625 -0.6125 0.0438,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatFrontRight,
+			}
+		}
+
+
+		passenger RearLeft
+		{
+			position inside
+			{
+				offset = 0.1300 0.0875 -0.1600,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = 0.9625 -0.6125 -0.1600,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatRearLeft,
+			}
+		}
+
+		passenger RearRight
+		{
+			position inside
+			{
+				offset = -0.1300 0.0875 -0.1600,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = -0.9625 -0.6125 -0.1600,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatRearRight,
+			}
+		}
+
+
+		area Engine
+		{
+			xywh = 0.0000 0.9000 1.2000 0.8000,
+		}
+
+		area TruckBed
+		{
+			xywh = 0.0000 -0.9000 1.2000 0.8000,
+		}
+
+		area SeatFrontLeft
+		{
+			xywh = 1.1000 0.0500 0.9000 0.9000,
+		}
+
+		area SeatFrontRight
+		{
+			xywh = -1.1000 0.0500 0.9000 0.9000,
+		}
+
+		area SeatRearLeft
+		{
+			xywh = 1.1000 -0.4000 0.9000 0.9000,
+		}
+
+		area SeatRearRight
+		{
+			xywh = -1.1000 -0.4000 0.9000 0.9000,
+		}
+
+		area GasTank
+		{
+			xywh = 1.1000 -0.5000 0.9000 0.9000,
+		}
+
+		area TireFrontLeft
+		{
+			xywh = 0.6000 0.7065 0.7000 0.7000,
+		}
+
+		area TireFrontRight
+		{
+			xywh = -0.6000 0.7065 0.7000 0.7000,
+		}
+
+		area TireRearLeft
+		{
+			xywh = 1.1000 -0.2343 0.7000 0.7000,
+		}
+
+		area TireRearRight
+		{
+			xywh = -1.1000 -0.2343 0.7000 0.7000,
+		}
+
+
+		area LeftWing
+		{
+			xywh = 1.7000 0.3500 1.6000 1.2000,
+		}
+
+		area RightWing
+		{
+			xywh = -1.7000 0.3500 1.6000 1.2000,
+		}
+
+		area Tail
+		{
+			xywh = 0.0000 -1.9000 1.4000 1.0000,
+		}
+
+
+
+
+
+		template = Engine,
+
+
+		part Engine
+		{
+			category = powerplant,
+			lua
+			{
+				create = Vehicles.Create.Engine,
+				update = C172Systems.Update.Engine,
+				checkEngine = Vehicles.CheckEngine.Engine,
+			}
+		}
+
+
+		part Propeller
+		{
+			category = powerplant,
+			mechanicArea = Engine,
+			area = Engine,
+			itemType = Base.C172Propeller,
+
+			specificItem = false,
+			mechanicRequireKey = true,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 600,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 600,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+
+		part C172PropSpin
+		{
+			category = nodisplay,
+
+			model spin
+			{
+				file = Cessna172_PropBlue,
+				offset = 0.0000 0.0000 0.0000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+		}
+
+
+		part OilSystem
+		{
+			category = powerplant,
+			mechanicArea = Engine,
+			area = Engine,
+			itemType = Base.C172OilSystem,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 4,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 350,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				door = EngineDoor,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 350,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part Starter
+		{
+			category = powerplant,
+			mechanicArea = Engine,
+			area = Engine,
+			itemType = Base.C172Starter,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 4,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				test = Vehicles.InstallTest.Default,
+				door = EngineDoor,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part Alternator
+		{
+			category = powerplant,
+			mechanicArea = Engine,
+			area = Engine,
+			itemType = Base.C172Alternator,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 4,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				test = Vehicles.InstallTest.Default,
+				door = EngineDoor,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		template = Battery,
+		part Battery
+		{
+			category = powerplant,
+		}
+
+
+		template = EngineDoor,
+		part EngineDoor
+		{
+			category = powerplant,
+			anim Open
+			{
+				sound = LockerMetalOpen,
+			}
+			anim Close
+			{
+				sound = LockerMetalClose,
+			}
+		}
+
+
+
+
+		template = GasTank,
+		part GasTank
+		{
+			category = fuelsystem,
+			lua
+			{
+				create = Vehicles.Create.GasTank,
+				update = C172Fuel.UpdateGasTank,
+				checkEngine = Vehicles.CheckEngine.GasTank,
+			}
+		}
+
+
+		part FuelSystem
+		{
+			category = fuelsystem,
+			mechanicArea = Engine,
+			area = GasTank,
+			itemType = Base.C172FuelSystem,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 4,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 350,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 350,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+				checkEngine = C172Systems.CheckEngine.FuelSystem,
+			}
+		}
+
+
+
+
+		part Fuselage
+		{
+			category = airframe,
+			mechanicArea = Left,
+			area = SeatFrontLeft,
+			itemType = Base.C172Fuselage,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 10,
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part LeftWing
+		{
+			category = airframe,
+			mechanicArea = Left,
+			area = LeftWing,
+			itemType = Base.C172Wing,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 900,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 900,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = LeftAileron,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part RightWing
+		{
+			category = airframe,
+			mechanicArea = Right,
+			area = RightWing,
+			itemType = Base.C172Wing,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 900,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 900,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = RightAileron,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+
+		part TailAssembly
+		{
+			category = airframe,
+			mechanicArea = Back,
+			area = Tail,
+			itemType = Base.C172TailAssembly,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 700,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 700,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = Rudder,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+
+		part HorizontalStabilizer
+		{
+			category = airframe,
+			mechanicArea = Back,
+			area = Tail,
+			itemType = Base.C172HorizStab,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 700,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 700,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = Elevator,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+
+
+
+		part LeftAileron
+		{
+			category = flightcontrols,
+			mechanicArea = Left,
+			area = LeftWing,
+			itemType = Base.C172Aileron,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 6,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireInstalled = LeftWing,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part RightAileron
+		{
+			category = flightcontrols,
+			mechanicArea = Right,
+			area = RightWing,
+			itemType = Base.C172Aileron,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 6,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireInstalled = RightWing,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part Elevator
+		{
+			category = flightcontrols,
+			mechanicArea = Back,
+			area = Tail,
+			itemType = Base.C172Elevator,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 6,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireInstalled = HorizontalStabilizer,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part Rudder
+		{
+			category = flightcontrols,
+			mechanicArea = Back,
+			area = Tail,
+			itemType = Base.C172Rudder,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 6,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireInstalled = TailAssembly,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+
+
+
+		part TireFrontLeft
+		{
+			category = landinggear,
+			mechanicArea = Left,
+			area = TireFrontLeft,
+			wheel = FrontLeft,
+			itemType = Base.OldTire;Base.NormalTire;Base.ModernTire,
+			durability = 2,
+			container
+			{
+				test = Vehicles.ContainerAccess.Tire,
+				contentType = Air,
+			}
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.InstallTest.Default,
+				complete = Vehicles.InstallComplete.Tire,
+				requireInstalled = SuspensionFrontLeft,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.UninstallTest.Default,
+				complete = Vehicles.UninstallComplete.Tire,
+			}
+			lua
+			{
+				create = Vehicles.Create.Tire,
+				init = Vehicles.Init.Tire,
+				checkOperate = Vehicles.CheckOperate.Tire,
+				update = C172Systems.Update.NoseGearMirror,
+			}
+		}
+
+
+
+		part TireFrontRight
+		{
+			category = nodisplay,
+			mechanicArea = Right,
+			area = TireFrontRight,
+			wheel = FrontRight,
+			itemType = Base.OldTire;Base.NormalTire;Base.ModernTire,
+			durability = 2,
+			container
+			{
+				test = Vehicles.ContainerAccess.Tire,
+				contentType = Air,
+			}
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.InstallTest.Default,
+				complete = Vehicles.InstallComplete.Tire,
+				requireInstalled = SuspensionFrontRight,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.UninstallTest.Default,
+				complete = Vehicles.UninstallComplete.Tire,
+			}
+			lua
+			{
+				create = Vehicles.Create.Tire,
+				init = Vehicles.Init.Tire,
+				checkOperate = Vehicles.CheckOperate.Tire,
+				update = Vehicles.Update.Tire,
+			}
+		}
+
+		part TireRearLeft
+		{
+			category = landinggear,
+			mechanicArea = Left,
+			area = TireRearLeft,
+			wheel = RearLeft,
+			itemType = Base.OldTire;Base.NormalTire;Base.ModernTire,
+			durability = 2,
+			container
+			{
+				test = Vehicles.ContainerAccess.Tire,
+				contentType = Air,
+			}
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.InstallTest.Default,
+				complete = Vehicles.InstallComplete.Tire,
+				requireInstalled = BrakeRearLeft;SuspensionRearLeft,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.UninstallTest.Default,
+				complete = Vehicles.UninstallComplete.Tire,
+			}
+			lua
+			{
+				create = Vehicles.Create.Tire,
+				init = Vehicles.Init.Tire,
+				checkOperate = Vehicles.CheckOperate.Tire,
+				update = Vehicles.Update.Tire,
+			}
+		}
+
+		part TireRearRight
+		{
+			category = landinggear,
+			mechanicArea = Right,
+			area = TireRearRight,
+			wheel = RearRight,
+			itemType = Base.OldTire;Base.NormalTire;Base.ModernTire,
+			durability = 2,
+			container
+			{
+				test = Vehicles.ContainerAccess.Tire,
+				contentType = Air,
+			}
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.InstallTest.Default,
+				complete = Vehicles.InstallComplete.Tire,
+				requireInstalled = BrakeRearRight;SuspensionRearRight,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.UninstallTest.Default,
+				complete = Vehicles.UninstallComplete.Tire,
+			}
+			lua
+			{
+				create = Vehicles.Create.Tire,
+				init = Vehicles.Init.Tire,
+				checkOperate = Vehicles.CheckOperate.Tire,
+				update = Vehicles.Update.Tire,
+			}
+		}
+
+
+		template = Suspension,
+		part SuspensionFrontLeft
+		{
+			category = landinggear,
+		}
+		part SuspensionFrontRight
+		{
+			category = nodisplay,
+		}
+		part SuspensionRearLeft
+		{
+			category = landinggear,
+		}
+		part SuspensionRearRight
+		{
+			category = landinggear,
+		}
+
+
+		part BrakeRearLeft
+		{
+			category = landinggear,
+			mechanicArea = Left,
+			area = TireRearLeft,
+			itemType = Base.OldBrake;Base.NormalBrake;Base.ModernBrake,
+			durability = 3,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireUninstalled = TireRearLeft,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = TireRearLeft,
+			}
+			lua
+			{
+				create = Vehicles.Create.Brake,
+				update = Vehicles.Update.Brakes,
+			}
+		}
+
+		part BrakeRearRight
+		{
+			category = landinggear,
+			mechanicArea = Right,
+			area = TireRearRight,
+			itemType = Base.OldBrake;Base.NormalBrake;Base.ModernBrake,
+			durability = 3,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireUninstalled = TireRearRight,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = TireRearRight,
+			}
+			lua
+			{
+				create = Vehicles.Create.Brake,
+				update = Vehicles.Update.Brakes,
+			}
+		}
+
+
+
+		template = Windshield/part/Windshield,
+		part Windshield
+		{
+			category = cockpit,
+		}
+
+		template = Door/part/DoorFrontLeft,
+		template = Door/part/DoorFrontRight,
+		part DoorFrontLeft
+		{
+			category = cockpit,
+			anim Open
+			{
+				sound = LockerMetalOpen,
+			}
+			anim Close
+			{
+				sound = LockerMetalClose,
+			}
+			anim Lock
+			{
+				sound = MetalDoorLock,
+			}
+			anim Unlock
+			{
+				sound = MetalDoorLock,
+			}
+			anim IsLocked
+			{
+				sound = MetalDoorLocked,
+			}
+		}
+		part DoorFrontRight
+		{
+			category = cockpit,
+			anim Open
+			{
+				sound = LockerMetalOpen,
+			}
+			anim Close
+			{
+				sound = LockerMetalClose,
+			}
+			anim Lock
+			{
+				sound = MetalDoorLock,
+			}
+			anim Unlock
+			{
+				sound = MetalDoorLock,
+			}
+			anim IsLocked
+			{
+				sound = MetalDoorLocked,
+			}
+		}
+
+		template = Window/part/WindowFrontLeft,
+		template = Window/part/WindowFrontRight,
+		part WindowFrontLeft
+		{
+			category = cockpit,
+		}
+		part WindowFrontRight
+		{
+			category = cockpit,
+		}
+
+		template = Seat/part/SeatFrontLeft,
+		template = Seat/part/SeatFrontRight,
+		template = Seat/part/SeatRearLeft,
+		template = Seat/part/SeatRearRight,
+		part SeatFrontLeft
+		{
+			category = cockpit,
+		}
+		part SeatFrontRight
+		{
+			category = cockpit,
+		}
+		part SeatRearLeft
+		{
+			category = cockpit,
+		}
+		part SeatRearRight
+		{
+			category = cockpit,
+		}
+
+
+
+
+		template = Headlight,
+		part HeadlightLeft
+		{
+			category = avionics,
+
+			lua
+			{
+				create = C172Lights.Create.LandingLight,
+				init = C172Lights.Init.LandingLight,
+				update = Vehicles.Update.Headlight,
+			}
+		}
+		part HeadlightRight
+		{
+			category = avionics,
+
+			lua
+			{
+				create = C172Lights.Create.TaxiLight,
+				init = C172Lights.Init.TaxiLight,
+				update = Vehicles.Update.Headlight,
+			}
+		}
+		part HeadlightRearLeft
+		{
+			category = avionics,
+
+			lua
+			{
+				create = C172Lights.Create.NavLightLeft,
+				init = C172Lights.Init.NavLightLeft,
+				update = Vehicles.Update.Headlight,
+			}
+		}
+		part HeadlightRearRight
+		{
+			category = avionics,
+
+			lua
+			{
+				create = C172Lights.Create.NavLightRight,
+				init = C172Lights.Init.NavLightRight,
+				update = Vehicles.Update.Headlight,
+			}
+		}
+
+
+		part ElectricalSystem
+		{
+			category = avionics,
+			mechanicArea = Interior,
+			area = SeatFrontLeft,
+			itemType = Base.C172Avionics,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 5,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Electricity:3,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Electricity:3,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+				update = C172Systems.Update.Electrical,
+			}
+		}
+
+		template = Radio,
+		part Radio
+		{
+			category = avionics,
+		}
+
+
+
+		template = Trunk/part/TruckBed,
+		template = TrunkDoor,
+		part TruckBed
+		{
+			category = storage,
+			container
+			{
+				capacity = 800,
+				conditionAffectsCapacity = false,
+				test = Vehicles.ContainerAccess.TruckBed,
+				soundMap = ContainerPut VehicleTrunkTransferItem,
+				soundMap = ContainerTake VehicleTrunkTransferItem,
+			}
+			lua
+			{
+				create = C172Storage.Create,
+				init = C172Storage.Init,
+			}
+		}
+		part TrunkDoor
+		{
+			category = storage,
+			anim Open
+			{
+				sound = LockerMetalOpen,
+			}
+			anim Close
+			{
+				sound = LockerMetalClose,
+			}
+			anim Lock
+			{
+				sound = MetalDoorLock,
+			}
+			anim Unlock
+			{
+				sound = MetalDoorLock,
+			}
+			anim IsLocked
+			{
+				sound = MetalDoorLocked,
+			}
+		}
+
+
+
+		part PassengerCompartment
+		{
+			category = nodisplay,
+
+			lua
+			{
+				update = Vehicles.Update.PassengerCompartment,
+			}
+		}
+	}
+model C172BushDetail1Green { mesh = vehicles/cessna_bush/C172BushDetail1|C172BushDetail1, texture = Vehicles/Vehicles_Cessna172_ShellGreen, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172BushDetail2Green { mesh = vehicles/cessna_bush/C172BushDetail2|C172BushDetail2, texture = Vehicles/Vehicles_Cessna172_ShellGreen, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172BushDetail3Green { mesh = vehicles/cessna_bush/C172BushDetail3|C172BushDetail3, texture = Vehicles/Vehicles_Cessna172_ShellGreen, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172BushDetail4Green { mesh = vehicles/cessna_bush/C172BushDetail4|C172BushDetail4, texture = Vehicles/Vehicles_Cessna172_ShellGreen, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172BushDetail5Green { mesh = vehicles/cessna_bush/C172BushDetail5|C172BushDetail5, texture = Vehicles/Vehicles_Cessna172_ShellGreen, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172WheelPortGreen { mesh = vehicles/cessna_bush/C172WheelPort|C172WheelPort, texture = Vehicles/Vehicles_Cessna172_ShellGreen, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172WheelStarboardGreen { mesh = vehicles/cessna_bush/C172WheelStarboard|C172WheelStarboard, texture = Vehicles/Vehicles_Cessna172_ShellGreen, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172WheelTailGreen { mesh = vehicles/cessna_bush/C172WheelTail|C172WheelTail, texture = Vehicles/Vehicles_Cessna172_ShellGreen, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172NavPortGreen { mesh = vehicles/cessna_bush/C172NavPort|C172NavPort, texture = Vehicles/Vehicles_Cessna172_ShellGreen, shader = Cessna172_nav, invertX = false, scale = 1.0, }
+model C172NavStarboardGreen { mesh = vehicles/cessna_bush/C172NavStarboard|C172NavStarboard, texture = Vehicles/Vehicles_Cessna172_ShellGreen, shader = Cessna172_nav, invertX = false, scale = 1.0, }
+model Vehicles_Cessna172Green {
+		mesh = vehicles/cessna_bush/Cessna172_Body|Cessna172_Body,
+        texture = Vehicles/Vehicles_Cessna172_ShellGreen,
+		shader = Cessna172_vehicle,
+		invertX = false,
+		scale = 1.0,
+	}
+model Cessna172_PropGreen {
+		mesh = vehicles/cessna_bush/Cessna172_Prop|Cessna172_Prop,
+        texture = Vehicles/Vehicles_Cessna172_ShellGreen,
+		shader = Cessna172_vehicle,
+		invertX = false,
+		scale = 1.0,
+	}
+vehicle Cessna172Green {
+		mechanicType = 1,
+		engineRepairLevel = 3,
+
+
+		playerDamageProtection = 0.45,
+
+		model
+		{
+			file = Vehicles_Cessna172Green,
+			scale = 2.1000,
+			offset = 0.0000 0.0000 0.0000,
+		}
+
+		skin
+		{
+			texture = Vehicles/Vehicles_Cessna172_ShellGreen,
+
+			textureShadow = Vehicles/Vehicles_Cessna172_Shadow,
+		}
+
+
+		sound
+		{
+			engine = C172Silent,
+			engineStart = C172Silent,
+			engineTurnOff = C172Silent,
+			handBrake = C172Silent,
+			ignitionFail = C172StarterFail,
+			ignitionFailNoPower = C172NoPower,
+		}
+
+		textureMask = Vehicles/Vehicles_Cessna172_Mask,
+		textureLights = Vehicles/Vehicles_Cessna172_Lights,
+		textureDamage1Overlay = Vehicles/Vehicles_Cessna172_Overlay1,
+		textureDamage2Overlay = Vehicles/Vehicles_Cessna172_Overlay2,
+		textureDamage1Shell = Vehicles/Vehicles_Cessna172_Damage1,
+		textureDamage2Shell = Vehicles/Vehicles_Cessna172_Damage2,
+		textureRust = Vehicles/Vehicles_Cessna172_Rust,
+
+
+		extents = 0.8500 0.5500 1.5000,
+		physicsChassisShape = 0.8500 0.3500 0.8000,
+
+
+		mass = 1000,
+
+
+		centerOfMassOffset = 0.0000 0.0000 0.0000,
+
+
+		engineForce = 3000,
+		maxSpeed = 120f,
+		engineLoudness = 55,
+		engineQuality = 70,
+
+
+
+		brakingForce = 90,
+
+
+		gearRatioCount = 4,
+		gearRatioR = 3.2,
+		gearRatio1 = 2.6,
+		gearRatio2 = 1.9,
+		gearRatio3 = 1.4,
+		gearRatio4 = 1.0,
+
+		extentsOffset = 0.5 0.5,
+
+
+		stoppingMovementForce = 2.5f,
+
+
+		rollInfluence = 0.08f,
+
+
+
+		steeringIncrement = 0.045,
+		steeringClamp = 0.34,
+
+
+		suspensionStiffness = 48,
+		suspensionCompression = 4.5,
+		suspensionDamping = 3.6,
+		maxSuspensionTravelCm = 12,
+		suspensionRestLength = 0.08f,
+		wheelFriction = 1.5f,
+		frontEndHealth = 100,
+		rearEndHealth = 100,
+		seats = 2,
+
+
+        wheel RearLeft { front = true, offset = 0.3511420 -0.5154286 0.3428571, radius = 0.1683160f, width = 0.1276880f, }
+        wheel RearRight { front = true, offset = -0.3511420 -0.5154286 0.3428571, radius = 0.1683160f, width = 0.1276880f, }
+        wheel FrontLeft { front = false, offset = 0.2000000 -0.1651429 -1.4655100, radius = 0.0580400f, width = 0.0232160f, }
+        wheel FrontRight { front = false, offset = -0.2000000 -0.1651429 -1.4655100, radius = 0.0580400f, width = 0.0232160f, }
+        part C172BushDetail1 { category = nodisplay, model fixed { file = C172BushDetail1Green, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172BushDetail2 { category = nodisplay, model fixed { file = C172BushDetail2Green, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172BushDetail3 { category = nodisplay, model fixed { file = C172BushDetail3Green, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172BushDetail4 { category = nodisplay, model fixed { file = C172BushDetail4Green, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172BushDetail5 { category = nodisplay, model fixed { file = C172BushDetail5Green, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172WheelPort { category = nodisplay, model rolling { file = C172WheelPortGreen, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172WheelStarboard { category = nodisplay, model rolling { file = C172WheelStarboardGreen, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172WheelTail { category = nodisplay, model rolling { file = C172WheelTailGreen, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172NavPort { category = nodisplay, model fixed { file = C172NavPortGreen, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172NavStarboard { category = nodisplay, model fixed { file = C172NavStarboardGreen, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike1 { category = nodisplay, model fixed { file = C172MountedBike1, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike2 { category = nodisplay, model fixed { file = C172MountedBike2, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike3 { category = nodisplay, model fixed { file = C172MountedBike3, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike4 { category = nodisplay, model fixed { file = C172MountedBike4, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike5 { category = nodisplay, model fixed { file = C172MountedBike5, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike6 { category = nodisplay, model fixed { file = C172MountedBike6, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike7 { category = nodisplay, model fixed { file = C172MountedBike7, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike8 { category = nodisplay, model fixed { file = C172MountedBike8, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike9 { category = nodisplay, model fixed { file = C172MountedBike9, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike10 { category = nodisplay, model fixed { file = C172MountedBike10, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike11 { category = nodisplay, model fixed { file = C172MountedBike11, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike12 { category = nodisplay, model fixed { file = C172MountedBike12, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike13 { category = nodisplay, model fixed { file = C172MountedBike13, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike14 { category = nodisplay, model fixed { file = C172MountedBike14, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike15 { category = nodisplay, model fixed { file = C172MountedBike15, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike16 { category = nodisplay, model fixed { file = C172MountedBike16, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike17 { category = nodisplay, model fixed { file = C172MountedBike17, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike18 { category = nodisplay, model fixed { file = C172MountedBike18, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike19 { category = nodisplay, model fixed { file = C172MountedBike19, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike20 { category = nodisplay, model fixed { file = C172MountedBike20, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike21 { category = nodisplay, model fixed { file = C172MountedBike21, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike22 { category = nodisplay, model fixed { file = C172MountedBike22, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+		template = PassengerSeat4,
+
+
+		passenger FrontLeft
+		{
+			showPassenger = true,
+			hasRoof = true,
+
+			position inside
+			{
+				offset = 0.0000 -0.6333333 -0.0476190,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position vanillastates
+			{
+				offset = 0.0000 -0.7390 0.0143,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position seatui
+			{
+				offset = 0.1400 -0.2600 0.1200,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = 0.9625 -0.6125 0.0438,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatFrontLeft,
+			}
+		}
+
+		passenger FrontRight
+		{
+			showPassenger = true,
+			hasRoof = true,
+
+			position inside
+			{
+				offset = 0.0000 -0.6333333 -0.0476190,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position vanillastates
+			{
+				offset = 0.0000 -0.7073 -0.3533,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position seatui
+			{
+				offset = -0.1400 -0.2600 0.1200,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = -0.9625 -0.6125 0.0438,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatFrontRight,
+			}
+		}
+
+
+		passenger RearLeft
+		{
+			position inside
+			{
+				offset = 0.1300 0.0875 -0.1600,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = 0.9625 -0.6125 -0.1600,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatRearLeft,
+			}
+		}
+
+		passenger RearRight
+		{
+			position inside
+			{
+				offset = -0.1300 0.0875 -0.1600,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = -0.9625 -0.6125 -0.1600,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatRearRight,
+			}
+		}
+
+
+		area Engine
+		{
+			xywh = 0.0000 0.9000 1.2000 0.8000,
+		}
+
+		area TruckBed
+		{
+			xywh = 0.0000 -0.9000 1.2000 0.8000,
+		}
+
+		area SeatFrontLeft
+		{
+			xywh = 1.1000 0.0500 0.9000 0.9000,
+		}
+
+		area SeatFrontRight
+		{
+			xywh = -1.1000 0.0500 0.9000 0.9000,
+		}
+
+		area SeatRearLeft
+		{
+			xywh = 1.1000 -0.4000 0.9000 0.9000,
+		}
+
+		area SeatRearRight
+		{
+			xywh = -1.1000 -0.4000 0.9000 0.9000,
+		}
+
+		area GasTank
+		{
+			xywh = 1.1000 -0.5000 0.9000 0.9000,
+		}
+
+		area TireFrontLeft
+		{
+			xywh = 0.6000 0.7065 0.7000 0.7000,
+		}
+
+		area TireFrontRight
+		{
+			xywh = -0.6000 0.7065 0.7000 0.7000,
+		}
+
+		area TireRearLeft
+		{
+			xywh = 1.1000 -0.2343 0.7000 0.7000,
+		}
+
+		area TireRearRight
+		{
+			xywh = -1.1000 -0.2343 0.7000 0.7000,
+		}
+
+
+		area LeftWing
+		{
+			xywh = 1.7000 0.3500 1.6000 1.2000,
+		}
+
+		area RightWing
+		{
+			xywh = -1.7000 0.3500 1.6000 1.2000,
+		}
+
+		area Tail
+		{
+			xywh = 0.0000 -1.9000 1.4000 1.0000,
+		}
+
+
+
+
+
+		template = Engine,
+
+
+		part Engine
+		{
+			category = powerplant,
+			lua
+			{
+				create = Vehicles.Create.Engine,
+				update = C172Systems.Update.Engine,
+				checkEngine = Vehicles.CheckEngine.Engine,
+			}
+		}
+
+
+		part Propeller
+		{
+			category = powerplant,
+			mechanicArea = Engine,
+			area = Engine,
+			itemType = Base.C172Propeller,
+
+			specificItem = false,
+			mechanicRequireKey = true,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 600,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 600,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+
+		part C172PropSpin
+		{
+			category = nodisplay,
+
+			model spin
+			{
+				file = Cessna172_PropGreen,
+				offset = 0.0000 0.0000 0.0000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+		}
+
+
+		part OilSystem
+		{
+			category = powerplant,
+			mechanicArea = Engine,
+			area = Engine,
+			itemType = Base.C172OilSystem,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 4,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 350,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				door = EngineDoor,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 350,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part Starter
+		{
+			category = powerplant,
+			mechanicArea = Engine,
+			area = Engine,
+			itemType = Base.C172Starter,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 4,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				test = Vehicles.InstallTest.Default,
+				door = EngineDoor,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part Alternator
+		{
+			category = powerplant,
+			mechanicArea = Engine,
+			area = Engine,
+			itemType = Base.C172Alternator,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 4,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				test = Vehicles.InstallTest.Default,
+				door = EngineDoor,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		template = Battery,
+		part Battery
+		{
+			category = powerplant,
+		}
+
+
+		template = EngineDoor,
+		part EngineDoor
+		{
+			category = powerplant,
+			anim Open
+			{
+				sound = LockerMetalOpen,
+			}
+			anim Close
+			{
+				sound = LockerMetalClose,
+			}
+		}
+
+
+
+
+		template = GasTank,
+		part GasTank
+		{
+			category = fuelsystem,
+			lua
+			{
+				create = Vehicles.Create.GasTank,
+				update = C172Fuel.UpdateGasTank,
+				checkEngine = Vehicles.CheckEngine.GasTank,
+			}
+		}
+
+
+		part FuelSystem
+		{
+			category = fuelsystem,
+			mechanicArea = Engine,
+			area = GasTank,
+			itemType = Base.C172FuelSystem,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 4,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 350,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 350,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+				checkEngine = C172Systems.CheckEngine.FuelSystem,
+			}
+		}
+
+
+
+
+		part Fuselage
+		{
+			category = airframe,
+			mechanicArea = Left,
+			area = SeatFrontLeft,
+			itemType = Base.C172Fuselage,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 10,
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part LeftWing
+		{
+			category = airframe,
+			mechanicArea = Left,
+			area = LeftWing,
+			itemType = Base.C172Wing,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 900,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 900,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = LeftAileron,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part RightWing
+		{
+			category = airframe,
+			mechanicArea = Right,
+			area = RightWing,
+			itemType = Base.C172Wing,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 900,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 900,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = RightAileron,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+
+		part TailAssembly
+		{
+			category = airframe,
+			mechanicArea = Back,
+			area = Tail,
+			itemType = Base.C172TailAssembly,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 700,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 700,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = Rudder,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+
+		part HorizontalStabilizer
+		{
+			category = airframe,
+			mechanicArea = Back,
+			area = Tail,
+			itemType = Base.C172HorizStab,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 700,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 700,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = Elevator,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+
+
+
+		part LeftAileron
+		{
+			category = flightcontrols,
+			mechanicArea = Left,
+			area = LeftWing,
+			itemType = Base.C172Aileron,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 6,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireInstalled = LeftWing,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part RightAileron
+		{
+			category = flightcontrols,
+			mechanicArea = Right,
+			area = RightWing,
+			itemType = Base.C172Aileron,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 6,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireInstalled = RightWing,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part Elevator
+		{
+			category = flightcontrols,
+			mechanicArea = Back,
+			area = Tail,
+			itemType = Base.C172Elevator,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 6,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireInstalled = HorizontalStabilizer,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part Rudder
+		{
+			category = flightcontrols,
+			mechanicArea = Back,
+			area = Tail,
+			itemType = Base.C172Rudder,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 6,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireInstalled = TailAssembly,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+
+
+
+		part TireFrontLeft
+		{
+			category = landinggear,
+			mechanicArea = Left,
+			area = TireFrontLeft,
+			wheel = FrontLeft,
+			itemType = Base.OldTire;Base.NormalTire;Base.ModernTire,
+			durability = 2,
+			container
+			{
+				test = Vehicles.ContainerAccess.Tire,
+				contentType = Air,
+			}
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.InstallTest.Default,
+				complete = Vehicles.InstallComplete.Tire,
+				requireInstalled = SuspensionFrontLeft,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.UninstallTest.Default,
+				complete = Vehicles.UninstallComplete.Tire,
+			}
+			lua
+			{
+				create = Vehicles.Create.Tire,
+				init = Vehicles.Init.Tire,
+				checkOperate = Vehicles.CheckOperate.Tire,
+				update = C172Systems.Update.NoseGearMirror,
+			}
+		}
+
+
+
+		part TireFrontRight
+		{
+			category = nodisplay,
+			mechanicArea = Right,
+			area = TireFrontRight,
+			wheel = FrontRight,
+			itemType = Base.OldTire;Base.NormalTire;Base.ModernTire,
+			durability = 2,
+			container
+			{
+				test = Vehicles.ContainerAccess.Tire,
+				contentType = Air,
+			}
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.InstallTest.Default,
+				complete = Vehicles.InstallComplete.Tire,
+				requireInstalled = SuspensionFrontRight,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.UninstallTest.Default,
+				complete = Vehicles.UninstallComplete.Tire,
+			}
+			lua
+			{
+				create = Vehicles.Create.Tire,
+				init = Vehicles.Init.Tire,
+				checkOperate = Vehicles.CheckOperate.Tire,
+				update = Vehicles.Update.Tire,
+			}
+		}
+
+		part TireRearLeft
+		{
+			category = landinggear,
+			mechanicArea = Left,
+			area = TireRearLeft,
+			wheel = RearLeft,
+			itemType = Base.OldTire;Base.NormalTire;Base.ModernTire,
+			durability = 2,
+			container
+			{
+				test = Vehicles.ContainerAccess.Tire,
+				contentType = Air,
+			}
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.InstallTest.Default,
+				complete = Vehicles.InstallComplete.Tire,
+				requireInstalled = BrakeRearLeft;SuspensionRearLeft,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.UninstallTest.Default,
+				complete = Vehicles.UninstallComplete.Tire,
+			}
+			lua
+			{
+				create = Vehicles.Create.Tire,
+				init = Vehicles.Init.Tire,
+				checkOperate = Vehicles.CheckOperate.Tire,
+				update = Vehicles.Update.Tire,
+			}
+		}
+
+		part TireRearRight
+		{
+			category = landinggear,
+			mechanicArea = Right,
+			area = TireRearRight,
+			wheel = RearRight,
+			itemType = Base.OldTire;Base.NormalTire;Base.ModernTire,
+			durability = 2,
+			container
+			{
+				test = Vehicles.ContainerAccess.Tire,
+				contentType = Air,
+			}
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.InstallTest.Default,
+				complete = Vehicles.InstallComplete.Tire,
+				requireInstalled = BrakeRearRight;SuspensionRearRight,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.UninstallTest.Default,
+				complete = Vehicles.UninstallComplete.Tire,
+			}
+			lua
+			{
+				create = Vehicles.Create.Tire,
+				init = Vehicles.Init.Tire,
+				checkOperate = Vehicles.CheckOperate.Tire,
+				update = Vehicles.Update.Tire,
+			}
+		}
+
+
+		template = Suspension,
+		part SuspensionFrontLeft
+		{
+			category = landinggear,
+		}
+		part SuspensionFrontRight
+		{
+			category = nodisplay,
+		}
+		part SuspensionRearLeft
+		{
+			category = landinggear,
+		}
+		part SuspensionRearRight
+		{
+			category = landinggear,
+		}
+
+
+		part BrakeRearLeft
+		{
+			category = landinggear,
+			mechanicArea = Left,
+			area = TireRearLeft,
+			itemType = Base.OldBrake;Base.NormalBrake;Base.ModernBrake,
+			durability = 3,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireUninstalled = TireRearLeft,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = TireRearLeft,
+			}
+			lua
+			{
+				create = Vehicles.Create.Brake,
+				update = Vehicles.Update.Brakes,
+			}
+		}
+
+		part BrakeRearRight
+		{
+			category = landinggear,
+			mechanicArea = Right,
+			area = TireRearRight,
+			itemType = Base.OldBrake;Base.NormalBrake;Base.ModernBrake,
+			durability = 3,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireUninstalled = TireRearRight,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = TireRearRight,
+			}
+			lua
+			{
+				create = Vehicles.Create.Brake,
+				update = Vehicles.Update.Brakes,
+			}
+		}
+
+
+
+		template = Windshield/part/Windshield,
+		part Windshield
+		{
+			category = cockpit,
+		}
+
+		template = Door/part/DoorFrontLeft,
+		template = Door/part/DoorFrontRight,
+		part DoorFrontLeft
+		{
+			category = cockpit,
+			anim Open
+			{
+				sound = LockerMetalOpen,
+			}
+			anim Close
+			{
+				sound = LockerMetalClose,
+			}
+			anim Lock
+			{
+				sound = MetalDoorLock,
+			}
+			anim Unlock
+			{
+				sound = MetalDoorLock,
+			}
+			anim IsLocked
+			{
+				sound = MetalDoorLocked,
+			}
+		}
+		part DoorFrontRight
+		{
+			category = cockpit,
+			anim Open
+			{
+				sound = LockerMetalOpen,
+			}
+			anim Close
+			{
+				sound = LockerMetalClose,
+			}
+			anim Lock
+			{
+				sound = MetalDoorLock,
+			}
+			anim Unlock
+			{
+				sound = MetalDoorLock,
+			}
+			anim IsLocked
+			{
+				sound = MetalDoorLocked,
+			}
+		}
+
+		template = Window/part/WindowFrontLeft,
+		template = Window/part/WindowFrontRight,
+		part WindowFrontLeft
+		{
+			category = cockpit,
+		}
+		part WindowFrontRight
+		{
+			category = cockpit,
+		}
+
+		template = Seat/part/SeatFrontLeft,
+		template = Seat/part/SeatFrontRight,
+		template = Seat/part/SeatRearLeft,
+		template = Seat/part/SeatRearRight,
+		part SeatFrontLeft
+		{
+			category = cockpit,
+		}
+		part SeatFrontRight
+		{
+			category = cockpit,
+		}
+		part SeatRearLeft
+		{
+			category = cockpit,
+		}
+		part SeatRearRight
+		{
+			category = cockpit,
+		}
+
+
+
+
+		template = Headlight,
+		part HeadlightLeft
+		{
+			category = avionics,
+
+			lua
+			{
+				create = C172Lights.Create.LandingLight,
+				init = C172Lights.Init.LandingLight,
+				update = Vehicles.Update.Headlight,
+			}
+		}
+		part HeadlightRight
+		{
+			category = avionics,
+
+			lua
+			{
+				create = C172Lights.Create.TaxiLight,
+				init = C172Lights.Init.TaxiLight,
+				update = Vehicles.Update.Headlight,
+			}
+		}
+		part HeadlightRearLeft
+		{
+			category = avionics,
+
+			lua
+			{
+				create = C172Lights.Create.NavLightLeft,
+				init = C172Lights.Init.NavLightLeft,
+				update = Vehicles.Update.Headlight,
+			}
+		}
+		part HeadlightRearRight
+		{
+			category = avionics,
+
+			lua
+			{
+				create = C172Lights.Create.NavLightRight,
+				init = C172Lights.Init.NavLightRight,
+				update = Vehicles.Update.Headlight,
+			}
+		}
+
+
+		part ElectricalSystem
+		{
+			category = avionics,
+			mechanicArea = Interior,
+			area = SeatFrontLeft,
+			itemType = Base.C172Avionics,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 5,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Electricity:3,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Electricity:3,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+				update = C172Systems.Update.Electrical,
+			}
+		}
+
+		template = Radio,
+		part Radio
+		{
+			category = avionics,
+		}
+
+
+
+		template = Trunk/part/TruckBed,
+		template = TrunkDoor,
+		part TruckBed
+		{
+			category = storage,
+			container
+			{
+				capacity = 800,
+				conditionAffectsCapacity = false,
+				test = Vehicles.ContainerAccess.TruckBed,
+				soundMap = ContainerPut VehicleTrunkTransferItem,
+				soundMap = ContainerTake VehicleTrunkTransferItem,
+			}
+			lua
+			{
+				create = C172Storage.Create,
+				init = C172Storage.Init,
+			}
+		}
+		part TrunkDoor
+		{
+			category = storage,
+			anim Open
+			{
+				sound = LockerMetalOpen,
+			}
+			anim Close
+			{
+				sound = LockerMetalClose,
+			}
+			anim Lock
+			{
+				sound = MetalDoorLock,
+			}
+			anim Unlock
+			{
+				sound = MetalDoorLock,
+			}
+			anim IsLocked
+			{
+				sound = MetalDoorLocked,
+			}
+		}
+
+
+
+		part PassengerCompartment
+		{
+			category = nodisplay,
+
+			lua
+			{
+				update = Vehicles.Update.PassengerCompartment,
+			}
+		}
+	}
+model C172BushDetail1Yellow { mesh = vehicles/cessna_bush/C172BushDetail1|C172BushDetail1, texture = Vehicles/Vehicles_Cessna172_ShellYellow, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172BushDetail2Yellow { mesh = vehicles/cessna_bush/C172BushDetail2|C172BushDetail2, texture = Vehicles/Vehicles_Cessna172_ShellYellow, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172BushDetail3Yellow { mesh = vehicles/cessna_bush/C172BushDetail3|C172BushDetail3, texture = Vehicles/Vehicles_Cessna172_ShellYellow, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172BushDetail4Yellow { mesh = vehicles/cessna_bush/C172BushDetail4|C172BushDetail4, texture = Vehicles/Vehicles_Cessna172_ShellYellow, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172BushDetail5Yellow { mesh = vehicles/cessna_bush/C172BushDetail5|C172BushDetail5, texture = Vehicles/Vehicles_Cessna172_ShellYellow, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172WheelPortYellow { mesh = vehicles/cessna_bush/C172WheelPort|C172WheelPort, texture = Vehicles/Vehicles_Cessna172_ShellYellow, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172WheelStarboardYellow { mesh = vehicles/cessna_bush/C172WheelStarboard|C172WheelStarboard, texture = Vehicles/Vehicles_Cessna172_ShellYellow, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172WheelTailYellow { mesh = vehicles/cessna_bush/C172WheelTail|C172WheelTail, texture = Vehicles/Vehicles_Cessna172_ShellYellow, shader = Cessna172_vehicle, invertX = false, scale = 1.0, }
+model C172NavPortYellow { mesh = vehicles/cessna_bush/C172NavPort|C172NavPort, texture = Vehicles/Vehicles_Cessna172_ShellYellow, shader = Cessna172_nav, invertX = false, scale = 1.0, }
+model C172NavStarboardYellow { mesh = vehicles/cessna_bush/C172NavStarboard|C172NavStarboard, texture = Vehicles/Vehicles_Cessna172_ShellYellow, shader = Cessna172_nav, invertX = false, scale = 1.0, }
+model Vehicles_Cessna172Yellow {
+		mesh = vehicles/cessna_bush/Cessna172_Body|Cessna172_Body,
+        texture = Vehicles/Vehicles_Cessna172_ShellYellow,
+		shader = Cessna172_vehicle,
+		invertX = false,
+		scale = 1.0,
+	}
+model Cessna172_PropYellow {
+		mesh = vehicles/cessna_bush/Cessna172_Prop|Cessna172_Prop,
+        texture = Vehicles/Vehicles_Cessna172_ShellYellow,
+		shader = Cessna172_vehicle,
+		invertX = false,
+		scale = 1.0,
+	}
+vehicle Cessna172Yellow {
+		mechanicType = 1,
+		engineRepairLevel = 3,
+
+
+		playerDamageProtection = 0.45,
+
+		model
+		{
+			file = Vehicles_Cessna172Yellow,
+			scale = 2.1000,
+			offset = 0.0000 0.0000 0.0000,
+		}
+
+		skin
+		{
+			texture = Vehicles/Vehicles_Cessna172_ShellYellow,
+
+			textureShadow = Vehicles/Vehicles_Cessna172_Shadow,
+		}
+
+
+		sound
+		{
+			engine = C172Silent,
+			engineStart = C172Silent,
+			engineTurnOff = C172Silent,
+			handBrake = C172Silent,
+			ignitionFail = C172StarterFail,
+			ignitionFailNoPower = C172NoPower,
+		}
+
+		textureMask = Vehicles/Vehicles_Cessna172_Mask,
+		textureLights = Vehicles/Vehicles_Cessna172_Lights,
+		textureDamage1Overlay = Vehicles/Vehicles_Cessna172_Overlay1,
+		textureDamage2Overlay = Vehicles/Vehicles_Cessna172_Overlay2,
+		textureDamage1Shell = Vehicles/Vehicles_Cessna172_Damage1,
+		textureDamage2Shell = Vehicles/Vehicles_Cessna172_Damage2,
+		textureRust = Vehicles/Vehicles_Cessna172_Rust,
+
+
+		extents = 0.8500 0.5500 1.5000,
+		physicsChassisShape = 0.8500 0.3500 0.8000,
+
+
+		mass = 1000,
+
+
+		centerOfMassOffset = 0.0000 0.0000 0.0000,
+
+
+		engineForce = 3000,
+		maxSpeed = 120f,
+		engineLoudness = 55,
+		engineQuality = 70,
+
+
+
+		brakingForce = 90,
+
+
+		gearRatioCount = 4,
+		gearRatioR = 3.2,
+		gearRatio1 = 2.6,
+		gearRatio2 = 1.9,
+		gearRatio3 = 1.4,
+		gearRatio4 = 1.0,
+
+		extentsOffset = 0.5 0.5,
+
+
+		stoppingMovementForce = 2.5f,
+
+
+		rollInfluence = 0.08f,
+
+
+
+		steeringIncrement = 0.045,
+		steeringClamp = 0.34,
+
+
+		suspensionStiffness = 48,
+		suspensionCompression = 4.5,
+		suspensionDamping = 3.6,
+		maxSuspensionTravelCm = 12,
+		suspensionRestLength = 0.08f,
+		wheelFriction = 1.5f,
+		frontEndHealth = 100,
+		rearEndHealth = 100,
+		seats = 2,
+
+
+        wheel RearLeft { front = true, offset = 0.3511420 -0.5154286 0.3428571, radius = 0.1683160f, width = 0.1276880f, }
+        wheel RearRight { front = true, offset = -0.3511420 -0.5154286 0.3428571, radius = 0.1683160f, width = 0.1276880f, }
+        wheel FrontLeft { front = false, offset = 0.2000000 -0.1651429 -1.4655100, radius = 0.0580400f, width = 0.0232160f, }
+        wheel FrontRight { front = false, offset = -0.2000000 -0.1651429 -1.4655100, radius = 0.0580400f, width = 0.0232160f, }
+        part C172BushDetail1 { category = nodisplay, model fixed { file = C172BushDetail1Yellow, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172BushDetail2 { category = nodisplay, model fixed { file = C172BushDetail2Yellow, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172BushDetail3 { category = nodisplay, model fixed { file = C172BushDetail3Yellow, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172BushDetail4 { category = nodisplay, model fixed { file = C172BushDetail4Yellow, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172BushDetail5 { category = nodisplay, model fixed { file = C172BushDetail5Yellow, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172WheelPort { category = nodisplay, model rolling { file = C172WheelPortYellow, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172WheelStarboard { category = nodisplay, model rolling { file = C172WheelStarboardYellow, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172WheelTail { category = nodisplay, model rolling { file = C172WheelTailYellow, offset = 0 0 0, rotate = 0 0 0, } }
+        part C172NavPort { category = nodisplay, model fixed { file = C172NavPortYellow, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172NavStarboard { category = nodisplay, model fixed { file = C172NavStarboardYellow, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike1 { category = nodisplay, model fixed { file = C172MountedBike1, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike2 { category = nodisplay, model fixed { file = C172MountedBike2, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike3 { category = nodisplay, model fixed { file = C172MountedBike3, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike4 { category = nodisplay, model fixed { file = C172MountedBike4, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike5 { category = nodisplay, model fixed { file = C172MountedBike5, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike6 { category = nodisplay, model fixed { file = C172MountedBike6, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike7 { category = nodisplay, model fixed { file = C172MountedBike7, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike8 { category = nodisplay, model fixed { file = C172MountedBike8, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike9 { category = nodisplay, model fixed { file = C172MountedBike9, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike10 { category = nodisplay, model fixed { file = C172MountedBike10, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike11 { category = nodisplay, model fixed { file = C172MountedBike11, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike12 { category = nodisplay, model fixed { file = C172MountedBike12, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike13 { category = nodisplay, model fixed { file = C172MountedBike13, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike14 { category = nodisplay, model fixed { file = C172MountedBike14, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike15 { category = nodisplay, model fixed { file = C172MountedBike15, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike16 { category = nodisplay, model fixed { file = C172MountedBike16, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike17 { category = nodisplay, model fixed { file = C172MountedBike17, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike18 { category = nodisplay, model fixed { file = C172MountedBike18, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike19 { category = nodisplay, model fixed { file = C172MountedBike19, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike20 { category = nodisplay, model fixed { file = C172MountedBike20, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike21 { category = nodisplay, model fixed { file = C172MountedBike21, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+        part C172MountedBike22 { category = nodisplay, model fixed { file = C172MountedBike22, offset = 0.0 0.0 0.0, rotate = 0.0 0.0 0.0, } }
+		template = PassengerSeat4,
+
+
+		passenger FrontLeft
+		{
+			showPassenger = true,
+			hasRoof = true,
+
+			position inside
+			{
+				offset = 0.0000 -0.6333333 -0.0476190,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position vanillastates
+			{
+				offset = 0.0000 -0.7390 0.0143,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position seatui
+			{
+				offset = 0.1400 -0.2600 0.1200,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = 0.9625 -0.6125 0.0438,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatFrontLeft,
+			}
+		}
+
+		passenger FrontRight
+		{
+			showPassenger = true,
+			hasRoof = true,
+
+			position inside
+			{
+				offset = 0.0000 -0.6333333 -0.0476190,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position vanillastates
+			{
+				offset = 0.0000 -0.7073 -0.3533,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position seatui
+			{
+				offset = -0.1400 -0.2600 0.1200,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = -0.9625 -0.6125 0.0438,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatFrontRight,
+			}
+		}
+
+
+		passenger RearLeft
+		{
+			position inside
+			{
+				offset = 0.1300 0.0875 -0.1600,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = 0.9625 -0.6125 -0.1600,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatRearLeft,
+			}
+		}
+
+		passenger RearRight
+		{
+			position inside
+			{
+				offset = -0.1300 0.0875 -0.1600,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = -0.9625 -0.6125 -0.1600,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatRearRight,
+			}
+		}
+
+
+		area Engine
+		{
+			xywh = 0.0000 0.9000 1.2000 0.8000,
+		}
+
+		area TruckBed
+		{
+			xywh = 0.0000 -0.9000 1.2000 0.8000,
+		}
+
+		area SeatFrontLeft
+		{
+			xywh = 1.1000 0.0500 0.9000 0.9000,
+		}
+
+		area SeatFrontRight
+		{
+			xywh = -1.1000 0.0500 0.9000 0.9000,
+		}
+
+		area SeatRearLeft
+		{
+			xywh = 1.1000 -0.4000 0.9000 0.9000,
+		}
+
+		area SeatRearRight
+		{
+			xywh = -1.1000 -0.4000 0.9000 0.9000,
+		}
+
+		area GasTank
+		{
+			xywh = 1.1000 -0.5000 0.9000 0.9000,
+		}
+
+		area TireFrontLeft
+		{
+			xywh = 0.6000 0.7065 0.7000 0.7000,
+		}
+
+		area TireFrontRight
+		{
+			xywh = -0.6000 0.7065 0.7000 0.7000,
+		}
+
+		area TireRearLeft
+		{
+			xywh = 1.1000 -0.2343 0.7000 0.7000,
+		}
+
+		area TireRearRight
+		{
+			xywh = -1.1000 -0.2343 0.7000 0.7000,
+		}
+
+
+		area LeftWing
+		{
+			xywh = 1.7000 0.3500 1.6000 1.2000,
+		}
+
+		area RightWing
+		{
+			xywh = -1.7000 0.3500 1.6000 1.2000,
+		}
+
+		area Tail
+		{
+			xywh = 0.0000 -1.9000 1.4000 1.0000,
+		}
+
+
+
+
+
+		template = Engine,
+
+
+		part Engine
+		{
+			category = powerplant,
+			lua
+			{
+				create = Vehicles.Create.Engine,
+				update = C172Systems.Update.Engine,
+				checkEngine = Vehicles.CheckEngine.Engine,
+			}
+		}
+
+
+		part Propeller
+		{
+			category = powerplant,
+			mechanicArea = Engine,
+			area = Engine,
+			itemType = Base.C172Propeller,
+
+			specificItem = false,
+			mechanicRequireKey = true,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 600,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 600,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+
+		part C172PropSpin
+		{
+			category = nodisplay,
+
+			model spin
+			{
+				file = Cessna172_PropYellow,
+				offset = 0.0000 0.0000 0.0000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+		}
+
+
+		part OilSystem
+		{
+			category = powerplant,
+			mechanicArea = Engine,
+			area = Engine,
+			itemType = Base.C172OilSystem,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 4,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 350,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				door = EngineDoor,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 350,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part Starter
+		{
+			category = powerplant,
+			mechanicArea = Engine,
+			area = Engine,
+			itemType = Base.C172Starter,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 4,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				test = Vehicles.InstallTest.Default,
+				door = EngineDoor,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part Alternator
+		{
+			category = powerplant,
+			mechanicArea = Engine,
+			area = Engine,
+			itemType = Base.C172Alternator,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 4,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				test = Vehicles.InstallTest.Default,
+				door = EngineDoor,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		template = Battery,
+		part Battery
+		{
+			category = powerplant,
+		}
+
+
+		template = EngineDoor,
+		part EngineDoor
+		{
+			category = powerplant,
+			anim Open
+			{
+				sound = LockerMetalOpen,
+			}
+			anim Close
+			{
+				sound = LockerMetalClose,
+			}
+		}
+
+
+
+
+		template = GasTank,
+		part GasTank
+		{
+			category = fuelsystem,
+			lua
+			{
+				create = Vehicles.Create.GasTank,
+				update = C172Fuel.UpdateGasTank,
+				checkEngine = Vehicles.CheckEngine.GasTank,
+			}
+		}
+
+
+		part FuelSystem
+		{
+			category = fuelsystem,
+			mechanicArea = Engine,
+			area = GasTank,
+			itemType = Base.C172FuelSystem,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 4,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 350,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 350,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+				checkEngine = C172Systems.CheckEngine.FuelSystem,
+			}
+		}
+
+
+
+
+		part Fuselage
+		{
+			category = airframe,
+			mechanicArea = Left,
+			area = SeatFrontLeft,
+			itemType = Base.C172Fuselage,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 10,
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part LeftWing
+		{
+			category = airframe,
+			mechanicArea = Left,
+			area = LeftWing,
+			itemType = Base.C172Wing,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 900,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 900,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = LeftAileron,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part RightWing
+		{
+			category = airframe,
+			mechanicArea = Right,
+			area = RightWing,
+			itemType = Base.C172Wing,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 900,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 900,
+				skills = Mechanics:5,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = RightAileron,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+
+		part TailAssembly
+		{
+			category = airframe,
+			mechanicArea = Back,
+			area = Tail,
+			itemType = Base.C172TailAssembly,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 700,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 700,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = Rudder,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+
+		part HorizontalStabilizer
+		{
+			category = airframe,
+			mechanicArea = Back,
+			area = Tail,
+			itemType = Base.C172HorizStab,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 8,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 700,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 700,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = Elevator,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+
+
+
+		part LeftAileron
+		{
+			category = flightcontrols,
+			mechanicArea = Left,
+			area = LeftWing,
+			itemType = Base.C172Aileron,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 6,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireInstalled = LeftWing,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part RightAileron
+		{
+			category = flightcontrols,
+			mechanicArea = Right,
+			area = RightWing,
+			itemType = Base.C172Aileron,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 6,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireInstalled = RightWing,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part Elevator
+		{
+			category = flightcontrols,
+			mechanicArea = Back,
+			area = Tail,
+			itemType = Base.C172Elevator,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 6,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireInstalled = HorizontalStabilizer,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part Rudder
+		{
+			category = flightcontrols,
+			mechanicArea = Back,
+			area = Tail,
+			itemType = Base.C172Rudder,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 6,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireInstalled = TailAssembly,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 450,
+				skills = Mechanics:4,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+
+
+
+		part TireFrontLeft
+		{
+			category = landinggear,
+			mechanicArea = Left,
+			area = TireFrontLeft,
+			wheel = FrontLeft,
+			itemType = Base.OldTire;Base.NormalTire;Base.ModernTire,
+			durability = 2,
+			container
+			{
+				test = Vehicles.ContainerAccess.Tire,
+				contentType = Air,
+			}
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.InstallTest.Default,
+				complete = Vehicles.InstallComplete.Tire,
+				requireInstalled = SuspensionFrontLeft,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.UninstallTest.Default,
+				complete = Vehicles.UninstallComplete.Tire,
+			}
+			lua
+			{
+				create = Vehicles.Create.Tire,
+				init = Vehicles.Init.Tire,
+				checkOperate = Vehicles.CheckOperate.Tire,
+				update = C172Systems.Update.NoseGearMirror,
+			}
+		}
+
+
+
+		part TireFrontRight
+		{
+			category = nodisplay,
+			mechanicArea = Right,
+			area = TireFrontRight,
+			wheel = FrontRight,
+			itemType = Base.OldTire;Base.NormalTire;Base.ModernTire,
+			durability = 2,
+			container
+			{
+				test = Vehicles.ContainerAccess.Tire,
+				contentType = Air,
+			}
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.InstallTest.Default,
+				complete = Vehicles.InstallComplete.Tire,
+				requireInstalled = SuspensionFrontRight,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.UninstallTest.Default,
+				complete = Vehicles.UninstallComplete.Tire,
+			}
+			lua
+			{
+				create = Vehicles.Create.Tire,
+				init = Vehicles.Init.Tire,
+				checkOperate = Vehicles.CheckOperate.Tire,
+				update = Vehicles.Update.Tire,
+			}
+		}
+
+		part TireRearLeft
+		{
+			category = landinggear,
+			mechanicArea = Left,
+			area = TireRearLeft,
+			wheel = RearLeft,
+			itemType = Base.OldTire;Base.NormalTire;Base.ModernTire,
+			durability = 2,
+			container
+			{
+				test = Vehicles.ContainerAccess.Tire,
+				contentType = Air,
+			}
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.InstallTest.Default,
+				complete = Vehicles.InstallComplete.Tire,
+				requireInstalled = BrakeRearLeft;SuspensionRearLeft,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.UninstallTest.Default,
+				complete = Vehicles.UninstallComplete.Tire,
+			}
+			lua
+			{
+				create = Vehicles.Create.Tire,
+				init = Vehicles.Init.Tire,
+				checkOperate = Vehicles.CheckOperate.Tire,
+				update = Vehicles.Update.Tire,
+			}
+		}
+
+		part TireRearRight
+		{
+			category = landinggear,
+			mechanicArea = Right,
+			area = TireRearRight,
+			wheel = RearRight,
+			itemType = Base.OldTire;Base.NormalTire;Base.ModernTire,
+			durability = 2,
+			container
+			{
+				test = Vehicles.ContainerAccess.Tire,
+				contentType = Air,
+			}
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.InstallTest.Default,
+				complete = Vehicles.InstallComplete.Tire,
+				requireInstalled = BrakeRearRight;SuspensionRearRight,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:lugwrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Mechanics:1,
+				test = Vehicles.UninstallTest.Default,
+				complete = Vehicles.UninstallComplete.Tire,
+			}
+			lua
+			{
+				create = Vehicles.Create.Tire,
+				init = Vehicles.Init.Tire,
+				checkOperate = Vehicles.CheckOperate.Tire,
+				update = Vehicles.Update.Tire,
+			}
+		}
+
+
+		template = Suspension,
+		part SuspensionFrontLeft
+		{
+			category = landinggear,
+		}
+		part SuspensionFrontRight
+		{
+			category = nodisplay,
+		}
+		part SuspensionRearLeft
+		{
+			category = landinggear,
+		}
+		part SuspensionRearRight
+		{
+			category = landinggear,
+		}
+
+
+		part BrakeRearLeft
+		{
+			category = landinggear,
+			mechanicArea = Left,
+			area = TireRearLeft,
+			itemType = Base.OldBrake;Base.NormalBrake;Base.ModernBrake,
+			durability = 3,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireUninstalled = TireRearLeft,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = TireRearLeft,
+			}
+			lua
+			{
+				create = Vehicles.Create.Brake,
+				update = Vehicles.Update.Brakes,
+			}
+		}
+
+		part BrakeRearRight
+		{
+			category = landinggear,
+			mechanicArea = Right,
+			area = TireRearRight,
+			itemType = Base.OldBrake;Base.NormalBrake;Base.ModernBrake,
+			durability = 3,
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.InstallTest.Default,
+				requireUninstalled = TireRearRight,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Jack,
+						count = 1,
+						keep = true,
+					}
+					2
+					{
+						tags = base:wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 300,
+				skills = Mechanics:3,
+				recipes = Basic Mechanics,
+				test = Vehicles.UninstallTest.Default,
+				requireUninstalled = TireRearRight,
+			}
+			lua
+			{
+				create = Vehicles.Create.Brake,
+				update = Vehicles.Update.Brakes,
+			}
+		}
+
+
+
+		template = Windshield/part/Windshield,
+		part Windshield
+		{
+			category = cockpit,
+		}
+
+		template = Door/part/DoorFrontLeft,
+		template = Door/part/DoorFrontRight,
+		part DoorFrontLeft
+		{
+			category = cockpit,
+			anim Open
+			{
+				sound = LockerMetalOpen,
+			}
+			anim Close
+			{
+				sound = LockerMetalClose,
+			}
+			anim Lock
+			{
+				sound = MetalDoorLock,
+			}
+			anim Unlock
+			{
+				sound = MetalDoorLock,
+			}
+			anim IsLocked
+			{
+				sound = MetalDoorLocked,
+			}
+		}
+		part DoorFrontRight
+		{
+			category = cockpit,
+			anim Open
+			{
+				sound = LockerMetalOpen,
+			}
+			anim Close
+			{
+				sound = LockerMetalClose,
+			}
+			anim Lock
+			{
+				sound = MetalDoorLock,
+			}
+			anim Unlock
+			{
+				sound = MetalDoorLock,
+			}
+			anim IsLocked
+			{
+				sound = MetalDoorLocked,
+			}
+		}
+
+		template = Window/part/WindowFrontLeft,
+		template = Window/part/WindowFrontRight,
+		part WindowFrontLeft
+		{
+			category = cockpit,
+		}
+		part WindowFrontRight
+		{
+			category = cockpit,
+		}
+
+		template = Seat/part/SeatFrontLeft,
+		template = Seat/part/SeatFrontRight,
+		template = Seat/part/SeatRearLeft,
+		template = Seat/part/SeatRearRight,
+		part SeatFrontLeft
+		{
+			category = cockpit,
+		}
+		part SeatFrontRight
+		{
+			category = cockpit,
+		}
+		part SeatRearLeft
+		{
+			category = cockpit,
+		}
+		part SeatRearRight
+		{
+			category = cockpit,
+		}
+
+
+
+
+		template = Headlight,
+		part HeadlightLeft
+		{
+			category = avionics,
+
+			lua
+			{
+				create = C172Lights.Create.LandingLight,
+				init = C172Lights.Init.LandingLight,
+				update = Vehicles.Update.Headlight,
+			}
+		}
+		part HeadlightRight
+		{
+			category = avionics,
+
+			lua
+			{
+				create = C172Lights.Create.TaxiLight,
+				init = C172Lights.Init.TaxiLight,
+				update = Vehicles.Update.Headlight,
+			}
+		}
+		part HeadlightRearLeft
+		{
+			category = avionics,
+
+			lua
+			{
+				create = C172Lights.Create.NavLightLeft,
+				init = C172Lights.Init.NavLightLeft,
+				update = Vehicles.Update.Headlight,
+			}
+		}
+		part HeadlightRearRight
+		{
+			category = avionics,
+
+			lua
+			{
+				create = C172Lights.Create.NavLightRight,
+				init = C172Lights.Init.NavLightRight,
+				update = Vehicles.Update.Headlight,
+			}
+		}
+
+
+		part ElectricalSystem
+		{
+			category = avionics,
+			mechanicArea = Interior,
+			area = SeatFrontLeft,
+			itemType = Base.C172Avionics,
+
+			specificItem = false,
+			repairMechanic = true,
+			durability = 5,
+			table install
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Electricity:3,
+				test = Vehicles.InstallTest.Default,
+			}
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						tags = base:screwdriver,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+				time = 400,
+				skills = Electricity:3,
+				test = Vehicles.UninstallTest.Default,
+			}
+			lua
+			{
+				create = Vehicles.Create.Default,
+				update = C172Systems.Update.Electrical,
+			}
+		}
+
+		template = Radio,
+		part Radio
+		{
+			category = avionics,
+		}
+
+
+
+		template = Trunk/part/TruckBed,
+		template = TrunkDoor,
+		part TruckBed
+		{
+			category = storage,
+			container
+			{
+				capacity = 800,
+				conditionAffectsCapacity = false,
+				test = Vehicles.ContainerAccess.TruckBed,
+				soundMap = ContainerPut VehicleTrunkTransferItem,
+				soundMap = ContainerTake VehicleTrunkTransferItem,
+			}
+			lua
+			{
+				create = C172Storage.Create,
+				init = C172Storage.Init,
+			}
+		}
+		part TrunkDoor
+		{
+			category = storage,
+			anim Open
+			{
+				sound = LockerMetalOpen,
+			}
+			anim Close
+			{
+				sound = LockerMetalClose,
+			}
+			anim Lock
+			{
+				sound = MetalDoorLock,
+			}
+			anim Unlock
+			{
+				sound = MetalDoorLock,
+			}
+			anim IsLocked
+			{
+				sound = MetalDoorLocked,
+			}
+		}
+
+
+
+		part PassengerCompartment
+		{
+			category = nodisplay,
+
+			lua
+			{
+				update = Vehicles.Update.PassengerCompartment,
+			}
+		}
+	}
+}
