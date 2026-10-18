@@ -95,9 +95,9 @@ The pack declares Build 42.20.4 or later; Build 41 is not included.
 ## Rear carrier
 
 Park the bike near the Camel Discovery, turn its engine off, and dismount.
-Stand beside either vehicle and use **V â†’ Load motorcycle onto rear carrier**.
+Stand beside either vehicle and use **V → Load motorcycle onto rear carrier**.
 
-To unload, park the Rover and use **V â†’ Unload motorcycle from rear carrier**.
+To unload, park the Rover and use **V → Unload motorcycle from rear carrier**.
 Leave a clear 3-by-3 area behind the car.
 
 See [carrier instructions](JustynsVehiclePack/42/REAR_CARRIER.txt) for details.
