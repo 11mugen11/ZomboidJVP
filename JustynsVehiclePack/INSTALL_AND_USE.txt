@@ -1,3 +1,6 @@
+1.0.33: bounded Cessna ground support to prevent sinking while reversing.
+Restart the game after updating. See 42/CESSNA_REVERSE_GROUND_FIX.txt.
+
 1.0.32: Tenere 23L tank and motorcycle fuel economy, approximately 50 MPG.
 Existing fuel is retained. Multiplayer requires the new server version. See 42/TENERE_FUEL_ECONOMY.txt.
 

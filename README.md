@@ -3,7 +3,7 @@
 A combined Project Zomboid Build 42 mod containing the Yamaha Tenere 700 World Rally and Emre RE9 motorcycles,
 Land Rover Discovery variants, and flyable Cessna 172.
 
-[Download the v1.0.32 mod ZIP](JustynsVehiclePack-v1.0.32.zip?raw=1)
+[Download the v1.0.33 mod ZIP](JustynsVehiclePack-v1.0.33.zip?raw=1)
 
 ## Install
 
@@ -18,6 +18,8 @@ Expected layout: `Zomboid/mods/JustynsVehiclePack/42/mod.info`.
 The pack declares Build 42.20.4 or later; Build 41 is not included.
 
 ## Included changes
+
+- **v1.0.33 Cessna reverse ground support:** bounded upward support catches ground penetration while retaining suspension clearance, steering and reverse momentum. Lua regression checks pass; graphical in-game reverse testing remains pending.
 
 - **v1.0.32 Tenere fuel economy:** dedicated 23L tank, 50 MPG nominal road use (calculated 304-mile range), day-length-independent consumption and saved-tank migration without refilling. Retains damage/leakage and sandbox settings. Requires client/server update for multiplayer.
 

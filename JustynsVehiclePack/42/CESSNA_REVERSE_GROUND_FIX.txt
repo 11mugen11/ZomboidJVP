@@ -1,0 +1,19 @@
+CESSNA REVERSE GROUND SUPPORT - 1.0.33
+
+C172Phys.holdGroundGear now supplies bounded upward support if the body sinks
+more than 6 cm below its normal tire-plane height. The wheel drivetrain and
+existing pitch controller remain active. Support scales with frame time and
+vehicle mass, releases as the body rises, and never resets position, heading,
+or velocity. It is limited to a 50 cm recovery band near the gear datum.
+The ground-mode caller excludes flight and parked/frozen aircraft.
+
+Changed code: 42/media/lua/client/Cessna172/C172Phys.lua
+
+Validation: compiled by the installed game's Lua compiler; actual B42 Lua
+regressions passed for bounded upward support, normal suspension clearance,
+upward release, frame-time scaling, steering preservation, unchanged flight
+gains, 73 recovery headings, stationary migration, and propeller pivot poses.
+Isolated native flat-ground probes exercised forward and reverse taxiing;
+they do not reproduce a complete game session or multiplayer carrier loads.
+Graphical in-game reverse validation is still required.
+

@@ -419,6 +419,22 @@ function P.holdGroundGear(v, dt)
     local tx, _, tz = P.attitudeTorque(b, heading, math.rad(P.PARK_PITCH_DEG), 0,
                                      b.wy or 0, 3, v:getMass())
     P.applyTorque(v, tx, 0, tz, dt)
+
+    -- Reverse loads the main springs and unloads the small tail rays. Attitude
+    -- torque alone cannot stop the whole body settling through the visible gear.
+    -- Catch only penetration below the normal tire plane, allowing 6 cm of
+    -- suspension compression. This is unilateral support, never a downward hold
+    -- or a transform reset, so steering and reverse momentum remain intact.
+    local h = P.c172GetBodyHeight(v)
+    if not h then return end
+    local surface = P.c172SurfaceHeightBelow(v)
+    local target = surface + P.restingHeight(v, 0) - .06
+    local depth = target - h
+    if depth <= 0 or depth > .5 then return end
+    local _, vy = P.velocity(v)
+    local mass = v:getMass()
+    local force = mass * clamp(80 * depth - 12 * vy, 0, 15)
+    central(v, 0, 0, 1, force * max(dt or 0, 0) / (STEP * GAIN))
 end
 
 -- ---------------------------------------------------------------- level / reseat
