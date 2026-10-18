@@ -7,9 +7,16 @@ local P={NORMAL="Base.EMRE_RE9",MOUNTED="Base.EMRE_RE9Carrier",busy=setmetatable
 EmreRE9.CarrierPhysics=P
 local applied=setmetatable({}, {__mode="k"})
 function P.RefreshCargo(bike)
-    for _,id in ipairs({"RE9CargoRack","RE9TouringCases"}) do
-        local part=bike:getPartById(id)
-        if part then part:setModelVisible("Default",bike:getScript():getFullName()~="Base.JVP_TenereAircraft") end
+    local aircraft=bike:getScript():getFullName()=="Base.JVP_TenereAircraft"
+    -- Fixed body panels use the same InitCargo callback as the luggage. Native
+    -- model packets can hide them after rebuild initialization has completed.
+    for i=0,bike:getPartCount()-1 do
+        local part=bike:getPartByIndex(i)
+        if part:getLuaFunction("init")=="EmreRE9.Parts.InitCargo" then
+            local id=part:getId()
+            local luggage=id=="RE9CargoRack" or id=="RE9TouringCases"
+            part:setModelVisible("Default",not (aircraft and luggage))
+        end
     end
 end
 
@@ -68,18 +75,22 @@ end
 function P.AircraftContacts(bike,disabled)
     bike:setCollidable(not disabled)
     if not isServer() then
-        for i=0,bike:getScript():getWheelCount()-1 do bike:setTireRemoved(i,disabled) end
+        for i=0,bike:getPartCount()-1 do
+            local part=bike:getPartByIndex(i)
+            local index=part:getWheelIndex()
+            if index>=0 then bike:setTireRemoved(index,disabled or part:getInventoryItem()==nil) end
+        end
     end
     if disabled then bike:setPhysicsActive(false) end
 end
-function P.Apply(bike,mounted,aircraft)
+function P.Apply(bike,mounted,aircraft,forceRebuild)
     local original=bike:getScript():getFullName()
     local profile=EmreRE9.Bikes.profiles[original]
     if not profile then error("Wrong carrier physics vehicle") end
     local target=mounted and (aircraft and profile.aircraft or profile.mounted) or profile.normal
     if not target then error("Unsupported aircraft cargo") end
-    local wasAircraft=original==profile.aircraft
-    if original==target and (not applied[bike] or applied[bike]==target) then
+    local wasAircraft=original==profile.aircraft or applied[bike]==profile.aircraft
+    if not forceRebuild and original==target and (not applied[bike] or applied[bike]==target) then
         if not isServer() then P.RefreshCargo(bike) end
         if aircraft or wasAircraft then P.AircraftContacts(bike,mounted and aircraft==true) end
         applied[bike]=target; return

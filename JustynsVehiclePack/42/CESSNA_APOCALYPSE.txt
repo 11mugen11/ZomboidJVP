@@ -1,3 +1,6 @@
+1.0.29: restores unloaded Tenere body panels, normal chassis and installed tire contacts.
+Client-side repair compatible with the 1.0.25 server; restart your game. See 42/CESSNA_RELEASE_RESTORATION_FIX.txt.
+
 1.0.28: preserves motorcycle identity and accepts matching release tokens after client physics rebuilds.
 Client-side repair compatible with the 1.0.25 server; restart your game. See 42/CESSNA_RELEASE_IDENTITY_FIX.txt.
 

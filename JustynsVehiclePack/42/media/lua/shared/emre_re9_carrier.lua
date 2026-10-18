@@ -16,6 +16,7 @@ local packetAt = setmetatable({}, {__mode="k"})
 local releaseApplied, releaseGuard = {}, setmetatable({}, {__mode="k"})
 local orphans = setmetatable({}, {__mode="k"})
 local knownMounts = setmetatable({}, {__mode="k"})
+local releasedNormal = setmetatable({}, {__mode="k"})
 local atan2 = math.atan2
 local function name(v)
     return v and v:getScript() and v:getScript():getFullName()
@@ -354,7 +355,7 @@ function C.Tick()
                     if needsRelease and unoccupied(v) then
                         C.ApplyRelease(car,v,pose)
                     else
-                        print("[JVP RELEASE 1.0.28] receipt-skipped token="..tostring(pose.token).." script="..tostring(name(v)).." known="..tostring(knownMounts[v]).." car="..tostring(car~=nil))
+                        print("[JVP RELEASE 1.0.29] receipt-skipped token="..tostring(pose.token).." script="..tostring(name(v)).." known="..tostring(knownMounts[v]).." car="..tostring(car~=nil))
                         releaseApplied[pose.token]=true
                     end
                 end
@@ -362,6 +363,7 @@ function C.Tick()
         end
     end
     C.ReconcileReleases()
+    C.RefreshReleased(true)
     local updated={}
     -- Never clear a saved pair just because its partner's chunk is absent.
     -- Once replicated mod data explicitly clears a mount, restore local mass
@@ -414,6 +416,7 @@ function C.Tick()
 end
 function C.Render()
     C.ReconcileReleases()
+    C.RefreshReleased(false)
     -- Render frames can outnumber game ticks. Use the car's latest transform
     -- immediately before drawing so the bike cannot interpolate independently.
     for bike,state in pairs(followed) do
@@ -432,6 +435,7 @@ function C.Reset()
     releaseApplied,releaseGuard = {},setmetatable({}, {__mode="k"})
     orphans = setmetatable({}, {__mode="k"})
     knownMounts = setmetatable({}, {__mode="k"})
+    releasedNormal = setmetatable({}, {__mode="k"})
 end
 -- The admin spawn list exposes every vehicle script, including our internal
 -- mounted profile. Select ordinary physics before a fresh body's construction.
@@ -476,7 +480,7 @@ local function clearReleaseHistory(bike)
 end
 local function traceRelease(bike,pose,phase,cleared)
     local w=bike:getWorldPos(0,0,0,Vector3f.new())
-    print(string.format("[JVP RELEASE 1.0.28] %s token=%s bike=%s script=%s map=%.3f,%.3f body=%.3f,%.3f target=%.3f,%.3f owner=%s cacheCleared=%s",
+    print(string.format("[JVP RELEASE 1.0.29] %s token=%s bike=%s script=%s map=%.3f,%.3f body=%.3f,%.3f target=%.3f,%.3f owner=%s cacheCleared=%s",
         phase,tostring(pose.token),tostring(bike:getId()),tostring(name(bike)),bike:getX(),bike:getY(),w:x(),w:y(),pose.x,pose.y,tostring(bike:getNetPlayerId()),tostring(cleared)))
 end
 -- A local scriptReloaded rebuild used to randomize mechanicalId. Match the
@@ -527,6 +531,7 @@ function C.ApplyRelease(car,bike,pose,correcting)
         bike:setPhysicsActive(true);bike:setPhysicsActive(false)
     else bike:setCollidable(true);bike:setPhysicsActive(true) end
     releaseApplied[pose.token]=true
+    releasedNormal[bike]=true
     if firstRelease then traceRelease(bike,pose,"placed",cleared) end
     if isClient() and not releaseGuard[bike] then
         releaseGuard[bike]={pose=pose,untilMs=getTimestampMs()+2000}
@@ -535,6 +540,18 @@ function C.ApplyRelease(car,bike,pose,correcting)
 end
 -- Ignore stale mount interpolation briefly, without pinning a ridden bike or
 -- continuing to control normal motorcycle movement after the hand-off.
+-- Keep fixed panels and real wheel contacts restored after late model/part
+-- packets. This never pins position, wakes parked bikes or installs tire items.
+function C.RefreshReleased(contacts)
+    for bike in pairs(releasedNormal) do
+        if bike:isRemovedFromWorld() or C.Record(bike) then releasedNormal[bike]=nil
+        elseif not C.IsReleasing(bike) and EmreRE9.Bikes.IsNormal(name(bike)) then
+            local P=EmreRE9.CarrierPhysics
+            P.RefreshCargo(bike)
+            if contacts then P.AircraftContacts(bike,false) end
+        end
+    end
+end
 function C.ReconcileReleases()
     for bike,state in pairs(releaseGuard) do
         local pose=state.pose
@@ -544,10 +561,12 @@ function C.ReconcileReleases()
             releaseGuard[bike]=nil
         elseif not unoccupied(bike) or getTimestampMs()>=state.untilMs then
             -- Never turn physics/collision on until the native body is at rear.
+            -- A native script packet may already say normal while retaining
+            -- the mounted Bullet chassis. Rebuild once at the actual hand-off.
+            EmreRE9.CarrierPhysics.Apply(bike,false,nil,true)
+            EmreRE9.CarrierPhysics.AircraftContacts(bike,false)
             local cleared=clearReleaseHistory(bike)
-            if EmreRE9.Bikes.IsMounted(name(bike)) then
-                C.ApplyRelease(nil,bike,pose,true)
-            else placeReleased(bike,pose) end
+            placeReleased(bike,pose)
             bike:setCollidable(true);bike:setPhysicsActive(true)
             traceRelease(bike,pose,"physics-restored",cleared)
             releaseGuard[bike]=nil

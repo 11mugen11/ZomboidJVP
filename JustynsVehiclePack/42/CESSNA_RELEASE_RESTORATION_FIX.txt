@@ -1,0 +1,23 @@
+CESSNA UNLOADED TENERE BODY AND DRIVING RESTORATION - PACK 1.0.29
+
+The live 1.0.28 trace confirms successful rear placement, normal script and
+physics handoff. Fixed body detail visibility was only restored by rebuild
+initializers, while subsequent model packets could hide those parts again.
+The handoff also skipped the chassis rebuild when a prior script packet
+already named the normal profile, even if the mounted body remained.
+
+The end of the two-second handoff now forces one normal chassis rebuild,
+restores the four wheel contacts from their actual installed tire items,
+clears native interpolation and places the restored bike at the rear.
+A released normal motorcycle reconciles all fixed InitCargo model parts
+and wheel contact state against later packets. This does not pin its position,
+wake parked bikes, create tires or change the mounted aircraft policy.
+New mount records end this reconciliation. Inventory references are retained.
+
+Regression coverage includes a normal script with stale mounted chassis,
+disabled contacts at handoff, late hidden fixed body panels, genuinely removed
+tires, normal motorcycle movement, new mounts and existing release ordering
+checks. The old restoration code fails the added chassis regression. Native
+B42 model layouts and actual restoration calls are also checked.
+A live graphical two-client ride test remains pending. Restart clients.
+The live server was not changed; the existing release protocol is retained.

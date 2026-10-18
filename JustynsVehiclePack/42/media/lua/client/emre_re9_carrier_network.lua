@@ -10,7 +10,7 @@ function C.Request(player,command,car,bike)
     local args={car=car:getId(),bike=bike:getId(),token=record and record.token,request=request}
     -- Hosted clients use the same authoritative network hop as other clients.
     pending[request]={player=player,untilMs=getTimestampMs()+10000}
-    print("[JVP RELEASE 1.0.28] request="..request.." command="..command.." car="..tostring(args.car).." bike="..tostring(args.bike).." token="..tostring(args.token))
+    print("[JVP RELEASE 1.0.29] request="..request.." command="..command.." car="..tostring(args.car).." bike="..tostring(args.bike).." token="..tostring(args.token))
     sendClientCommand(player,C.NET,command,args)
     return true
 end
@@ -30,7 +30,7 @@ end
 Events.OnServerCommand.Add(function(module,command,args)
     if module~=C.NET or type(args)~="table" then return end
     if command=="result" then
-        print("[JVP RELEASE 1.0.28] result="..tostring(args.request).." ok="..tostring(args.ok).." reason="..tostring(args.reason))
+        print("[JVP RELEASE 1.0.29] result="..tostring(args.request).." ok="..tostring(args.ok).." reason="..tostring(args.reason))
         local p=pending[args.request]
         if p then
             if not args.ok then p.player:Say(args.reason or "Carrier request rejected") end
@@ -38,7 +38,7 @@ Events.OnServerCommand.Add(function(module,command,args)
         end
     elseif command=="release" then
         local bike=getVehicleById(args.bike)
-        print("[JVP RELEASE 1.0.28] received token="..tostring(args.token).." bike="..tostring(args.bike).." serverKey="..tostring(args.bikeKey).." localKey="..tostring(bike and bike:getMechanicalID()))
+        print("[JVP RELEASE 1.0.29] received token="..tostring(args.token).." bike="..tostring(args.bike).." serverKey="..tostring(args.bikeKey).." localKey="..tostring(bike and bike:getMechanicalID()))
         if not apply(args) then releases[#releases+1]={pose=args,untilMs=getTimestampMs()+30000} end
     end
 end)
@@ -55,7 +55,7 @@ Events.OnTick.Add(function()
         local r=releases[i]
         if apply(r.pose) then table.remove(releases,i)
         elseif now>=r.untilMs then
-            print("[JVP RELEASE 1.0.28] expired unresolved token="..tostring(r.pose.token))
+            print("[JVP RELEASE 1.0.29] expired unresolved token="..tostring(r.pose.token))
             table.remove(releases,i)
         end
     end
