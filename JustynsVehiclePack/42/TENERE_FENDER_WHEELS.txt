@@ -1,0 +1,25 @@
+TENERE BLACK FRONT FENDER AND WHEEL PREVIEW ALIGNMENT - PACK 1.0.31
+
+Front fender paint is now matte black. The actual fender UV island was
+isolated from installed geometry; silver decals and all other paint pixels
+are retained. Original transparency, gold forks and black seats remain.
+Both the rideable and aircraft-mounted bike use the updated texture.
+
+The old preview builder divided raw script wheel offsets by 0.8, but native
+VehicleScript.Loaded already multiplies offsets/radii by model scale before
+BaseVehicle.updateTransform divides the loaded offset by that scale.
+The extra division incorrectly displaced both preview wheels from the hubs.
+Preview wheels now use each raw script center once. The mounted copy used
+that preview geometry; only its wheel vertices were translated to the proper
+centers, retaining the approved bike body/rack position and tire dimensions.
+
+Actual rideable wheel files and all vehicle physics settings are unchanged.
+Both rideable wheels and the three altered mounted meshes pass the game's
+native importer. Circumferential radius variation is below 5 mm; preview
+centers match the native load/transform calculation. The corrected mounted
+copy passes the approved 120% assembly's tire and gear-frame clearance checks.
+
+Updated inspection renders omit luggage to expose the wheels and fork.
+The browser viewer is rebuilt with the corrected geometry. New native imports
+and geometry/pixel checks pass; a live multiplayer visual retest is pending.
+Restart game clients. The server was not modified.

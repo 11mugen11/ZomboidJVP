@@ -1,3 +1,6 @@
+1.0.31: adds a black Tenere front fender and corrects preview/mounted wheel centers.
+Client-side repair compatible with the 1.0.25 server; restart your game. See 42/TENERE_FENDER_WHEELS.txt.
+
 1.0.30: adds Tenere Tech Titanium colors and restores Cessna baggage discovery with a mounted bike.
 Client-side repair compatible with the 1.0.25 server; restart your game. See 42/TENERE_TECH_TITANIUM.txt.
 
