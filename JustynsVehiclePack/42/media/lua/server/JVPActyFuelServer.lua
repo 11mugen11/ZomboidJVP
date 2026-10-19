@@ -7,6 +7,12 @@ local function key(player)
     return player:getOnlineID()
 end
 
+local function status(player, state, message)
+    local args = { player = player:getOnlineID(), state = state, message = message }
+    if isServer() then sendServerCommand(player, "JVPActyFuel", "status", args)
+    elseif F.clientStatus then F.clientStatus(args) end
+end
+
 local function objectAt(args, className)
     if type(args.x) ~= "number" or type(args.y) ~= "number" or type(args.z) ~= "number"
         or type(args.index) ~= "number" then return nil end
@@ -24,14 +30,6 @@ local function active(s)
         or math.abs(truck:getCurrentSpeedKmHour()) > 1 then return false end
     local inlet = F.point(truck, tank)
     if not inlet then return false end
-    if s.mode == "load" then
-        return s.pump and s.pump:getObjectIndex() ~= -1 and F.powered(s.pump)
-            and s.pump:getPipedFuelAmount() > 0
-            and F.inRange(inlet:getX(), inlet:getY(), truck:getZ(),
-                s.pump:getX(), s.pump:getY(), s.pump:getZ(), 2)
-            and F.nearPoint(player, inlet:getX(), inlet:getY(), truck:getZ())
-            and tank:getContainerContentAmount() < F.CAPACITY
-    end
     if not truck:isEngineRunning() or tank:getContainerContentAmount() <= 0 then return false end
     if s.mode == "vehicle" then
         local v, p = s.target, s.part
@@ -61,19 +59,25 @@ function F.serverCommand(player, command, args)
     end
     if command ~= "start" or type(args) ~= "table" or type(args.truck) ~= "number" then return end
     local truck = getVehicleById(args.truck)
-    if not F.isTruck(truck) then return end
+    if not F.isTruck(truck) then
+        status(player, "rejected", "Fuel pump: the server could not find this Acty fuel truck.")
+        return
+    end
     local now = getTimestampMs()
     local s = { player = player, truck = truck, mode = args.mode, last = now, alive = now }
-    if args.mode == "load" then
-        s.pump = objectAt(args)
-    elseif args.mode == "vehicle" and type(args.target) == "number" then
+    if args.mode == "vehicle" and type(args.target) == "number" then
         s.target = getVehicleById(args.target)
         s.part = s.target and s.target:getPartById("GasTank")
         if not s.part then return end
     elseif args.mode == "generator" then
         s.generator = objectAt(args, "IsoGenerator")
     else return end
-    if active(s) then F.sessions[key(player)] = s end
+    if active(s) then
+        F.sessions[key(player)] = s
+        status(player, "accepted")
+    else
+        status(player, "rejected", "Fuel pump unavailable: check engine, hose range and receiving tank.")
+    end
 end
 
 -- Accessible to the offline regression harness; only the server calls this in game.
@@ -83,21 +87,14 @@ function F.tick()
     for id, s in pairs(F.sessions) do
         if now - s.alive > 3000 or not active(s) then
             F.sessions[id] = nil
+            status(s.player, "stopped", "Fuel pump stopped: tank full/empty, engine off, operator away or hose out of range.")
         elseif now - s.last >= 250 then
             local requested = F.RATE * math.min(0.5, (now - s.last) / 1000)
             s.last = now
             local tank = F.tank(s.truck)
             local stored = tank:getContainerContentAmount()
             local moved = 0
-            if s.mode == "load" then
-                -- Identical units to ISRefuelFromGasPump: 8 pump units / jerrycan.
-                local unitLitres = Vehicles.JerryCanLitres / 8
-                local units = s.pump:getPipedFuelAmount()
-                moved = F.transferAmount(units * unitLitres, stored, F.CAPACITY, requested)
-                s.pump:setPipedFuelAmount(units - moved / unitLitres)
-                tank:setContainerContentAmount(stored + moved)
-                s.pump:transmitModData()
-            elseif s.mode == "vehicle" then
+            if s.mode == "vehicle" then
                 local amount = s.part:getContainerContentAmount()
                 moved = F.transferAmount(stored, amount, s.part:getContainerCapacity(), requested)
                 tank:setContainerContentAmount(stored - moved)

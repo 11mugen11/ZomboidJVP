@@ -13,9 +13,6 @@
     "generator real litre capacity and sync",
     "generator running denied",
     "generator capacity clamp",
-    "station refill conserves pump units",
-    "bed tank exact 2000 litres",
-    "station depletion conserved",
     "disconnect keepalive timeout",
     "explicit cancellation",
     "walking away stops transfer",
@@ -24,9 +21,21 @@
     "receiver engine running denied",
     "non petrol destination denied",
     "moving truck denied",
-    "station loses power"
+    "legacy custom station command is disabled"
   ],
   "asset_checks": "passed",
+  "client_regressions": "Native finite station action and fuel debit; station-to-bed 4-tile boundary; live mechanics fuel/durability line; server status acknowledgement/rejection",
   "live_multiplayer_test": "Not run: requires a running server and two game clients",
-  "in_game_render_test": "Not run: offline FBX/texture inspection is separate from the game renderer"
+  "in_game_render_test": "Not run: offline FBX/texture inspection is separate from the game renderer",
+  "native_engine_test": {
+    "status": "passed",
+    "runtime": "Project Zomboid 42.21 dedicated server, isolated loopback",
+    "checks": [
+      "Native 2000 L bed VehiclePart and durability",
+      "Finite standard station action and station fuel debit",
+      "Native fuel writes and mod-data persistence",
+      "Capacity clamp at 2000 L",
+      "Live fuel/durability label values"
+    ]
+  }
 }

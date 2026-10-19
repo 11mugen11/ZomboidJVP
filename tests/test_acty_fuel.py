@@ -11,6 +11,7 @@ lua = LuaRuntime(unpack_returned_tuples=True)
 lua.execute('''
 require = function() end
 isClient = function() return false end
+isServer = function() return false end
 Events = setmetatable({}, {__index=function(t,k) local v={Add=function() end}; rawset(t,k,v); return v end})
 SandboxVars = {AllowExteriorGenerator=true}
 Vehicles = {JerryCanLitres=10}
@@ -34,7 +35,8 @@ function player(id)
     getY=function(s) return s.y end,getZ=function(s) return s.z end}
 end
 function part(id, capacity, amount, fueltype)
-    return {id=id,capacity=capacity,amount=amount,fueltype=fueltype,
+    return {id=id,capacity=capacity,amount=amount,fueltype=fueltype,condition=100,
+    getCondition=function(s) return s.condition end,getVehicle=function() return truck end,
     getId=function(s) return s.id end,getArea=function(s) return s.id end,
     getInventoryItem=function() return {} end,getContainerContentType=function(s) return s.fueltype end,
     getContainerCapacity=function(s) return s.capacity end,getContainerContentAmount=function(s) return s.amount end,
@@ -100,9 +102,6 @@ tests = {
     'generator real litre capacity and sync': '''reset();start(p1,"generator");tick();near(generator.fuel,2);near(truck.parts[JVPActyFuel.PART].amount,98)''',
     'generator running denied': '''reset();generator.activated=true;start(p1,"generator");assert(next(JVPActyFuel.sessions)==nil)''',
     'generator capacity clamp': '''reset();generator.fuel=11.9;start(p1,"generator");tick();near(generator.fuel,12);near(truck.parts[JVPActyFuel.PART].amount,99.9)''',
-    'station refill conserves pump units': '''reset();objects={pump};p1.x=0;p1.y=0;start(p1,"load");tick();near(pump.units,98.4);near(truck.parts[JVPActyFuel.PART].amount,102)''',
-    'bed tank exact 2000 litres': '''reset();objects={pump};p1.x=0;p1.y=0;truck.parts[JVPActyFuel.PART].amount=1999.5;start(p1,"load");tick();near(truck.parts[JVPActyFuel.PART].amount,2000);near(pump.units,99.6)''',
-    'station depletion conserved': '''reset();objects={pump};pump.units=0.1;p1.x=0;p1.y=0;start(p1,"load");tick();near(pump.units,0);near(truck.parts[JVPActyFuel.PART].amount,100.125)''',
     'disconnect keepalive timeout': '''reset();start(p1);tick(3100);near(target.parts.GasTank.amount,0);assert(next(JVPActyFuel.sessions)==nil)''',
     'explicit cancellation': '''reset();start(p1);JVPActyFuel.serverCommand(p1,"stop",{});tick();near(target.parts.GasTank.amount,0)''',
     'walking away stops transfer': '''reset();start(p1);p1.x=20;tick();near(target.parts.GasTank.amount,0)''',
@@ -111,7 +110,7 @@ tests = {
     'receiver engine running denied': '''reset();target.started=true;start(p1);assert(next(JVPActyFuel.sessions)==nil)''',
     'non petrol destination denied': '''reset();target.parts.GasTank.fueltype="Water";start(p1);assert(next(JVPActyFuel.sessions)==nil)''',
     'moving truck denied': '''reset();truck.speed=10;start(p1);assert(next(JVPActyFuel.sessions)==nil)''',
-    'station loses power': '''reset();objects={pump};p1.x=0;p1.y=0;start(p1,"load");square.hasGridPower=function() return false end;square.haveElectricity=function() return false end;tick();near(truck.parts[JVPActyFuel.PART].amount,100);square.hasGridPower=function() return true end''',
+    'legacy custom station command is disabled': '''reset();start(p1,"load");assert(next(JVPActyFuel.sessions)==nil)''',
 }
 passed=[]
 for name, code in tests.items():
@@ -129,7 +128,13 @@ ISVehicleMenu={FillPartMenu=function() end}
 ISVehiclePartMenu={doAddFuelMenu=function(p,part,context) context:addOption("Add fuel from can",nil,nil) end,
     getNearbyFuelPump=function() return nil end}
 ISVehicleMechanics={initParts=function() end}
-ISBaseTimedAction={derive=function(s,name) return {} end}
+ISBaseTimedAction={}
+function ISBaseTimedAction:derive(name)
+    local t={};t.__index=t;return setmetatable(t,{__index=self})
+end
+function ISBaseTimedAction:new(player) return setmetatable({character=player},{__index=self}) end
+ISTimedActionQueue={queued={},add=function(action) table.insert(ISTimedActionQueue.queued,action) end}
+ISPathFindAction={pathToVehicleArea=function(player,vehicle,area) return {path=true,vehicle=vehicle,area=area} end}
 getSpecificPlayer=function() return p1 end
 getTexture=function() return {} end
 getText=function(s) return s end
@@ -151,6 +156,8 @@ function menu()
     return m
 end
 ''')
+GAME=Path(r'C:\Program Files (x86)\Steam\steamapps\common\ProjectZomboid\media')
+lua.execute((GAME/'lua/shared/Vehicles/TimedActions/ISRefuelFromGasPump.lua').read_text())
 lua.execute((MEDIA/'lua/client/JVPActyFuelClient.lua').read_text())
 lua.execute('''
 reset()
@@ -180,8 +187,66 @@ truck.running=false
 local off=menu()
 ISVehicleMenu.FillPartMenu(0,off,nil,target)
 assert(off.options[1].notAvailable)
+reset()
+local tank=truck.parts[JVPActyFuel.PART]
+tank.amount=0
+local stationAction=ISRefuelFromGasPump:new(p1,tank,pump)
+assert(stationAction.maxTime==6250 and stationAction.tankTarget==125)
+stationAction.getJobDelta=function() return 1 end
+stationAction.character={setMetabolicTarget=function() end}
+Metabolics={HeavyDomestic=1}
+stationAction:update()
+near(pump.units,0)
+assert(stationAction:complete())
+near(tank.amount,125)
+pump.units=100
+F=JVPActyFuel
+F.queue(p1,truck,"load",pump)
+assert(#ISTimedActionQueue.queued==2)
+assert(ISTimedActionQueue.queued[1].path)
+local queued=ISTimedActionQueue.queued[2]
+assert(getmetatable(queued).__index==ISRefuelFromGasPump)
+assert(queued.part==tank and queued.maxTime>0)
+tank.amount=1000;tank.condition=73
+assert(F.tankLabel(tank)=="Gas Tank EXTERNAL - 50% - 73%")
+local rendered={}
+UIFont={Small=1}
+local view={parent={vehicle=truck,partRGB={r=1,g=1,b=1,a=1}},itemheight=20,
+    drawText=function(self,text) table.insert(rendered,text) end,drawRect=function() end,
+    getWidth=function() return 500 end}
+local row={item={part=tank},itemindex=2,height=20}
+assert(ISVehicleMechanics.doDrawItem(view,0,row,false)==20)
+assert(#rendered==1 and rendered[1]=="Gas Tank EXTERNAL - 50% - 73%")
+tank.amount=1500;tank.condition=69
+ISVehicleMechanics.doDrawItem(view,0,row,false)
+assert(rendered[2]=="Gas Tank EXTERNAL - 75% - 69%")
+F.currentAction={character=p1}
+F.clientStatus({player=1,state="accepted"})
+assert(F.currentAction.confirmed)
+F.clientStatus({player=1,state="rejected",message="Engine off"})
+assert(F.currentAction.rejected=="Engine off")
+F.currentAction=nil
+now=6000
+local timedOut=false
+HaloTextHelper={addBadText=function(player,message) timedOut=string.find(message,"no server response",1,true)~=nil end}
+p1.faceThisObject=function() end
+local waiting={character=p1,object=target,confirmed=false,requestTime=0,
+    forceStop=function(self) self.stopped=true end}
+JVPActyFuelAction.update(waiting)
+assert(waiting.stopped and timedOut)
+local savedCell=getCell
+objects={pump}
+getCell=function() return {getGridSquare=function(self,x,y,z)
+    if x==4 and y==0 and z==0 then return square end
+end} end
+assert(F.findPump(truck)==pump)
+getCell=function() return {getGridSquare=function(self,x,y,z)
+    if x==5 and y==0 and z==0 then return square end
+end} end
+assert(F.findPump(truck)==nil)
+getCell=savedCell
 ''')
-print('PASS: client menu module loads; distinct tanks; no siphon option; correct external source; engine-off disabled')
+print('PASS: client menus; finite vanilla station action; native action queued for bed; live fuel/durability line; server acknowledgement/rejection')
 
 # Resolve every namespaced asset in the vehicle scripts, decoding each PNG.
 assets = [* (PACK/'42/media').rglob('*'), *(PACK/'common/media').rglob('*')]
@@ -217,6 +282,7 @@ assert 'contentType = JVP_PetrolOnly' in vehicle
 assert not re.search(r'^require=',(PACK/'42/mod.info').read_text(),re.M)
 print('PASS: namespaced model, texture, icon references; PNG decode; yellow-only skin; no dependencies')
 report={'lua_runtime':'Lua 5.1 (Lupa)','server_regression_tests':passed,'asset_checks':'passed',
+        'client_regressions':'Native finite station action and fuel debit; station-to-bed 4-tile boundary; live mechanics fuel/durability line; server status acknowledgement/rejection',
         'live_multiplayer_test':'Not run: requires a running server and two game clients',
         'in_game_render_test':'Not run: offline FBX/texture inspection is separate from the game renderer'}
 (ROOT/'verification.json').write_text(json.dumps(report,indent=2))

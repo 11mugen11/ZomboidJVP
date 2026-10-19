@@ -46,8 +46,8 @@ end
 function F.findPump(truck)
     local p = F.point(truck, F.tank(truck))
     if not p then return nil end
-    for dy = -2, 2 do
-        for dx = -2, 2 do
+    for dy = -F.RANGE, F.RANGE do
+        for dx = -F.RANGE, F.RANGE do
             local square = getCell():getGridSquare(math.floor(p:getX()) + dx,
                 math.floor(p:getY()) + dy, math.floor(truck:getZ()))
             if square then
@@ -75,4 +75,9 @@ end
 -- Pure arithmetic shared by the authority and regression tests.
 function F.transferAmount(available, current, capacity, requested)
     return math.max(0, math.min(available, capacity - current, requested))
+end
+
+function F.tankLabel(part)
+    local fuel = math.max(0, math.min(100, math.floor(part:getContainerContentAmount() / F.CAPACITY * 100)))
+    return string.format("Gas Tank EXTERNAL - %d%% - %d%%", fuel, part:getCondition())
 end

@@ -1,6 +1,6 @@
 {
   "mod_id": "EmreAdventureVehiclePack_B42",
-  "version": "1.0.38",
+  "version": "1.0.39",
   "sources": [
     "EmreRE9Motorcycle",
     "lrdisco1",
@@ -2933,6 +2933,8 @@
     "script": "Base.JVP_ActyFuelTruck",
     "capacity_litres": 2000,
     "hose_range_tiles_per_axis": 4,
+    "station_fill_range_tiles_per_axis": 4,
+    "station_fill_action": "Native ISRefuelFromGasPump",
     "dependencies": [],
     "original_vehicle_preserved": true,
     "scope": "Local personal integration; asset rights retained by original authors",
@@ -2951,9 +2953,6 @@
         "generator real litre capacity and sync",
         "generator running denied",
         "generator capacity clamp",
-        "station refill conserves pump units",
-        "bed tank exact 2000 litres",
-        "station depletion conserved",
         "disconnect keepalive timeout",
         "explicit cancellation",
         "walking away stops transfer",
@@ -2962,11 +2961,23 @@
         "receiver engine running denied",
         "non petrol destination denied",
         "moving truck denied",
-        "station loses power"
+        "legacy custom station command is disabled"
       ],
       "asset_checks": "passed",
+      "client_regressions": "Native finite station action and fuel debit; station-to-bed 4-tile boundary; live mechanics fuel/durability line; server status acknowledgement/rejection",
       "live_multiplayer_test": "Not run: requires a running server and two game clients",
-      "in_game_render_test": "Not run: offline FBX/texture inspection is separate from the game renderer"
+      "in_game_render_test": "Not run: offline FBX/texture inspection is separate from the game renderer",
+      "native_engine_test": {
+        "status": "passed",
+        "runtime": "Project Zomboid 42.21 dedicated server, isolated loopback",
+        "checks": [
+          "Native 2000 L bed VehiclePart and durability",
+          "Finite standard station action and station fuel debit",
+          "Native fuel writes and mod-data persistence",
+          "Capacity clamp at 2000 L",
+          "Live fuel/durability label values"
+        ]
+      }
     }
   },
   "files": [
@@ -3544,7 +3555,7 @@
     },
     {
       "file": "42/media/lua/client/JVPActyFuelClient.lua",
-      "sha256": "20a66e790e2e541f02a5c017de7ba84cf2357294d70edf8212701ae740e51562"
+      "sha256": "6cc29dbfed125caf454645e18c6e81c2c4e7acfe9aa0374ce2c4bed8ff8eb1c4"
     },
     {
       "file": "42/media/lua/client/lrdisco1.lua",
@@ -3604,7 +3615,7 @@
     },
     {
       "file": "42/media/lua/server/JVPActyFuelServer.lua",
-      "sha256": "b5be5c90ab7de28f7b2524322c1c36b772615bdb1f555e09c13464f8fa530898"
+      "sha256": "ac64cde3d742e3319980a5050f0f2f1fea50cd56cef4f426d4b24105cde512bc"
     },
     {
       "file": "42/media/lua/server/Vehicles/emre_re9_loot.lua",
@@ -3708,7 +3719,7 @@
     },
     {
       "file": "42/media/lua/shared/JVPActyFuel.lua",
-      "sha256": "1b73d09f83b118aa8c343492b442dd7e52579b8ce3e1273570d842c616a05d01"
+      "sha256": "c470dffd6bf8416efbc6ba89682d9b293af6abef8360e7175da1c29343d2a797"
     },
     {
       "file": "42/media/lua/shared/JVPActyFuelSpawn.lua",
@@ -3724,7 +3735,7 @@
     },
     {
       "file": "42/media/lua/shared/Translate/EN/IG_UI.json",
-      "sha256": "2c7f72c05461dc60d46692f10d6966a28e9b537c27316200e9e6d1676bfc163e"
+      "sha256": "a1864730f01bb602ffa03976c907306f73b9d0e1a63069c337f7fafbb7a15ad4"
     },
     {
       "file": "42/media/lua/shared/Translate/EN/ItemName.json",
@@ -4640,7 +4651,7 @@
     },
     {
       "file": "42/mod.info",
-      "sha256": "25b116b08b06dea5c3b00b0c5f5350ca0840477d7f815c6a056d262bb3892084"
+      "sha256": "51ead52fa28b580561f1d74776e3c2c563f70eb3f7900f6e3c9d6b386a8a7fa5"
     },
     {
       "file": "42/poster.png",
@@ -4668,7 +4679,7 @@
     },
     {
       "file": "ACTY_FUEL_TRUCK.txt",
-      "sha256": "134cf4de607d39d20d1166e6d9404cc067ad90531144fbcb3420df2e74e2c6db"
+      "sha256": "275580a17f739728462ce60148c38b34d893c87d1a114090dafcb236e5ca500b"
     },
     {
       "file": "common/media/actiongroups/c172_keep.txt",
@@ -5192,7 +5203,7 @@
     },
     {
       "file": "mod.info",
-      "sha256": "25b116b08b06dea5c3b00b0c5f5350ca0840477d7f815c6a056d262bb3892084"
+      "sha256": "51ead52fa28b580561f1d74776e3c2c563f70eb3f7900f6e3c9d6b386a8a7fa5"
     },
     {
       "file": "poster.png",

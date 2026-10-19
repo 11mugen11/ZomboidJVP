@@ -5,6 +5,7 @@ require "Vehicles/ISUI/ISVehicleMechanics"
 require "TimedActions/ISBaseTimedAction"
 require "TimedActions/ISTimedActionQueue"
 require "Vehicles/TimedActions/ISPathFindAction"
+require "Vehicles/TimedActions/ISRefuelFromGasPump"
 
 local F = JVPActyFuel
 local function vehicleSnapshot()
@@ -44,22 +45,33 @@ function JVPActyFuelAction:start()
     self:setActionAnim("fill_container_tap")
     self:setOverrideHandModels(nil, nil)
     self.sound = self.character:playSound("VehicleAddFuelFromGasPump")
+    self.confirmed = false
+    self.requestTime = getTimestampMs()
+    F.currentAction = self
     command(self.character, "start", self.args)
     self.lastKeepalive = getTimestampMs()
 end
 function JVPActyFuelAction:update()
     self.character:faceThisObject(self.object)
+    if self.rejected or (not self.confirmed and getTimestampMs() - self.requestTime > 5000) then
+        local message = self.rejected or "Fuel pump: no server response. Update and restart the server with this pack."
+        HaloTextHelper.addBadText(self.character, message)
+        self:forceStop()
+        return
+    end
     if getTimestampMs() - self.lastKeepalive > 750 then
         command(self.character, "keepalive")
         self.lastKeepalive = getTimestampMs()
     end
 end
 function JVPActyFuelAction:stop()
+    if F.currentAction == self then F.currentAction = nil end
     command(self.character, "stop")
     if self.sound then self.character:stopOrTriggerSound(self.sound) end
     ISBaseTimedAction.stop(self)
 end
 function JVPActyFuelAction:perform()
+    if F.currentAction == self then F.currentAction = nil end
     command(self.character, "stop")
     if self.sound then self.character:stopOrTriggerSound(self.sound) end
     ISBaseTimedAction.perform(self)
@@ -83,11 +95,25 @@ function F.queue(player, truck, mode, object)
         ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(player, object, object:getPartById("GasTank"):getArea()))
     elseif mode == "load" then
         ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(player, truck, F.tank(truck):getArea()))
+        -- Use B42's shared, server-synchronized pump action. Its finite duration,
+        -- cancellation and fuel-station replication apply to this bed part too.
+        ISTimedActionQueue.add(ISRefuelFromGasPump:new(player, F.tank(truck), object))
+        return
     else
         if not luautils.walkAdj(player, object:getSquare()) then return end
     end
     ISTimedActionQueue.add(JVPActyFuelAction:new(player, truck, mode, object))
 end
+
+function F.clientStatus(args)
+    local action = F.currentAction
+    if not action or action.character:getOnlineID() ~= args.player then return end
+    if args.state == "accepted" then action.confirmed = true
+    else action.rejected = args.message or "Fuel pump stopped." end
+end
+Events.OnServerCommand.Add(function(module, name, args)
+    if module == "JVPActyFuel" and name == "status" then F.clientStatus(args) end
+end)
 
 local function entry(context, slice, label, callback, player, truck, mode, object, enabled)
     if slice then
@@ -224,13 +250,38 @@ function ISVehicleMechanics:initParts(...)
         for _, list in ipairs({ self.listbox, self.bodyworklist }) do
             for _, item in ipairs(list.items) do
                 local row = item.item
-                if row.part and row.part:getId() == "GasTank" then
+                if row.part and row.part:getId() == F.PART then
+                    row.name = F.tankLabel(row.part)
+                    item.text = row.name
+                elseif row.part and row.part:getId() == "GasTank" then
                     row.name = "Engine fuel tank (driving only)"
                     item.text = row.name
                 end
             end
         end
     end
+end
+
+-- Draw only the requested line, without vanilla appending a second condition.
+-- Read the live part each frame so pumping and damage show immediately.
+local oldDrawPart = ISVehicleMechanics.doDrawItem
+function ISVehicleMechanics:doDrawItem(y, item, alt)
+    local row = item.item
+    if not row.cat and row.part and row.part:getId() == F.PART
+        and F.isTruck(self.parent.vehicle) then
+        if item.itemindex == self.selected then
+            self:drawRect(0, y, self:getWidth(), item.height, 0.1, 1, 1, 1)
+        elseif item.itemindex == self.mouseoverselected and
+            (not self.parent.context or not self.parent.context:isVisible()) then
+            self:drawRect(0, y, self:getWidth(), item.height, 0.05, 1, 1, 1)
+        end
+        row.name = F.tankLabel(row.part)
+        item.text = row.name
+        local rgb = self.parent.partRGB
+        self:drawText(row.name, 20, y, rgb.r, rgb.g, rgb.b, rgb.a, UIFont.Small)
+        return y + self.itemheight
+    end
+    return oldDrawPart(self, y, item, alt)
 end
 
 Events.OnInitWorld.Add(function()

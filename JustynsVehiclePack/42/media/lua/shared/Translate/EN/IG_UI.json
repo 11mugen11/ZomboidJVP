@@ -23,6 +23,6 @@
   "IGUI_VehicleNameCessna172Green": "Cessna 172 (Green)",
   "IGUI_VehicleNameCessna172Yellow": "Cessna 172 (Yellow)",
   "IGUI_VehicleNameJVP_ActyFuelTruck": "Honda Acty Fuel Truck (Yellow, 2000 L)",
-  "IGUI_VehiclePartJVP_ExternalFuelTank": "External bed tank - PETROL ONLY (2000 L)",
+  "IGUI_VehiclePartJVP_ExternalFuelTank": "Gas Tank EXTERNAL",
   "IGUI_VehiclePartJVP_ActySpareTire": "Spare tire"
 }
