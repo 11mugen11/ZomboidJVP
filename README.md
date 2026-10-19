@@ -3,7 +3,7 @@
 A combined Project Zomboid Build 42 mod containing the Yamaha Tenere 700 World Rally and Emre RE9 motorcycles,
 Land Rover Discovery variants, flyable Cessna 172, and a yellow Honda Acty fuel truck.
 
-[Download the v1.0.37 mod ZIP](https://github.com/11mugen11/ZomboidJVP/releases/download/v1.0.37/JustynsVehiclePack-v1.0.37.zip)
+[Download the v1.0.40 complete mod ZIP](https://github.com/11mugen11/ZomboidJVP/releases/download/v1.0.40/JustynsVehiclePack-v1.0.40.zip)
 
 ## Install
 

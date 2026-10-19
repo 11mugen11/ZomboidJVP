@@ -1,0 +1,11 @@
+JustynsVehiclePack v1.0.40 - complete standalone mod ZIP
+
+Direct download:
+https://github.com/11mugen11/ZomboidJVP/releases/download/v1.0.40/JustynsVehiclePack-v1.0.40.zip
+
+Release page:
+https://github.com/11mugen11/ZomboidJVP/releases/tag/v1.0.40
+
+Extract the ZIP and install its JustynsVehiclePack folder. Update the server
+and every client, then restart. The source files are in JustynsVehiclePack
+on this repository's main branch.
