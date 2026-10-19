@@ -33,6 +33,11 @@ function JVPActyFuelAction:isValid()
         return p and p:getInventoryItem() and not self.object:isEngineStarted()
             and F.hoseReaches(self.truck, self.object, p)
             and p:getContainerContentAmount() < p:getContainerCapacity()
+    elseif self.args.mode == "amphora" then
+        local inlet = F.point(self.truck, tank)
+        return self.object:getObjectIndex() ~= -1 and F.canFillAmphora(self.object)
+            and inlet and F.inRange(inlet:getX(), inlet:getY(), self.truck:getZ(),
+                self.object:getX(), self.object:getY(), self.object:getZ(), F.RANGE)
     end
     return self.object:getObjectIndex() ~= -1 and not self.object:isActivated()
         and self.object:getFuel() < self.object:getMaxFuel()
@@ -206,6 +211,9 @@ function ISVehicleMenu.FillPartMenu(playerIndex, context, slice, vehicle)
                             entry(externalMenu, slice, "Pump EXTERNAL fuel -> generator", F.queue,
                                 player, vehicle, "generator", g, canDispense(vehicle)
                                     and not g:isActivated() and g:getFuel() < g:getMaxFuel())
+                        elseif F.amphoraFluid(g) then
+                            entry(externalMenu, slice, "Pump EXTERNAL fuel -> amphora", F.queue,
+                                player, vehicle, "amphora", g, canDispense(vehicle) and F.canFillAmphora(g))
                         end
                     end
                 end
@@ -224,16 +232,23 @@ Events.OnFillWorldObjectContextMenu.Add(function(playerIndex, context, worldobje
             local objects = sq:getObjects()
             for j = 0, objects:size() - 1 do
                 local g = objects:get(j)
-                if instanceof(g, "IsoGenerator") and not seen[g] then
+                local generator = instanceof(g, "IsoGenerator")
+                local amphora = F.amphoraFluid(g)
+                if (generator or amphora) and not seen[g] then
                     seen[g] = true
                     local vehicles = vehicleSnapshot()
                     for i = 0, vehicles:size() - 1 do
                         local truck = vehicles:get(i)
                         local inlet = F.point(truck, F.tank(truck))
                         if inlet and F.inRange(inlet:getX(), inlet:getY(), truck:getZ(), g:getX(), g:getY(), g:getZ(), F.RANGE) then
-                            entry(context, nil, "Refuel generator from Acty EXTERNAL bed tank", F.queue,
-                                player, truck, "generator", g, canDispense(truck)
-                                    and not g:isActivated() and g:getFuel() < g:getMaxFuel())
+                            if generator then
+                                entry(context, nil, "Refuel generator from Acty EXTERNAL bed tank", F.queue,
+                                    player, truck, "generator", g, canDispense(truck)
+                                        and not g:isActivated() and g:getFuel() < g:getMaxFuel())
+                            else
+                                entry(context, nil, "Fill amphora from Acty EXTERNAL bed tank", F.queue,
+                                    player, truck, "amphora", g, canDispense(truck) and F.canFillAmphora(g))
+                            end
                         end
                     end
                 end

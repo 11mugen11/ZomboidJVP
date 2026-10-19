@@ -21,21 +21,31 @@
     "receiver engine running denied",
     "non petrol destination denied",
     "moving truck denied",
-    "legacy custom station command is disabled"
+    "legacy custom station command is disabled",
+    "empty amphora accepts petrol and syncs",
+    "closed amphora supports petrol",
+    "amphora capacity clamp",
+    "amphora rejects water without consuming fuel",
+    "locked amphora denied",
+    "non amphora fluid object denied",
+    "amphora beyond four tiles denied",
+    "removed amphora stops transfer",
+    "amphora only debits accepted fluid",
+    "two players share remaining amphora capacity",
+    "rain contamination stops amphora pumping"
   ],
   "asset_checks": "passed",
-  "client_regressions": "Native finite station action and fuel debit; station-to-bed 4-tile boundary; live mechanics fuel/durability line; server status acknowledgement/rejection",
+  "client_regressions": "Amphora truck and world menus; contamination rejection; finite station action and fuel debit; station-to-bed 4-tile boundary; live mechanics fuel/durability line; server acknowledgement/rejection and timeout",
   "live_multiplayer_test": "Not run: requires a running server and two game clients",
   "in_game_render_test": "Not run: offline FBX/texture inspection is separate from the game renderer",
   "native_engine_test": {
     "status": "passed",
     "runtime": "Project Zomboid 42.21 dedicated server, isolated loopback",
     "checks": [
-      "Native 2000 L bed VehiclePart and durability",
-      "Finite standard station action and station fuel debit",
-      "Native fuel writes and mod-data persistence",
-      "Capacity clamp at 2000 L",
-      "Live fuel/durability label values"
+      "Open and closed native amphoras accept and retain petrol at 300 L capacity",
+      "Actual amphora pumping helper, capacity clamp, full tank and water rejection",
+      "Native 2000 L truck tank, finite station action, station fuel debit and fuel writes",
+      "Native fuel persistence and fuel/durability label"
     ]
   }
 }

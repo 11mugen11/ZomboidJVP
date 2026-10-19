@@ -81,3 +81,30 @@ function F.tankLabel(part)
     local fuel = math.max(0, math.min(100, math.floor(part:getContainerContentAmount() / F.CAPACITY * 100)))
     return string.format("Gas Tank EXTERNAL - %d%% - %d%%", fuel, part:getCondition())
 end
+
+function F.amphoraFluid(object)
+    if not object or not object.getEntityScript then return nil end
+    local script = object:getEntityScript()
+    local name = script and script:getFullName()
+    if name ~= "Base.Amphora" and name ~= "Base.AmphoraClosed" then return nil end
+    return object:getFluidContainer()
+end
+
+function F.canFillAmphora(object)
+    local fluid = F.amphoraFluid(object)
+    return fluid and fluid:getFreeCapacity() > 0 and fluid:canAddFluid(Fluid.Petrol)
+        and (fluid:isEmpty() or fluid:isPureFluid(Fluid.Petrol))
+end
+
+function F.fillAmphora(object, available, requested)
+    if not F.canFillAmphora(object) then return 0 end
+    local fluid = F.amphoraFluid(object)
+    local before = fluid:getAmount()
+    local amount = math.max(0, math.min(available, fluid:getFreeCapacity(), requested))
+    if amount <= 0 then return 0 end
+    fluid:addFluid(Fluid.Petrol, amount)
+    -- Debit what the real fluid component accepted, never the requested amount.
+    local accepted = math.max(0, fluid:getAmount() - before)
+    if accepted > 0 then object:sync() end
+    return accepted
+end

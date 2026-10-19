@@ -12,9 +12,13 @@ lua.execute('''
 require = function() end
 isClient = function() return false end
 isServer = function() return false end
-Events = setmetatable({}, {__index=function(t,k) local v={Add=function() end}; rawset(t,k,v); return v end})
+Events = setmetatable({}, {__index=function(t,k)
+    local v={listeners={}};v.Add=function(fn) table.insert(v.listeners,fn) end
+    rawset(t,k,v);return v
+end})
 SandboxVars = {AllowExteriorGenerator=true}
 Vehicles = {JerryCanLitres=10}
+Fluid = {Petrol="Petrol",Water="Water"}
 now=1000
 getTimestampMs=function() return now end
 vehicles={}
@@ -79,6 +83,23 @@ function reset()
         getPipedFuelAmount=function(s) return s.units end,
         setPipedFuelAmount=function(s,n) s.units=n end,transmitModData=function() end}
     objects={generator}
+    local fluid={amount=0,capacity=300,kind="Petrol",locked=false,rejectWrite=false}
+    fluid.getAmount=function(s) return s.amount end
+    fluid.getFreeCapacity=function(s) return s.capacity-s.amount end
+    fluid.isEmpty=function(s) return s.amount==0 end
+    fluid.isPureFluid=function(s,kind) return s.kind==kind end
+    fluid.canAddFluid=function(s,kind) return not s.locked end
+    fluid.addFluid=function(s,kind,n)
+        if not s.rejectWrite then s.kind=kind;s.amount=math.min(s.capacity,s.amount+n) end
+    end
+    amphora={fluid=fluid,x=4,y=4,z=0,index=0,script="Base.Amphora",syncs=0,
+        getEntityScript=function(s) return {getFullName=function() return s.script end} end,
+        getFluidContainer=function(s) return s.fluid end,
+        getSquare=function() return square end,
+        getPipedFuelAmount=function() return 0 end,
+        getObjectIndex=function(s) return s.index end,getX=function(s) return s.x end,
+        getY=function(s) return s.y end,getZ=function(s) return s.z end,
+        sync=function(s) s.syncs=s.syncs+1 end}
 end
 function start(p,mode)
     JVPActyFuel.serverCommand(p,"start",{truck=1,target=2,mode=mode or "vehicle",x=0,y=0,z=0,index=0})
@@ -111,6 +132,17 @@ tests = {
     'non petrol destination denied': '''reset();target.parts.GasTank.fueltype="Water";start(p1);assert(next(JVPActyFuel.sessions)==nil)''',
     'moving truck denied': '''reset();truck.speed=10;start(p1);assert(next(JVPActyFuel.sessions)==nil)''',
     'legacy custom station command is disabled': '''reset();start(p1,"load");assert(next(JVPActyFuel.sessions)==nil)''',
+    'empty amphora accepts petrol and syncs': '''reset();objects={amphora};start(p1,"amphora");tick();near(amphora.fluid.amount,2);near(truck.parts[JVPActyFuel.PART].amount,98);assert(amphora.syncs==1)''',
+    'closed amphora supports petrol': '''reset();amphora.script="Base.AmphoraClosed";objects={amphora};start(p1,"amphora");tick();near(amphora.fluid.amount,2)''',
+    'amphora capacity clamp': '''reset();amphora.fluid.amount=299.5;objects={amphora};start(p1,"amphora");tick();near(amphora.fluid.amount,300);near(truck.parts[JVPActyFuel.PART].amount,99.5)''',
+    'amphora rejects water without consuming fuel': '''reset();amphora.fluid.kind="Water";amphora.fluid.amount=10;objects={amphora};start(p1,"amphora");tick();near(amphora.fluid.amount,10);near(truck.parts[JVPActyFuel.PART].amount,100)''',
+    'locked amphora denied': '''reset();amphora.fluid.locked=true;objects={amphora};start(p1,"amphora");assert(next(JVPActyFuel.sessions)==nil)''',
+    'non amphora fluid object denied': '''reset();amphora.script="Base.RainCollectorBarrel";objects={amphora};start(p1,"amphora");assert(next(JVPActyFuel.sessions)==nil)''',
+    'amphora beyond four tiles denied': '''reset();amphora.x=5;objects={amphora};start(p1,"amphora");assert(next(JVPActyFuel.sessions)==nil)''',
+    'removed amphora stops transfer': '''reset();objects={amphora};start(p1,"amphora");amphora.index=-1;tick();near(amphora.fluid.amount,0)''',
+    'amphora only debits accepted fluid': '''reset();amphora.fluid.rejectWrite=true;objects={amphora};start(p1,"amphora");tick();near(amphora.fluid.amount,0);near(truck.parts[JVPActyFuel.PART].amount,100)''',
+    'two players share remaining amphora capacity': '''reset();amphora.fluid.amount=297;objects={amphora};start(p1,"amphora");start(p2,"amphora");tick();near(amphora.fluid.amount,300);near(truck.parts[JVPActyFuel.PART].amount,97)''',
+    'rain contamination stops amphora pumping': '''reset();objects={amphora};start(p1,"amphora");tick();amphora.fluid.kind="Mixture";tick();near(amphora.fluid.amount,2);near(truck.parts[JVPActyFuel.PART].amount,98)''',
 }
 passed=[]
 for name, code in tests.items():
@@ -245,8 +277,32 @@ getCell=function() return {getGridSquare=function(self,x,y,z)
 end} end
 assert(F.findPump(truck)==nil)
 getCell=savedCell
+reset()
+objects={amphora}
+p1.DistToProper=function() return 1 end
+target.getScript=function() return {getName=function() return "SmallCar" end} end
+getCell=function() return {
+    getGridSquare=function(self,x,y,z) if x==4 and y==4 and z==0 then return square end end,
+    getVehicles=function() return {values={truck,target}} end} end
+local fillWorld=Events.OnFillWorldObjectContextMenu.listeners[1]
+local amphoraMenu=menu()
+fillWorld(0,amphoraMenu,{amphora},false)
+assert(#amphoraMenu.options==1)
+assert(amphoraMenu.options[1].args[1]==truck and amphoraMenu.options[1].args[2]=="amphora")
+assert(not amphoraMenu.options[1].notAvailable)
+local truckMenu=menu()
+ISVehicleMenu.FillPartMenu(0,truckMenu,nil,truck)
+local foundAmphora=false
+for _,option in ipairs(truckMenu.options[2].sub.options) do
+    if option.args[2]=="amphora" then foundAmphora=true end
+end
+assert(foundAmphora)
+amphora.fluid.kind="Water";amphora.fluid.amount=10
+local contaminatedMenu=menu()
+fillWorld(0,contaminatedMenu,{amphora},false)
+assert(contaminatedMenu.options[1].notAvailable)
 ''')
-print('PASS: client menus; finite vanilla station action; native action queued for bed; live fuel/durability line; server acknowledgement/rejection')
+print('PASS: client menus including amphora/world and truck targets; contaminated amphora disabled; finite station action; live mechanics label; server feedback')
 
 # Resolve every namespaced asset in the vehicle scripts, decoding each PNG.
 assets = [* (PACK/'42/media').rglob('*'), *(PACK/'common/media').rglob('*')]
@@ -282,7 +338,7 @@ assert 'contentType = JVP_PetrolOnly' in vehicle
 assert not re.search(r'^require=',(PACK/'42/mod.info').read_text(),re.M)
 print('PASS: namespaced model, texture, icon references; PNG decode; yellow-only skin; no dependencies')
 report={'lua_runtime':'Lua 5.1 (Lupa)','server_regression_tests':passed,'asset_checks':'passed',
-        'client_regressions':'Native finite station action and fuel debit; station-to-bed 4-tile boundary; live mechanics fuel/durability line; server status acknowledgement/rejection',
+        'client_regressions':'Amphora truck and world menus; contamination rejection; finite station action and fuel debit; station-to-bed 4-tile boundary; live mechanics fuel/durability line; server acknowledgement/rejection and timeout',
         'live_multiplayer_test':'Not run: requires a running server and two game clients',
         'in_game_render_test':'Not run: offline FBX/texture inspection is separate from the game renderer'}
 (ROOT/'verification.json').write_text(json.dumps(report,indent=2))

@@ -46,6 +46,11 @@ local function active(s)
             and F.inRange(inlet:getX(), inlet:getY(), truck:getZ(), g:getX(), g:getY(), g:getZ(), F.RANGE)
             and F.nearPoint(player, g:getX(), g:getY(), g:getZ())
             and g:getFuel() < g:getMaxFuel()
+    elseif s.mode == "amphora" then
+        local object = s.amphora
+        return object and object:getObjectIndex() ~= -1 and F.canFillAmphora(object)
+            and F.inRange(inlet:getX(), inlet:getY(), truck:getZ(), object:getX(), object:getY(), object:getZ(), F.RANGE)
+            and F.nearPoint(player, object:getX(), object:getY(), object:getZ())
     end
     return false
 end
@@ -71,6 +76,8 @@ function F.serverCommand(player, command, args)
         if not s.part then return end
     elseif args.mode == "generator" then
         s.generator = objectAt(args, "IsoGenerator")
+    elseif args.mode == "amphora" then
+        s.amphora = objectAt(args)
     else return end
     if active(s) then
         F.sessions[key(player)] = s
@@ -106,6 +113,9 @@ function F.tick()
                 tank:setContainerContentAmount(stored - moved)
                 g:setFuel(g:getFuel() + moved)
                 g:sync()
+            elseif s.mode == "amphora" then
+                moved = F.fillAmphora(s.amphora, stored, requested)
+                tank:setContainerContentAmount(stored - moved)
             end
             s.truck:transmitPartModData(tank)
             if moved <= 0 then F.sessions[id] = nil end

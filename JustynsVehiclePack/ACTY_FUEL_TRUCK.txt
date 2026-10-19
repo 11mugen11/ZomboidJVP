@@ -1,5 +1,5 @@
 YELLOW HONDA ACTY FUEL TRUCK -- Build 42.21
-Pack: EmreAdventureVehiclePack_B42, version 1.0.39
+Pack: EmreAdventureVehiclePack_B42, version 1.0.40
 Vehicle script: Base.JVP_ActyFuelTruck
 
 No additional mods are required. The required Acty and Tank Water assets are
@@ -31,6 +31,14 @@ menu. The option always identifies the external bed tank as its source.
 Generators can be selected from the same menu or by right-clicking a nearby
 generator. Switch the receiving vehicle/generator off first. No hose item,
 generator, electrical connection or separate pump fuel is required for the Acty.
+Amphoras can also be selected from the truck's EXTERNAL menu or by right-clicking
+the amphora and choosing "Fill amphora from Acty EXTERNAL bed tank". Both open
+and closed amphoras support petrol, confirmed in the native Build 42 engine;
+their normal capacity is 300 L. Only empty or pure-petrol amphoras can be filled.
+Water, mixed liquids, locked containers and full amphoras are rejected without
+consuming bed-tank fuel. The same engine and 4-tile hose rules apply. Keep the
+amphora closed to prevent rainwater collecting in it. Closing a lid preserves
+its contents through the game's normal fluid-copy behavior.
 Use Escape or move to cancel. Dispensing is 8 L per real second; station filling
 uses the game's normal refueling rate. The truck's dispensing pump stops when
 the bed tank is empty, the destination is full, the Acty engine stops, either

@@ -1,6 +1,6 @@
 {
   "mod_id": "EmreAdventureVehiclePack_B42",
-  "version": "1.0.39",
+  "version": "1.0.40",
   "sources": [
     "EmreRE9Motorcycle",
     "lrdisco1",
@@ -2935,6 +2935,11 @@
     "hose_range_tiles_per_axis": 4,
     "station_fill_range_tiles_per_axis": 4,
     "station_fill_action": "Native ISRefuelFromGasPump",
+    "amphora_support": {
+      "capacity_litres": 300,
+      "empty_or_pure_petrol_only": true,
+      "open_and_closed": true
+    },
     "dependencies": [],
     "original_vehicle_preserved": true,
     "scope": "Local personal integration; asset rights retained by original authors",
@@ -2961,21 +2966,31 @@
         "receiver engine running denied",
         "non petrol destination denied",
         "moving truck denied",
-        "legacy custom station command is disabled"
+        "legacy custom station command is disabled",
+        "empty amphora accepts petrol and syncs",
+        "closed amphora supports petrol",
+        "amphora capacity clamp",
+        "amphora rejects water without consuming fuel",
+        "locked amphora denied",
+        "non amphora fluid object denied",
+        "amphora beyond four tiles denied",
+        "removed amphora stops transfer",
+        "amphora only debits accepted fluid",
+        "two players share remaining amphora capacity",
+        "rain contamination stops amphora pumping"
       ],
       "asset_checks": "passed",
-      "client_regressions": "Native finite station action and fuel debit; station-to-bed 4-tile boundary; live mechanics fuel/durability line; server status acknowledgement/rejection",
+      "client_regressions": "Amphora truck and world menus; contamination rejection; finite station action and fuel debit; station-to-bed 4-tile boundary; live mechanics fuel/durability line; server acknowledgement/rejection and timeout",
       "live_multiplayer_test": "Not run: requires a running server and two game clients",
       "in_game_render_test": "Not run: offline FBX/texture inspection is separate from the game renderer",
       "native_engine_test": {
         "status": "passed",
         "runtime": "Project Zomboid 42.21 dedicated server, isolated loopback",
         "checks": [
-          "Native 2000 L bed VehiclePart and durability",
-          "Finite standard station action and station fuel debit",
-          "Native fuel writes and mod-data persistence",
-          "Capacity clamp at 2000 L",
-          "Live fuel/durability label values"
+          "Open and closed native amphoras accept and retain petrol at 300 L capacity",
+          "Actual amphora pumping helper, capacity clamp, full tank and water rejection",
+          "Native 2000 L truck tank, finite station action, station fuel debit and fuel writes",
+          "Native fuel persistence and fuel/durability label"
         ]
       }
     }
@@ -3555,7 +3570,7 @@
     },
     {
       "file": "42/media/lua/client/JVPActyFuelClient.lua",
-      "sha256": "6cc29dbfed125caf454645e18c6e81c2c4e7acfe9aa0374ce2c4bed8ff8eb1c4"
+      "sha256": "bc78bd37e10cf67ef98f0c41243cfc5c8b2035540b6b98a209a812c1f91677fa"
     },
     {
       "file": "42/media/lua/client/lrdisco1.lua",
@@ -3615,7 +3630,7 @@
     },
     {
       "file": "42/media/lua/server/JVPActyFuelServer.lua",
-      "sha256": "ac64cde3d742e3319980a5050f0f2f1fea50cd56cef4f426d4b24105cde512bc"
+      "sha256": "fc9c7ba3d024333402b49026bf9ac6989f11920e1befefe7be47708e020b4aab"
     },
     {
       "file": "42/media/lua/server/Vehicles/emre_re9_loot.lua",
@@ -3719,7 +3734,7 @@
     },
     {
       "file": "42/media/lua/shared/JVPActyFuel.lua",
-      "sha256": "c470dffd6bf8416efbc6ba89682d9b293af6abef8360e7175da1c29343d2a797"
+      "sha256": "d7647ba26b07a2986fc74c209225145536137b2db5395def0234f6dd1f2e4347"
     },
     {
       "file": "42/media/lua/shared/JVPActyFuelSpawn.lua",
@@ -4651,7 +4666,7 @@
     },
     {
       "file": "42/mod.info",
-      "sha256": "51ead52fa28b580561f1d74776e3c2c563f70eb3f7900f6e3c9d6b386a8a7fa5"
+      "sha256": "ba68d7bdac7e2a61fb3161c746dc6b88f5a7ec7fdca8e6baa5995be1732159c0"
     },
     {
       "file": "42/poster.png",
@@ -4679,7 +4694,7 @@
     },
     {
       "file": "ACTY_FUEL_TRUCK.txt",
-      "sha256": "275580a17f739728462ce60148c38b34d893c87d1a114090dafcb236e5ca500b"
+      "sha256": "cd142ec1738c304723dcacd553cf900a50fa092266681025c22bfc336771b8b4"
     },
     {
       "file": "common/media/actiongroups/c172_keep.txt",
@@ -5203,7 +5218,7 @@
     },
     {
       "file": "mod.info",
-      "sha256": "51ead52fa28b580561f1d74776e3c2c563f70eb3f7900f6e3c9d6b386a8a7fa5"
+      "sha256": "ba68d7bdac7e2a61fb3161c746dc6b88f5a7ec7fdca8e6baa5995be1732159c0"
     },
     {
       "file": "poster.png",
