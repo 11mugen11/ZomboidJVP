@@ -187,7 +187,7 @@ local function poseSeat(v, seat, c, wx, wy, wz)
         return nil
     end
     local want = POSES[seat]
-    if marked[c] ~= want then                  -- new aboard, or moved to the other shown seat
+    if marked[c] ~= want or c:getVariableString(POSE_VAR) ~= want then                  -- new aboard, or moved to the other shown seat
         c:setVariable(POSE_VAR, want)
         marked[c] = want
     end
@@ -231,7 +231,7 @@ end
 -- root (the local player's when he is in one), else from one in vanilla's own states (aim, eat... -
 -- the push fits any root), else none (getting in or out).
 local function serve(v, player)
-    local L = floor(v:getZ())
+    local L = v:getZ()
     local wx, wy, wz = 0, 0, 0
     local any, inside, other = false, nil, nil
     for _, seat in ipairs(SHOWN) do

@@ -1,0 +1,23 @@
+Occupant seat alignment - v1.0.37
+
+Cessna parking keeps the logical floor separate from the native body's physical height.
+Previously the brake assigned fractional body height to logical Z, which the seated renderer
+added again. The native parking anchor, body height, attitude and zero momentum are retained.
+The pilot view compensates continuous logical Z and refreshes a cleared or replaced pose variable.
+
+A client seat restorer handles all three Land Rover variants and all four Cessna colors.
+It clears leftover motorcycle pose variables on entry to these enclosed vehicles and restores
+the appropriate aircraft pose. Land Rovers recover the current script's inside root when
+saved/network passenger offsets replace it, including the model offset. Healthy roots are
+left alone. Entry/exit transitions keep their own roots; observer repairs are never transmitted.
+Aircraft roots remain owned by their existing pilot renderer. The approved extended-leg idle and
+exit animation files, seat meshes and aircraft collision setup are preserved byte-for-byte.
+
+Install the same version on the server and every client, then fully restart. Exit and re-enter
+an existing vehicle after updating. The higher fixed aircraft cruise from v1.0.36 is retained.
+
+Validated with the game Lua runtime/compiler: old brake height regression reproduced; fixed ground
+and roof parking levels, repeated brake set/release, all Rover seats, stale pose/root restoration,
+entry/exit guards, motorcycle isolation, multiplayer parking/menu and touchdown checks.
+Native B42 checks also pass for ground/roof logical levels and all Rover seat/model offsets.
+Actual graphical seat alignment in a live multiplayer session still needs an in-game check.

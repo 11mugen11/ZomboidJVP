@@ -72,9 +72,12 @@ function B.enforce(v,r)
     t=v:getWorldTransform(BaseVehicle.allocTransform())
     t:getOrigin():set(r.x-ox,r.z*HEIGHT_M,r.y-oy)
     v:setWorldTransform(t);BaseVehicle.releaseTransform(t)
-    v:setX(r.x);v:setY(r.y);v:setZ(r.z)
+    -- Logical Z is a FLOOR, not the fractional native body height. Giving the
+    -- seated renderer the body height here adds that height a second time.
+    local level=math.floor(r.z+0.05)
+    v:setX(r.x);v:setY(r.y);v:setZ(level)
     v:setLastX(r.x);v:setLastY(r.y)
-    v:setCurrentSquareFromPosition(r.x,r.y,r.z)
+    v:setCurrentSquareFromPosition(r.x,r.y,level)
     v:setSpeedKmHour(0)
     frozen[v]=true
 end
