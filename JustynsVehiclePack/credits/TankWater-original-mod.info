@@ -1,0 +1,11 @@
+name=Tank Water
+id=TankWater
+url=https://steamcommunity.com/sharedfiles/filedetails/?id=3652517636
+description=Adds industrial 1200L water tanks that spawn full or empty.
+poster=poster.png
+icon=icon.png
+modversion=1.4.1
+versionMin=42.13.0
+supports=42.13
+author=DarylMasterGG
+incompatible=\SkillRecoveryJournal,\LazoloDynamicBackpackUpgrades, \StarlitLibrary,

@@ -1,0 +1,32 @@
+{
+  "lua_runtime": "Lua 5.1 (Lupa)",
+  "server_regression_tests": [
+    "vehicle transfer and separate engine reserve",
+    "two players share one source without duplication",
+    "target capacity clamp",
+    "empty source cannot use engine tank",
+    "engine off at start",
+    "engine stops mid-transfer",
+    "exact doubled square range",
+    "range revalidated mid-transfer",
+    "different floor denied",
+    "generator real litre capacity and sync",
+    "generator running denied",
+    "generator capacity clamp",
+    "station refill conserves pump units",
+    "bed tank exact 2000 litres",
+    "station depletion conserved",
+    "disconnect keepalive timeout",
+    "explicit cancellation",
+    "walking away stops transfer",
+    "invalid truck rejected",
+    "self engine cannot be destination",
+    "receiver engine running denied",
+    "non petrol destination denied",
+    "moving truck denied",
+    "station loses power"
+  ],
+  "asset_checks": "passed",
+  "live_multiplayer_test": "Not run: requires a running server and two game clients",
+  "in_game_render_test": "Not run: offline FBX/texture inspection is separate from the game renderer"
+}

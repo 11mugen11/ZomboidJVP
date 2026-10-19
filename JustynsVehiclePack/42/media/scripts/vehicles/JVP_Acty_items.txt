@@ -1,0 +1,131 @@
+module Base
+{
+    item JVP_ActyFrontBumper1
+    {
+        DisplayCategory = VehicleMaintenance,
+        Weight	=	8.0,
+        Type	=	Normal,
+        DisplayName	= Acty Truck Front Bumper,
+        Icon	=	JVP_Acty_bumper,
+        ChanceToSpawnDamaged = 20,
+        ConditionMax = 100,
+        MechanicsItem = TRUE,
+        WorldStaticModel = JVP_ActyFrontBumperWorld,
+	VehicleType =   1,
+    }
+
+    item JVP_ActyRearBumper1
+    {
+        DisplayCategory = VehicleMaintenance,
+        Weight	=	8.0,
+        Type	=	Normal,
+        DisplayName	= Acty Truck Rear Bumper,
+        Icon	=	JVP_Acty_bumper,
+        ChanceToSpawnDamaged = 20,
+        ConditionMax = 100,
+        MechanicsItem = TRUE,
+        WorldStaticModel = JVP_ActyRearBumperWorld,
+	VehicleType =   1,
+    }
+
+    item JVP_ActyDoorFrontLeft1
+    {
+        DisplayCategory = VehicleMaintenance,
+        Weight	=	14.0,
+        Type	=	Normal,
+        DisplayName	= Acty Truck Left Door,
+        Icon	=	JVP_Acty_frontdoorleft,
+        ChanceToSpawnDamaged = 20,
+        ConditionMax = 100,
+        MechanicsItem = TRUE,
+        WorldStaticModel = JVP_ActyDoorLWorld1,
+	VehicleType =   1,
+    }
+
+    item JVP_ActyDoorFrontRight1
+    {
+        DisplayCategory = VehicleMaintenance,
+        Weight	=	14.0,
+        Type	=	Normal,
+        DisplayName	= Acty Truck Right Door,
+        Icon	=	JVP_Acty_frontdoorright,
+        ChanceToSpawnDamaged = 20,
+        ConditionMax = 100,
+        MechanicsItem = TRUE,
+        WorldStaticModel = JVP_ActyDoorRWorld1,
+	VehicleType =   1,
+    }
+	
+    item JVP_ActyWindowFront1
+    {
+        DisplayCategory = VehicleMaintenance,
+        Weight	=	8.0,
+        Type	=	Normal,
+        DisplayName	=	Acty Truck Door Window,
+        Icon	=	JVP_Acty_doorglass,
+        ChanceToSpawnDamaged = 20,
+        ConditionMax = 100,
+        MechanicsItem = TRUE,
+        WorldStaticModel = JVP_ActyWindowFrontWorld,
+	VehicleType =   1,
+    }
+	
+	
+    item JVP_ActyHood1
+    {
+        DisplayCategory = VehicleMaintenance,
+        Weight	=	14.0,
+        Type	=	Normal,
+        DisplayName	=	Acty Truck Engine Cover,
+        Icon	=	JVP_Acty_hood,
+        ChanceToSpawnDamaged = 20,
+        ConditionMax = 100,
+        MechanicsItem = TRUE,
+        WorldStaticModel = JVP_ActyHoodWorld,
+	VehicleType =   1,
+    }
+	
+	
+	item JVP_ActyTrunk1
+    {
+        DisplayCategory = VehicleMaintenance,
+        Weight	=	14.0,
+        Type	=	Normal,
+        DisplayName	=	Acty Truck Bed Door,
+        Icon	=	JVP_Acty_bumper,
+        ChanceToSpawnDamaged = 20,
+        ConditionMax = 100,
+        MechanicsItem = TRUE,
+        WorldStaticModel = JVP_ActyTrunkWorld,
+	VehicleType =   1,
+    }
+	
+	
+	item JVP_ActyFrontWindshield1
+    {
+        DisplayCategory = VehicleMaintenance,
+        Weight	=	8.5,
+        Type	=	Normal,
+        DisplayName	=	Acty Truck Front Windshield,
+        Icon	=	JVP_Acty_windowfront,
+        ChanceToSpawnDamaged = 20,
+        ConditionMax = 100,
+        MechanicsItem = TRUE,
+        WorldStaticModel = JVP_ActyFrontWindshieldWorld,
+	VehicleType =   1,
+    }
+	
+	item JVP_ActyRearWindshield1
+    {
+        DisplayCategory = VehicleMaintenance,
+        Weight	=	8.0,
+        Type	=	Normal,
+        DisplayName	=	Acty Truck Rear Windshield,
+        Icon	=	JVP_Acty_windowrear,
+        ChanceToSpawnDamaged = 20,
+        ConditionMax = 100,
+        MechanicsItem = TRUE,
+        WorldStaticModel = JVP_ActyRearWindshieldWorld,
+	VehicleType =   1,
+    }	
+}

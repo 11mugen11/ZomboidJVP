@@ -1,0 +1,71 @@
+YELLOW HONDA ACTY FUEL TRUCK -- Build 42.21
+Pack: EmreAdventureVehiclePack_B42, version 1.0.38
+Vehicle script: Base.JVP_ActyFuelTruck
+
+No additional mods are required. The required Acty and Tank Water assets are
+bundled under separate names. The normal Acty vehicle is not replaced.
+
+The 1200 L Tank Water model is permanently mounted in the bed. Its usable fuel
+capacity is 2000 litres. It starts empty. It has no water/fluid-mixing interface.
+The engine fuel tank remains separate and is used only to drive the truck.
+
+FILLING THE TRUCK
+Right-click the truck and open either:
+  ENGINE fuel tank: fill the truck's driving reserve from cans or a station.
+  EXTERNAL bed tank - PETROL ONLY: fill the 2000 L tank from a powered station.
+Park the bed's rear interaction area within normal station range (2 tiles per
+axis). Station fuel and electricity requirements are the game's normal rules.
+Turn the engine off when filling the driving reserve.
+
+DISPENSING
+Start the Acty's engine and leave it running. Park a receiving vehicle with its
+fuel inlet within 4 tiles per axis of the Acty's rear bed interaction area.
+This doubles the vanilla pump's -2..2 square search to -4..4, on the same floor.
+Right-click the receiving vehicle, or select it under the Acty's EXTERNAL tank
+menu. The option always identifies the external bed tank as its source.
+Generators can be selected from the same menu or by right-clicking a nearby
+generator. Switch the receiving vehicle/generator off first. No hose item,
+generator, electrical connection or separate pump fuel is required for the Acty.
+Use Escape or move to cancel. Flow is 8 L per real second. The pump stops when
+the bed tank is empty, the destination is full, the Acty engine stops, either
+vehicle moves away, the operator leaves, or the operator disconnects.
+
+There is no siphon/dispense option for this truck's engine fuel tank. The bed
+tank cannot refill the same truck's engine tank through the pumping menu.
+The occupied bed retains only 10 storage capacity.
+
+SPAWNING
+Find "Honda Acty Fuel Truck (Yellow, 2000 L)" in the debug/admin vehicle spawner,
+or use Base.JVP_ActyFuelTruck. It also spawns rarely in newly generated parking,
+medium/good vehicle zones and junkyards. Existing Actys are not converted.
+
+MULTIPLAYER
+Install the same complete pack on the server AND all clients. Restart the game
+and server after updating. Keep the existing mod ID EmreAdventureVehiclePack_B42.
+All transfers run on the server, debit the dedicated bed part, clamp the amount
+to available fuel/free space, and transmit changed parts/generators to clients.
+Clients send requests, not fuel quantities. State is rechecked every transfer.
+Concurrent users share the real remaining supply; no client writes fuel levels.
+The bed fuel is saved with the vehicle part and persists through normal saves.
+
+VERIFICATION
+Passed: 24 Lua 5.1 server regression cases, client menu tests, all namespaced
+model/texture/icon references, PNG decoding, named FBX submeshes and finite UVs.
+An offline geometry/UV preview verified the tank's width and bed-floor alignment.
+Original Acty UVs, masks, lights, animations and textures are preserved.
+Not yet verified: actual in-game shaders/animation and a live dedicated-server
+session with two players. Offline mocks do not replace that final playtest.
+
+Recommended live acceptance check:
+1. Spawn the new yellow truck with only this pack enabled; inspect every side,
+   doors, wheels, lights, damage and the tank. Save/reload and confirm the tank.
+2. Fill each tank separately at a powered pump; confirm only the selected one
+   increases and station fuel decreases.
+3. With the Acty running, have two players pump into separate vehicles. Check
+   both clients see the same bed amount and total litres are conserved.
+4. Test a generator, full/empty targets, exactly 4 tiles and then 5 tiles away.
+5. Stop the engine, cancel, walk away and disconnect during transfers. Ensure
+   flow stops and saved fuel remains correct after a server restart.
+
+Original asset authors retain ownership. This is a local personal integration;
+see CREDITS.txt and credits/TankWater-LICENSE.txt before any public redistribution.

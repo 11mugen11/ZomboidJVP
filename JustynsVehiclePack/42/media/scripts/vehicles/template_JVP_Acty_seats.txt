@@ -1,0 +1,48 @@
+module Base
+{
+	template vehicle JVP_Acty_Seats
+	{
+		template = Seat/part/SeatFrontLeft,
+		template = Seat/part/SeatFrontRight,
+
+		part SeatFrontRight
+		{
+
+			model leftfrontseat
+			{
+				file = JVP_Acty_SeatFrontLeft,
+			}
+
+			area = SeatFrontLeft,
+		}
+
+		part SeatFrontLeft
+		{
+
+			model rightfrontseat
+			{
+				file = JVP_Acty_SeatFrontRight,
+			}
+			area = SeatFrontRight,
+		}
+
+		part Seat*
+		{
+			category = seat,
+			container
+			{
+				capacity = 20,
+			}
+
+			table install
+			{
+				skills = Mechanics:1,
+			}
+
+			table uninstall
+			{
+				skills = Mechanics:1,
+			}
+		}
+	}
+}

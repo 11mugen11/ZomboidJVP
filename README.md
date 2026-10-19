@@ -1,7 +1,7 @@
 # Justyns vehicle Pack
 
 A combined Project Zomboid Build 42 mod containing the Yamaha Tenere 700 World Rally and Emre RE9 motorcycles,
-Land Rover Discovery variants, and flyable Cessna 172.
+Land Rover Discovery variants, flyable Cessna 172, and a yellow Honda Acty fuel truck.
 
 [Download the v1.0.37 mod ZIP](https://github.com/11mugen11/ZomboidJVP/releases/download/v1.0.37/JustynsVehiclePack-v1.0.37.zip)
 
@@ -18,6 +18,8 @@ Expected layout: `Zomboid/mods/JustynsVehiclePack/42/mod.info`.
 The pack declares Build 42.20.4 or later; Build 41 is not included.
 
 ## Included changes
+
+- **v1.0.38 Acty fuel truck:** adds separate `Base.JVP_ActyFuelTruck`, using the yellow Acty and the 1200 L Tank Water model with 2000 L petrol-only capacity. Separate driving/bed tank menus; only the bed tank dispenses. The running Acty powers vehicle/generator transfers over four tiles per axis (double vanilla pump reach). All required assets are bundled. Server-authoritative transfers clamp supply/capacity and stop on engine shutdown, range loss or disconnect. Passed 24 Lua server regression cases, client menus including Build 42 Set collections, and FBX/texture checks. Live two-client playtesting and final in-game rendering remain pending. Update server and all clients, then restart. See `JustynsVehiclePack/ACTY_FUEL_TRUCK.txt`.
 
 - **v1.0.37 occupant seat repair:** Cessna parking no longer adds fractional body height to its logical floor, which lifted seated occupants when the brake engaged. Restores stale Land Rover passenger offsets and clears leftover bike/plane pose variables when changing vehicles. Covers all three Rovers and four aircraft colors, preserves entry/exit roots and the higher cruise. Game Lua regressions pass; live graphical seating needs verification. Update server and every client, then restart.
 

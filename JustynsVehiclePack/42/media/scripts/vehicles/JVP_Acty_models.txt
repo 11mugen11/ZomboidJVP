@@ -1,0 +1,134 @@
+module Base
+{
+
+	model JVP_Acty_Interior
+	{
+		mesh = vehicles/JVP_Acty_base|interior_mesh,
+		texture = Vehicles/JVP_Acty_Interior,
+		shader = vehiclewheel,
+      	  	scale = 0.1,
+	}
+
+	model JVP_Acty_SeatFrontLeft
+	{
+		mesh = vehicles/JVP_Acty_base|seat_l_mesh,
+		texture = Vehicles/JVP_Acty_Interior,
+		shader = vehiclewheel,
+      	  	scale = 0.1,
+	}
+
+	model JVP_Acty_SeatFrontRight
+	{
+		mesh = vehicles/JVP_Acty_base|seat_r_mesh,
+		texture = Vehicles/JVP_Acty_Interior,
+		shader = vehiclewheel,
+		scale = 0.1,	
+	}
+
+	model JVP_Acty_GasTank
+	{
+		mesh = vehicles/JVP_Acty_base|gastank_mesh,
+		texture = Vehicles/JVP_Acty_Interior,
+		shader = vehiclewheel,
+      	  	scale = 0.1,
+	}
+
+	model JVP_Acty_Battery
+	{
+		mesh = vehicles/JVP_Acty_base|battery_mesh,
+		texture = Vehicles/JVP_Acty_Interior,
+		shader = vehiclewheel,
+      	  	scale = 0.1,
+	}
+
+	model JVP_Acty_Muffler
+	{
+		mesh = vehicles/JVP_Acty_base|muffler_mesh,
+		texture = Vehicles/JVP_Acty_Interior,
+		shader = vehiclewheel,
+      	  	scale = 0.1,
+	}
+
+
+	model JVP_Acty_Spare
+	{
+		mesh = vehicles/JVP_Acty_base|spare_mesh,
+		texture = Vehicles/JVP_Acty_Interior,
+		shader = vehiclewheel,
+      	  	scale = 0.1,
+	}
+
+
+
+
+	model JVP_ActyDoorLWorld1
+		{
+			mesh = vehicles/JVP_Acty_parts|door_l_WI,
+			texture = Vehicles/JVP_Acty_Shell,
+			scale = 0.07,
+		}
+
+	model JVP_ActyDoorRWorld1
+		{
+			mesh = vehicles/JVP_Acty_parts|door_r_WI,
+			texture = Vehicles/JVP_Acty_Shell,
+			scale = 0.07,
+		}
+
+	model JVP_ActyWindowFrontWorld
+		{
+			mesh = vehicles/JVP_Acty_parts|glass_l_WI,
+			texture = Vehicles/JVP_Acty_Shell,
+			scale = 0.07,
+		}
+	
+	model JVP_ActyWindowRearWorld
+		{
+			mesh = vehicles/JVP_Acty_parts|glass_rear_WI,
+			texture = Vehicles/JVP_Acty_Shell,
+			scale = 0.07,
+		}
+	
+	model JVP_ActyHoodWorld
+		{
+			mesh = vehicles/JVP_Acty_parts|hood_WI,
+			texture = Vehicles/JVP_Acty_Shell,
+			scale = 0.07,
+		}
+
+	model JVP_ActyFrontBumperWorld
+		{
+			mesh = vehicles/JVP_Acty_parts|bumper_front_WI,
+			texture = Vehicles/JVP_Acty_Shell,
+			scale = 0.07,
+		}
+
+	model JVP_ActyRearBumperWorld
+		{
+			mesh = vehicles/JVP_Acty_parts|bumper_rear_WI,
+			texture = Vehicles/JVP_Acty_Shell,
+			scale = 0.07,
+		}
+		
+	model JVP_ActyTrunkWorld
+		{
+			mesh = vehicles/JVP_Acty_parts|trunk_WI,
+			texture = Vehicles/JVP_Acty_Shell,
+			scale = 0.07,
+		}		
+	
+	model JVP_ActyFrontWindshieldWorld
+		{
+			mesh = vehicles/JVP_Acty_parts|glass_front_WI,
+			texture = Vehicles/JVP_Acty_Shell,
+			scale = 0.07,
+		}
+	
+	model JVP_ActyRearWindshieldWorld
+		{
+			mesh = vehicles/JVP_Acty_parts|glass_rear_WI,
+			texture = Vehicles/JVP_Acty_Shell,
+			scale = 0.07,
+		}
+
+}

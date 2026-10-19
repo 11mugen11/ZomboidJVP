@@ -21,5 +21,8 @@
   "IGUI_VehicleNameJVP_TenereCarrier": "Yamaha Tenere 700 World Rally (Carrier)",
   "IGUI_VehicleNameCessna172Blue": "Cessna 172 (Blue)",
   "IGUI_VehicleNameCessna172Green": "Cessna 172 (Green)",
-  "IGUI_VehicleNameCessna172Yellow": "Cessna 172 (Yellow)"
+  "IGUI_VehicleNameCessna172Yellow": "Cessna 172 (Yellow)",
+  "IGUI_VehicleNameJVP_ActyFuelTruck": "Honda Acty Fuel Truck (Yellow, 2000 L)",
+  "IGUI_VehiclePartJVP_ExternalFuelTank": "External bed tank - PETROL ONLY (2000 L)",
+  "IGUI_VehiclePartJVP_ActySpareTire": "Spare tire"
 }

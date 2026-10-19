@@ -1,0 +1,1003 @@
+module Base
+{
+	model JVP_Acty_base
+	{
+        	mesh = vehicles/JVP_Acty_base|cab_mesh,
+	        shader = vehicle_multiuv,
+        	scale = 0.1,
+		static = TRUE,
+	}
+	model JVP_Acty_DoorFrontLeft
+	{
+		mesh = vehicles/JVP_Acty_base|door_l_mesh,
+		shader = vehicle,
+		scale = 0.1,
+		static = FALSE,
+		boneWeight = door_l_bone 1.0,
+	}
+	model JVP_Acty_DoorFrontRight
+	{
+		mesh = vehicles/JVP_Acty_base|door_r_mesh,
+		shader = vehicle,
+		scale = 0.1,
+		static = FALSE,
+		boneWeight = door_r_bone 1.0,
+	}
+	model JVP_Acty_TrunkDoor
+	{
+		mesh = vehicles/JVP_Acty_base|trunk_mesh,
+		shader = vehicle,
+		scale = 0.1,
+		static = FALSE,
+		boneWeight = trunk_bone 1.0,
+	}
+	model JVP_Acty_Hood
+	{
+		mesh = vehicles/JVP_Acty_base|hood_mesh,
+		shader = vehicle,
+		scale = 0.1,
+		static = FALSE,
+		boneWeight = hood_bone 1.0,
+	}
+	model JVP_Acty_FrontBumper
+	{
+		mesh = vehicles/JVP_Acty_base|bumper_front_mesh,
+		shader = vehicle,
+		scale = 0.1,
+
+	}
+	model JVP_Acty_RearBumper
+	{
+		mesh = vehicles/JVP_Acty_base|bumper_rear_mesh,
+		shader = vehicle,
+      	  	scale = 0.1,
+	}
+	model JVP_Acty_FrontWindshield
+	{
+		mesh = vehicles/JVP_Acty_base|glass_front_mesh,
+		shader = vehicle,
+      	  	scale = 0.1,
+	}
+	model JVP_Acty_RearWindshield
+	{
+		mesh = vehicles/JVP_Acty_base|glass_rear_mesh,
+		shader = vehicle,
+      	  	scale = 0.1,
+	}
+	model JVP_Acty_WindowFrontLeft
+	{
+		mesh = vehicles/JVP_Acty_base|glass_l_mesh,
+		shader = vehicle,
+		scale = 0.1,
+		static = FALSE,
+		boneWeight = glass_l_bone 1.0,
+	}
+	model JVP_Acty_WindowFrontRight
+	{
+		mesh = vehicles/JVP_Acty_base|glass_r_mesh,
+		shader = vehicle,
+		scale = 0.1,
+		static = FALSE,
+		boneWeight = glass_r_bone 1.0,
+	}
+	model JVP_Acty_WheelFrontLeft
+	{
+        	mesh = vehicles/JVP_Acty_base|wheel_mesh,
+		texture = Vehicles/JVP_Acty_Shell,
+	        shader = vehicle,
+	        scale = 0.1,
+	}
+	model JVP_Acty_WheelFrontRight
+	{
+	        mesh = vehicles/JVP_Acty_base|wheel_mesh,
+		texture = Vehicles/JVP_Acty_Shell,
+	        shader = vehicle,
+	        scale = 0.1,
+	}
+	model JVP_Acty_WheelRearLeft
+	{
+        	mesh = vehicles/JVP_Acty_base|wheel_mesh,
+		texture = Vehicles/JVP_Acty_Shell,
+        	shader = vehicle,
+	        scale = 0.1,
+	}
+	model JVP_Acty_WheelRearRight
+	{
+        	mesh = vehicles/JVP_Acty_base|wheel_mesh,
+		texture = Vehicles/JVP_Acty_Shell,
+        	shader = vehicle,
+	        scale = 0.1,
+	}
+	vehicle JVP_ActyFuelTruck
+	{
+		mechanicType = 1,
+		offRoadEfficiency = 1.8,
+		engineRepairLevel = 4,
+		playerDamageProtection = 0.8,
+
+		model
+		{
+			file = JVP_Acty_base,
+			scale = 1.0000,
+			offset = 0.0000 0.0000 0.0000,
+		}
+
+		spawnOffsetY = 0.12999995,
+
+		skin
+		{
+			texture = vehicles/JVP_Acty_Shell_yellow,
+		}
+
+		textureMask = Vehicles/JVP_Acty_Mask,
+		textureLights = Vehicles/JVP_Acty_Lights,
+		textureDamage1Overlay = Vehicles/JVP_Acty_Blood1,
+		textureDamage2Overlay = Vehicles/JVP_Acty_Blood2,
+		textureDamage1Shell = Vehicles/JVP_Acty_Damage1,
+		textureDamage2Shell = Vehicles/JVP_Acty_Damage2,
+		textureRust = Vehicles/JVP_Acty_Rust,
+
+		sound
+		{
+			engine = VehicleEngineSmallCar,
+			engineStart = VehicleEngineSmallCar,
+			engineTurnOff = VehicleEngineSmallCar,
+			horn = VehicleHornStandard,
+			ignitionFail = VehicleIgnitionFailSmallCar,
+		}
+
+		extents = 1.4000 0.3600 3.2000,
+		mass = 480,
+		physicsChassisShape = 1.4000 0.6000 3.2000,
+		centerOfMassOffset = 0.0000 0.0100 -0.0600,
+		shadowExtents = 1.5455 3.3981,
+		shadowOffset = 0.0000 -0.0942,
+		engineForce = 1500,
+		engineLoudness = 60,
+		engineQuality = 50,
+		brakingForce = 60,
+		maxSpeed = 50f,
+		gearRatioCount = 3,
+		gearRatioR = 4.7,
+		gearRatio1 = 3.6,
+		gearRatio2 = 2.2,
+		gearRatio3 = 1.0,
+		stoppingMovementForce = 0.0f,
+		rollInfluence = 0.5f,
+		steeringIncrement = 0.04,
+		steeringClamp = 0.3,
+		suspensionStiffness = 40,
+		suspensionCompression = 4.83,
+		suspensionDamping = 4.88,
+		maxSuspensionTravelCm = 15,
+		suspensionRestLength = 0.4f,
+		wheelFriction = 1.0f,
+		frontEndHealth = 150,
+		rearEndHealth = 150,
+		seats = 2,
+
+		wheel FrontLeft
+		{
+			front = true,
+			offset = 0.6300 -0.5600 0.7300,
+			radius = 0.27f,
+			width = 0.2f,
+		}
+
+		wheel FrontRight
+		{
+			front = true,
+			offset = -0.6300 -0.5600 0.7300,
+			radius = 0.27f,
+			width = 0.2f,
+		}
+
+		wheel RearLeft
+		{
+			front = false,
+			offset = 0.6100 -0.5600 -1.1600,
+			radius = 0.27f,
+			width = 0.2f,
+		}
+
+		wheel RearRight
+		{
+			front = false,
+			offset = -0.6100 -0.5600 -1.1600,
+			radius = 0.27f,
+			width = 0.2f,
+		}
+
+		template = PassengerSeat2,
+
+		passenger FrontRight
+		{
+			showPassenger = true,
+			hasRoof = true,
+			door = DoorFrontLeft,
+			area = SeatFrontLeft,
+
+			position inside
+			{
+				offset = 0.2900 0.0500 0.5400,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = 1.0000 -0.4000 0.1800,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatFrontLeft,
+			}
+		}
+
+		passenger FrontLeft
+		{
+			showPassenger = true,
+			hasRoof = true,
+			door = DoorFrontRight,
+			area = SeatFrontRight,
+
+			position inside
+			{
+				offset = -0.3100 0.0100 0.5600,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			position outside
+			{
+				offset = -1.0000 -0.4000 0.1800,
+				rotate = 0.0000 0.0000 0.0000,
+				area = SeatFrontRight,
+			}
+		}
+
+		area Engine
+		{
+			xywh = 0.0100 -0.6800 2.3200 0.6000,
+		}
+
+		area TruckBed
+		{
+			xywh = 0.0000 -2.0000 1.4000 0.6000,
+		}
+
+		area FrontTrunk
+		{
+			xywh = 0.0000 1.8300 1.4000 0.6000,
+		}
+
+		area SeatFrontLeft
+		{
+			xywh = 1.1300 0.6900 0.8200 0.8000,
+		}
+
+		area SeatFrontRight
+		{
+			xywh = -1.1400 0.6600 0.8200 0.8000,
+		}
+
+		area GasTank
+		{
+			xywh = -1.0000 0.0600 0.5600 0.7200,
+		}
+
+		area SpareTire
+		{
+			xywh = 1.0000 0.0000 0.5600 0.7200,
+		}
+
+		area TireFrontLeft
+		{
+			xywh = 0.9700 0.7100 0.4800 0.4800,
+		}
+
+		area TireFrontRight
+		{
+			xywh = -0.9800 0.7100 0.4800 0.4800,
+		}
+
+		area TireRearLeft
+		{
+			xywh = 0.9500 -1.2100 0.4800 0.4800,
+		}
+
+		area TireRearRight
+		{
+			xywh = -0.9500 -1.2100 0.4800 0.4800,
+		}
+
+		template = TrunkDoor,
+
+		part TrunkDoor
+		{
+			itemType = Base.JVP_ActyTrunk,
+			repairMechanic = true,
+
+			table install
+			{
+				recipes = Advanced Mechanics,
+			}
+
+			table uninstall
+			{
+				recipes = Advanced Mechanics,
+			}
+
+			model Default
+			{
+				file = JVP_Acty_TrunkDoor,
+				offset = 0.0800 -0.4509 0.3100,
+				rotate = 20.0000 0.0000 0.0000,
+			}
+
+			anim Close
+			{
+				anim = trunk_open,
+				reverse = TRUE,
+				rate = 2.0,
+			}
+
+			anim Open
+			{
+				anim = trunk_open,
+				rate = 1.5,
+			}
+
+			anim Closed
+			{
+				anim = trunk_open,
+				animate = FALSE,
+			}
+
+			anim Opened
+			{
+				anim = trunk_open,
+				reverse = TRUE,
+				animate = FALSE,
+			}
+		}
+
+		template = Trunk/part/TruckBed,
+
+		part TruckBed
+		{
+			container
+			{
+				capacity = 10,
+			}
+		}
+
+		template = JVP_Acty_Seats,
+
+		part FrontBumper
+		{
+			model FrontBumper
+			{
+				file = JVP_Acty_FrontBumper,
+				offset = 0.0000 0.0000 0.0000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			area = FrontTrunk,
+			category = bodywork,
+			specificItem = false,
+			itemType = Base.JVP_ActyFrontBumper1,
+			mechanicRequireKey = false,
+			repairMechanic = true,
+			durability = 5,
+
+			table install
+			{
+				items
+				{
+					item
+					{
+						type = Base.Wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+
+				time = 100,
+				skills = Mechanics:4,
+				recipes = Intermediate Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+
+			table uninstall
+			{
+				items
+				{
+					item
+					{
+						type = Base.Wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+
+				time = 100,
+				skills = Mechanics:4,
+				recipes = Intermediate Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		part RearBumper
+		{
+			model RearBumper
+			{
+				file = JVP_Acty_RearBumper,
+				offset = 0.0000 0.0000 0.0000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			area = Trunk,
+			category = bodywork,
+			specificItem = false,
+			repairMechanic = true,
+			itemType = Base.JVP_ActyRearBumper1,
+			mechanicRequireKey = false,
+			durability = 5,
+
+			table install
+			{
+				items
+				{
+					item
+					{
+						type = Base.Wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+
+				time = 100,
+				skills = Mechanics:4,
+				recipes = Intermediate Mechanics,
+				test = Vehicles.InstallTest.Default,
+			}
+
+			table uninstall
+			{
+				items
+				{
+					item
+					{
+						type = Base.Wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+
+				time = 100,
+				skills = Mechanics:4,
+				recipes = Intermediate Mechanics,
+				test = Vehicles.UninstallTest.Default,
+			}
+
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+
+		template = GloveBox,
+
+		part GloveBox
+		{
+			container
+			{
+				capacity = 5,
+			}
+
+			model InteriorJVP_Acty
+			{
+				file = JVP_Acty_Interior,
+				offset = 0.0000 0.0000 0.0000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+		}
+
+		template = GasTank,
+
+		part GasTank
+		{
+			model Default			
+			{
+				file = JVP_Acty_GasTank,
+				texture = Vehicles/JVP_Acty_Interior,
+				offset = 0.0000 0.0000 0.0000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			install
+			{
+				skills = Mechanics:6,
+				recipes = Advanced Mechanics,
+			}
+
+			uninstall
+			{
+				skills = Mechanics:6,
+				recipes = Advanced Mechanics,
+			}
+		}
+
+		template = Battery,
+
+		part Battery
+		{
+			area = SpareTire,
+
+			model Default
+			{
+				file = JVP_Acty_Battery,
+				texture = Vehicles/JVP_Acty_Interior,
+				offset = -0.0041 0.0000 0.0000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+		}
+
+		template = Engine,
+		template = Muffler,
+
+		part Muffler
+		{
+			model Default
+			{
+				file = JVP_Acty_Muffler,
+				texture = Vehicles/JVP_Acty_Interior,
+				offset = 0.0000 0.0000 -0.0100,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			table install
+			{
+				recipes = Basic Mechanics,
+			}
+
+			table uninstall
+			{
+				recipes = Basic Mechanics,
+			}
+		}
+
+		template = EngineDoor,
+
+		part EngineDoor
+		{
+			itemType = Base.JVP_ActyHood,
+			repairMechanic = true,
+
+			model Default
+			{
+				file = JVP_Acty_Hood,
+				offset = 0.0700 0.0200 0.2612,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			anim Close
+			{
+				anim = hood_open,
+				reverse = TRUE,
+				rate = 2.0,
+			}
+
+			anim Open
+			{
+				anim = hood_open,
+				rate = 1.5,
+			}
+
+			anim Closed
+			{
+				anim = hood_open,
+				animate = FALSE,
+			}
+
+			anim Opened
+			{
+				anim = hood_open,
+				reverse = TRUE,
+				animate = FALSE,
+			}
+		}
+
+		part Heater
+		{
+			category = engine,
+
+			lua
+			{
+				update = Vehicles.Update.Heater,
+			}
+		}
+
+		part PassengerCompartment
+		{
+			category = nodisplay,
+
+			lua
+			{
+				update = Vehicles.Update.PassengerCompartment,
+			}
+		}
+
+		template = Windshield/part/Windshield,
+		template = Windshield/part/WindshieldRear,
+
+		part Windshield
+		{
+			itemType = Base.JVP_ActyFrontWindshield,
+
+			model Default
+			{
+				file = JVP_Acty_FrontWindshield,
+				offset = 0.0000 0.0000 0.0000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+		}
+
+		part WindshieldRear
+		{
+			itemType = Base.JVP_ActyRearWindshield,
+
+			model Default
+			{
+				file = JVP_Acty_RearWindshield,
+				offset = 0.0000 0.0000 0.0000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+		}
+
+		part Windshield*
+		{
+			table install
+			{
+				recipes = Advanced Mechanics,
+			}
+
+			table uninstall
+			{
+				recipes = Advanced Mechanics,
+			}
+		}
+
+		template = Window/part/WindowFrontLeft,
+		template = Window/part/WindowFrontRight,
+
+		part WindowFrontLeft
+		{
+			category = door,
+			itemType = Base.JVP_ActyWindowFront,
+			area = SeatFrontLeft,
+			mechanicRequireKey = false,
+			parent = DoorFrontLeft,
+
+			model Default
+			{
+				file = JVP_Acty_WindowFrontLeft,
+				offset = -0.0383 -0.1300 -0.0100,
+				rotate = 0.0000 4.0000 0.0000,
+			}
+
+			anim ClosedToOpen
+			{
+				anim = glass_l_open,
+				animate = FALSE,
+			}
+		}
+
+		part WindowFrontRight
+		{
+			category = door,
+			itemType = Base.JVP_ActyWindowFront,
+			area = SeatFrontRight,
+			mechanicRequireKey = false,
+			parent = DoorFrontRight,
+
+			model Default
+			{
+				file = JVP_Acty_WindowFrontRight,
+				offset = 0.1600 -0.1177 -0.0300,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			anim ClosedToOpen
+			{
+				anim = glass_r_open,
+				animate = FALSE,
+			}
+		}
+
+		template = Door/part/DoorFrontLeft,
+		template = Door/part/DoorFrontRight,
+
+		part DoorFrontLeft
+		{
+			category = door,
+			itemType = Base.JVP_ActyDoorFrontLeft,
+
+			model Default
+			{
+				file = JVP_Acty_DoorFrontLeft,
+				offset = -0.0300 0.0000 0.0200,
+				rotate = 0.0000 2.0000 0.0000,
+			}
+
+			anim Close
+			{
+				anim = door_l_open,
+				reverse = TRUE,
+				rate = 2.0,
+			}
+
+			anim Open
+			{
+				anim = door_l_open,
+				rate = 1.5,
+			}
+
+			anim Closed
+			{
+				anim = door_l_open,
+				animate = FALSE,
+			}
+
+			anim Opened
+			{
+				anim = door_l_open,
+				reverse = TRUE,
+				animate = FALSE,
+			}
+
+			anim ActorOpen
+			{
+				anim = Climb_WindowB,
+				rate = 0.23,
+				sound =,
+				angle = 0.0 270.0 0.0,
+			}
+
+			anim ActorClose
+			{
+				angle = 0.0 270.0 0.0,
+			}
+
+			table uninstall
+			{
+				requireUninstalled = WindowFrontLeft,
+			}
+		}
+
+		part DoorFrontRight
+		{
+			category = door,
+			itemType = Base.JVP_ActyDoorFrontRight,
+
+			model Default
+			{
+				file = JVP_Acty_DoorFrontRight,
+				offset = 0.1600 0.0000 0.0000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+
+			anim Close
+			{
+				anim = door_r_open,
+				reverse = TRUE,
+				rate = 2.0,
+			}
+
+			anim Open
+			{
+				anim = door_r_open,
+				rate = 1.5,
+			}
+
+			anim Closed
+			{
+				anim = door_r_open,
+				animate = FALSE,
+			}
+
+			anim Opened
+			{
+				anim = door_r_open,
+				reverse = TRUE,
+				animate = FALSE,
+			}
+
+			anim ActorOpen
+			{
+				anim = Climb_WindowB,
+				rate = 0.23,
+				sound =,
+				angle = 0.0 270.0 0.0,
+			}
+
+			anim ActorClose
+			{
+				angle = 0.0 270.0 0.0,
+			}
+
+			table uninstall
+			{
+				requireUninstalled = WindowFrontRight,
+			}
+		}
+
+		part Door*
+		{
+			anim Open
+			{
+				sound = VehicleDoorOpenSportsCar,
+			}
+
+			anim Close
+			{
+				sound = VehicleDoorCloseSportsCar,
+			}
+
+			anim Lock
+			{
+				sound = LockVehicleDoorSportsCar,
+			}
+
+			anim Unlock
+			{
+				sound = UnlockVehicleDoorSportsCar,
+			}
+
+			anim IsLocked
+			{
+				sound = VehicleDoorIsLockedSportsCar,
+			}
+
+			table install
+			{
+				recipes = Advanced Mechanics,
+			}
+
+			table uninstall
+			{
+				recipes = Advanced Mechanics,
+			}
+		}
+
+		template = Tire,
+
+		part TireFrontLeft
+		{
+			model InflatedTirePlusWheel
+			{
+				file = JVP_Acty_WheelFrontLeft,
+				offset = 0.0000 -0.0019 0.0000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+		}
+
+		part TireFrontRight
+		{
+			model InflatedTirePlusWheel
+			{
+				file = JVP_Acty_WheelFrontRight,
+				offset = 0.0000 0.0000 0.0001,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+		}
+
+		part TireRearLeft
+		{
+			model InflatedTirePlusWheel
+			{
+				file = JVP_Acty_WheelRearLeft,
+				offset = 0.0000 0.0000 -0.0012,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+		}
+
+		part TireRearRight
+		{
+			model InflatedTirePlusWheel
+			{
+				file = JVP_Acty_WheelRearRight,
+				offset = 0.0000 -0.0019 0.0000,
+				rotate = 0.0000 0.0000 0.0000,
+			}
+		}
+
+		template = Brake,
+
+		part Brake*
+		{
+			table install
+			{
+				skills = Mechanics:7,
+				recipes = Advanced Mechanics,
+			}
+
+			table uninstall
+			{
+				skills = Mechanics:7,
+				recipes = Advanced Mechanics,
+			}
+		}
+
+		template = Suspension,
+
+		part Suspension*
+		{
+			table install
+			{
+				skills = Mechanics:7,
+				recipes = Advanced Mechanics,
+			}
+
+			table uninstall
+			{
+				skills = Mechanics:7,
+				recipes = Advanced Mechanics,
+			}
+		}
+
+		template = Radio,
+		template = Headlight,
+		template = JVP_ActyAddons,
+
+		physics box
+		{
+			offset = 0.0000 0.6087 0.6900,
+			extents = 1.3000 0.6800 1.0000,
+			rotate = 0.0000 0.0000 0.0000,
+		}
+
+		attachment trailer
+		{
+			offset = 0.0000 -0.4600 -1.7192,
+			rotate = 0.0000 0.0000 0.0000,
+			zoffset = -1.0000,
+		}
+
+		attachment trailerfront
+		{
+			offset = 0.0000 -0.4600 1.5655,
+			rotate = 0.0000 0.0000 0.0000,
+			zoffset = 1.0000,
+		}
+        part JVP_ExternalFuelTank
+        {
+            area = TruckBed,
+            category = gastank,
+            container
+            {
+                capacity = 2000,
+                contentType = JVP_PetrolOnly,
+                conditionAffectsCapacity = false,
+            }
+            model Default
+            {
+                file = JVP_ActyBedTank,
+                offset = 0.0233 -0.0593 -0.7500,
+                rotate = 0.0000 0.0000 0.0000,
+            }
+            lua
+            {
+                create = JVPActyFuel.CreateTank,
+                init = JVPActyFuel.InitTank,
+            }
+        }
+
+	}
+}

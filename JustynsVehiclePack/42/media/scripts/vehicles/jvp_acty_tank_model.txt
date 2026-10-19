@@ -1,0 +1,11 @@
+module Base
+{
+    model JVP_ActyBedTank
+    {
+        mesh = vehicles/JVP_ActyBedTank,
+        texture = Vehicles/JVP_ActyBedTank,
+        shader = vehiclewheel,
+        scale = 1.4,
+        static = TRUE,
+    }
+}

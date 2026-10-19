@@ -1,0 +1,20 @@
+MOD NAME: Tank Water
+AUTHOR: DarylMasterGG
+ID: 3652517636
+ORIGINAL URL: https://steamcommunity.com/sharedfiles/filedetails/?id=3652517636
+
+This mod was created and published by DarylMasterGG and is protected by copyright.
+
+PROHIBITED:
+- Reuploading this mod to Steam Workshop, Nexus Mods, ModDB, or any other platform without explicit author permission.
+- Redistributing modified versions as your own work.
+- Using this mod for commercial or monetized distribution.
+
+ALLOWED:
+- Using this mod in singleplayer and multiplayer servers.
+- Sharing the official mod link.
+- Creating videos/streams featuring this mod with proper credit.
+
+For translations, integrations, or derivative work, contact the author first.
+
+Copyright 2026. All rights reserved.

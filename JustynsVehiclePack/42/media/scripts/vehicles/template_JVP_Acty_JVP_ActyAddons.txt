@@ -1,0 +1,73 @@
+module Base
+{
+	/***ADD ONS***/
+	template vehicle JVP_ActySpareTire
+	{
+		part JVP_ActySpareTire
+		{
+			category = Attachments,
+			area = SpareTire,
+			itemType = Base.OldTire;Base.NormalTire;Base.ModernTire,
+			mechanicRequireKey = false,
+			repairMechanic = false,
+
+			table install
+			{
+				items
+				{
+					1
+					{
+						type = Base.Wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+
+				time = 100,
+				test = Vehicles.InstallTest.Default,
+			}
+
+			table uninstall
+			{
+				items
+				{
+					1
+					{
+						type = Base.Wrench,
+						count = 1,
+						keep = true,
+						equip = primary,
+					}
+				}
+
+				time = 100,
+				test = Vehicles.UninstallTest.Default,
+			}
+
+			lua
+			{
+				create = Vehicles.Create.Default,
+			}
+		}
+	}
+
+	
+	/***PARTS TEMPLATES***/
+	
+	template vehicle JVP_ActyAddons
+	{
+
+		template! = JVP_ActySpareTire,
+
+		part JVP_ActySpareTire
+		{
+			model Default
+			{
+				file = JVP_Acty_Spare,
+			}
+		}
+	}
+
+
+}

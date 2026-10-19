@@ -1,0 +1,51 @@
+module Base
+{
+	fixing Fix 89 Acty Truck Hood Welding
+	{
+	   Require = Base.JVP_ActyHood1,
+	   GlobalItem = BlowTorch=2,
+	   ConditionModifier = 1.2,
+
+       Fixer = SheetMetal; MetalWelding=1;Mechanics=2,
+       Fixer = SmallSheetMetal=2; MetalWelding=1;Mechanics=2,
+	}
+
+    fixing Fix 89 Acty Truck Hood
+	{
+	   Require = Base.JVP_ActyHood1,
+	   GlobalItem = Screws=8,
+	   ConditionModifier = 0.5,
+
+       Fixer = SheetMetal; Mechanics=2,
+	}
+
+	fixing Fix 89 Acty Truck Door Welding
+	{
+	   Require = Base.JVP_ActyDoorFrontLeft1;Base.JVP_ActyDoorFrontRight1,
+	   GlobalItem = BlowTorch=2,
+	   ConditionModifier = 1.2,
+
+       Fixer = SheetMetal; MetalWelding=3;Mechanics=2,
+       Fixer = SmallSheetMetal=2; MetalWelding=3;Mechanics=2,
+	}
+
+	
+	fixing Fix 89 Acty Truck Trunk Lid Welding
+    {
+       Require = Base.JVP_ActyTrunk1,
+       GlobalItem = BlowTorch=2,
+       ConditionModifier : 1.2,
+
+       Fixer = SheetMetal; MetalWelding=1;Mechanics=2,
+       Fixer = SmallSheetMetal=2; MetalWelding=1;Mechanics=2,
+    }
+
+    fixing Fix 89 Acty Truck Trunk Lid
+	{
+       Require = Base.JVP_ActyTrunk1,
+	   GlobalItem = Screws=8,
+	   ConditionModifier = 0.5,
+
+       Fixer = SheetMetal; Mechanics=2,
+	}	
+}

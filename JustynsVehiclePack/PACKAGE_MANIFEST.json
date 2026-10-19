@@ -1,11 +1,13 @@
 {
   "mod_id": "EmreAdventureVehiclePack_B42",
-  "version": "1.0.18",
+  "version": "1.0.38",
   "sources": [
     "EmreRE9Motorcycle",
     "lrdisco1",
     "Cessna172",
-    "TENERE"
+    "TENERE",
+    "89actytruck (TheSquidd)",
+    "Tank Water 1200 L mesh/texture (DarylMasterGG)"
   ],
   "copied_or_merged_files": [
     {
@@ -2926,5 +2928,2275 @@
     "regression_scenarios": "passed",
     "remote_transmission": "none",
     "live_two_client_visual_check": "pending"
-  }
+  },
+  "acty_fuel_truck": {
+    "script": "Base.JVP_ActyFuelTruck",
+    "capacity_litres": 2000,
+    "hose_range_tiles_per_axis": 4,
+    "dependencies": [],
+    "original_vehicle_preserved": true,
+    "scope": "Local personal integration; asset rights retained by original authors",
+    "verification": {
+      "lua_runtime": "Lua 5.1 (Lupa)",
+      "server_regression_tests": [
+        "vehicle transfer and separate engine reserve",
+        "two players share one source without duplication",
+        "target capacity clamp",
+        "empty source cannot use engine tank",
+        "engine off at start",
+        "engine stops mid-transfer",
+        "exact doubled square range",
+        "range revalidated mid-transfer",
+        "different floor denied",
+        "generator real litre capacity and sync",
+        "generator running denied",
+        "generator capacity clamp",
+        "station refill conserves pump units",
+        "bed tank exact 2000 litres",
+        "station depletion conserved",
+        "disconnect keepalive timeout",
+        "explicit cancellation",
+        "walking away stops transfer",
+        "invalid truck rejected",
+        "self engine cannot be destination",
+        "receiver engine running denied",
+        "non petrol destination denied",
+        "moving truck denied",
+        "station loses power"
+      ],
+      "asset_checks": "passed",
+      "live_multiplayer_test": "Not run: requires a running server and two game clients",
+      "in_game_render_test": "Not run: offline FBX/texture inspection is separate from the game renderer"
+    }
+  },
+  "files": [
+    {
+      "file": "42/CESSNA_APOCALYPSE.txt",
+      "sha256": "8983d94c3f42e456124b3e03f38f8f2dfdfbc0ce3b13a6ee9f5371ff59f69c54"
+    },
+    {
+      "file": "42/CESSNA_CARRIER.txt",
+      "sha256": "ddc21459c13fbea4bad24077005843de4ab669c2edf5be43ac80209a1bfbb09c"
+    },
+    {
+      "file": "42/CESSNA_COLOR_VARIANTS.txt",
+      "sha256": "4a5f31d32167711e8e023f604e80431240be252edcd97a8a06784153d59208bb"
+    },
+    {
+      "file": "42/CESSNA_FIXED_CRUISE.txt",
+      "sha256": "d2300bfbae2bfcae1bdd92340516ddc0dcb3f6215994351c93b490155c7945fa"
+    },
+    {
+      "file": "42/CESSNA_GEAR_FIX.txt",
+      "sha256": "e54a30e8db86ac65df5b07711af6ccef597fb3011bce6902ffa95151d3124b97"
+    },
+    {
+      "file": "42/CESSNA_HANDLING_FIX.txt",
+      "sha256": "8f5de00992e3ecaace36c952d8d2e61467651fe3ec175f77d46eeec2cbd55d03"
+    },
+    {
+      "file": "42/CESSNA_LIGHTS_WHEELS.txt",
+      "sha256": "ddd924cef2d7c154efb5289f2e74915e7bbc0253c2768803d74c498a049e4af7"
+    },
+    {
+      "file": "42/CESSNA_MULTIPLAYER_FIX.txt",
+      "sha256": "0bf7d685d89171c2185168cf55b3bbaa8106614b159f9b02da6d6fcf17d1e2d1"
+    },
+    {
+      "file": "42/CESSNA_NATIVE_RELEASE_FIX.txt",
+      "sha256": "011d4f228b57f370aed81f4fe2863f67a63e05b7572cd91d2d5127f1b4528b0b"
+    },
+    {
+      "file": "42/CESSNA_PARKING_BRAKE.txt",
+      "sha256": "f72fc846d62a076932cd076c1913cc38b0586b00eeb0fd54790585d5faae3e51"
+    },
+    {
+      "file": "42/CESSNA_REAR_RELEASE_FIX.txt",
+      "sha256": "7a217f1638dd9b60972c753847dea87f5f47c1d32bc2d85eaceb0805f1bc7ffb"
+    },
+    {
+      "file": "42/CESSNA_RELEASE_IDENTITY_FIX.txt",
+      "sha256": "c30ae510dcbef3d2ac6b649a5c142c24a48a15e12f4c57f8af62b9b2ee1864e8"
+    },
+    {
+      "file": "42/CESSNA_RELEASE_RESTORATION_FIX.txt",
+      "sha256": "d38e2f1eca14c209fe35942561a740671c8ec6c8fdd402989675526e33624738"
+    },
+    {
+      "file": "42/CESSNA_RESIZE_UPDATE.txt",
+      "sha256": "31cb95ce62d0db6ff2a2f585a843a317926e94b0e13c07db043c1b5201a744bd"
+    },
+    {
+      "file": "42/CESSNA_REVERSE_GROUND_FIX.txt",
+      "sha256": "0509e8f1b25d302e238f256bb5e3e13a8b2a354c79ca98352c5f041b79864a98"
+    },
+    {
+      "file": "42/icon.png",
+      "sha256": "2424e2182bbd420dd129710d32c0b3423772eca516b1332db740bd9df135fc96"
+    },
+    {
+      "file": "42/media/actiongroups/c172_keep.txt",
+      "sha256": "6df0934c8e33ccb9310d0b66226de1a6bca15fc536bab9d13666ea16e0ca3c65"
+    },
+    {
+      "file": "42/media/anims_X/Bob/C172_PilotFront.x",
+      "sha256": "e53b44f6b00426a71f7b822edda5052f058000840442794e6df67661926edaf1"
+    },
+    {
+      "file": "42/media/anims_X/Bob/C172_PilotFrontExit.x",
+      "sha256": "dc8968be215536e2c508b497a28ec55499b10cd6465cd4d88c4569eff9ba65c4"
+    },
+    {
+      "file": "42/media/anims_X/Bob/C172_PilotRear.x",
+      "sha256": "361468f1851667320370b29c875901b71c48350f0dbb627733ff0ac207af97bf"
+    },
+    {
+      "file": "42/media/anims_X/Bob/C172_PilotRearExit.x",
+      "sha256": "561dc8549238af26effab108406386ebab5ab73d36703400529cec39ed6f8233"
+    },
+    {
+      "file": "42/media/anims_X/Bob/EMRE_RE9_D_EnterL.fbx",
+      "sha256": "4c844f0a8fb28fb0151d182a00562577b571537255f2e8592b6e286395a0b389"
+    },
+    {
+      "file": "42/media/anims_X/Bob/EMRE_RE9_D_EnterR.fbx",
+      "sha256": "101544a1cb1749dfd089574a9764d0f0174661691b0c3ccece77245cfc0e770c"
+    },
+    {
+      "file": "42/media/anims_X/Bob/EMRE_RE9_D_ExitL.fbx",
+      "sha256": "21bd83e9aa0791fdbcf57851de97c4931938398bbbd40e84174da54ecdc76f32"
+    },
+    {
+      "file": "42/media/anims_X/Bob/EMRE_RE9_D_ExitR.fbx",
+      "sha256": "1c86088cb5997595ab81390e665c23a1359157276cd20ce2c454746bd77b3ba8"
+    },
+    {
+      "file": "42/media/anims_X/Bob/EMRE_RE9_Enter.fbx",
+      "sha256": "8e114e89e0f750a683842255a7b1b4bf3bc786ca065d57e19ecb1fad4e054702"
+    },
+    {
+      "file": "42/media/anims_X/Bob/EMRE_RE9_Handgun_Idle.fbx",
+      "sha256": "14e66d19ae86b3bad1a200fec6b84a40b140bde77e20397a55bb44aa9df35ac9"
+    },
+    {
+      "file": "42/media/anims_X/Bob/EMRE_RE9_Idle.fbx",
+      "sha256": "e94f5b33460b0c79763b7d6bc10d3ca100478a4092c5b5cbcf6f3c6335900a46"
+    },
+    {
+      "file": "42/media/anims_X/Bob/EMRE_RE9_P_EnterL.fbx",
+      "sha256": "24efca61b868b7bd2a113f3e27dd1a7f973aa2bea0a52a2c04f8b27993d2ec12"
+    },
+    {
+      "file": "42/media/anims_X/Bob/EMRE_RE9_P_EnterR.fbx",
+      "sha256": "ce991742d5d8f3ba54d735f890eecc7cdbfeaa207ce0b2fc3a25c4bc55002dc7"
+    },
+    {
+      "file": "42/media/anims_X/Bob/EMRE_RE9_P_ExitL.fbx",
+      "sha256": "332119bf86b7f6c595856503967bec62a9f1a2975c4d1f71091e517d0fcd36d1"
+    },
+    {
+      "file": "42/media/anims_X/Bob/EMRE_RE9_P_ExitR.fbx",
+      "sha256": "f3e1d8f862a9e3154e63ae9f429547d291b021b4d89701c47a62231625150f08"
+    },
+    {
+      "file": "42/media/anims_X/Bob/EMRE_RE9_P_Idle.fbx",
+      "sha256": "777208781a57d857c56a4c4906c724540aff0940de33d70c0b673d74c8c4dcb7"
+    },
+    {
+      "file": "42/media/anims_X/Bob/JVP_Tenere_Idle.fbx",
+      "sha256": "3573e15c995aca8f2eceadfc83b7e97d1a0a9e025faa5913c8c05c6b59f17c9f"
+    },
+    {
+      "file": "42/media/AnimSets/c172_keep.txt",
+      "sha256": "6df0934c8e33ccb9310d0b66226de1a6bca15fc536bab9d13666ea16e0ca3c65"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/AttachItem_BackRE90.xml",
+      "sha256": "cbb694944f249a2a921d7875d31184b69ea06d31caba6fb9fd7285e250574051"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/AttachItem_BackRE91.xml",
+      "sha256": "4193356d7b2cfb327ff78c9cc72e1a7d26771854a55cebed0541ed200afa19c2"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/AttachItem_BeltLeftRE90.xml",
+      "sha256": "0937fa5aff4a5d6d726db9c9c4cf825fdb16e762474652136473e1029f7bb715"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/AttachItem_BeltLeftRE91.xml",
+      "sha256": "c030bd819baa39dc695e0ad93f57b075210602a74e578ed7a0fb8b48f42f7798"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/AttachItem_BeltRightRE90.xml",
+      "sha256": "36285f37474291abaafbc0098caf289a66ec988777ac1b2d0ed44857c71a7834"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/AttachItem_BeltRightRE91.xml",
+      "sha256": "87c7dd9dfce88eb6c7daf25c1a8ae1eb0c4db81bc62eb35d2a1d10037b7f7ed4"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/AttachItem_HolsterLeftRE90.xml",
+      "sha256": "c7842dabce36424e902722545468b70e05b98009c8d85771f15f0eadb4476634"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/AttachItem_HolsterLeftRE91.xml",
+      "sha256": "466a4bdf780bfa8666cb945883b5496999f29b5ac3be79df3ea18536634f729f"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/AttachItem_HolsterRightRE90.xml",
+      "sha256": "c016bfd77fba58fcc7f74c897339b5bf159e3fbdc60f829e79400ad2ddb31ce1"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/AttachItem_HolsterRightRE91.xml",
+      "sha256": "74446b0415e084fca808b473c84b3121de0b5cd56d3ad47e95a42e60b6d7397c"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/default-fallbackRE90.xml",
+      "sha256": "6b023447166d4efad571bc08ef0e0402d0085a0b8fd945a12ebdf830e7ceff22"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/default-fallbackRE91.xml",
+      "sha256": "41aec058b38f023b98b2cc1c20c441a4f4f22a9f7be246705e075d08e958bd20"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/DetachItem_BackRE90.xml",
+      "sha256": "41eb5993460c88e7c9ec7380a829cef2036ff909aafd9a363d73dd6772647c17"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/DetachItem_BackRE91.xml",
+      "sha256": "d8f23aba5c0e4972792e63f4d688e248e33f2d162710b2c7877a74694acbcb03"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/DetachItem_BeltLeftRE90.xml",
+      "sha256": "e3b08b02e61ac829823eb987060d839341165489159b83de52ffe7193f3e455b"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/DetachItem_BeltLeftRE91.xml",
+      "sha256": "2d9e4d5ba5dcc66c5eef2ec895d24450671c056b0508289e0c0ff5d4ffc132dc"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/DetachItem_BeltRightRE90.xml",
+      "sha256": "9664bd90b9510bfa0f0f90e5853d58341b0064ab295f5885f665d1a8259666f9"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/DetachItem_BeltRightRE91.xml",
+      "sha256": "2e08c257232f2e7137efcb2585d9dbdc1606491d02ef606935d3306ed0808005"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/DetachItem_HolsterLeftRE90.xml",
+      "sha256": "fc5e9ea80641f57b0fc30d86abe44111973d3c70e6523d021943a286b3a69ef2"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/DetachItem_HolsterLeftRE91.xml",
+      "sha256": "4a201c9286dc1db4fd31792f9675d14e5eff303173b6195c7ec17f1ae25039ea"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/DetachItem_HolsterRightRE90.xml",
+      "sha256": "d36b78618adccc991c4b451a3633b299b9d02d1f6feb287cbb1d67592c9ef9ee"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/DetachItem_HolsterRightRE91.xml",
+      "sha256": "9a762ed3ae19b055c03a9eda180c7f45248e2aa16e6a3ea2baff7b2b0881a875"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/Eat1HandRE90.xml",
+      "sha256": "380855d26a749fff0132e752cf69f24cf318d9fd76c986c101612759be5bc7ca"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/Eat1HandRE91.xml",
+      "sha256": "7dce073d2696b43738e0591e4384bf36ad89853856d7a93a7cc4ea9a2c7ab654"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/Eat2HandsRE90.xml",
+      "sha256": "4664b13ce34cdd89af0a7e29f302ce2bead6f7e6099ff59541f2948f9243a158"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/Eat2HandsRE91.xml",
+      "sha256": "2ac56424717f741390236cae98c0e6bac7401fa71a47ae69b998416049e3d898"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_AttachItem_BackRE90.xml",
+      "sha256": "3f864e077892b03bbf1e17e6355466008b64cfd56160859e645ed5d4bbcbe297"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_AttachItem_BeltLeftRE90.xml",
+      "sha256": "b93e9b224810629f9ab0c8019a55e84e07460ec0d83658097b8f5a5ad22918d8"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_AttachItem_BeltRightRE90.xml",
+      "sha256": "003c1a3c0470ec34b47c0727e91df911fbb30996028d4ffd9675b36844f9ac54"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_AttachItem_HolsterLeftRE90.xml",
+      "sha256": "fb8e66e956a7ad06c82c76fa782f7fd4adf7d141362583823460d1376fd3b46d"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_AttachItem_HolsterRightRE90.xml",
+      "sha256": "abfb495fe2c4c049d5ec1195db76213de79465c0c1f547c34ea5f898ef2ecd9a"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_default-fallbackRE90.xml",
+      "sha256": "9f143c7fa812756d0fde1a94418c293d478bcfbc73b755d7499d284a94dd1566"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_DetachItem_BackRE90.xml",
+      "sha256": "3a810bda428a683ecefa1414dba23b8e720482fabd050e7079985723e47bad08"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_DetachItem_BeltLeftRE90.xml",
+      "sha256": "f92dbe7bcb5d22cd33440d44c01a306e5ba30408e0d86b2b776fb8b79d2e1649"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_DetachItem_BeltRightRE90.xml",
+      "sha256": "a0cff850493edcb255d90ab100280657e6298b1c7da51d212920dbe3933af154"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_DetachItem_HolsterLeftRE90.xml",
+      "sha256": "d5dd3e1e030aeaa8d6673d5544d401ad5b1e459c429b15afde19eff491710275"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_DetachItem_HolsterRightRE90.xml",
+      "sha256": "f431b7d88579c06b97f85da9facfe1a20039f65b4621318b67cee01d538252e4"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_Eat1HandRE90.xml",
+      "sha256": "dea48b6cafb6cf53ee58499a84b891e66625d78f5cce9f56ce4654c9ed4d65c4"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_Eat2HandsRE90.xml",
+      "sha256": "c8a5155fc3750b275fee4e1aea904037ab223cc4c036a41d73a3e10f7a52299d"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/jvp_tenere_SmokeRE90.xml",
+      "sha256": "5b8bcfc594c1e8f6a20eceb8ecd66fc0954cab0fb44612c61f1c26cde4633dc1"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/SmokeRE90.xml",
+      "sha256": "115b2c3a9d720e4db478f0e4771a8966d368d5aace67f97b9886b59fcfb4b105"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/actions/SmokeRE91.xml",
+      "sha256": "8b5f6bc3bbbc8d0437f78abd88a61bc3da082de8997abeba6531deea5a804c1b"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/aim/emre_re9_0_aim.xml",
+      "sha256": "909571c1aa232b17e42051bb16f3515d9f0e74295c3cd537d23606e62c6da7eb"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/aim/emre_re9_0_aim_down.xml",
+      "sha256": "a7441cc67274f3bca0bc5d32d8a3a73de4b4124e7dd7be5993fd74d3ecf2aca8"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/aim/emre_re9_0_aim_down_weapon.xml",
+      "sha256": "92c7352d7a182be3ab1c1bebe47de05923211c27d9ac45a213c8182d128fe7ca"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/aim/emre_re9_0_aim_weapon.xml",
+      "sha256": "b5f0bc785dc178b171663df0793f410106329043199d5322bec2dc3657a18b7d"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/aim/emre_re9_1_aim.xml",
+      "sha256": "5463e019eca6a2a8724e8abe232eddc4bec57d364130e73a254d6934de424fac"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/aim/emre_re9_1_aim_down.xml",
+      "sha256": "2b45ca25cb26eff587c5616d5bf1c4015f693d9bdb092a6c19060f567f2a21e9"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/aim/emre_re9_1_aim_down_weapon.xml",
+      "sha256": "2ccd33082bbcf52ba90e4238b83484c87ecdf15a3a189ddaf1e1b2181038515d"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/aim/emre_re9_1_aim_weapon.xml",
+      "sha256": "eafb3ddc0d9bf8863b1e427ed15f1a9381b0ccb89fde05aa63f30972e9b8bb8f"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/aim/jvp_tenere_emre_re9_0_aim.xml",
+      "sha256": "3c299e78170043f970f3be4e52f788af84bd4993cec2f62fde8890534e74b492"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/aim/jvp_tenere_emre_re9_0_aim_down.xml",
+      "sha256": "ce7777f62eaee555607f6c0604faa935954d7bf02a450fb95ca884304eb0af41"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/aim/jvp_tenere_emre_re9_0_aim_down_weapon.xml",
+      "sha256": "3040e53707e7678215ea67c5194fe569a451c7be9ebbfa2ddbb64da63f16523a"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/aim/jvp_tenere_emre_re9_0_aim_weapon.xml",
+      "sha256": "17a71df1e5bed44184adc7cd0669c1af0540c054c3dbb5884e7c4ecd36755b82"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/enter/emre_re9_0_enter.xml",
+      "sha256": "69b8ccd12f3280f9dc9d30e0f718bfa82a3c5f7b1d31a7ba74a845f7feecd8ad"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/enter/emre_re9_0_enter_right.xml",
+      "sha256": "7e0b6ae4774b7f7a987d363227278faf84dfa9517a7f650bc66c79d61c48fd71"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/enter/emre_re9_1_enter.xml",
+      "sha256": "d4aad3a6a46378178a814de203058b5e6c885cf2c901a2ba154bf28aa125e924"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/enter/emre_re9_1_enter_right.xml",
+      "sha256": "2c6b266604b6cdbefc2a59f985661b22c52dea5860ee8ded9f925652f4279e70"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/enter/jvp_tenere_emre_re9_0_enter.xml",
+      "sha256": "68322630ca9a764c42c2a9738ab35c418de20b979757ec56f633e6783f22edd7"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/enter/jvp_tenere_emre_re9_0_enter_right.xml",
+      "sha256": "d08924852093b67ecceb992018cfb2bdc965207ff0f352765d67002543904d7d"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/exit/C172_PilotFrontExit.xml",
+      "sha256": "081cf351714ea0034086a89a1db891776eef0278b07491cd4efaf009b3eb7745"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/exit/C172_PilotRearExit.xml",
+      "sha256": "dd99df18886dfc0bad9c0ef0635745ad8a06bf83ee53822ec8c4da16039dcc81"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/exit/emre_re9_0_exit.xml",
+      "sha256": "2fe5a3d845589c4a655b266a15c3ba94e98b97e76d0135584959b7b07435eb33"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/exit/emre_re9_0_exit_right.xml",
+      "sha256": "de22b5b49e44542f1afb23fa1fbc958ca5b92ba26849edc7f05e10ad3616d1e5"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/exit/emre_re9_1_exit.xml",
+      "sha256": "4c3749ebc0f8cae49f7ec368044d678dbe211d4c97531aa991ed93937d097dbf"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/exit/emre_re9_1_exit_right.xml",
+      "sha256": "734dcd72b9b2651a48a3f88c7f1cd6f3b4ef512b2adface5c2bf406df3ccaa7b"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/exit/jvp_tenere_emre_re9_0_exit.xml",
+      "sha256": "025b48fd7ec228fd1497aa9aa6c477545d0d2895179c47cdf3248e988b68c295"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/exit/jvp_tenere_emre_re9_0_exit_right.xml",
+      "sha256": "0c109e159be866dbc910d50825b8fd307439135d08860c59dcee743be664a5fd"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/idle/C172_PilotFront.xml",
+      "sha256": "e4a81522d3266a34f469b2071596b883057e787e11d61d4d1f6d2dbb164549c2"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/idle/C172_PilotRear.xml",
+      "sha256": "e7caf29607798a577645db66372f0e73ddc809bc86f2d5d90fe060714d503925"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/idle/emre_re9_0_forward.xml",
+      "sha256": "b325a14e492ee9d6cf15d86370a55f45d52bb63d9a67b9b4d8ccba40d43ea69a"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/idle/emre_re9_0_idle.xml",
+      "sha256": "929e073a1f26c77272714e99d801d49b3b18398fe58f2f2bb216ab1c7cfe67a0"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/idle/emre_re9_0_reverso.xml",
+      "sha256": "c1db1650720bb882abed5fee93a184d8b14c262071851ac85307a117cc8e5591"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/idle/emre_re9_1_idle.xml",
+      "sha256": "71e08fc1115e909f754f20068e26385b8fb6578d0987603884d9bd3c807ef181"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/idle/jvp_tenere_emre_re9_0_forward.xml",
+      "sha256": "8eae75d612031cf0baf4575d26d5c42752315243b8159689a1a6ecb5bdbebb8f"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/idle/jvp_tenere_emre_re9_0_idle.xml",
+      "sha256": "0e28768f054b0232bfe37ea644cb43b34a3bb9c9339898b57977c7762e6c6bde"
+    },
+    {
+      "file": "42/media/AnimSets/player-vehicle/idle/jvp_tenere_emre_re9_0_reverso.xml",
+      "sha256": "01c4f3732a9105744c15822f1ec0ec2c7a6c8d7496c1424f68042bf995d0740e"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172AirborneLights.lua",
+      "sha256": "bf6e2cd3b49d733406615239fde8cb3f9f0cd901382383e07ed72415fd009477"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172Altitude.lua",
+      "sha256": "6caaf08cb5671dfce77b26d33876fff6f0c46d979fe818d7fad64c0c80bde4e8"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172BuildStamp.lua",
+      "sha256": "bec14b0ad92c77064985c7d13e8dd027bf8aab16a00c0bdadf93a1c034ca2dee"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172BushVisuals.lua",
+      "sha256": "1b67d7a56d63df3f548441c635c0b0a32e016c2325752e00e3bba0146cf4a97b"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172CargoDiscovery.lua",
+      "sha256": "a1320c75fa1532a89490c54c14c1df4cb7cdb62f5b33b965fb10270752214033"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172Contacts.lua",
+      "sha256": "eecd76a5da06b4096e3ec647f6613aa1a86c14b6689b0730d61150e8c320583c"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172DebugItems.lua",
+      "sha256": "8840d501e9ddd6b2eb6ca1e1b7049ca3fd76808bfd7501ef2a8ccded512c1943"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172Flight.lua",
+      "sha256": "784bc311a39e2e66c0e964e56323b7a067af4ebdbd82ccb36b85119aa48ab0b2"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172FlightXP.lua",
+      "sha256": "fab0ac1167266715e19d7b5006d71e27bbc3912c4f5eabd6412734390afa91ef"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172GroundHandling.lua",
+      "sha256": "b90fc86fe35e736a5cf6fcb95b78eed92fb026d90349f550f50a4132b01e7b20"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172HUD.lua",
+      "sha256": "0385f54580d4038b323011d32331d2083374b0720d6e2b1de657d463815a159e"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172IgnitionKey.lua",
+      "sha256": "91f8fe7473f7bcd3804d3b7cf1ab24640cdca4d32aad7a262d4218befdfafe5a"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172LampRig.lua",
+      "sha256": "b724d97d6966212a132faa5fa71125703be7f398640c2ea8c72d51bcdd4bad17"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172Mechanics.lua",
+      "sha256": "1443523e47f0d5f2babc992010c7ed8238d60e5a117485b8923bc008d7b5a877"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172MechanicsHotspots.lua",
+      "sha256": "f4226813ab424f7eb8838e991e6f8f8100744924a492cad5163ab5c0241cc07d"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172NavDisplay.lua",
+      "sha256": "85ecf10b799af01ef93e3d6c49146a79f27a0ec6a2f9e251e526e6732595ef8b"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172NoAirExit.lua",
+      "sha256": "8caa3e040f14ca5c709f4948a662aac672031c471a7ea87a07174cbbfe68afea"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172Phys.lua",
+      "sha256": "0f09f9f911359807ff9302dc604a5c1e6f64f723f1790ee66205f68d4c63a6c6"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172PilotView.lua",
+      "sha256": "cfe8824cebe77869c89e2c9c005ce36a3d63f9b962eb568ad30c95380fe47400"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172Presentation.lua",
+      "sha256": "3576ac748adb6a7fffc2dd905792a787aa23a973b124f355f150455138e1cc76"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172PropSpin.lua",
+      "sha256": "89339c77833e34d23b9f4e72b7598f3c884ce65ead1108f558f6c8b3374bab77"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172Recovery.lua",
+      "sha256": "3e6ff2ca514462f013bc17a453065c21e6f5a74a7144edb5c88a087d6247a6ee"
+    },
+    {
+      "file": "42/media/lua/client/Cessna172/C172WheelSpin.lua",
+      "sha256": "330c3feb1e5510c85a6180d7ba87cae158c8fd44d8aa602f38380acf753560a8"
+    },
+    {
+      "file": "42/media/lua/client/emre_re9_audio.lua",
+      "sha256": "0e61a405047a4e7729468b70846676a949c8b8f3f872ab7222f37947d27f0421"
+    },
+    {
+      "file": "42/media/lua/client/emre_re9_carrier_menu.lua",
+      "sha256": "4e6bfd59beec3cced8cf7de0f0d0390aa35c6c0ee5eb9688dbceaea8b1ad68f2"
+    },
+    {
+      "file": "42/media/lua/client/emre_re9_carrier_network.lua",
+      "sha256": "8fc308195b1e898354671c21ec735017f9931ccc334d69604867b7cbc6ba520d"
+    },
+    {
+      "file": "42/media/lua/client/emre_re9_drive.lua",
+      "sha256": "fa88d0050eb5db5176a55b82a099aa08c36447c2b73e4fccdea5939101ccb92b"
+    },
+    {
+      "file": "42/media/lua/client/emre_re9_rider.lua",
+      "sha256": "73cb5bfc810759086a7701719feb1f650db593e06a6ea469adfb9189d6a11dcd"
+    },
+    {
+      "file": "42/media/lua/client/emre_re9_seat_ui.lua",
+      "sha256": "8becc7b4be7d1a8184e2865c1374a6465de839eb9d66e79d9d4c44a7178487f0"
+    },
+    {
+      "file": "42/media/lua/client/emre_re9_settling.lua",
+      "sha256": "4114808bac3b0ca53cf0bf6fceefe7942881f76be7872b8a82737b461a328891"
+    },
+    {
+      "file": "42/media/lua/client/jvp_seat_alignment.lua",
+      "sha256": "3e2472ec4ed3c582398b383035cbe842fbdfe80b3ea774c1bd3dac6e9f9b43e9"
+    },
+    {
+      "file": "42/media/lua/client/JVPActyFuelClient.lua",
+      "sha256": "20a66e790e2e541f02a5c017de7ba84cf2357294d70edf8212701ae740e51562"
+    },
+    {
+      "file": "42/media/lua/client/lrdisco1.lua",
+      "sha256": "5a6c3bb404be73d3366ae6feb8e531c61de00f20b3263da5dc076c9e8cadfc38"
+    },
+    {
+      "file": "42/media/lua/client/lrdisco1_window_skin.lua",
+      "sha256": "f1af6a88ab1829ed9b837e4413d42c193ddd0eefd1c3e42f9630cdde764c6b8b"
+    },
+    {
+      "file": "42/media/lua/client/Vehicles/ISUI/emre_re9_overlay.lua",
+      "sha256": "1970db9f75340b6ceeeece1c9d399de6cce7d5422d0e4073b267e02c5b063639"
+    },
+    {
+      "file": "42/media/lua/server/Aviation/AviationDistributions.lua",
+      "sha256": "4c19eff75ad5cf16298736ad5201f512fc447edfd07cc4c8859c99fe70a9c504"
+    },
+    {
+      "file": "42/media/lua/server/Aviation/AviationStore.lua",
+      "sha256": "634f885be9cce1946c1ad2f14e8716b5bff27f99f60a124d91e5f3b4348b3efc"
+    },
+    {
+      "file": "42/media/lua/server/Cessna172/C172Fuel.lua",
+      "sha256": "10de9efd0c7f6fb2eb21c938bfc5fd5da1906746396ab5d43a51083843e75cfc"
+    },
+    {
+      "file": "42/media/lua/server/Cessna172/C172Lights.lua",
+      "sha256": "b02f03a27d1a37dd2c348081d9c0d7cf143188543cbfd3d5eb8f98cac22f198d"
+    },
+    {
+      "file": "42/media/lua/server/Cessna172/C172ParkingServer.lua",
+      "sha256": "e453deb49d9e33ed228e8a18772d95442f452655b84f93af02a0b9ac58df276a"
+    },
+    {
+      "file": "42/media/lua/server/Cessna172/C172Server.lua",
+      "sha256": "0af9fb4c9346bf87b45dce7328415e99bb6b30465da168c0e7b8eb5de2351bce"
+    },
+    {
+      "file": "42/media/lua/server/Cessna172/C172ServerContacts.lua",
+      "sha256": "2b8d540286f8cc0b9fc49f0a3e347b0b9f5346e3a34d9a030d8c39ef7b7f4850"
+    },
+    {
+      "file": "42/media/lua/server/Cessna172/C172Storage.lua",
+      "sha256": "9fb573b82a88298cf6578df4e09e2815d9873bb294f7e0abaa404521ead4e561"
+    },
+    {
+      "file": "42/media/lua/server/Cessna172/C172Systems.lua",
+      "sha256": "da40c793eeec819f58fbd8b9a818114856498612b0c3f87ce289510072a8da99"
+    },
+    {
+      "file": "42/media/lua/server/emre_re9_carrier_server.lua",
+      "sha256": "488de333a3c5fcef00a0aaadb18e80c22b3880ae0e2af8d158dd4d3fe33741ff"
+    },
+    {
+      "file": "42/media/lua/server/Items/emre_re9_tire_loot.lua",
+      "sha256": "374d842937e8846296be7ccf669904149b81fbdf6ac2fbd054156ac20167140b"
+    },
+    {
+      "file": "42/media/lua/server/JVPActyFuelServer.lua",
+      "sha256": "b5be5c90ab7de28f7b2524322c1c36b772615bdb1f555e09c13464f8fa530898"
+    },
+    {
+      "file": "42/media/lua/server/Vehicles/emre_re9_loot.lua",
+      "sha256": "2a37a18302f58da4d1a97f310bf20d9d159e9095d49ffe6bbd97f268946feab9"
+    },
+    {
+      "file": "42/media/lua/server/Vehicles/JVPActyFuelDistribution.lua",
+      "sha256": "eb7b4d21d892715dcbff89d8bad91d88235a4a79b4a5aeae167ec6772490876b"
+    },
+    {
+      "file": "42/media/lua/server/Vehicles/lrdisco1.lua",
+      "sha256": "832e5625b00213a7383c9b9d7dce6970c2ebf35d9fc13d19f4be3c562c87fce4"
+    },
+    {
+      "file": "42/media/lua/server/Vehicles/lrdisco1camel_storage.lua",
+      "sha256": "4e0e494d441856586552b85a91bddcb091871fce187f6144e4e507a72b6314c4"
+    },
+    {
+      "file": "42/media/lua/shared/Aviation/AviationBookXP.lua",
+      "sha256": "1b5104a66618b387e82a26bed25884df1795065034eccb229392cc156f6ccad1"
+    },
+    {
+      "file": "42/media/lua/shared/Aviation/AviationFramework.lua",
+      "sha256": "63c26e801c1d501bea959a738eb1b8b1f29761af39621b0709a43af2cacd2e83"
+    },
+    {
+      "file": "42/media/lua/shared/Cessna172/C172Aviation.lua",
+      "sha256": "8b9df2048c8b0e57ad395ae026ed69a7449a3ced4a027be67783bed053b7b877"
+    },
+    {
+      "file": "42/media/lua/shared/Cessna172/C172Config.lua",
+      "sha256": "b7473a73f8234211cb598d54dd57adc9776856a0bbe178f4d02bd61bbf60b6af"
+    },
+    {
+      "file": "42/media/lua/shared/Cessna172/C172LightSpecs.lua",
+      "sha256": "b228680057c98ef5d70f5fd1cb3e7edbeed42e5b06cda17b6da072238529ed24"
+    },
+    {
+      "file": "42/media/lua/shared/Cessna172/C172Parking.lua",
+      "sha256": "111790b18a791b57bd42e5a73db527fd21e1efee5adf78776751bca176b46513"
+    },
+    {
+      "file": "42/media/lua/shared/Cessna172/C172Parts.lua",
+      "sha256": "542055094fabb260f60eefbdb6c2c94bc44e9dd24d594cc541661323a26507f3"
+    },
+    {
+      "file": "42/media/lua/shared/Cessna172/C172Spawn.lua",
+      "sha256": "da2eb712f9087325e293075aec113065dacff2e7e52068e8bb8f199b78cf704f"
+    },
+    {
+      "file": "42/media/lua/shared/Cessna172/C172Util.lua",
+      "sha256": "7995b4473919773e9c5c615e3ab7a8bdf371ccb2f50a7935419bb87b7017937f"
+    },
+    {
+      "file": "42/media/lua/shared/Cessna172/C172Variants.lua",
+      "sha256": "93e03d30d4a0828af91700da044da329d0c3234abc284da22301ddd93a14d5d5"
+    },
+    {
+      "file": "42/media/lua/shared/emre_re9_bikes.lua",
+      "sha256": "91a0af0da5328068e7d866e055412a16ef5566de4d00f191946e5c3ba9bcda49"
+    },
+    {
+      "file": "42/media/lua/shared/emre_re9_carrier.lua",
+      "sha256": "89b908b68836ff4daae21a366bbecc519b13619b2ad612794044b0a6a83672d9"
+    },
+    {
+      "file": "42/media/lua/shared/emre_re9_carrier_physics.lua",
+      "sha256": "2714cda304b2c9849fc669e57d40eac529873a44d93defb0abbd8b5407f09fb1"
+    },
+    {
+      "file": "42/media/lua/shared/emre_re9_handling.lua",
+      "sha256": "e113223babbee745de78b23478869467be45f95e8f9a39aadb5eea4984bd3643"
+    },
+    {
+      "file": "42/media/lua/shared/emre_re9_itemcheck.lua",
+      "sha256": "26f0980862dc221bce16ee1ef0302f200cc7e4f2a7e14eefa10565143ca2e2e2"
+    },
+    {
+      "file": "42/media/lua/shared/emre_re9_lights.lua",
+      "sha256": "3237aae1bdb926f5a1c20b7f71070f699ca7e9d74b5cc013c05998010db22f18"
+    },
+    {
+      "file": "42/media/lua/shared/emre_re9_loadcheck.lua",
+      "sha256": "13115d7c1de48c33eeb767e574c1ef40a655b6abbbdd6c6b17dc5d449e155382"
+    },
+    {
+      "file": "42/media/lua/shared/emre_re9_parts.lua",
+      "sha256": "21c838788c66dc336b8b2164627e26ee4c5e6bc1796a945ad745092de8ad420f"
+    },
+    {
+      "file": "42/media/lua/shared/emre_re9_spawn.lua",
+      "sha256": "e584cc116d89e6f7114acf381001f0fa2d39eb5abe8f708146f84d76bac302d3"
+    },
+    {
+      "file": "42/media/lua/shared/emre_re9_tires.lua",
+      "sha256": "37bf69f4d987925789afb2e5b6615b2fe1afb0fdf0b1e02605a1eaef8a23ac74"
+    },
+    {
+      "file": "42/media/lua/shared/jvp_tenere_fuel.lua",
+      "sha256": "0a00417672959cc3e3240dd29a7c809f21b13f7015793280bb9cb7084d89f9ac"
+    },
+    {
+      "file": "42/media/lua/shared/JVPActyFuel.lua",
+      "sha256": "1b73d09f83b118aa8c343492b442dd7e52579b8ce3e1273570d842c616a05d01"
+    },
+    {
+      "file": "42/media/lua/shared/JVPActyFuelSpawn.lua",
+      "sha256": "3bb0a1bb19e178c9a79e2f90967b6ffe9d3ec4d38298cacfaed6fbb2a79ce201"
+    },
+    {
+      "file": "42/media/lua/shared/lrdisco1_interior.lua",
+      "sha256": "87652885c5720397b459cb25ae0f194a74069cb57ac1bb389f5a12c240eb0c15"
+    },
+    {
+      "file": "42/media/lua/shared/lrdisco1SpawnList.lua",
+      "sha256": "5210c38960a9fd829fc81091d12eb672fa4a71b352e3cd8cc90ab036404504b5"
+    },
+    {
+      "file": "42/media/lua/shared/Translate/EN/IG_UI.json",
+      "sha256": "2c7f72c05461dc60d46692f10d6966a28e9b537c27316200e9e6d1676bfc163e"
+    },
+    {
+      "file": "42/media/lua/shared/Translate/EN/ItemName.json",
+      "sha256": "c5ef461a5c48af1b37c09f831da2d3983d8b82f7d7eeaf6f544eb124984eb122"
+    },
+    {
+      "file": "42/media/lua/shared/Translate/EN/Sandbox.json",
+      "sha256": "5fb5d82ea8ec664d74ab8005759a146434c418ef1f299b808fdd4c07840fc1ad"
+    },
+    {
+      "file": "42/media/lua/shared/Translate/TR/IG_UI.json",
+      "sha256": "31d6df14619c531736b52145a64e898dec6f326eab2a9eaf9f16ea28e8046783"
+    },
+    {
+      "file": "42/media/lua/shared/Translate/TR/IG_UI_TR.txt",
+      "sha256": "f018d19ffc8e94352db2d1942d2fa43edb342a179618c04127f0088c56f2e31f"
+    },
+    {
+      "file": "42/media/lua/shared/Translate/TR/ItemName.json",
+      "sha256": "6ca65b8f2c115e3c08db3e1e71c1b83fd901eccb35dff48451b7d599828a9fc0"
+    },
+    {
+      "file": "42/media/lua/shared/Translate/TR/ItemName_TR.txt",
+      "sha256": "59b28f3f87618b6e1d968a2d590e4395587cc77128f7bd1a2010e849ac194c30"
+    },
+    {
+      "file": "42/media/lua/shared/Translate/TR/Sandbox.json",
+      "sha256": "29023b2397c83388912827f8d957bc0c6100d1b170b5546b4a67e1c7b4729858"
+    },
+    {
+      "file": "42/media/lua/shared/Translate/TR/Sandbox_TR.txt",
+      "sha256": "b1da05202fa151da9f15df66b03333107a3d4c80d4e1ba206218e0bcd07cfad6"
+    },
+    {
+      "file": "42/media/models_X/vehicles/emre_re9/EMRE_RE9Body.fbx",
+      "sha256": "a3f97643489f1b93a246afa8d652b00eec24519e050e5ee94c91367c06931989"
+    },
+    {
+      "file": "42/media/models_X/vehicles/emre_re9/EMRE_RE9Cargo.fbx",
+      "sha256": "1b59334c0ce0315ab5b9eea3e2a092a7c475da1b164fc81a38fb98d4261591a1"
+    },
+    {
+      "file": "42/media/models_X/vehicles/emre_re9/EMRE_RE9FrontSuspension.fbx",
+      "sha256": "aa8d99d3b6b1aeabd213143836d2db52b27217b455a2507bfd8b7f5d1429548d"
+    },
+    {
+      "file": "42/media/models_X/vehicles/emre_re9/EMRE_RE9FrontWheelHub.x",
+      "sha256": "11a0ed661c14eed867b130b2e53dbf6d746febc41893f1a8576ce0704389a0e8"
+    },
+    {
+      "file": "42/media/models_X/vehicles/emre_re9/EMRE_RE9PassengerSeat.fbx",
+      "sha256": "0c8f63df9cf5088636be0c80bb4b9b144ebce4578851207eb35f50f454136621"
+    },
+    {
+      "file": "42/media/models_X/vehicles/emre_re9/EMRE_RE9RearSuspension.fbx",
+      "sha256": "6d5a6f20eca146d17faddc35fe8efdff3de02a1bfa287712f08a4eb22da89865"
+    },
+    {
+      "file": "42/media/models_X/vehicles/emre_re9/EMRE_RE9RearWheelHub.x",
+      "sha256": "60d4836c88cc229849627f65fff5bd4f953b950b2d278467ed125fb2b085f39c"
+    },
+    {
+      "file": "42/media/models_X/vehicles/emre_re9/EMRE_RE9Seat.fbx",
+      "sha256": "52b85f0c9962983c689a62ed7aa749af08e16cf5ae91a91dda794f8b3a73e9ca"
+    },
+    {
+      "file": "42/media/models_X/vehicles/emre_re9/EMRE_RE9TouringCases.fbx",
+      "sha256": "b760542ef24afc9d0627e730db9326995bf02202e4c8e4b2f7adee5f9a49eefc"
+    },
+    {
+      "file": "42/media/models_X/vehicles/JVP_Acty_base.fbx",
+      "sha256": "7f60d5c8b5b163ba79b431b1d4a7e801799ccd9d000852f7627eb8b2270ef63b"
+    },
+    {
+      "file": "42/media/models_X/vehicles/JVP_Acty_parts.fbx",
+      "sha256": "8d86f54a5babae1f2bb714c85d8ac1cd928b90dd0a8257aca29781353108250d"
+    },
+    {
+      "file": "42/media/models_X/vehicles/JVP_ActyBedTank.fbx",
+      "sha256": "e6448d08dd2cb5eb54b405966dbaeb1950e5a3de3c6584b4f5253a681ceef92d"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBody.fbx",
+      "sha256": "8776dbc906aedf1fafb1dc02b006c8c93d31e5b230d27ac7df06558d6d066ea3"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail01.fbx",
+      "sha256": "ebfdc0ffe69c05725827200379c37d1a134ceb8d4363b8aabc7c5aeb81ff8496"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail02.fbx",
+      "sha256": "886d8693402d96b60991bfaf8a164b2e556e241ea8e4e8d3abf92971de9359f3"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail03.fbx",
+      "sha256": "6b7169f174b3590417f0e983f6e506914eb7adca3f5157ec89028ba0b863e6f7"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail04.fbx",
+      "sha256": "fe9fc4ce331ee6d70aa4c2af6222ac6b0de755dfdfb6e0da503fb3eac793bdb5"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail05.fbx",
+      "sha256": "ad7935c0c1ce7d3f072207a22493621732c0e9dd0c0f94a1bf0dfda5f2aad5b2"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail06.fbx",
+      "sha256": "6e03203cc41d94aa52c9b4282f625bf1ba390866d03f779cf3c1c0995e710e14"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail07.fbx",
+      "sha256": "61bb124e4a564699ab99714a1e53c71d5bfddd5138506c2cab225eac1cd45f9c"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail08.fbx",
+      "sha256": "eb88907ca7d894448bd760b3d6c9ec4baef597ea6a46c803d1365469b8787e9c"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail09.fbx",
+      "sha256": "f6b4558a1220aa1ea9a78ae6c5563fc5e3aeca7bd632463b89ac220324bfb322"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail10.fbx",
+      "sha256": "ef3d6e6a746919eb41aaa187238e62a28ec69e3bfd9a7372fd16c5067991567e"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail11.fbx",
+      "sha256": "8589387a0f2ca5e001525c60aac3537de99d5f52ae69048f3ffcbd130180cc4e"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail12.fbx",
+      "sha256": "b2fe27f6c1e1d8d40e99420d1a810ec965d818b138971f35ffdd4a1f291e36c1"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail13.fbx",
+      "sha256": "02e505686cf6d73257185ccae273a76d793d1c11268ee391ae57efdab02e6d5e"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail14.fbx",
+      "sha256": "184169c6fc4eafbf307c2b1fe3d0c25c2645bed795b938d5d9788269ca50120c"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail15.fbx",
+      "sha256": "e08ab6bd21667e1ebafd84c986e0d8aab5ac96933ad9c0abe9044f0181a0c1e7"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail16.fbx",
+      "sha256": "eb83f6ab239411c0d2c1842ad72f097a1a8419ae940fc27b6397c1141931f3fa"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail17.fbx",
+      "sha256": "f6c013559300161095cea8822e72bc71f5eec3db79a25ab4180c53acd4f5ea79"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail18.fbx",
+      "sha256": "0b107f927a458edee8e8ebb301dc8242fa6e36a6c8243803ac0437e6638cec38"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail19.fbx",
+      "sha256": "f6ad64e4e0945d0d3e22bd4c1b4cafab80ce4ba0ef249b35c05184b89567b05c"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail20.fbx",
+      "sha256": "6280590adb19b598fdf8089d445604b8091716e4396705d3ca5740a35d340589"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail21.fbx",
+      "sha256": "efe15d3a7578ecb70d67c167231706e3883f3717e6979d0280385127bdb4d531"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereBodyDetail22.fbx",
+      "sha256": "a5be27f00a37407a481446643577f6ad27de6938e6606ca4a55d3838f8227a01"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereCargoDuffel.fbx",
+      "sha256": "353ac641aa024c0ed4e211b903d68394f9ff63aa9384bfa7e40a352132d3fdfe"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereFrontSuspension.fbx",
+      "sha256": "644e714a8750acf3f50c1e40d500fcaf7189d52c0d989fc44f0bbedabb4edbfc"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereFrontSuspensionDetail01.fbx",
+      "sha256": "ab98b13b4d7812b8a96ed5cfa1c972b41b8eef502ea2c44ae41a9bdd1fed2424"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereFrontWheel.x",
+      "sha256": "1508897a5f728e69db8b2cc47977394deaea2b81ac94d8f08d98c2b1025d39ba"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereInvisible.x",
+      "sha256": "1600fb996554d19029a7ec23bfcd03cfd5a616a356dbd37fd47964675533fbad"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenerePassengerSeat.fbx",
+      "sha256": "cad4036a5e612cb4c22c2f9968efbec5163fc35a2872a8a7c22d9afbf0f5a25f"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereRearSuspension.fbx",
+      "sha256": "8a80d030294a839f25e4ca4896f7e7017deb459492aca24854a97d050db7ce67"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereRearSuspensionDetail01.fbx",
+      "sha256": "5edaefaa3ce154bee61481f0a03ce2fe76944a3523788ec3f7fc215b21f061a1"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereRearSuspensionDetail02.fbx",
+      "sha256": "733cc1fd4c730e1f696bbdff45be6258a76cdee7b5b2513b5d1763f693c34480"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereRearWheel.x",
+      "sha256": "9fe4ce816e8297c065d687a48b9dbfb19ba3d67c02ff4c604859adea70927320"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereSeat.fbx",
+      "sha256": "734f38ee0df4309609d5a637c7277199b7dfffe7306e40715cc24ab3cae7e89d"
+    },
+    {
+      "file": "42/media/models_X/vehicles/tenere/JVP_TenereSideCases.fbx",
+      "sha256": "e87b9400061cf12931309e90323c698023849361d890740fb827955a03030a4e"
+    },
+    {
+      "file": "42/media/sandbox-options.txt",
+      "sha256": "c9ce2e71834fbbcca6ff0ecf435bd72695d80069305813e05050a12bb6043ad6"
+    },
+    {
+      "file": "42/media/scripts/aviation_books.txt",
+      "sha256": "118599f076eef34fcc221957109b7f2782eb9e0bb0704bc772653324533f43fb"
+    },
+    {
+      "file": "42/media/scripts/cessna172_fixing.txt",
+      "sha256": "87488612a3f6e2ed14a257c4a37b80cf03704508c5cb47e79c0fa29538da9a4d"
+    },
+    {
+      "file": "42/media/scripts/emre_re9_fixing.txt",
+      "sha256": "773f912e9b48e2fff583dd3d19b514cdbe240380fa2c7d276e3ead741a5a828d"
+    },
+    {
+      "file": "42/media/scripts/emre_re9_items.txt",
+      "sha256": "94d3f12790ee321852f9189397a081a212230bc8caa9cdc3a1763ebd59cdb697"
+    },
+    {
+      "file": "42/media/scripts/items/cessna172_parts.txt",
+      "sha256": "54b881c688898cc435b022de9da497d19e3314b91aaf41920dfed31b41c20e58"
+    },
+    {
+      "file": "42/media/scripts/sounds/cessna172_sounds.txt",
+      "sha256": "d67e7316d1a46cc9d9b9026725d008ae8345c6ac3dea2c25e45fd7d6f0bca056"
+    },
+    {
+      "file": "42/media/scripts/sounds/emre_re9_sounds.txt",
+      "sha256": "0f8c02526302a345907ab073a51762c234af4a0b536128b340e875307a53ae71"
+    },
+    {
+      "file": "42/media/scripts/vehicles/emre_re9_vehicle.txt",
+      "sha256": "40bba0ecbcdfe8f97688a962924e6d69ba78184f4db743e1094756086c1c6150"
+    },
+    {
+      "file": "42/media/scripts/vehicles/JVP_Acty_items.txt",
+      "sha256": "bac2b88ebb06bf22fc760a90513273c94173715ae05d67b9fbb42c022f81ee8f"
+    },
+    {
+      "file": "42/media/scripts/vehicles/JVP_Acty_models.txt",
+      "sha256": "ad88fc3c60d2f90a42a2defdb748f66441a5bbc5de3c4704d705867b2d97bed1"
+    },
+    {
+      "file": "42/media/scripts/vehicles/jvp_acty_tank_model.txt",
+      "sha256": "616c5b1098f9a8c267d558557fcd8ec1569005fc71f1151f7a3ac1746f723caf"
+    },
+    {
+      "file": "42/media/scripts/vehicles/JVP_Acty_vehiclesfixing.txt",
+      "sha256": "6bbf699675220eb7b6b57badd4d8f999fd6f7dc6d44ffe894e4f4b82fc1c1cef"
+    },
+    {
+      "file": "42/media/scripts/vehicles/jvp_lrdisco1_interior_models.txt",
+      "sha256": "b2a8bb5a0905908d59bba98be20b496caa0b366373bc2d252a929e1140f3058b"
+    },
+    {
+      "file": "42/media/scripts/vehicles/jvp_tenere_vehicle.txt",
+      "sha256": "0bc98b3e849481c0177eec46813e2609ce71ccebac18df1a8dfb907afe47cf8f"
+    },
+    {
+      "file": "42/media/scripts/vehicles/lrdisco1.txt",
+      "sha256": "98134c979c0ce3ba2a7da7e2fd289d8b662ada03e50e0c529dfd71807c202498"
+    },
+    {
+      "file": "42/media/scripts/vehicles/lrdisco1bbar.txt",
+      "sha256": "aaf8df6ff904db3437c1d55e4aedce33337d424545008b88378846802881e4b0"
+    },
+    {
+      "file": "42/media/scripts/vehicles/lrdisco1camel.txt",
+      "sha256": "71055fc4a5a8ba19dcca26527e058a01d74c231646d371116c8891c9066d4f0a"
+    },
+    {
+      "file": "42/media/scripts/vehicles/template_JVP_Acty_JVP_ActyAddons.txt",
+      "sha256": "eaed5cc741ae93049e8a313d190e6cfef71d4d4d030de08736187ef946f08c28"
+    },
+    {
+      "file": "42/media/scripts/vehicles/template_JVP_Acty_seats.txt",
+      "sha256": "5f38b554daa165166f775a58de818da5918bd6b7036a4d4c063a2f02bae223d4"
+    },
+    {
+      "file": "42/media/scripts/vehicles/vehicle_cessna172.txt",
+      "sha256": "b1df20be09ce0c66561b6be5d2ec7754182be56800ef4e6db3bff9edefe6bb53"
+    },
+    {
+      "file": "42/media/scripts/vehicles/vehicle_cessna172_colors.txt",
+      "sha256": "29e095b89aaab68ab122c1f202227f824b8d24ca2135ea66bdebb2e821c1d66b"
+    },
+    {
+      "file": "42/media/scripts/vehicles/vehicle_JVP_Acty.txt",
+      "sha256": "defb9558de93af550110b4639aa51334f2c26a38f430d0aeea1fc701f1a7c134"
+    },
+    {
+      "file": "42/media/shaders/Cessna172_nav.frag",
+      "sha256": "af430bee0e9712e6a8cd0ed170ebdf1578df75cf21aa3eb2aef8931240964e52"
+    },
+    {
+      "file": "42/media/shaders/Cessna172_nav.vert",
+      "sha256": "4b49970e5945d65a0ee39577b72ffaf118191b6ca059aa56de5d0a67b49dcc00"
+    },
+    {
+      "file": "42/media/shaders/Cessna172_vehicle.frag",
+      "sha256": "80ce2b747a87342ae8cea5093ba95b936c8d3dfaa68e86ac7c4f73e433acc0be"
+    },
+    {
+      "file": "42/media/shaders/Cessna172_vehicle.vert",
+      "sha256": "181cb064c4aaedac31477db9791a1cb292c30eb6cfa9c4e1a56fa76cf7daa8fd"
+    },
+    {
+      "file": "42/media/shaders/Cessna172_vehicle_static.vert",
+      "sha256": "12ef7d03d147cbaf41a6ff02ea9b093187d21aa65b9643fe834a26e1778b6c9a"
+    },
+    {
+      "file": "42/media/shaders/JVP_TenereGlass.frag",
+      "sha256": "c279f45c17aa5188d9ba888205cdf5e49bab388eca9fdbc7dd0975dedab674d5"
+    },
+    {
+      "file": "42/media/shaders/JVP_TenereGlass.vert",
+      "sha256": "74109397bd8e5cbc5f04c508cc724dbd7ae4950b636e2722235a5226424452d6"
+    },
+    {
+      "file": "42/media/shaders/JVP_TenereGlass_static.vert",
+      "sha256": "2ae42a20bfe584f3036bd852fb4ed2e57509a80cc8ed2155ec81649e72b850fc"
+    },
+    {
+      "file": "42/media/sound/C172EngineHigh.wav",
+      "sha256": "bbfecc59c2fb46e0c315e2452189a7e585a1eb003bb12bddc6bfffe1280230e7"
+    },
+    {
+      "file": "42/media/sound/C172EngineLow.wav",
+      "sha256": "c8987a27c403bde17a27579b3ee8855a4f2ec2d778b76999d7213e84a093915d"
+    },
+    {
+      "file": "42/media/sound/C172EngineMid.wav",
+      "sha256": "9a9fd2c35d20aec9936897f7701945f5f0dc247e7d9464249f3280a64de7d0e0"
+    },
+    {
+      "file": "42/media/sound/C172EngineShutdown.wav",
+      "sha256": "30f7337cd3df8c711d1fba2e1b077348a5342dc4a17dcfbc1b92501798dbe0d7"
+    },
+    {
+      "file": "42/media/sound/C172EngineStart.wav",
+      "sha256": "488b98b6d89d23144bc51be1440466af7b4f628b8668b986b08676d351dabb77"
+    },
+    {
+      "file": "42/media/sound/C172NoPower.wav",
+      "sha256": "fe88784774ff8c0f9520cc5750a019f61ae91e3ef815105fc93c10efc8e04adc"
+    },
+    {
+      "file": "42/media/sound/C172Silent.wav",
+      "sha256": "eca4d388a3695168ebd316e8e2094a2e1ffa5df4c37dbf6d8755dfe8ce5ed9a6"
+    },
+    {
+      "file": "42/media/sound/C172StarterFail.wav",
+      "sha256": "e67c8d19be1d3035fc74653dd034a2d862e8bc0cf3835e552cc0c31b86e1d549"
+    },
+    {
+      "file": "42/media/sound/emre_re9/EMRE_RE9EngineBed.wav",
+      "sha256": "c0ef0f9f67f2ebed85190169cebe1071babbd5df7c476693a93bc1409906648e"
+    },
+    {
+      "file": "42/media/sound/emre_re9/EMRE_RE9EngineL1.wav",
+      "sha256": "deddc5ce3d0d80e9cb5f61633750eecc7f95c4651b7ba96dd5499d2139ab9d50"
+    },
+    {
+      "file": "42/media/sound/emre_re9/EMRE_RE9EngineL2.wav",
+      "sha256": "f0fc09fdb80f325ffb2d6695a3548507b29a60e79a5ccd8964ddc5bb1d118b8a"
+    },
+    {
+      "file": "42/media/sound/emre_re9/EMRE_RE9EngineL3.wav",
+      "sha256": "fdb8c6e928270d9c03e4d75862a8d94a5e08536cdbd485ad86a0927107d479aa"
+    },
+    {
+      "file": "42/media/sound/emre_re9/EMRE_RE9EngineShutdown.wav",
+      "sha256": "ab43a0142da5ee98b475c6d19f6f8b179605cd300686fdb7ad948ea4549b65be"
+    },
+    {
+      "file": "42/media/sound/emre_re9/EMRE_RE9EngineStart.wav",
+      "sha256": "869b57ace0eaa1323418d9fad7976e49eb3d6408052fa758cee6571f80b58501"
+    },
+    {
+      "file": "42/media/sound/emre_re9/EMRE_RE9HandBrake.wav",
+      "sha256": "9d252c0683072267c430bb6de781402c25ffb62e0643fd8125fe2baae946919a"
+    },
+    {
+      "file": "42/media/sound/emre_re9/EMRE_RE9IgnitionFail.wav",
+      "sha256": "25500b18c424b609ac3930198ca7e436634a4dfe5b2ccd36c462019bfc9cf426"
+    },
+    {
+      "file": "42/media/sound/emre_re9/EMRE_RE9NoPower.wav",
+      "sha256": "1f8e9fcb6146fe46f39e719c85ee14631d4c9c9c6d1b8df822a30ba1e63f95f7"
+    },
+    {
+      "file": "42/media/textures/EMRE_RE9_Shadow.png",
+      "sha256": "9d47b09bbf1634d44f80518e058df81f0e0e1a18dbd70402a132970b571c959a"
+    },
+    {
+      "file": "42/media/textures/Item_EMRE_RE9GasTank.png",
+      "sha256": "449beb678369905a29039663c2ad75a017b452bc559f24f5e12e3641095d940c"
+    },
+    {
+      "file": "42/media/textures/Item_EMRE_RE9Muffler.png",
+      "sha256": "f4ba528c07e5ad88e47763a0e7d290d993b397cea03f00aa499e0c734a5fda0d"
+    },
+    {
+      "file": "42/media/textures/Item_EMRE_RE9Seat.png",
+      "sha256": "f7c0e7c7f57180125aa975b4a11d842e745461dcaad8597a8125fc6f4fb3ff4e"
+    },
+    {
+      "file": "42/media/textures/Item_EMRE_RE9Tire.png",
+      "sha256": "d104673befd78481a68b7a2891a312c255d89e59c769d5c9a9367eafce9d50dd"
+    },
+    {
+      "file": "42/media/textures/Item_JVP_Acty_bumper.png",
+      "sha256": "620dbee8854dd929aae6230017bbe436051a36cb33f8f7d71b572230dfc91577"
+    },
+    {
+      "file": "42/media/textures/Item_JVP_Acty_doorglass.png",
+      "sha256": "c9e7afc046696fd7dc8f7f1831b3e28e823cdc3ef483df8b3599f1507fe18d85"
+    },
+    {
+      "file": "42/media/textures/Item_JVP_Acty_frontdoor.png",
+      "sha256": "8eff812417d86bc52a8758d4497ca66617526c17f879cf746575b7cab737cb0f"
+    },
+    {
+      "file": "42/media/textures/Item_JVP_Acty_frontdoorleft.png",
+      "sha256": "8eff812417d86bc52a8758d4497ca66617526c17f879cf746575b7cab737cb0f"
+    },
+    {
+      "file": "42/media/textures/Item_JVP_Acty_frontdoorright.png",
+      "sha256": "3705b554112c4ca05441da88e429ee277f8ba2fe62736009a918cc3052db7587"
+    },
+    {
+      "file": "42/media/textures/Item_JVP_Acty_gastank.png",
+      "sha256": "0859725c4399dd1db0a3d6ad5e143174c7e6c4a242f68fd19b631236b0bad98b"
+    },
+    {
+      "file": "42/media/textures/Item_JVP_Acty_hood.png",
+      "sha256": "d7078f4479261ca995675252d7a4166d7547608f0b88b63164d78a125acc8c5b"
+    },
+    {
+      "file": "42/media/textures/Item_JVP_Acty_seat.png",
+      "sha256": "a052a703d5135f4624d43be3eecf3b23a434cec687771bcc9aad42f83b4190eb"
+    },
+    {
+      "file": "42/media/textures/Item_JVP_Acty_windowfront.png",
+      "sha256": "4ad47181c720d91a084890dcb33e5a4e8a69341060871b45e7106c9f442a9b56"
+    },
+    {
+      "file": "42/media/textures/Item_JVP_Acty_windowrear.png",
+      "sha256": "6b95f22622a4baa86748ce48ef2b6897edbafdea3b5f1c4e5c22609cc40bcfc1"
+    },
+    {
+      "file": "42/media/textures/Vehicles/EMRE_RE9.png",
+      "sha256": "28cc0a598d3f4190cea95421e1e051554074bec586dd13e6999ed36ff49bd56e"
+    },
+    {
+      "file": "42/media/textures/Vehicles/EMRE_RE9_Clear.png",
+      "sha256": "3c6c50f94ab35e9f96c772731fe6b7950048179bc81b8ab0396cc1edbde89163"
+    },
+    {
+      "file": "42/media/textures/Vehicles/EMRE_RE9_Lights.png",
+      "sha256": "f502905cd00d37c774033e8bcd395ae6446b1e11af353dd99a2e0b0890c9229d"
+    },
+    {
+      "file": "42/media/textures/Vehicles/EMRE_RE9_Mask.png",
+      "sha256": "db7b82c7cbc81e8cc606be250b1d030600bbe7f028bf11e5b2dea01c73d50d25"
+    },
+    {
+      "file": "42/media/textures/Vehicles/EMRE_RE9_TouringCases.png",
+      "sha256": "52e2a18dfb86354b20c55eb09d461f5fb4f175e578812f0bd2ea951b2ede54fa"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Attachments.png",
+      "sha256": "073dea39ec4ff7ae42fa706c168be5833b211edb4e175140355790192e9eaa41"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Blood1.png",
+      "sha256": "f66b997644528b0cef26d6a68dc0409f6d956275e986c346e3b6439d94fd5410"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Blood2.png",
+      "sha256": "5ab74f081d8a1315f76b9ce8bcafed1ba0d8763b5336ea94d4fbf6b540c3b726"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Damage1.png",
+      "sha256": "5916a7e652961693ffe5a8a8f10d330071d71bfe3bcbc32a1de813728b31cb83"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Damage2.png",
+      "sha256": "b1c97529dcbcd7ca5f64ca26fde2e8197f03704971749785bd93315c7479a328"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Interior.png",
+      "sha256": "613c6dbbea6aa7041b1adf5f44b868a8419e84c415bfae105865f2f23934f837"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Lights.png",
+      "sha256": "d60dd27a6c9d5fd0973c45c8c034c20c3dd77a78b55850b11d560e94da2527a1"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Mask.png",
+      "sha256": "ec8d9292b1e091158e0e0e9c966d4b749ab567bbf9ccb2d5765b8cd2135e21fe"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Rust.png",
+      "sha256": "a8e7bb0a2179a82922b98137c9e89562c8d09ecb7cc46253b4d2e802d0087e20"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Shell.png",
+      "sha256": "82d2a1a5e12a31f50b4b2839fa3bd2db2fcdf00d77c2f11f22dd25fc37ee15bc"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Shell_bayblue.png",
+      "sha256": "de4f17b2ca3c30a51285202327412b3898fdd71f622e39437a6ab71c98b6ef04"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Shell_blue.png",
+      "sha256": "a17e30dcd47047a7207af5a018a7f81f75dcdffd7b177d1fa0b2a0fb49ab2f47"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Shell_fadedblue.png",
+      "sha256": "45c4bb1e4309dcc70b91ecf7a6fbc44b05afe3e15d228735ff28c92a80a08741"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Shell_fadedtan.png",
+      "sha256": "880c471d18578eff484f7f910105d1fc2c1ea57269cd3020a578a93e9dfe2c5d"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Shell_nighthawk.png",
+      "sha256": "8388f2c27ac086e524c63e08c43dc4de2e51e14111ae68e5e4ef0f7de8c37707"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Shell_olive.png",
+      "sha256": "841692af2adbca3336242af5eadff66640dc8c6caa31d50a39d7b5aeb3727784"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Shell_red.png",
+      "sha256": "a5b713435a1fd9006699ecc0b62571a08dc1da949cc716b26a823f8d3f786500"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Shell_silver.png",
+      "sha256": "db14f7c23783d82b9c19dcad7b43dac8e7652910c4734ee5c4fc745866e5621f"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Shell_taffetawhite.png",
+      "sha256": "af0fe47b478fec67fa9b0d1b0864f04aa1d6d7d1240a670c9d346d532e0facb8"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Acty_Shell_yellow.png",
+      "sha256": "0d8e2c0ffaf1eb62f055384818fe0b6805e0b6ab5fd8aeabcc164bea0742545a"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_ActyBedTank.png",
+      "sha256": "b39042818432bb88ec0e5ef73a6043ea1987c76f805fd3da0c1721232349889b"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Tenere.png",
+      "sha256": "b8dfc270e79ec699d725ea6888c49cbc9dee7082c727822c75eca407504c93ed"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Tenere_Clear.png",
+      "sha256": "9511a22f75360eab0bda10888422b7ff8c6ac825fa270c63f885e8f56afea0b5"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Tenere_Lights.png",
+      "sha256": "b346f14724b7fad2d9e341a9282b2e66059057d4994159f8527f92418ab163ef"
+    },
+    {
+      "file": "42/media/textures/Vehicles/JVP_Tenere_Mask.png",
+      "sha256": "7b50e7a7ca9865714e493942f89d8674a6b2088f2574560ab131bf16fe0ccca7"
+    },
+    {
+      "file": "42/media/ui/vehicles/c172_land.png",
+      "sha256": "903ca2bfcf5193458101b7b2f910f3d5599fed0af14e25e188d9b91a6b7e8de3"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_aileron_left.png",
+      "sha256": "d432272f39a360a6928f145c3c94d22d5187524df4a8890254739e9e36694714"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_aileron_right.png",
+      "sha256": "4d53bc16f4fa86db1ffb54d11479891744ddbd159d4ae6c38fd22b7228f23754"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_baggage.png",
+      "sha256": "cf77ec59b26c245a8e76f2f5cd8efd114f100b3eb3eb248c326b85f3ce50c500"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_baggage_door.png",
+      "sha256": "56c5423bfcfe619ec8106a1d368d2452aeed0bc2b68ae0bbce46bf3dfdd24cd9"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_base.png",
+      "sha256": "d68c563b6802d883973b5d72258dfc51be9a281b0989710bad10ad7d5543c40a"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_blank.png",
+      "sha256": "c2153f77e11087fcb078ae38527fa83bef29791e3700e30cc87fec4405a66d0f"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_brake_left.png",
+      "sha256": "8a4e6ee03ba0d1eb47cb54a6b3a3a63fcbb8f008c78cd3b95fc7d88d79359aea"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_brake_right.png",
+      "sha256": "fb48a2d459196f319f4a587c2505aba9b979a8b3b09179613434fc8566372e0d"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_cowling.png",
+      "sha256": "93f4854826266f73ac9ea90c4c94b809b798d371b56ffe22d432507cb13ecfe3"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_door_left.png",
+      "sha256": "ee59a288e7f42a0185a6f5fff559688c5868f386a295484b4997392ec227f133"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_door_right.png",
+      "sha256": "81c8c045c6abacb94a3a681e414f70ea9d0c4f3c9ed9676ef0e8c41c856ab7e2"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_elevator.png",
+      "sha256": "1f260845a789588c37124362f4815265683f481ededfa1c6e628e777b0d5cd2f"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_engine.png",
+      "sha256": "206c156bf4621e67cc4ebe0e1e4040df941cdfa9bc3d73e11d7b969e91f65748"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_fin.png",
+      "sha256": "3f7fe4c63c131422444464cf8e6bbce7044de9d80f2e23f92f71baa9527ada9a"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_fuselage.png",
+      "sha256": "9cfe3288bec63f0e357879ba2f734033d6f4db8edc68d0969f982d5bdcde64b0"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_gastank.png",
+      "sha256": "e1f81ada7f9a6a0fcd8db739ddf6cbbd9faacca1ea40b94a29eecfdd4769e006"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_gearleg_left.png",
+      "sha256": "9f1569366fea2d830f3874e0387c58762d29e5ccb093fd91881afdceebe413f2"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_gearleg_right.png",
+      "sha256": "60eacd5bbe3e1af8543a6e4922d0522f8032bbb0d90f5313ab01d0aeb333049c"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_hstab.png",
+      "sha256": "c6e91d321b34f05d0a89a73b91225cdb00d08ef7dc9b23827fe26f676c766d7f"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_light_landing.png",
+      "sha256": "2f7d6d4a491dddb76ee0290e1fc9b91007686d37d5e6a6b0431446d331b2b569"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_light_nav_left.png",
+      "sha256": "2a268663473d828bf1ff5d1362bcd648905d26e46c3db42ddba725238af2f4be"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_light_nav_right.png",
+      "sha256": "cc4d3a20871da819de8e51c404c11ac097928e74bbadf7d7bee4b63be2ca359d"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_light_taxi.png",
+      "sha256": "79f6a5921489e79f838c3af8a1e472fb4e46b0e2718ed3f69aa3cd7be354b316"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_propeller.png",
+      "sha256": "ac909711b5c8243bbfeb1584fac47343d4ce238c05c09f3d6444559f650d93e1"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_rudder.png",
+      "sha256": "9bea6f3b6f8cbd12d40d706385e1ecd2454596cad362c76f69d3d0115bc9f662"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_seat_left.png",
+      "sha256": "cc9f110a53a37fee54abc69b85565574ef86d6a58f59a8c182896a6ecf64015d"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_seat_right.png",
+      "sha256": "f5d3e651fbddc1ce90d88b78b2abe6c91f0014b8ff7a228c49a3e1d8ac4f623b"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_strut_nose.png",
+      "sha256": "ef2b759d34b1103becb895ddbfdbd69a5a7a9335370e689a3261c19b85b52497"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_wheel_main_left.png",
+      "sha256": "0488829c3e2539f67dbcd57e21144e8594df97ffca40a5cf1c99cafe72625aa8"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_wheel_main_right.png",
+      "sha256": "c123c9290d3d7f248571499841eca76b29de6d81996a422b7ea8f50ce16cb12f"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_wheel_nose.png",
+      "sha256": "bc59a260ca7dba6038ee3776fb1926943b59e8147cbca20889179b3903ad7cd9"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_window_left.png",
+      "sha256": "7927acf325262562772a2b8eb2ca922161c99be95e14c79ec687c74d40458700"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_window_right.png",
+      "sha256": "ce08bd83ebe684ba2c15a50af019aad85b017e8a91e4fb976d3bb18d8d4fc4d6"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_windshield.png",
+      "sha256": "9cab59b553c00d6c6052df542639d69723dbffeec9c94e0f5da1c5f05f048952"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_wing_left.png",
+      "sha256": "8b4489526305ca2b2b689d070b5146b49fd164dc05d4e71f9fbf8302891055c6"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/c172_wing_right.png",
+      "sha256": "85f5f27e659a0e94dc415d6f8784e275b4871e1d06c058df2e0c809a56725711"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/EMRE_RE9_base.png",
+      "sha256": "62d01edca9d0944a58bd09b13ab31c647e941c9ffdd059c3f1c4c9df78365ce2"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/EMRE_RE9_battery.png",
+      "sha256": "afc92724474030647abf5c6e2ce81ec0e9833d35b271c2fb3fef5d7a121f1846"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/EMRE_RE9_brake_front_left.png",
+      "sha256": "ed7658546373a644a44fcda94c37402951d66c4bd1f2dc301595ad5eeb458a1d"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/EMRE_RE9_brake_rear_right.png",
+      "sha256": "4e0685c74e3bd4da290019fd1675fb2982575bbd648bfed355217f6def302eda"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/EMRE_RE9_engine.png",
+      "sha256": "cd1cd0be08059d1efeeb4248297b227a89e5c50fed63b7b642c904f4c75d966f"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/EMRE_RE9_gastank.png",
+      "sha256": "0b4eaa3620132aff346db93fd7bf0ac90116000bbcaa1e8babd4040d8fd5e482"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/EMRE_RE9_headlight_left.png",
+      "sha256": "8b43fa910291deebdfc1d2eecc2318656595213cfd074bbfd7a0ec28e75b0f0d"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/EMRE_RE9_muffler.png",
+      "sha256": "9364dc91dcc2b841a093e2419db92da81669ff85588a557b7b1f5ebce6054e58"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/EMRE_RE9_suspension_front_left.png",
+      "sha256": "e40ea66cd9f0a4db33c64ed6f4eb1d9c13f0cdb3d3109320d01658d060f0ba7a"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/EMRE_RE9_suspension_rear_right.png",
+      "sha256": "435f7eea368421ab64a5c4eb71cdd4c31d4f1e64f96230d7f2147aaa42ee33e2"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/EMRE_RE9_wheel_moto_front.png",
+      "sha256": "de5ab0f1fbf8a394812b94ac0c695047f84128143d16e34415d6d4c2348a36cc"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/EMRE_RE9_wheel_moto_rear.png",
+      "sha256": "177cd9d7d167e5b6fe0f77ec7cf609bcb4f2f3dcb4399962d1a377742d193da3"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_base.png",
+      "sha256": "bdacc367a2f36105000d6ae18feca90e940eb9c1fc2dd21ebdfcb031f7457fdb"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_battery.png",
+      "sha256": "cdfb710bf8c784a52e408bced4be988340b867df214270495e4ff911cf2cbf19"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_bed.png",
+      "sha256": "f3d2dd1568af774ffb8a98b8ecd148577ecbab150b61d28663beeea97d9da034"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_brake_front_left.png",
+      "sha256": "13ef12a19346103abb21dcaffe364132367b9e667388b0cb36904ed45121958b"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_brake_front_right.png",
+      "sha256": "f57c7370970a54bc4e450ee3f62daf137be3036aed22d8c1e179e8c6e7e76c96"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_brake_rear_left.png",
+      "sha256": "ff6f81593daf9bfe91d71461d2fea26c6c6476db91e87c10d399f0a6afb45c78"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_brake_rear_right.png",
+      "sha256": "d42de1d8d964ec9fb7e790a9d6b09f80eb9e55ca38f2cd0329b20fd4acc4df4c"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_bumper.png",
+      "sha256": "31041e219598720623bc1a6234dd64b31f48d295fe5f171c4efd231e9e4fbec8"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_door_front_left.png",
+      "sha256": "94122a42d28140bfb1bd6d22828a3493c7ccb9ce32900e39b0d20c4c74c76936"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_door_front_right.png",
+      "sha256": "5f49af38e6d8ed250da984aa7e13da68e2671cfe9271ab70d9f7c062c7825ae5"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_engine.png",
+      "sha256": "043b74424b99f207cc0850ca2b7928c7dbe81f6415d5a786cd5f845becae7087"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_gastank.png",
+      "sha256": "5c56d4ce20c3144cd6dbec6a249e886a2d5456b5607e444efdfc5dc5b251da2f"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_hood.png",
+      "sha256": "cb7ff143b8536e9dcf75393f6f4da5663cbe6e409dbf2b76bc833f9161171fb7"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_muffler.png",
+      "sha256": "5b883d2e32073eb1908e4e750dd33ec0e8ff4cf3a2ae4e60f455bc41cceefcb0"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_spare.png",
+      "sha256": "469d3066c45d250c9b46f343a8ea522a6ab61310d9124ce253396ddd0ac5fc33"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_suspension_front_left.png",
+      "sha256": "2844d8ee5afac199c0418eba5bdc121e0b223c7e95920dce6947b24fce6ab3f1"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_suspension_front_right.png",
+      "sha256": "e2340089aeab7f1b36a76e82cba80118c330f73832af32c293285faed41cee8d"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_suspension_rear_left.png",
+      "sha256": "3fcae8ce9f43ee676d0848414a9593263a92368a6425b2195f0bf553707b36c2"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_suspension_rear_right.png",
+      "sha256": "ba6d0cbecbfb5e2ae6e62c65eef72e530ad8c3405848b38fd717ddc5eacc9d8f"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_trunk.png",
+      "sha256": "d288ffdc97f6e855b3e4dbaef21a79b8056bc4ade95a6b465291159d8fc79936"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_wheel_front_left.png",
+      "sha256": "fd6d5b27d21dc36bbb5c579229895d818d2ffe919b01203539b5aadb8167d7ae"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_wheel_front_right.png",
+      "sha256": "6718d8229de3f47602386ae2d170d1ac45c455da25b1123d14cff7d600495736"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_wheel_rear_left.png",
+      "sha256": "33672f3c9c234e6c67cedbd48be2148767eabd9a9f24f71d53036ccaa04b8148"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_wheel_rear_right.png",
+      "sha256": "7e2b666ffacedc5ab6e9cd8f3e7044ce885bfe60df8a621f191feec85d8793a1"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_window_front.png",
+      "sha256": "de518ec7f9288f1aed17ecbae77ffc260bc9530aaa76789412707dba8017dad1"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_window_front_left.png",
+      "sha256": "f9564542ddbda8f07670eb32f98a4e5d3cd8e27bd60e487843a99775e3268d24"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_window_front_right.png",
+      "sha256": "ea8da9ec759a16eda0a288292e6bc336e3a7a7fe2a58b28efddb680735daaffc"
+    },
+    {
+      "file": "42/media/ui/vehicles/mechanic overlay/JVP_Acty_window_rear.png",
+      "sha256": "bc6e20163fe725474f270281bc7ccc9db451d680efa88de3c30e462094b418bd"
+    },
+    {
+      "file": "42/media/ui/vehicles/seatui/EMRE_RE9_base_small.png",
+      "sha256": "4459c7934eb40198d193ba8026ba51eb3abb2a9768f427927620b134642d8f02"
+    },
+    {
+      "file": "42/media/ui/vehicles/seatui/JVP_Acty_base_small.png",
+      "sha256": "11cf664d1d2448c00f94f1bf696f531df7cd8a20958762dce5bae64e0c9424b8"
+    },
+    {
+      "file": "42/media/ui/vehicles/seatui/JVP_Tenere_base_small.png",
+      "sha256": "3739999949b8b7603bf7dd2161a25910b078d05b26962d74267062ad05a509dd"
+    },
+    {
+      "file": "42/mod.info",
+      "sha256": "25b116b08b06dea5c3b00b0c5f5350ca0840477d7f815c6a056d262bb3892084"
+    },
+    {
+      "file": "42/poster.png",
+      "sha256": "5cca86b6bf5dc71ca4e9440b352e4c6956cac3c362c26a06020cbaf56365648b"
+    },
+    {
+      "file": "42/REAR_CARRIER.txt",
+      "sha256": "aae5b94c97ca6cb28d1644338e1708191e1dc47dad38d3b67da090ccab353b3c"
+    },
+    {
+      "file": "42/SEAT_ALIGNMENT_FIX.txt",
+      "sha256": "ea4c6ba7244a391d8a9ac0b5a101d4ad6eb22a7e7bc0598bc49db58f4dcea222"
+    },
+    {
+      "file": "42/TENERE_FENDER_WHEELS.txt",
+      "sha256": "cb2f7a39a011283e51fb4e4e7c5bc948f4c61cca8aecd373ee3d7cbe149f16de"
+    },
+    {
+      "file": "42/TENERE_FUEL_ECONOMY.txt",
+      "sha256": "bd50d902c3bcda201eeac258fa12cfc62aa80e48f90568a4a30a96ae43a2c80a"
+    },
+    {
+      "file": "42/TENERE_TECH_TITANIUM.txt",
+      "sha256": "47c942b7c54c56a23a4eae51757c7f5c65a641e674e2358da9738d2917368a70"
+    },
+    {
+      "file": "ACTY_FUEL_TRUCK.txt",
+      "sha256": "134cf4de607d39d20d1166e6d9404cc067ad90531144fbcb3420df2e74e2c6db"
+    },
+    {
+      "file": "common/media/actiongroups/c172_keep.txt",
+      "sha256": "6df0934c8e33ccb9310d0b66226de1a6bca15fc536bab9d13666ea16e0ca3c65"
+    },
+    {
+      "file": "common/media/AnimSets/c172_keep.txt",
+      "sha256": "6df0934c8e33ccb9310d0b66226de1a6bca15fc536bab9d13666ea16e0ca3c65"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172BushDetail1.x",
+      "sha256": "cf5071f801431281ee303009e0dc044c5a702f7e07c03e1c05bcd0991489ea7d"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172BushDetail2.x",
+      "sha256": "18aa25238623fe70666c2cf61eb0f3fc5171113f4a2eec071410f58e307a1cec"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172BushDetail3.x",
+      "sha256": "68de2a7cd8d3498dd9c20dda54ed99ad7bda2092d2b5ccca0a77c387c23e2d1f"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172BushDetail4.x",
+      "sha256": "26bafa8e7ca00e10a540886d1cdeb3d9e90b17c3febb13b86e24265d6ed66dee"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172BushDetail5.x",
+      "sha256": "9c2bfc40ef486b182bd13577a6bcc34ff38402245c6a69c9a7a02c971f6cd888"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172BushDetail6.x",
+      "sha256": "50e28bb05f5204b8c40bc01a87b315bff5055eb996b0eff1aebdbffb22f1ef53"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike1.x",
+      "sha256": "e721ca249d1693b682b1019f6d5e8bd8c7920f8996e662edb856c1de1ca3ae96"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike10.x",
+      "sha256": "502289d25702d2dfcc9962edf39cfc02cec0b76dfc78a4b59b4f15f3848a80ea"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike11.x",
+      "sha256": "24fe9f1948c89d507dc404e288270eab78c7f65ab6f38de772e33938eb92716c"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike12.x",
+      "sha256": "cc946d27a40ce9a0174ab4f629d072c01ae1c3f2fda9236feb6b5fd1a293b099"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike13.x",
+      "sha256": "d7b917eae9a3b8f44198618ca91382cdd80d8906133cef65eaf16ab2a6520e1e"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike14.x",
+      "sha256": "0a2383b4a001147c8561d55ca5c1548c4c6577d7db5f086ea26abc93227bf140"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike15.x",
+      "sha256": "1ab30cc6fb9c40773af0d425ef84f70eb0836f885a2608bc2be872092e346997"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike16.x",
+      "sha256": "ffcc48137119335c0feb8a550b8ea8c41ea8b13597c54bf24e80f55955d474a8"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike17.x",
+      "sha256": "0faa75d5aa048a7edb73ff4b698d3d8e42f37eb7442c50e13483294737328c36"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike18.x",
+      "sha256": "fd0601c1b14cdd64bc8cf04d7a6069d3a4c71ff3457e0992b432785dfce860dd"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike19.x",
+      "sha256": "ecbddc58a0d75db5e1dc6f282f92215179ec96356e45010e452369cb9704ebe6"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike2.x",
+      "sha256": "47805c90e5b58d7e37911e21d50a46cef7907d0f9fe25d2663a8af2607e943c3"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike20.x",
+      "sha256": "ee993476564ccc25b378ab67dc4a5fefb0a426213e409269b1ec069fba30c607"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike21.x",
+      "sha256": "acd74bbe6857f54f4a9c823ccfa3f9adbaf8536dfcce2e6bd280d3a4dd61b9e2"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike22.x",
+      "sha256": "5c4596451ac4fba731577ccf0b3408f9d7c528e62e5bed0dad4ea142f7ea3dd5"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike3.x",
+      "sha256": "69bf22577374bbeaadadf8b0eb287f89d39c51869d7c171064515921d9f35b82"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike4.x",
+      "sha256": "da4d8d2903dca31498d3161fad213a117dd03ee42968beb6afd33a5693fe8996"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike5.x",
+      "sha256": "25f0ac8a0ea1a4d29618b4ef39268406775ea20c5c0671d22dcd1c1355870612"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike6.x",
+      "sha256": "f30750e7846d7d2dfc58e15c52e00fb48d21d873d370334c44de104b82675715"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike7.x",
+      "sha256": "302899cce385290e6260b58d309bc50f1ecb78276da97cf4774a67f6b3352769"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike8.x",
+      "sha256": "7c2d297767bbf98b21152d72ad754d6b819b6f10f8cb567e1df408085de0d769"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172MountedBike9.x",
+      "sha256": "d247a11fb2527ce0f1f4e54dfb2103d427f34c664352bc0d0f48f43baceae5b1"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172NavPort.x",
+      "sha256": "40b249556c392c3a6d0ff1942b4394236ee4e225ba2fe146ab33edad0d269f47"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172NavStarboard.x",
+      "sha256": "cd786ea326f70586375a1fe2403f98d82ca593e15afc51ec04b7d62bef38980e"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172WheelPort.x",
+      "sha256": "26085f2e46c30b6685a0fa3ce745b2eb312058bb3d761a14492b561851984164"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172WheelStarboard.x",
+      "sha256": "45d90fec91c871d245880ae123b9bc1594f00de9e0a7fea1f95a7a8fa1daf318"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/C172WheelTail.x",
+      "sha256": "97c90e54f2a7327c4f0db9be712bbe736b6075f1b1a9640f4ede852554ced663"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/Cessna172_Body.x",
+      "sha256": "350ddcf2a2899ed083ebb57b268f81ac676e160d9e64d373d91ff4472771ce75"
+    },
+    {
+      "file": "common/media/models_X/vehicles/cessna_bush/Cessna172_Prop.x",
+      "sha256": "eb4b3d3023175332d4784ed634c6239e3fb8a291b7b3900377455c08d77db1fc"
+    },
+    {
+      "file": "common/media/models_X/vehicles/JVP_LRInteriorCabin.fbx",
+      "sha256": "be47d09da49c78864bd719ddda767654df40f77386e741b8355a584bf42af46c"
+    },
+    {
+      "file": "common/media/models_X/vehicles/JVP_LRSeatFrontLeft.fbx",
+      "sha256": "d4fe42a34f03c59abe30785bbe39be3d1f77e918c2783ab5da25d256e4ce9213"
+    },
+    {
+      "file": "common/media/models_X/vehicles/JVP_LRSeatFrontRight.fbx",
+      "sha256": "25be020311697acb10eb69da2c1f9695c0e9eca6e85c5ccc9675ad85d607aa63"
+    },
+    {
+      "file": "common/media/models_X/vehicles/JVP_LRSeatRearLeft.fbx",
+      "sha256": "bb72a6df86bf7685df526fd33e742737ba3a4620b6bc1ac4d6726eac80b523b4"
+    },
+    {
+      "file": "common/media/models_X/vehicles/JVP_LRSeatRearRight.fbx",
+      "sha256": "734f9f3e575b84e42c2891a0ad3a09657a83a1f5a3aa21db52ddd536df12f5a8"
+    },
+    {
+      "file": "common/media/models_X/vehicles/Vehicles_Cessna172.x",
+      "sha256": "350ddcf2a2899ed083ebb57b268f81ac676e160d9e64d373d91ff4472771ce75"
+    },
+    {
+      "file": "common/media/models_X/vehicles/Vehicles_lrdisco1_Body.fbx",
+      "sha256": "724f6ef378b8900fef2f3e4f7c53e399d415ecdaafade97d3c9d06be5f8d26ac"
+    },
+    {
+      "file": "common/media/models_X/vehicles/Vehicles_lrdisco1_Wheel.fbx",
+      "sha256": "092e2db121137dc7b5c781b37e044280b404c6e97cde3496be63ee97104d7608"
+    },
+    {
+      "file": "common/media/models_X/vehicles/Vehicles_lrdisco1BBar_Body.fbx",
+      "sha256": "a82b6e3ebaf8cd27dced4828d0cc9f7cf12ff7220ee806eb7a143c86d4be4c35"
+    },
+    {
+      "file": "common/media/models_X/vehicles/Vehicles_lrdisco1Camel_Body.fbx",
+      "sha256": "d5be291d8c55aa331a4198af0bdfe9b2578fe58eb748ea546dea9801fa928eea"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Attachments.png",
+      "sha256": "f1ca7cee6ede935eb0e4a1df4819a6c9ceb4ffd2bcfd3c4da8812172af0460a2"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Blood1.png",
+      "sha256": "f66b997644528b0cef26d6a68dc0409f6d956275e986c346e3b6439d94fd5410"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Blood2.png",
+      "sha256": "5ab74f081d8a1315f76b9ce8bcafed1ba0d8763b5336ea94d4fbf6b540c3b726"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Damage1.png",
+      "sha256": "5916a7e652961693ffe5a8a8f10d330071d71bfe3bcbc32a1de813728b31cb83"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Damage2.png",
+      "sha256": "b1c97529dcbcd7ca5f64ca26fde2e8197f03704971749785bd93315c7479a328"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Interior.png",
+      "sha256": "613c6dbbea6aa7041b1adf5f44b868a8419e84c415bfae105865f2f23934f837"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Lights.png",
+      "sha256": "d60dd27a6c9d5fd0973c45c8c034c20c3dd77a78b55850b11d560e94da2527a1"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Mask.png",
+      "sha256": "ec8d9292b1e091158e0e0e9c966d4b749ab567bbf9ccb2d5765b8cd2135e21fe"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Rust.png",
+      "sha256": "a8e7bb0a2179a82922b98137c9e89562c8d09ecb7cc46253b4d2e802d0087e20"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Shell.png",
+      "sha256": "7db726d0213eb9b17bcb916790c773fe146fd88a3599c0b643de3cacd852114c"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Shell_bayblue.png",
+      "sha256": "de4f17b2ca3c30a51285202327412b3898fdd71f622e39437a6ab71c98b6ef04"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Shell_blue.png",
+      "sha256": "a17e30dcd47047a7207af5a018a7f81f75dcdffd7b177d1fa0b2a0fb49ab2f47"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Shell_fadedblue.png",
+      "sha256": "45c4bb1e4309dcc70b91ecf7a6fbc44b05afe3e15d228735ff28c92a80a08741"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Shell_fadedtan.png",
+      "sha256": "880c471d18578eff484f7f910105d1fc2c1ea57269cd3020a578a93e9dfe2c5d"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Shell_nighthawk.png",
+      "sha256": "8388f2c27ac086e524c63e08c43dc4de2e51e14111ae68e5e4ef0f7de8c37707"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Shell_olive.png",
+      "sha256": "841692af2adbca3336242af5eadff66640dc8c6caa31d50a39d7b5aeb3727784"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Shell_red.png",
+      "sha256": "a5b713435a1fd9006699ecc0b62571a08dc1da949cc716b26a823f8d3f786500"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Shell_silver.png",
+      "sha256": "db14f7c23783d82b9c19dcad7b43dac8e7652910c4734ee5c4fc745866e5621f"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Shell_taffetawhite.png",
+      "sha256": "af0fe47b478fec67fa9b0d1b0864f04aa1d6d7d1240a670c9d346d532e0facb8"
+    },
+    {
+      "file": "common/media/textures/Vehicles/JVP_Acty_Shell_yellow.png",
+      "sha256": "0d8e2c0ffaf1eb62f055384818fe0b6805e0b6ab5fd8aeabcc164bea0742545a"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_Cessna172_Damage1.png",
+      "sha256": "af1141408ccad9403222fbcdb76c063bfdb4fb39987eb2229d9981420c93881d"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_Cessna172_Damage2.png",
+      "sha256": "9e4041e51935e0ecc919301dce2a67532e08a776a4200f7842682bfd63be82e2"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_Cessna172_Lights.png",
+      "sha256": "b256d26174dfc28c32561c8e3dc2f68f1af3e802746efcab046b3d63281c7138"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_Cessna172_Mask.png",
+      "sha256": "f7fb93470bac69300a0f210a2c5f241c665e0e1f76917cb05fd78948596f46f7"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_Cessna172_Overlay1.png",
+      "sha256": "4577c7f722a16789a37d9e5395b0df8b2c75182fa6db5c15ca21a7daf17bbbe1"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_Cessna172_Overlay2.png",
+      "sha256": "4577c7f722a16789a37d9e5395b0df8b2c75182fa6db5c15ca21a7daf17bbbe1"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_Cessna172_Rust.png",
+      "sha256": "98063bbf0dde0a4070e12187727310aafb281c7ffac4b65c547a5a8b6a2d81a8"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_Cessna172_Shadow.png",
+      "sha256": "e0fb6d332e20166036eb954a19ccb8ed697a46a62b6cdba1f951f10e314de078"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_Cessna172_Shell.png",
+      "sha256": "f46a51168a4adda305756887d007a7f8d0916008fdab12a9c3db23382632a2bd"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_Cessna172_ShellBlue.png",
+      "sha256": "ec9adecf86fda9851a05d87fcaae1536f882c49b64ff4e7e6ef29d7175e53d63"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_Cessna172_ShellGreen.png",
+      "sha256": "0e77dd29760eee8ce0b9b85128c97e124af54b942484af81d96d9dead775ff11"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_Cessna172_ShellYellow.png",
+      "sha256": "008118ad1aa8849e678fb7e58e324f211547fa2992c1a0340b84b628516b0151"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_lrdisco1_Blood.png",
+      "sha256": "2d118e53679089a473793ffdcc4db8352a8243040d28325066cb336ae25c9c20"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_lrdisco1_Damaged01.png",
+      "sha256": "49001944e2a07a80a9bb7eb92e88e43f4f5a3b0f5dcb3bdf90aed55a931b2207"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_lrdisco1_Damaged02.png",
+      "sha256": "ea3c412e11f106aca50318971b1f49299d28393af79cd5ab8c87aa10e2ff3c55"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_lrdisco1_Lights.png",
+      "sha256": "005bf62ccf0b190207e6db5d1476cd0ab0af4c02f5f02591322d19a66d4a0b25"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_lrdisco1_Mask.png",
+      "sha256": "6f4ea626340900301dba1adef02c9658b33610fe6638fa8ffbbed62fa976fa9a"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_lrdisco1_OpaqueWindowMask.png",
+      "sha256": "3c9686765a7af4985e381ef385ef9817568c44eebe5c99100634051adabd2155"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_lrdisco1_Rust.png",
+      "sha256": "ffb2c04c7daae8f69ebea2e699ed0ce9ec8a1b31f0882268cd1f2499eae1f362"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_lrdisco1_Shell.png",
+      "sha256": "166a5cf0ba18f3b872d30389d6dd482c02541217ef6283c650d012a18a2cb93b"
+    },
+    {
+      "file": "common/media/textures/Vehicles/vehicles_lrdisco1_wheel.png",
+      "sha256": "a6e00feb2418adb2257b3b5c055478c18061ce59d907b96562c271862b96bbd6"
+    },
+    {
+      "file": "common/media/textures/Vehicles/vehicles_lrdisco1_wheel_camel.png",
+      "sha256": "040f49f7a5f7d51c798141b55f9e359f786a9be4669c96479b1e31f141852cd8"
+    },
+    {
+      "file": "common/media/textures/Vehicles/vehicles_lrdisco1_wheel_steel.png",
+      "sha256": "a155680beff40157f8e50711a36cee5019963c62acb8664d9686b5e3be6c72cb"
+    },
+    {
+      "file": "common/media/textures/Vehicles/Vehicles_lrdisco1camel_Shell.png",
+      "sha256": "e9534e14d6afbeed556bca669ea76bb53ab2ddcf99648bd17df303b3bbbca0d0"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_base.png",
+      "sha256": "bdacc367a2f36105000d6ae18feca90e940eb9c1fc2dd21ebdfcb031f7457fdb"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_battery.png",
+      "sha256": "cdfb710bf8c784a52e408bced4be988340b867df214270495e4ff911cf2cbf19"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_bed.png",
+      "sha256": "f3d2dd1568af774ffb8a98b8ecd148577ecbab150b61d28663beeea97d9da034"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_brake_front_left.png",
+      "sha256": "13ef12a19346103abb21dcaffe364132367b9e667388b0cb36904ed45121958b"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_brake_front_right.png",
+      "sha256": "f57c7370970a54bc4e450ee3f62daf137be3036aed22d8c1e179e8c6e7e76c96"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_brake_rear_left.png",
+      "sha256": "ff6f81593daf9bfe91d71461d2fea26c6c6476db91e87c10d399f0a6afb45c78"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_brake_rear_right.png",
+      "sha256": "d42de1d8d964ec9fb7e790a9d6b09f80eb9e55ca38f2cd0329b20fd4acc4df4c"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_bumper.png",
+      "sha256": "31041e219598720623bc1a6234dd64b31f48d295fe5f171c4efd231e9e4fbec8"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_door_front_left.png",
+      "sha256": "94122a42d28140bfb1bd6d22828a3493c7ccb9ce32900e39b0d20c4c74c76936"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_door_front_right.png",
+      "sha256": "5f49af38e6d8ed250da984aa7e13da68e2671cfe9271ab70d9f7c062c7825ae5"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_engine.png",
+      "sha256": "043b74424b99f207cc0850ca2b7928c7dbe81f6415d5a786cd5f845becae7087"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_gastank.png",
+      "sha256": "5c56d4ce20c3144cd6dbec6a249e886a2d5456b5607e444efdfc5dc5b251da2f"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_hood.png",
+      "sha256": "cb7ff143b8536e9dcf75393f6f4da5663cbe6e409dbf2b76bc833f9161171fb7"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_muffler.png",
+      "sha256": "5b883d2e32073eb1908e4e750dd33ec0e8ff4cf3a2ae4e60f455bc41cceefcb0"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_spare.png",
+      "sha256": "469d3066c45d250c9b46f343a8ea522a6ab61310d9124ce253396ddd0ac5fc33"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_suspension_front_left.png",
+      "sha256": "2844d8ee5afac199c0418eba5bdc121e0b223c7e95920dce6947b24fce6ab3f1"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_suspension_front_right.png",
+      "sha256": "e2340089aeab7f1b36a76e82cba80118c330f73832af32c293285faed41cee8d"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_suspension_rear_left.png",
+      "sha256": "3fcae8ce9f43ee676d0848414a9593263a92368a6425b2195f0bf553707b36c2"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_suspension_rear_right.png",
+      "sha256": "ba6d0cbecbfb5e2ae6e62c65eef72e530ad8c3405848b38fd717ddc5eacc9d8f"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_trunk.png",
+      "sha256": "d288ffdc97f6e855b3e4dbaef21a79b8056bc4ade95a6b465291159d8fc79936"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_wheel_front_left.png",
+      "sha256": "fd6d5b27d21dc36bbb5c579229895d818d2ffe919b01203539b5aadb8167d7ae"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_wheel_front_right.png",
+      "sha256": "6718d8229de3f47602386ae2d170d1ac45c455da25b1123d14cff7d600495736"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_wheel_rear_left.png",
+      "sha256": "33672f3c9c234e6c67cedbd48be2148767eabd9a9f24f71d53036ccaa04b8148"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_wheel_rear_right.png",
+      "sha256": "7e2b666ffacedc5ab6e9cd8f3e7044ce885bfe60df8a621f191feec85d8793a1"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_window_front.png",
+      "sha256": "de518ec7f9288f1aed17ecbae77ffc260bc9530aaa76789412707dba8017dad1"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_window_front_left.png",
+      "sha256": "f9564542ddbda8f07670eb32f98a4e5d3cd8e27bd60e487843a99775e3268d24"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_window_front_right.png",
+      "sha256": "ea8da9ec759a16eda0a288292e6bc336e3a7a7fe2a58b28efddb680735daaffc"
+    },
+    {
+      "file": "common/media/ui/vehicles/mechanic overlay/JVP_Acty_window_rear.png",
+      "sha256": "bc6e20163fe725474f270281bc7ccc9db451d680efa88de3c30e462094b418bd"
+    },
+    {
+      "file": "common/media/ui/vehicles/seatui/JVP_Acty_base_small.png",
+      "sha256": "11cf664d1d2448c00f94f1bf696f531df7cd8a20958762dce5bae64e0c9424b8"
+    },
+    {
+      "file": "credits/89actytruck-original-mod.info",
+      "sha256": "9f032036878fed3e46f7469cb76374f9a2b356db0a8245747558fffb2076951c"
+    },
+    {
+      "file": "credits/Cessna172-CREDITS.txt",
+      "sha256": "c8e770e302cd0fa22f671c760834f80fce95ab03e28ee5abcd9c41d4c0a40099"
+    },
+    {
+      "file": "credits/Cessna172-original-mod.info",
+      "sha256": "47d97fecdee502467c72025ad89969da51da739145f9861799b132de7147dfcb"
+    },
+    {
+      "file": "credits/EmreRE9Motorcycle-original-mod.info",
+      "sha256": "77f25a6afd16cc09e6e8a372a4fcc1b3114afce626eba2aaa211e85de7a45f68"
+    },
+    {
+      "file": "credits/lrdisco1-original-mod.info",
+      "sha256": "6bef95ab7f61d48e11356bdf96f6560c875afb2c2285f035af8c27ffa4bda7d1"
+    },
+    {
+      "file": "credits/TankWater-LICENSE.txt",
+      "sha256": "9152100bdade71b9deb5e23943214bbc14469497a88f8541ac3d9699a6e78a43"
+    },
+    {
+      "file": "credits/TankWater-original-mod.info",
+      "sha256": "ea5a93ca298450b6e00eff6d5f55a1db86af84e708f3996c8eed4557afe669ba"
+    },
+    {
+      "file": "CREDITS.txt",
+      "sha256": "478c165cc8771c2863ac9c6ce3365cca08933efc69d17600a221debf7c6db926"
+    },
+    {
+      "file": "icon.png",
+      "sha256": "2424e2182bbd420dd129710d32c0b3423772eca516b1332db740bd9df135fc96"
+    },
+    {
+      "file": "INSTALL_AND_USE.txt",
+      "sha256": "c8865941e63eae770e65fac3238c84fe5b77cbb503650ddf751f21d89b439c94"
+    },
+    {
+      "file": "mod.info",
+      "sha256": "25b116b08b06dea5c3b00b0c5f5350ca0840477d7f815c6a056d262bb3892084"
+    },
+    {
+      "file": "poster.png",
+      "sha256": "5cca86b6bf5dc71ca4e9440b352e4c6956cac3c362c26a06020cbaf56365648b"
+    }
+  ]
 }

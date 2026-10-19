@@ -25,3 +25,9 @@ user in TENERE as OBJ/FBX/BLEND/STL ZIP archives. The archive does not include
 an author/license statement. Original source archives are retained unchanged
 in the workspace. Conversion, material atlas and game adaptation are included
 in this update; model authorship is not reassigned.
+
+Honda Acty fuel truck addition: original 1989 Honda Acty Attack Truck by TheSquidd,
+Workshop 3571246232. Tank mesh and texture: original 1200 L Tank Water by
+DarylMasterGG, Workshop 3652517636. Adapted locally for Justyn's personal pack.
+Original authors retain ownership. Bundling here does not grant permission to
+publish or redistribute these assets. Tank Water's original license is retained.
