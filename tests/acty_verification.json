@@ -21,7 +21,15 @@
     "receiver engine running denied",
     "non petrol destination denied",
     "moving truck denied",
-    "legacy custom station command is disabled",
+    "station fills empty bed with engine off",
+    "station fractional capacity conserves integer units",
+    "station concurrent users cannot duplicate last fuel",
+    "station cancellation retains only transferred fuel",
+    "station operator leaves",
+    "station loses power",
+    "station disconnect expires",
+    "full 2000 litre fill takes 250 seconds",
+    "simultaneous loading and dispensing conserves fuel",
     "empty amphora accepts petrol and syncs",
     "closed amphora supports petrol",
     "amphora capacity clamp",
@@ -35,17 +43,9 @@
     "rain contamination stops amphora pumping"
   ],
   "asset_checks": "passed",
-  "client_regressions": "Amphora truck and world menus; contamination rejection; finite station action and fuel debit; station-to-bed 4-tile boundary; live mechanics fuel/durability line; server acknowledgement/rejection and timeout",
+  "client_regressions": "Amphora truck and world menus; contamination rejection; server-owned station action and fuel debit; station-to-bed 4-tile boundary; live mechanics fuel/durability line; server acknowledgement/rejection and timeout",
   "live_multiplayer_test": "Not run: requires a running server and two game clients",
   "in_game_render_test": "Not run: offline FBX/texture inspection is separate from the game renderer",
-  "native_engine_test": {
-    "status": "passed",
-    "runtime": "Project Zomboid 42.21 dedicated server, isolated loopback",
-    "checks": [
-      "Open and closed native amphoras accept and retain petrol at 300 L capacity",
-      "Actual amphora pumping helper, capacity clamp, full tank and water rejection",
-      "Native 2000 L truck tank, finite station action, station fuel debit and fuel writes",
-      "Native fuel persistence and fuel/durability label"
-    ]
-  }
+  "native_server_test": "Passed: isolated Build 42 dedicated server; production fill tick on real Java VehiclePart, retained contentAmount mod data, native amphora transfers",
+  "multiplayer_action_api": "Verified installed LuaTimedActionNew.setCustomRemoteTimedActionSync(boolean) and explicitly enabled it during action creation"
 }

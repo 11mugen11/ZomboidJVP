@@ -77,11 +77,11 @@ function reset()
         isActivated=function(s) return s.activated end,
         getFuel=function(s) return s.fuel end,getMaxFuel=function(s) return s.capacity end,
         setFuel=function(s,f) s.fuel=f end,sync=function() end}
-    pump={units=100,getObjectIndex=function() return 0 end,
+    pump={units=100,data={},getModData=function(s) return s.data end,getObjectIndex=function() return 0 end,
         getSquare=function() return square end,getX=function() return 0 end,
         getY=function() return 0 end,getZ=function() return 0 end,
         getPipedFuelAmount=function(s) return s.units end,
-        setPipedFuelAmount=function(s,n) s.units=n end,transmitModData=function() end}
+        setPipedFuelAmount=function(s,n) assert(n==math.floor(n));s.units=n end,transmitModData=function() end}
     objects={generator}
     local fluid={amount=0,capacity=300,kind="Petrol",locked=false,rejectWrite=false}
     fluid.getAmount=function(s) return s.amount end
@@ -93,6 +93,7 @@ function reset()
         if not s.rejectWrite then s.kind=kind;s.amount=math.min(s.capacity,s.amount+n) end
     end
     amphora={fluid=fluid,x=4,y=4,z=0,index=0,script="Base.Amphora",syncs=0,
+        getModData=function() return {} end,
         getEntityScript=function(s) return {getFullName=function() return s.script end} end,
         getFluidContainer=function(s) return s.fluid end,
         getSquare=function() return square end,
@@ -131,7 +132,15 @@ tests = {
     'receiver engine running denied': '''reset();target.started=true;start(p1);assert(next(JVPActyFuel.sessions)==nil)''',
     'non petrol destination denied': '''reset();target.parts.GasTank.fueltype="Water";start(p1);assert(next(JVPActyFuel.sessions)==nil)''',
     'moving truck denied': '''reset();truck.speed=10;start(p1);assert(next(JVPActyFuel.sessions)==nil)''',
-    'legacy custom station command is disabled': '''reset();start(p1,"load");assert(next(JVPActyFuel.sessions)==nil)''',
+    'station fills empty bed with engine off': '''reset();objects={pump};p1.x=0;p1.y=0;truck.running=false;truck.parts[JVPActyFuel.PART].amount=0;start(p1,"load");tick();near(truck.parts[JVPActyFuel.PART].amount,2);near(JVPActyFuel.pumpLitres(pump),123);near(truck.parts.GasTank.amount,30)''',
+    'station fractional capacity conserves integer units': '''reset();objects={pump};p1.x=0;p1.y=0;truck.parts[JVPActyFuel.PART].amount=1999.9;start(p1,"load");tick();near(truck.parts[JVPActyFuel.PART].amount,2000);near(JVPActyFuel.pumpLitres(pump),124.9)''',
+    'station concurrent users cannot duplicate last fuel': '''reset();objects={pump};p1.x=0;p1.y=0;p2.x=0;p2.y=0;pump.units=1;start(p1,"load");start(p2,"load");tick();near(truck.parts[JVPActyFuel.PART].amount,101.25);near(JVPActyFuel.pumpLitres(pump),0)''',
+    'station cancellation retains only transferred fuel': '''reset();objects={pump};p1.x=0;p1.y=0;start(p1,"load");tick();JVPActyFuel.serverCommand(p1,"stop",{});tick();near(truck.parts[JVPActyFuel.PART].amount,102);near(JVPActyFuel.pumpLitres(pump),123)''',
+    'station operator leaves': '''reset();objects={pump};p1.x=0;p1.y=0;start(p1,"load");p1.x=20;tick();near(truck.parts[JVPActyFuel.PART].amount,100);near(pump.units,100)''',
+    'station loses power': '''reset();objects={pump};p1.x=0;p1.y=0;start(p1,"load");pump.getSquare=function() return {hasGridPower=function() return false end,haveElectricity=function() return false end} end;tick();near(pump.units,100);near(truck.parts[JVPActyFuel.PART].amount,100)''',
+    'station disconnect expires': '''reset();objects={pump};p1.x=0;p1.y=0;start(p1,"load");tick(3100);near(pump.units,100);near(truck.parts[JVPActyFuel.PART].amount,100)''',
+    'full 2000 litre fill takes 250 seconds': '''reset();objects={pump};pump.units=2000;p1.x=0;p1.y=0;truck.parts[JVPActyFuel.PART].amount=0;start(p1,"load");for i=1,1000 do JVPActyFuel.serverCommand(p1,"keepalive",{});tick() end;near(truck.parts[JVPActyFuel.PART].amount,2000);near(JVPActyFuel.pumpLitres(pump),500)''',
+    'simultaneous loading and dispensing conserves fuel': '''reset();objects={pump};p1.x=0;p1.y=0;start(p1,"load");start(p2,"vehicle");tick();near(JVPActyFuel.pumpLitres(pump)+truck.parts[JVPActyFuel.PART].amount+target.parts.GasTank.amount,225)''',
     'empty amphora accepts petrol and syncs': '''reset();objects={amphora};start(p1,"amphora");tick();near(amphora.fluid.amount,2);near(truck.parts[JVPActyFuel.PART].amount,98);assert(amphora.syncs==1)''',
     'closed amphora supports petrol': '''reset();amphora.script="Base.AmphoraClosed";objects={amphora};start(p1,"amphora");tick();near(amphora.fluid.amount,2)''',
     'amphora capacity clamp': '''reset();amphora.fluid.amount=299.5;objects={amphora};start(p1,"amphora");tick();near(amphora.fluid.amount,300);near(truck.parts[JVPActyFuel.PART].amount,99.5)''',
@@ -237,8 +246,13 @@ F.queue(p1,truck,"load",pump)
 assert(#ISTimedActionQueue.queued==2)
 assert(ISTimedActionQueue.queued[1].path)
 local queued=ISTimedActionQueue.queued[2]
-assert(getmetatable(queued).__index==ISRefuelFromGasPump)
-assert(queued.part==tank and queued.maxTime>0)
+assert(getmetatable(queued).__index==JVPActyFuelAction)
+assert(queued.truck==truck and queued.args.mode=="load" and queued.maxTime==-1)
+ISBaseTimedAction.create=function(self)
+    self.action={setCustomRemoteTimedActionSync=function(s,value) s.custom=value end}
+end
+queued:create()
+assert(queued.action.custom==true)
 tank.amount=1000;tank.condition=73
 assert(F.tankLabel(tank)=="Gas Tank EXTERNAL - 50% - 73%")
 local rendered={}
@@ -302,7 +316,7 @@ local contaminatedMenu=menu()
 fillWorld(0,contaminatedMenu,{amphora},false)
 assert(contaminatedMenu.options[1].notAvailable)
 ''')
-print('PASS: client menus including amphora/world and truck targets; contaminated amphora disabled; finite station action; live mechanics label; server feedback')
+print('PASS: client menus including amphora/world and truck targets; contaminated amphora disabled; server-owned station action; live mechanics label; server feedback')
 
 # Resolve every namespaced asset in the vehicle scripts, decoding each PNG.
 assets = [* (PACK/'42/media').rglob('*'), *(PACK/'common/media').rglob('*')]
@@ -338,7 +352,7 @@ assert 'contentType = JVP_PetrolOnly' in vehicle
 assert not re.search(r'^require=',(PACK/'42/mod.info').read_text(),re.M)
 print('PASS: namespaced model, texture, icon references; PNG decode; yellow-only skin; no dependencies')
 report={'lua_runtime':'Lua 5.1 (Lupa)','server_regression_tests':passed,'asset_checks':'passed',
-        'client_regressions':'Amphora truck and world menus; contamination rejection; finite station action and fuel debit; station-to-bed 4-tile boundary; live mechanics fuel/durability line; server acknowledgement/rejection and timeout',
+        'client_regressions':'Amphora truck and world menus; contamination rejection; server-owned station action and fuel debit; station-to-bed 4-tile boundary; live mechanics fuel/durability line; server acknowledgement/rejection and timeout',
         'live_multiplayer_test':'Not run: requires a running server and two game clients',
         'in_game_render_test':'Not run: offline FBX/texture inspection is separate from the game renderer'}
 (ROOT/'verification.json').write_text(json.dumps(report,indent=2))

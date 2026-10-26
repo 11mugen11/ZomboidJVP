@@ -30,6 +30,13 @@ local function active(s)
         or math.abs(truck:getCurrentSpeedKmHour()) > 1 then return false end
     local inlet = F.point(truck, tank)
     if not inlet then return false end
+    if s.mode == "load" then
+        local pump = s.pump
+        return pump and pump:getObjectIndex() ~= -1 and F.powered(pump)
+            and F.pumpLitres(pump) > 0 and tank:getContainerContentAmount() < F.CAPACITY
+            and F.inRange(inlet:getX(), inlet:getY(), truck:getZ(), pump:getX(), pump:getY(), pump:getZ(), F.RANGE)
+            and F.nearPoint(player, inlet:getX(), inlet:getY(), truck:getZ())
+    end
     if not truck:isEngineRunning() or tank:getContainerContentAmount() <= 0 then return false end
     if s.mode == "vehicle" then
         local v, p = s.target, s.part
@@ -74,6 +81,8 @@ function F.serverCommand(player, command, args)
         s.target = getVehicleById(args.target)
         s.part = s.target and s.target:getPartById("GasTank")
         if not s.part then return end
+    elseif args.mode == "load" then
+        s.pump = objectAt(args)
     elseif args.mode == "generator" then
         s.generator = objectAt(args, "IsoGenerator")
     elseif args.mode == "amphora" then
@@ -101,7 +110,21 @@ function F.tick()
             local tank = F.tank(s.truck)
             local stored = tank:getContainerContentAmount()
             local moved = 0
-            if s.mode == "vehicle" then
+            if s.mode == "load" then
+                local pump = s.pump
+                moved = F.transferAmount(F.pumpLitres(pump), stored, F.CAPACITY, requested)
+                tank:setContainerContentAmount(stored + moved)
+                moved = tank:getContainerContentAmount() - stored
+                -- Station units are integers. Persist unused prepaid litres so
+                -- fractional ticks, cancellation and concurrent users conserve fuel.
+                local data = pump:getModData()
+                local ratio = Vehicles.JerryCanLitres / 8
+                local remainder = data.JVPFuelRemainder or 0
+                local units = math.max(0, math.ceil((moved - remainder) / ratio))
+                data.JVPFuelRemainder = remainder + units * ratio - moved
+                pump:setPipedFuelAmount(pump:getPipedFuelAmount() - units)
+                pump:transmitModData()
+            elseif s.mode == "vehicle" then
                 local amount = s.part:getContainerContentAmount()
                 moved = F.transferAmount(stored, amount, s.part:getContainerCapacity(), requested)
                 tank:setContainerContentAmount(stored - moved)

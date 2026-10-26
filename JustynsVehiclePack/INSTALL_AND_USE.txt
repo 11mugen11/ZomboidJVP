@@ -1,3 +1,8 @@
+1.0.41: server-authoritative Acty external tank filling and dispensing, 8 L/s,
+conserved station fuel and explicit custom multiplayer action synchronization.
+Install matching files on SERVER AND EVERY CLIENT, then fully restart.
+See ACTY_FUEL_TRUCK.txt.
+
 1.0.37: repairs Cessna parking-brake occupant height and restores current Rover seat/vehicle poses.
 Install matching files on SERVER AND EVERY CLIENT, then fully restart. See 42/SEAT_ALIGNMENT_FIX.txt.
 

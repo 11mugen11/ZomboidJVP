@@ -20,12 +20,17 @@ local function command(player, name, args)
 end
 
 JVPActyFuelAction = ISBaseTimedAction:derive("JVPActyFuelAction")
+function JVPActyFuelAction:create()
+    ISBaseTimedAction.create(self)
+    -- Only our server command/heartbeat protocol owns the transfer.
+    self.action:setCustomRemoteTimedActionSync(true)
+end
 function JVPActyFuelAction:isValid()
     local tank = F.tank(self.truck)
     if not tank or self.character:getVehicle() or math.abs(self.truck:getCurrentSpeedKmHour()) > 1 then return false end
     if self.args.mode == "load" then
         return tank:getContainerContentAmount() < F.CAPACITY and F.powered(self.object)
-            and self.object:getPipedFuelAmount() > 0
+            and F.pumpLitres(self.object) > 0
     end
     if not self.truck:isEngineRunning() or tank:getContainerContentAmount() <= 0 then return false end
     if self.args.mode == "vehicle" then
@@ -100,10 +105,6 @@ function F.queue(player, truck, mode, object)
         ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(player, object, object:getPartById("GasTank"):getArea()))
     elseif mode == "load" then
         ISTimedActionQueue.add(ISPathFindAction:pathToVehicleArea(player, truck, F.tank(truck):getArea()))
-        -- Use B42's shared, server-synchronized pump action. Its finite duration,
-        -- cancellation and fuel-station replication apply to this bed part too.
-        ISTimedActionQueue.add(ISRefuelFromGasPump:new(player, F.tank(truck), object))
-        return
     else
         if not luautils.walkAdj(player, object:getSquare()) then return end
     end

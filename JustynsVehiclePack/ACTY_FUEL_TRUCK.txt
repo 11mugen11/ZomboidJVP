@@ -1,5 +1,5 @@
 YELLOW HONDA ACTY FUEL TRUCK -- Build 42.21
-Pack: EmreAdventureVehiclePack_B42, version 1.0.40
+Pack: EmreAdventureVehiclePack_B42, version 1.0.41
 Vehicle script: Base.JVP_ActyFuelTruck
 
 No additional mods are required. The required Acty and Tank Water assets are
@@ -14,8 +14,9 @@ Right-click the truck and open either:
   ENGINE fuel tank: fill the truck's driving reserve from cans or a station.
   EXTERNAL bed tank - PETROL ONLY: fill the 2000 L tank from a powered station.
 Park the bed's rear interaction area within 4 tiles per axis of the station.
-Station filling uses the game's finite, server-synchronized pump action and
-normal station fuel/electricity requirements. Its progress bar completes normally.
+Station filling runs on the server at 8 L per real second (about 4 minutes
+10 seconds for an empty 2000 L tank). It stops when full or the station runs out.
+Normal station fuel/electricity requirements apply.
 Turn the engine off when filling the driving reserve.
 In Vehicle Mechanics the rear tank reads:
   Gas Tank EXTERNAL - 50% - 100%
@@ -39,8 +40,8 @@ Water, mixed liquids, locked containers and full amphoras are rejected without
 consuming bed-tank fuel. The same engine and 4-tile hose rules apply. Keep the
 amphora closed to prevent rainwater collecting in it. Closing a lid preserves
 its contents through the game's normal fluid-copy behavior.
-Use Escape or move to cancel. Dispensing is 8 L per real second; station filling
-uses the game's normal refueling rate. The truck's dispensing pump stops when
+Use Escape or move to cancel. Filling and dispensing both run at 8 L per real
+second. The truck's dispensing pump stops when
 the bed tank is empty, the destination is full, the Acty engine stops, either
 vehicle moves away, the operator leaves, or the operator disconnects.
 
@@ -56,21 +57,22 @@ medium/good vehicle zones and junkyards. Existing Actys are not converted.
 MULTIPLAYER
 Install the same complete pack on the server AND all clients. Restart the game
 and server after updating. Keep the existing mod ID EmreAdventureVehiclePack_B42.
-Station filling uses the native shared refuel action. Dispensing runs on the
-server, debits the dedicated bed part, clamps the amount to available fuel/free
+Station filling and dispensing both run on the server. The server updates
+the dedicated bed part, clamps the amount to available fuel/free
 space, and transmits changed parts/generators to clients.
 Clients send requests, not fuel quantities. State is rechecked every transfer.
-Concurrent dispensing users share the real remaining supply. The server confirms
-dispensing requests; an unavailable server stops the animation after five seconds
+Concurrent users share the real remaining supply. Fractional station units
+are retained as prepaid litres in station mod data. The server confirms
+all transfer requests; an unavailable server stops the animation after five seconds
 with an update/restart message instead of silently cycling forever.
 The bed fuel is saved with the vehicle part and persists through normal saves.
 
 VERIFICATION
-Passed: Lua 5.1 dispensing regressions, finite native pump-action and client menu
+Passed: Lua 5.1 filling/dispensing regressions, server ownership and client menu
 tests, the 4-tile station filling boundary, live fuel/durability row, all namespaced
 model/texture/icon references, PNG decoding, named FBX submeshes and finite UVs.
 An isolated actual Build 42 dedicated server verified the native 2000 L part,
-station refuel action/duration, fuel writes, persistence and fuel/durability label.
+fuel writes, part mod-data persistence and fuel/durability label.
 An offline geometry/UV preview verified the tank's width and bed-floor alignment.
 Original Acty UVs, masks, lights, animations and textures are preserved.
 Not yet verified: actual in-game shaders/animation and a live dedicated-server

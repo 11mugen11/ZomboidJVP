@@ -34,6 +34,37 @@ Events.OnServerStarted.Add(function()
         JVPActyFuel.CreateTank(v, tank)
         assert(tank:getCondition() == 100, "New tank durability is not 100")
         assert(tank:getContainerContentAmount() == 0, "New tank not empty")
+        -- Run the production server tick against the actual Java vehicle part.
+        -- Position/operator doubles avoid requiring connected graphical clients.
+        require "JVPActyFuelServer"
+        local F = JVPActyFuel
+        local pt = {getX=function() return 0 end,getY=function() return 0 end}
+        local host = {
+            getScriptName=function() return F.SCRIPT end,
+            getPartById=function() return tank end,
+            getSquare=function() return {} end,
+            getCurrentSpeedKmHour=function() return 0 end,
+            getAreaCenter=function() return pt end,getZ=function() return 0 end,
+            transmitPartModData=function() v:transmitPartModData(tank) end,
+        }
+        local operator = {isDead=function() return false end,getVehicle=function() return nil end,
+            getX=function() return 0 end,getY=function() return 0 end,getZ=function() return 0 end}
+        local station = {units=100,data={},getModData=function(s) return s.data end,
+            getPipedFuelAmount=function(s) return s.units end,
+            setPipedFuelAmount=function(s,n) assert(n==math.floor(n));s.units=n end,
+            getObjectIndex=function() return 0 end,getX=function() return 0 end,
+            getY=function() return 0 end,getZ=function() return 0 end,
+            getSquare=function() return {hasGridPower=function() return true end} end,
+            transmitModData=function() end}
+        local now = getTimestampMs()
+        F.sessions[999] = {player=operator,truck=host,mode="load",pump=station,last=now-500,alive=now}
+        F.tick()
+        F.sessions = {}
+        assert(tank:getContainerContentAmount()==4, "Server tick did not retain fuel in native bed")
+        assert(tank:getModData().contentAmount==4, "Native saved fuel mismatch")
+        assert(math.abs(F.pumpLitres(station)-121)<0.001, "Station conservation failed")
+        print("[ACTY NATIVE TEST] PASS production server fill tick retains and persists fuel in actual Java vehicle part")
+        tank:setContainerContentAmount(0)
         local pump = { units = 100 }
         function pump:getPipedFuelAmount() return self.units end
         function pump:setPipedFuelAmount(value) self.units = math.floor(value) end

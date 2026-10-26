@@ -7,6 +7,11 @@ F.CAPACITY = 2000
 F.RANGE = 4 -- vanilla ISVehiclePartMenu.getNearbyFuelPump scans -2..2 on each axis
 F.RATE = 8 -- litres per real second; server controls all movement
 
+function F.pumpLitres(pump)
+    return math.max(0, pump:getPipedFuelAmount()) * (Vehicles.JerryCanLitres / 8)
+        + (pump:getModData().JVPFuelRemainder or 0)
+end
+
 function F.isTruck(vehicle)
     return vehicle and vehicle:getScriptName() == F.SCRIPT
 end
@@ -54,7 +59,7 @@ function F.findPump(truck)
                 local objects = square:getObjects()
                 for i = 0, objects:size() - 1 do
                     local obj = objects:get(i)
-                    if obj:getPipedFuelAmount() > 0 and F.powered(obj) then return obj end
+                    if F.pumpLitres(obj) > 0 and F.powered(obj) then return obj end
                 end
             end
         end
@@ -67,8 +72,10 @@ function F.InitTank(vehicle, part)
 end
 
 function F.CreateTank(vehicle, part)
-    part:setCondition(100)
-    part:setContainerContentAmount(0)
+    if not isClient() then
+        part:setCondition(100)
+        part:setContainerContentAmount(0)
+    end
     F.InitTank(vehicle, part)
 end
 
@@ -97,6 +104,7 @@ function F.canFillAmphora(object)
 end
 
 function F.fillAmphora(object, available, requested)
+    if isClient() then return 0 end
     if not F.canFillAmphora(object) then return 0 end
     local fluid = F.amphoraFluid(object)
     local before = fluid:getAmount()
